@@ -1,0 +1,444 @@
+# Spanish translation for Soplos Welcome
+# Copyright (C) 2025 Soplos Team
+# This file is distributed under the same license as the soplos-welcome package.
+
+msgid ""
+msgstr ""
+"Project-Id-Version: soplos-welcome 2.0\n"
+"Report-Msgid-Bugs-To: soplos@example.com\n"
+"POT-Creation-Date: 2025-08-11 12:00+0000\n"
+"PO-Revision-Date: 2025-08-11 12:00+0000\n"
+"Last-Translator: Soplos Team\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Main window
+msgid "Soplos Welcome"
+msgstr "Bienvenida de Soplos"
+
+msgid "Welcome to Soplos Linux"
+msgstr "Bienvenido a Soplos Linux"
+
+msgid "Your gateway to the Soplos ecosystem"
+msgstr "Tu puerta de entrada al ecosistema Soplos"
+
+# Tabs
+msgid "Welcome"
+msgstr "Bienvenida"
+
+msgid "Software"
+msgstr "Software"
+
+msgid "Drivers"
+msgstr "Controladores"
+
+msgid "Customization"
+msgstr "Personalización"
+
+msgid "Kernels"
+msgstr "Núcleos"
+
+msgid "Recommended"
+msgstr "Recomendado"
+
+# Welcome tab
+msgid "Welcome to Your New System"
+msgstr "Bienvenido a Tu Nuevo Sistema"
+
+msgid "Thank you for choosing Soplos Linux! This application will help you get started with your new system."
+msgstr "¡Gracias por elegir Soplos Linux! Esta aplicación te ayudará a comenzar con tu nuevo sistema."
+
+msgid "Use the tabs above to:"
+msgstr "Usa las pestañas de arriba para:"
+
+msgid "• Install essential software"
+msgstr "• Instalar software esencial"
+
+msgid "• Configure system drivers"
+msgstr "• Configurar controladores del sistema"
+
+msgid "• Customize your desktop"
+msgstr "• Personalizar tu escritorio"
+
+msgid "• Manage system kernels"
+msgstr "• Gestionar núcleos del sistema"
+
+msgid "• View recommended applications"
+msgstr "• Ver aplicaciones recomendadas"
+
+msgid "Get Started"
+msgstr "Comenzar"
+
+msgid "Sitio Web"
+msgstr "Sitio Web"
+
+msgid "Foros"
+msgstr "Foros"
+
+msgid "Wiki"
+msgstr "Wiki"
+
+msgid "Donar"
+msgstr "Donar"
+
+msgid "No se pudo abrir el sitio web"
+msgstr "No se pudo abrir el sitio web"
+
+msgid "No se pudo abrir el foro"
+msgstr "No se pudo abrir el foro"
+
+msgid "No se pudo abrir la wiki"
+msgstr "No se pudo abrir la wiki"
+
+msgid "No se pudo abrir la página de donaciones"
+msgstr "No se pudo abrir la página de donaciones"
+
+msgid "Verifica tu conexión a internet e inténtalo de nuevo."
+msgstr "Verifica tu conexión a internet e inténtalo de nuevo."
+
+msgid "Open System Settings"
+msgstr "Abrir Configuración del Sistema"
+
+msgid "Visit Soplos Website"
+msgstr "Visitar Sitio Web de Soplos"
+
+# Software tab
+msgid "Install Software"
+msgstr "Instalar Software"
+
+msgid "Software Centers"
+msgstr "Centros de Software"
+
+msgid "Manage package managers and software centers"
+msgstr "Gestionar centros de software y paquetes"
+
+msgid "Browse and install applications for your system"
+msgstr "Explorar e instalar aplicaciones para tu sistema"
+
+msgid "Web Browsers"
+msgstr "Navegadores Web"
+
+msgid "Communication"
+msgstr "Comunicación"
+
+msgid "Development"
+msgstr "Desarrollo"
+
+msgid "Graphics & Design"
+msgstr "Gráficos y Diseño"
+
+msgid "Multimedia"
+msgstr "Multimedia"
+
+msgid "Office"
+msgstr "Oficina"
+
+msgid "Gaming"
+msgstr "Gaming"
+
+msgid "Install"
+msgstr "Instalar"
+
+msgid "Installed"
+msgstr "Instalado"
+
+msgid "Installing..."
+msgstr "Instalando..."
+
+msgid "Remove"
+msgstr "Eliminar"
+
+# Drivers tab
+msgid "Hardware Drivers"
+msgstr "Controladores de Hardware"
+
+msgid "Manage system drivers for optimal performance"
+msgstr "Gestionar controladores del sistema para un rendimiento óptimo"
+
+msgid "Graphics Drivers"
+msgstr "Controladores de Gráficos"
+
+msgid "Network Drivers"
+msgstr "Controladores de Red"
+
+msgid "Audio Drivers"
+msgstr "Controladores de Audio"
+
+msgid "Printer Drivers"
+msgstr "Controladores de Impresora"
+
+# Customization tab
+msgid "System Customization"
+msgstr "Personalización del Sistema"
+
+msgid "Personalize your desktop environment"
+msgstr "Personaliza tu entorno de escritorio"
+
+msgid "Themes"
+msgstr "Temas"
+
+msgid "Icons"
+msgstr "Iconos"
+
+msgid "Wallpapers"
+msgstr "Fondos de Pantalla"
+
+msgid "Fonts"
+msgstr "Fuentes"
+
+# Kernels tab
+msgid "Kernel Management"
+msgstr "Gestión de Núcleos"
+
+msgid "Install and manage system kernels"
+msgstr "Instalar y gestionar núcleos del sistema"
+
+msgid "Current Kernel"
+msgstr "Núcleo Actual"
+
+msgid "Available Kernels"
+msgstr "Núcleos Disponibles"
+
+msgid "LTS Kernels"
+msgstr "Núcleos LTS"
+
+msgid "Latest Kernels"
+msgstr "Últimos Núcleos"
+
+# Recommended tab
+msgid "Recommended for You"
+msgstr "Recomendado para Ti"
+
+msgid "Curated applications based on your desktop environment"
+msgstr "Aplicaciones seleccionadas basadas en tu entorno de escritorio"
+
+msgid "Essential Applications"
+msgstr "Aplicaciones Esenciales"
+
+msgid "Desktop-Specific Tools"
+msgstr "Herramientas Específicas del Escritorio"
+
+msgid "Development Tools"
+msgstr "Herramientas de Desarrollo"
+
+msgid "Media Applications"
+msgstr "Aplicaciones de Medios"
+
+# Common buttons and messages
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Apply"
+msgstr "Aplicar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "OK"
+msgstr "Aceptar"
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid "No"
+msgstr "No"
+
+msgid "Continue"
+msgstr "Continuar"
+
+msgid "Back"
+msgstr "Atrás"
+
+msgid "Next"
+msgstr "Siguiente"
+
+msgid "Finish"
+msgstr "Finalizar"
+
+msgid "Loading..."
+msgstr "Cargando..."
+
+msgid "Please wait..."
+msgstr "Por favor espere..."
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Warning"
+msgstr "Advertencia"
+
+msgid "Information"
+msgstr "Información"
+
+msgid "Success"
+msgstr "Éxito"
+
+# Software tab strings
+msgid "software.synaptic"
+msgstr "Synaptic"
+
+msgid "software.gdebi"
+msgstr "Gdebi"
+
+msgid "software.gnome_software"
+msgstr "Gnome Software"
+
+msgid "software.flatpak"
+msgstr "Flatpak"
+
+msgid "software.snap"
+msgstr "Snap"
+
+msgid "software.flathub"
+msgstr "Añadir _Flathub"
+
+msgid "software.snap_menu"
+msgstr "_Integrar Snap al Menú"
+
+msgid "software.repo_selector_title"
+msgstr "Soplos Repo Selector"
+
+msgid "software.repo_selector_desc"
+msgstr "Gestione y optimice sus repositorios APT de forma gráfica y sencilla."
+
+msgid "software.repo_selector_button"
+msgstr "Abrir gestor de repositorios"
+
+msgid "software.update"
+msgstr "Actualizar"
+
+msgid "software.upgrade"
+msgstr "Actualizar todo"
+
+# Button strings
+msgid "buttons.update"
+msgstr "Actualizar _Repositorios"
+
+msgid "buttons.upgrade"
+msgstr "Actualizar _Todo"
+
+msgid "buttons.install"
+msgstr "_Instalar"
+
+msgid "buttons.uninstall"
+msgstr "_Desinstalar"
+
+msgid "buttons.clean"
+msgstr "_Limpiar sistema"
+
+# Dialog strings
+msgid "dialog.install_complete"
+msgstr "Instalación completada."
+
+msgid "dialog.error"
+msgstr "Error"
+
+# Package management
+msgid "Installing package:"
+msgstr "Instalando paquete:"
+
+msgid "Removing package:"
+msgstr "Eliminando paquete:"
+
+msgid "Updating package list..."
+msgstr "Actualizando lista de paquetes..."
+
+msgid "Package installed successfully"
+msgstr "Paquete instalado exitosamente"
+
+msgid "Package removed successfully"
+msgstr "Paquete eliminado exitosamente"
+
+msgid "Failed to install package"
+msgstr "Error al instalar paquete"
+
+msgid "Failed to remove package"
+msgstr "Error al eliminar paquete"
+
+# Status messages
+msgid "Ready"
+msgstr "Listo"
+
+msgid "Working..."
+msgstr "Trabajando..."
+
+msgid "Completed"
+msgstr "Completado"
+
+msgid "Failed"
+msgstr "Falló"
+
+msgid "Cancelled"
+msgstr "Cancelado"
+
+# Settings
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Light"
+msgstr "Claro"
+
+msgid "Dark"
+msgstr "Oscuro"
+
+msgid "Auto"
+msgstr "Automático"
+
+# Desktop environments
+msgid "GNOME detected"
+msgstr "GNOME detectado"
+
+msgid "KDE Plasma detected"
+msgstr "KDE Plasma detectado"
+
+msgid "XFCE detected"
+msgstr "XFCE detectado"
+
+msgid "Unknown desktop environment"
+msgstr "Entorno de escritorio desconocido"
+
+# Status bar
+msgid "Ready - {desktop} on {protocol}"
+msgstr "Listo - {desktop} en {protocol}"
+
+# Desktop environment names
+msgid "GNOME"
+msgstr "GNOME"
+
+msgid "KDE Plasma"
+msgstr "KDE Plasma"
+
+msgid "XFCE"
+msgstr "XFCE"
+
+msgid "Unknown"
+msgstr "Desconocido"
+
+# Display protocols
+msgid "X11"
+msgstr "X11"
+
+msgid "Wayland"
+msgstr "Wayland"
+
+msgid "Show this application on startup"
+msgstr "Mostrar esta aplicación al iniciar"
+
+msgid "Error enabling autostart"  
+msgstr "Error al activar el inicio automático"
+
+msgid "Could not create autostart file."
+msgstr "No se pudo crear el archivo de inicio automático."
+
+msgid "Error disabling autostart"
+msgstr "Error al desactivar el inicio automático"
+
+msgid "Could not remove autostart file."
+msgstr "No se pudo eliminar el archivo de inicio automático."

@@ -1,0 +1,258 @@
+/* Light Theme for Soplos Welcome - GTK3 CSS - Refined */
+
+/* Define Soplos brand colors */
+@define-color soplos_orange #ff8800;
+@define-color soplos_orange_hover #ff9922;
+@define-color soplos_light_bg #f5f5f5;
+@define-color soplos_lighter_bg #ffffff;
+@define-color soplos_dark_text #2c3e50;
+@define-color soplos_border #d0d0d0;
+@define-color soplos_error #e74c3c;
+
+/* Override theme colors globally */
+@define-color theme_bg_color @soplos_light_bg;
+@define-color theme_fg_color @soplos_dark_text;
+@define-color theme_base_color @soplos_lighter_bg;
+@define-color theme_selected_bg_color @soplos_orange;
+@define-color theme_selected_fg_color #000000;
+@define-color borders @soplos_border;
+
+/* Application Window */
+window {
+    background-color: @soplos_light_bg;
+    color: @soplos_dark_text;
+}
+
+/* Dialog Styling */
+dialog,
+messagedialog {
+    background-color: @soplos_light_bg;
+    color: @soplos_dark_text;
+}
+
+dialog .background,
+messagedialog .background {
+    background-color: @soplos_light_bg;
+    color: @soplos_dark_text;
+}
+
+dialog>box,
+messagedialog>box {
+    background-color: @soplos_light_bg;
+}
+
+.dialog-action-area {
+    background-color: #e8e8e8;
+    border-top: 1px solid @soplos_border;
+}
+
+.dialog-content-area {
+    background-color: @soplos_light_bg;
+    color: @soplos_dark_text;
+}
+
+/* HeaderBar Styling - Fix for "horrible" buttons */
+headerbar {
+    background-color: #e8e8e8;
+    color: @soplos_dark_text;
+    border-bottom: 1px solid @soplos_border;
+    box-shadow: none;
+    min-height: 46px;
+}
+
+headerbar button.titlebutton {
+    color: @soplos_dark_text;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+headerbar button.titlebutton:hover {
+    background-color: #d0d0d0;
+    color: @soplos_dark_text;
+}
+
+headerbar button.titlebutton.close:hover {
+    background-color: @soplos_error;
+    color: white;
+}
+
+/* Notebook (Tabs) Styling - Aggressive Overrides */
+notebook {
+    background-color: @soplos_lighter_bg;
+    border: 1px solid @soplos_border;
+}
+
+notebook>header {
+    background-color: #e8e8e8;
+    border: none;
+    box-shadow: none;
+}
+
+notebook>header tabs {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Tab Styling */
+notebook>header tab {
+    background-color: #e0e0e0;
+    color: #666666;
+    border: 1px solid @soplos_border;
+    border-bottom: none;
+    margin: 0 2px 0 0;
+    padding: 8px 20px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: none;
+    outline: none;
+}
+
+/* Hover State */
+notebook>header tab:hover {
+    background-color: #f0f0f0;
+    color: @soplos_dark_text;
+    box-shadow: none;
+}
+
+/* Checked/Active State - Force Orange Border */
+notebook>header tab:checked {
+    background-color: @soplos_light_bg;
+    color: @soplos_orange;
+    border-top: 3px solid @soplos_orange;
+    /* Top highlight */
+    border-left: 1px solid @soplos_border;
+    border-right: 1px solid @soplos_border;
+    border-bottom: none;
+    box-shadow: none;
+}
+
+/* Remove any focus rings or outlines */
+notebook>header tab:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Content Area */
+notebook>stack {
+    background-color: @soplos_light_bg;
+    border: 1px solid @soplos_border;
+    border-top: none;
+    /* Seamless connection with tabs */
+}
+
+/* Buttons */
+button {
+    background-image: none;
+    background-color: #ffffff;
+    color: @soplos_dark_text;
+    border: 1px solid @soplos_border;
+    border-radius: 4px;
+    padding: 8px 16px;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+    border-color: @soplos_orange;
+    color: @soplos_dark_text;
+}
+
+button:active {
+    background-color: @soplos_orange;
+    color: #000000;
+}
+
+/* Suggested Action (Orange) */
+button.suggested-action {
+    background-color: @soplos_orange;
+    color: #000000;
+    border: 1px solid @soplos_orange_hover;
+    font-weight: bold;
+}
+
+button.suggested-action:hover {
+    background-color: @soplos_orange_hover;
+    border-color: @soplos_orange_hover;
+}
+
+/* Destructive Action (Red) */
+button.destructive-action {
+    background-color: @soplos_error;
+    color: #ffffff;
+    border: 1px solid #c0392b;
+}
+
+button.destructive-action:hover {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+/* Labels */
+label {
+    color: @soplos_dark_text;
+    text-shadow: none;
+}
+
+/* Progress Bar */
+progressbar trough {
+    background-color: #e0e0e0;
+    border: 1px solid @soplos_border;
+    border-radius: 4px;
+}
+
+progressbar progress {
+    background-color: @soplos_orange;
+    border-radius: 4px;
+    border: none;
+}
+
+/* Switch */
+switch {
+    background-color: #e0e0e0;
+    border: 1px solid @soplos_border;
+    border-radius: 12px;
+}
+
+switch:checked {
+    background-color: @soplos_orange;
+    border-color: @soplos_orange;
+}
+
+switch slider {
+    background-color: #ffffff;
+}
+
+/* Entry */
+entry {
+    background-color: @soplos_lighter_bg;
+    color: @soplos_dark_text;
+    border: 1px solid @soplos_border;
+    box-shadow: none;
+}
+
+entry:focus {
+    border-color: @soplos_orange;
+    box-shadow: none;
+}
+
+/* Scrolled Window */
+scrolledwindow viewport {
+    background-color: @soplos_light_bg;
+}
+
+/* Fix for blue lines in some themes */
+*:selected {
+    background-color: @soplos_orange;
+    color: #000000;
+}
+
+/* Remove focus dotted lines */
+* {
+    outline-color: alpha(@soplos_orange, 0.5);
+    outline-style: none;
+}

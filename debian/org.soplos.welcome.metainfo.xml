@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.soplos.welcome</id>
+  <pkgname>soplos-welcome</pkgname>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <project_group>org.soplos</project_group>
+
+  <name>Soplos Welcome</name>
+  <name xml:lang="es">Bienvenida a Soplos</name>
+  <name xml:lang="en">Soplos Welcome</name>
+  <name xml:lang="fr">Bienvenue sur Soplos</name>
+  <name xml:lang="pt">Bem-vindo ao Soplos</name>
+  <name xml:lang="de">Willkommen bei Soplos</name>
+  <name xml:lang="it">Benvenuto su Soplos</name>
+  <name xml:lang="ru">Добро пожаловать в Soplos</name>
+  <name xml:lang="ro">Bun venit la Soplos</name>
+
+  <summary>The world's most advanced welcome application for Linux</summary>
+  <summary xml:lang="es">La aplicación de bienvenida más avanzada del mundo para Linux</summary>
+  <summary xml:lang="en">The world's most advanced welcome application for Linux</summary>
+  <summary xml:lang="fr">L'application d'accueil la plus avancée au monde pour Linux</summary>
+  <summary xml:lang="pt">A aplicação de boas-vindas mais avançada do mundo para Linux</summary>
+  <summary xml:lang="de">Die weltweit fortschrittlichste Willkommensanwendung für Linux</summary>
+  <summary xml:lang="it">L'applicazione di benvenuto più avanzata al mondo per Linux</summary>
+  <summary xml:lang="ru">Самое продвинутое приложение-приветствие в мире для Linux</summary>
+  <summary xml:lang="ro">Cea mai avansată aplicație de întâmpinare din lume pentru Linux</summary>
+
+  <description>
+    <p>
+      Soplos Welcome 2.0 is a next-generation welcome application that provides an intuitive, 
+      beautiful, and powerful first-time user experience for Soplos Linux. Built with modern 
+      architecture, professional internationalization, and universal desktop environment compatibility.
+    </p>
+    <p xml:lang="es">
+      Soplos Welcome 2.0 es una aplicación de bienvenida de nueva generación que proporciona una 
+      experiencia de usuario intuitiva, hermosa y poderosa para nuevos usuarios de Soplos Linux. 
+      Construida con arquitectura moderna, internacionalización profesional y compatibilidad 
+      universal con entornos de escritorio.
+    </p>
+    <p xml:lang="fr">
+      Soplos Welcome 2.0 est une application d'accueil de nouvelle génération qui offre une 
+      expérience utilisateur intuitive, belle et puissante pour les nouveaux utilisateurs de 
+      Soplos Linux. Construite avec une architecture moderne, une internationalisation 
+      professionnelle et une compatibilité universelle avec les environnements de bureau.
+    </p>
+    <p xml:lang="de">
+      Soplos Welcome 2.0 ist eine Willkommensanwendung der nächsten Generation, die eine 
+      intuitive, schöne und mächtige Erstbenutzererfahrung für Soplos Linux bietet. 
+      Entwickelt mit moderner Architektur, professioneller Internationalisierung und 
+      universeller Desktop-Umgebungskompatibilität.
+    </p>
+    <p>Key Features:</p>
+    <ul>
+      <li>Universal desktop support (GNOME 48+, KDE Plasma 6, XFCE 4.20)</li>
+      <li>Complete X11 and Wayland compatibility</li>
+      <li>Professional internationalization with 8 languages</li>
+      <li>Advanced CSS-based theming system</li>
+      <li>Intelligent software management</li>
+      <li>Hardware driver detection and optimization</li>
+      <li>Kernel management (Liquorix, XanMod)</li>
+      <li>System performance optimization</li>
+    </ul>
+  </description>
+
+  <categories>
+    <category>Settings</category>
+    <category>DesktopSettings</category>
+    <category>GTK</category>
+    <category>System</category>
+    <category>Utility</category>
+  </categories>
+
+  <requires>
+    <display_length compare="ge">800</display_length>
+    <memory compare="ge">512</memory>
+  </requires>
+
+  <recommends>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </recommends>
+
+  <keywords>
+    <keyword>welcome</keyword>
+    <keyword>setup</keyword>
+    <keyword>system</keyword>
+    <keyword>configuration</keyword>
+    <keyword>customize</keyword>
+    <keyword>soplos</keyword>
+    <keyword>drivers</keyword>
+    <keyword>software</keyword>
+    <keyword>themes</keyword>
+    <keyword xml:lang="es">bienvenida</keyword>
+    <keyword xml:lang="es">configuración</keyword>
+    <keyword xml:lang="es">personalizar</keyword>
+    <keyword xml:lang="es">controladores</keyword>
+    <keyword xml:lang="fr">bienvenue</keyword>
+    <keyword xml:lang="fr">configuration</keyword>
+    <keyword xml:lang="fr">personnaliser</keyword>
+    <keyword xml:lang="de">willkommen</keyword>
+    <keyword xml:lang="de">konfiguration</keyword>
+    <keyword xml:lang="de">anpassen</keyword>
+  </keywords>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot1.png</image>
+      <caption>Welcome screen with system overview</caption>
+      <caption xml:lang="es">Pantalla de bienvenida con resumen del sistema</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot3.png</image>
+      <caption>Intelligent software management center</caption>
+      <caption xml:lang="es">Centro de gestión inteligente de software</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot4.png</image>
+      <caption>Hardware driver detection and installation</caption>
+      <caption xml:lang="es">Detección e instalación de controladores de hardware</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot5.png</image>
+      <caption>Desktop customization and theming</caption>
+      <caption xml:lang="es">Personalización del escritorio y temas</caption>
+    </screenshot>
+  </screenshots>
+
+  <translation type="gettext">soplos-welcome</translation>
+
+  <provides>
+    <binary>soplos-welcome</binary>
+  </provides>
+
+  <launchable type="desktop-id">org.soplos.welcome.desktop</launchable>
+
+  <url type="homepage">https://soplos.org</url>
+  <url type="bugtracker">https://github.com/SoplosLinux/soplos-welcome/issues</url>
+  <url type="help">https://github.com/SoplosLinux/soplos-welcome/wiki</url>
+  <url type="donation">https://soplos.org/donate</url>
+
+  <developer_name>Sergi Perich</developer_name>
+
+  <releases>
+    <release version="2.0.0" date="2025-11-24">
+      <description>
+        <p>Major rewrite with modern architecture and enhanced capabilities:</p>
+        <ul>
+          <li>Complete rewrite with modular, professional architecture</li>
+          <li>Universal desktop environment support (GNOME, KDE, XFCE)</li>
+          <li>Advanced CSS-based theming system</li>
+          <li>Professional GNU Gettext internationalization</li>
+          <li>Intelligent software and hardware management</li>
+          <li>Complete X11 and Wayland compatibility</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+
+  <content_rating type="oars-1.1" />
+
+  <update_contact>info@soploslinux.com</update_contact>
+
+</component>
