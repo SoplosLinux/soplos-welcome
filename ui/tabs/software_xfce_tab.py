@@ -114,16 +114,25 @@ class SoftwareXfceTab(Gtk.Box):
             label.set_justify(Gtk.Justification.CENTER)
             app_container.pack_start(label, False, False, 0)
             
-            # Button (install/uninstall)
+            # Button - special handling for Repo Selector
             main_package = packages.split()[0]
-            button = self._create_software_button(main_package, packages)
+            if main_package == "soplos-repo-selector":
+                # Create Launch button for Repo Selector
+                button = Gtk.Button(label=_(u"Abrir"))
+                button.get_style_context().add_class("suggested-action")
+                button.connect("clicked", self._on_repo_selector_clicked)
+            else:
+                # Normal install/uninstall button
+                button = self._create_software_button(main_package, packages)
+            
             app_container.pack_start(button, False, False, 0)
             
-            # Store reference for updates
-            self.software_buttons[main_package] = {
-                'container': app_container,
-                'packages': packages
-            }
+            # Store reference for updates (only for installable packages)
+            if main_package != "soplos-repo-selector":
+                self.software_buttons[main_package] = {
+                    'container': app_container,
+                    'packages': packages
+                }
             
             software_grid.attach(app_container, col, row, 1, 1)
             
