@@ -298,7 +298,7 @@ class WelcomeTab(Gtk.Box):
     def _on_website_clicked(self, button):
         """Handle Website button click."""
         try:
-            webbrowser.open("https://soploslinux.org")
+            webbrowser.open("https://soplos.org")
         except Exception as e:
             print(f"Error opening website: {e}")
             self._show_error_dialog(_("No se pudo abrir el sitio web"), 
@@ -307,7 +307,7 @@ class WelcomeTab(Gtk.Box):
     def _on_forum_clicked(self, button):
         """Handle Forum button click."""
         try:
-            webbrowser.open("https://soploslinux.org/forums")
+            webbrowser.open("https://soplos.org/forums")
         except Exception as e:
             print(f"Error opening forum: {e}")
             self._show_error_dialog(_("No se pudo abrir el foro"), 
@@ -316,7 +316,7 @@ class WelcomeTab(Gtk.Box):
     def _on_wiki_clicked(self, button):
         """Handle Wiki button click."""
         try:
-            webbrowser.open("https://soploslinux.org/wiki")
+            webbrowser.open("https://soplos.org/wiki")
         except Exception as e:
             print(f"Error opening wiki: {e}")
             self._show_error_dialog(_("No se pudo abrir la wiki"), 
