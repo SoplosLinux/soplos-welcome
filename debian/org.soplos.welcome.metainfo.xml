@@ -157,6 +157,9 @@
           <li>AMD, Wi-Fi, and VM Tools support</li>
           <li>One-click installation from hardware scan results</li>
           <li>Smart driver recommendations</li>
+          <li>Kernel management (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) with NVIDIA safety checks</li>
+          <li>CPU Microcode updates (Intel and AMD automatic detection)</li>
+          <li>System maintenance tools (Clean old kernels, Update GRUB)</li>
           <li>Fixed Repo Selector button behavior</li>
           <li>Updated Welcome tab URLs</li>
         </ul>
@@ -175,6 +178,9 @@
           <li>Soporte para AMD, Wi-Fi y herramientas VM</li>
           <li>Instalación con un clic desde resultados de escaneo de hardware</li>
           <li>Recomendaciones inteligentes de controladores</li>
+          <li>Gestión de núcleos (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) con verificaciones de seguridad NVIDIA</li>
+          <li>Actualizaciones de microcódigo de CPU (detección automática Intel y AMD)</li>
+          <li>Herramientas de mantenimiento del sistema (Limpiar núcleos antiguos, Actualizar GRUB)</li>
           <li>Comportamiento corregido del botón Selector de Repositorios</li>
           <li>URLs de la pestaña de Bienvenida actualizadas</li>
         </ul>
@@ -193,6 +199,9 @@
           <li>Support AMD, Wi-Fi et outils VM</li>
           <li>Installation en un clic depuis les résultats d'analyse matérielle</li>
           <li>Recommandations intelligentes de pilotes</li>
+          <li>Gestion des noyaux (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) avec vérifications de sécurité NVIDIA</li>
+          <li>Mises à jour du microcode CPU (détection automatique Intel et AMD)</li>
+          <li>Outils de maintenance système (Nettoyer anciens noyaux, Mettre à jour GRUB)</li>
           <li>Correction du comportement du bouton Sélecteur de Dépôts</li>
           <li>Mise à jour des URL de l'onglet Bienvenue</li>
         </ul>
@@ -211,6 +220,9 @@
           <li>Suporte a AMD, Wi-Fi e ferramentas VM</li>
           <li>Instalação com um clique a partir dos resultados da verificação de hardware</li>
           <li>Recomendações inteligentes de drivers</li>
+          <li>Gestão de kernels (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) com verificações de segurança NVIDIA</li>
+          <li>Atualizações de microcode de CPU (detecção automática Intel e AMD)</li>
+          <li>Ferramentas de manutenção do sistema (Limpar kernels antigos, Atualizar GRUB)</li>
           <li>Comportamento corrigido do botão Seletor de Repositórios</li>
           <li>URLs da guia Boas-vindas atualizadas</li>
         </ul>
@@ -229,6 +241,9 @@
           <li>Unterstützung für AMD, Wi-Fi und VM-Tools</li>
           <li>Ein-Klick-Installation aus Hardware-Scan-Ergebnissen</li>
           <li>Intelligente Treiberempfehlungen</li>
+          <li>Kernel-Verwaltung (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) mit NVIDIA-Sicherheitsprüfungen</li>
+          <li>CPU-Mikrocode-Updates (automatische Erkennung von Intel und AMD)</li>
+          <li>Systemwartungstools (Alte Kernel bereinigen, GRUB aktualisieren)</li>
           <li>Korrigiertes Verhalten der Repo-Auswahltaste</li>
           <li>Aktualisierte URLs im Willkommens-Tab</li>
         </ul>
@@ -247,6 +262,9 @@
           <li>Supporto AMD, Wi-Fi e strumenti VM</li>
           <li>Installazione con un clic dai risultati della scansione hardware</li>
           <li>Raccomandazioni intelligenti dei driver</li>
+          <li>Gestione kernel (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) con controlli di sicurezza NVIDIA</li>
+          <li>Aggiornamenti microcodice CPU (rilevamento automatico Intel e AMD)</li>
+          <li>Strumenti di manutenzione del sistema (Pulizia vecchi kernel, Aggiornamento GRUB)</li>
           <li>Corretto comportamento del pulsante Selettore Repo</li>
           <li>URL della scheda Benvenuto aggiornati</li>
         </ul>
@@ -265,6 +283,9 @@
           <li>Поддержка AMD, Wi-Fi и инструментов VM</li>
           <li>Установка в один клик из результатов сканирования</li>
           <li>Умные рекомендации драйверов</li>
+          <li>Управление ядрами (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) с проверками безопасности NVIDIA</li>
+          <li>Обновления микрокода CPU (автоопределение Intel и AMD)</li>
+          <li>Инструменты обслуживания системы (Очистка старых ядер, Обновление GRUB)</li>
           <li>Исправлено поведение кнопки выбора репозитория</li>
           <li>Обновлены URL вкладки приветствия</li>
         </ul>
@@ -283,6 +304,9 @@
           <li>Suport AMD, Wi-Fi și instrumente VM</li>
           <li>Instalare cu un clic din rezultatele scanării hardware</li>
           <li>Recomandări inteligente de drivere</li>
+          <li>Gestionare kerneluri (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) cu verificări de securitate NVIDIA</li>
+          <li>Actualizări microcode CPU (detectare automată Intel și AMD)</li>
+          <li>Instrumente de întreținere sistem (Curățare kerneluri vechi, Actualizare GRUB)</li>
           <li>Comportament corectat al butonului Selector Repo</li>
           <li>Actualizare URL-uri tab Bun venit</li>
         </ul>

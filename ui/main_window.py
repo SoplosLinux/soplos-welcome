@@ -271,7 +271,13 @@ class MainWindow(Gtk.ApplicationWindow):
                     )
                 elif tab_class == "KernelsTab":
                     from .tabs.kernels_tab import KernelsTab
-                    tab_content = KernelsTab(self.i18n_manager, self.theme_manager)
+                    tab_content = KernelsTab(
+                        self.i18n_manager,
+                        self.theme_manager,
+                        self,  # parent_window
+                        self.progress_bar,
+                        self.progress_label
+                    )
                 elif tab_class == "CustomizationTab":
                     from .tabs.customization_tab import CustomizationTab
                     tab_content = CustomizationTab(self.i18n_manager, self.theme_manager)

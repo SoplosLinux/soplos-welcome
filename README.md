@@ -14,8 +14,11 @@ Soplos Welcome is a welcome application that guides new users through the initia
 ## ✨ Features
 
 - Initial system setup
-- **Hardware Detection**: Automatic CPU, GPU, RAM, storage, network, and VM detection
-- **Driver Management**: NVIDIA (Latest + Legacy), AMD, Wi-Fi, VM Tools
+- **Complete Hardware Detection**: Automatic CPU, GPU, RAM, storage, network, and VM detection
+- **Advanced Driver Management**: NVIDIA (Latest + Legacy), AMD, Wi-Fi, VM Tools with one-click installation
+- **Kernel Management**: Liquorix, XanMod (x64v3, x64v4, EDGE, LTS) with NVIDIA compatibility checks
+- **CPU Microcode Updates**: Intel and AMD firmware security updates
+- **System Maintenance**: Clean old kernels, Update GRUB
 - Installation of recommended software
 - Desktop customization
 - Access to help and support resources
@@ -97,6 +100,9 @@ Contact: info@soploslinux.com
 - **Improved UI**: Modernized interface with better theming support.
 - **Enhanced Software Center**: Better integration with native package managers.
 - **Driver Management**: Hardware detection and automatic driver recommendations.
+- **Kernel Management**: Liquorix and XanMod kernels (4 variants: x64v3, x64v4, EDGE, LTS) with NVIDIA compatibility checks.
+- **CPU Microcode**: Intel and AMD firmware security updates.
+- **System Maintenance**: Tools to clean old kernels and update GRUB.
 - **Fixed Welcome URLs**: Updated all links to point to soplos.org.
 - **Fixed Repo Selector**: Button now launches the application instead of attempting installation.
 

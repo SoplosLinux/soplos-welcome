@@ -39,6 +39,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - VM Tools (VMware/QEMU/VirtualBox)
 - One-click installation from hardware scan results
 
+### 🔧 Complete Kernels Tab Implementation
+- Liquorix kernel with NVIDIA incompatibility detection and blocking
+- XanMod kernel variants (x64v3 Standard, x64v4 Advanced, EDGE Experimental, LTS Long-term)
+- CPU Microcode updates (Intel and AMD with automatic vendor detection)
+- System maintenance tools (Clean old kernels, Update GRUB)
+- Clear variant descriptions with CPU compatibility information
+- NVIDIA compatibility warnings and safety checks
+
 ### 🛠️ Fixed
 - Fixed DriversTab initialization
 - Fixed Repo Selector button to launch application
