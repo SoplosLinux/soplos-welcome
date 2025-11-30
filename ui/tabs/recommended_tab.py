@@ -107,6 +107,10 @@ class RecommendedTab(Gtk.Box):
         
         frame.set_label_widget(header_box)
         
+        # Create SizeGroups for alignment
+        name_group = Gtk.SizeGroup(mode=Gtk.SizeGroupMode.VERTICAL)
+        desc_group = Gtk.SizeGroup(mode=Gtk.SizeGroupMode.VERTICAL)
+        
         # Packages grid
         grid = Gtk.Grid()
         grid.set_column_spacing(15)
@@ -127,7 +131,7 @@ class RecommendedTab(Gtk.Box):
         max_cols = 2
         
         for package in packages:
-            package_widget = self._create_package_widget(category_id, package)
+            package_widget = self._create_package_widget(category_id, package, name_group, desc_group)
             grid.attach(package_widget, col, row, 1, 1)
             
             col += 1
@@ -139,7 +143,7 @@ class RecommendedTab(Gtk.Box):
         frame.show_all()
         self.content_box.pack_start(frame, False, False, 0)
     
-    def _create_package_widget(self, category_id: str, package: dict) -> Gtk.Widget:
+    def _create_package_widget(self, category_id: str, package: dict, name_group: Gtk.SizeGroup = None, desc_group: Gtk.SizeGroup = None) -> Gtk.Widget:
         """Create a widget for a single recommended package."""
         # Main container
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
@@ -174,6 +178,10 @@ class RecommendedTab(Gtk.Box):
             flatpak_badge.set_valign(Gtk.Align.CENTER)
             name_box.pack_start(flatpak_badge, False, False, 0)
         
+        # Add to SizeGroup for alignment
+        if name_group:
+            name_group.add_widget(name_box)
+        
         info_box.pack_start(name_box, False, False, 0)
         
         # Package description
@@ -183,8 +191,12 @@ class RecommendedTab(Gtk.Box):
         desc_label.set_max_width_chars(45)
         desc_label.set_lines(2)
         desc_label.set_ellipsize(Pango.EllipsizeMode.END)
-        desc_label.set_size_request(-1, 40)  # Force height for 2 lines to align grid
         desc_label.get_style_context().add_class('dim-label')
+        
+        # Add to SizeGroup for alignment
+        if desc_group:
+            desc_group.add_widget(desc_label)
+        
         info_box.pack_start(desc_label, False, False, 0)
         
         box.pack_start(info_box, True, True, 0)
