@@ -15,6 +15,8 @@ from pathlib import Path
 from config.software import get_all_categories
 
 
+from config.paths import ICONS_DIR
+
 class RecommendedTab(Gtk.Box):
     """Recommended applications tab with curated software selections."""
     
@@ -71,12 +73,12 @@ class RecommendedTab(Gtk.Box):
         categories = get_all_categories()
         
         # Show only selected categories with featured apps
-        recommended_categories = ['browsers', 'comunications', 'developer', 'graphics', 'multimedia']
+        recommended_categories = ['browsers', 'comunications', 'office', 'multimedia', 'graphics', 'developer', 'gaming']
         
         for category_id in recommended_categories:
             if category_id in categories:
                 category_data = categories[category_id]
-                self._create_category_section(category_id, category_data, featured_only=True)
+                self._create_category_section(category_id, category_data, featured_only=False)
     
     def _create_category_section(self, category_id: str, category_data: dict, featured_only: bool = False):
         """Create a section for a recommended software category."""
@@ -215,7 +217,7 @@ class RecommendedTab(Gtk.Box):
         """Load and return a category icon."""
         try:
             # Try to find a representative icon in the category folder
-            icon_dir = Path(f"/usr/local/bin/soplos-welcome/assets/icons/{category_id}")
+            icon_dir = Path(os.path.join(ICONS_DIR, category_id))
             if icon_dir.exists():
                 # Use the first available icon as category icon
                 for icon_file in icon_dir.glob("*.png"):
@@ -235,7 +237,7 @@ class RecommendedTab(Gtk.Box):
             return None
         
         try:
-            icon_path = f"/usr/local/bin/soplos-welcome/assets/icons/{category_id}/{icon_name}"
+            icon_path = os.path.join(ICONS_DIR, category_id, icon_name)
             if os.path.exists(icon_path):
                 pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
                     icon_path, 48, 48, True
