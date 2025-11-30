@@ -62,6 +62,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
   - **Google Antigravity**: Replaced Geany with advanced IDE (custom repository + GPG key installation)
   - **Midori**: Replaced Epiphany with lightweight browser (.deb installation)
   - **Snap Removal**: Removed Snap support from Recommended software to prioritize native and Flatpak packages
+- **Gaming Features**:
+  - **System Optimizations**: GameMode installation, CPU performance mode script, gaming sysctl profile
+  - **Performance Monitoring**: MangoHud + Goverlay integration for FPS overlay
+  - **Game Launchers**: Quick installation for Steam, Lutris, Heroic, Bottles, Prism Launcher, RetroArch, Discord
+  - **Revert Functionality**: One-click rollback of all gaming optimizations
+  - **Custom Icons**: Vibrant gaming-themed icons for better visual identity
 - **UI Enhancements**:
   - **Category Icons**: Updated Development category icon to VS Code, Gaming category icon to Steam
   - Improved category icon loading with configurable support

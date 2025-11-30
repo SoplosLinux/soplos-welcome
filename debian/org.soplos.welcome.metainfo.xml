@@ -165,6 +165,7 @@
           <li>Recommended Tab: Enhanced error handling and UI stability fixes</li>
           <li>Software updates: DaVinci Resolve (custom workflow), RapidRAW, Google Antigravity, Midori</li>
           <li>Snap Removal: Removed Snap support from Recommended software</li>
+          <li>Gaming features: System optimizations, performance tools, game launcher management</li>
           <li>UI improvements: Category icons (VS Code, Steam)</li>
           <li>System Integration: Fixed application icon visibility and desktop entry</li>
           <li>Fixed Repo Selector button behavior</li>
@@ -192,7 +193,8 @@
           <li>Pestaña Recomendado: Integración de barra de progreso global</li>
           <li>Pestaña Recomendado: Manejo de errores mejorado y correcciones de estabilidad UI</li>
           <li>Actualizaciones de software: DaVinci Resolve (flujo personalizado), RapidRAW, Google Antigravity, Midori</li>
-          <li>Eliminación de Snap: Eliminado soporte Snap de software recomendado</li>
+          <li>Eliminación de Snap: Soporte Snap eliminado del software recomendado</li>
+          <li>Funciones gaming: Optimizaciones del sistema, herramientas de rendimiento, gestión de launchers</li>
           <li>Mejoras de UI: Iconos de categoría (VS Code, Steam)</li>
           <li>Integración del sistema: Corregida visibilidad del icono de la aplicación y entrada de escritorio</li>
           <li>Comportamiento corregido del botón Selector de Repositorios</li>
@@ -221,6 +223,7 @@
           <li>Onglet Recommandé : Gestion des erreurs améliorée et corrections de stabilité UI</li>
           <li>Mises à jour logicielles : DaVinci Resolve (flux personnalisé), RapidRAW, Google Antigravity, Midori</li>
           <li>Suppression de Snap : Support Snap supprimé des logiciels recommandés</li>
+          <li>Fonctionnalités gaming : Optimisations système, outils de performance, gestion de lanceurs</li>
           <li>Améliorations UI : Icônes de catégorie (VS Code, Steam)</li>
           <li>Intégration système : Correction de la visibilité de l'icône de l'application et entrée de bureau</li>
           <li>Correction du comportement du bouton Sélecteur de Dépôts</li>
@@ -248,8 +251,9 @@
           <li>Aba Recomendado: Integração de barra de progresso global</li>
           <li>Aba Recomendado: Tratamento de erros aprimorado e correções de estabilidade da UI</li>
           <li>Atualizações de software: DaVinci Resolve (fluxo personalizado), RapidRAW, Google Antigravity, Midori</li>
-          <li>Remoção do Snap: Suporte ao Snap removido do software recomendado</li>
-          <li>Melhorias na UI: Ícones de categoria (VS Code, Steam)</li>
+          <li>Remoção do Snap: Suporte Snap removido do software recomendado</li>
+          <li>Recursos de gaming: Otimizações do sistema, ferramentas de desempenho, gerenciamento de launchers</li>
+          <li>Melhorias de UI: Ícones de categoria (VS Code, Steam)</li>
           <li>Integração do sistema: Correção da visibilidade do ícone do aplicativo e entrada na área de trabalho</li>
           <li>Comportamento corrigido do botão Seletor de Repositórios</li>
           <li>URLs da guia Boas-vindas atualizadas</li>
@@ -277,7 +281,8 @@
           <li>Empfohlen-Tab: Verbesserte Fehlerbehandlung und UI-Stabilitätskorrekturen</li>
           <li>Software-Updates: DaVinci Resolve (benutzerdefinierter Workflow), RapidRAW, Google Antigravity, Midori</li>
           <li>Snap-Entfernung: Snap-Unterstützung aus empfohlener Software entfernt</li>
-          <li>UI-Verbesserungen: Kategorie-Icons (VS Code, Steam)</li>
+          <li>Gaming-Funktionen: Systemoptimierungen, Leistungstools, Launcher-Verwaltung</li>
+          <li>UI-Verbesserungen: Kategoriesymbole (VS Code, Steam)</li>
           <li>Systemintegration: Korrigierte Sichtbarkeit des Anwendungssymbols und Desktop-Eintrag</li>
           <li>Korrigiertes Verhalten der Repo-Auswahltaste</li>
           <li>Aktualisierte URLs im Willkommens-Tab</li>
@@ -305,6 +310,7 @@
           <li>Scheda Consigliati: Gestione errori migliorata e correzioni stabilità UI</li>
           <li>Aggiornamenti software: DaVinci Resolve (flusso personalizzato), RapidRAW, Google Antigravity, Midori</li>
           <li>Rimozione Snap: Supporto Snap rimosso dal software consigliato</li>
+          <li>Funzionalità gaming: Ottimizzazioni di sistema, strumenti di prestazioni, gestione launcher</li>
           <li>Miglioramenti UI: Icone di categoria (VS Code, Steam)</li>
           <li>Integrazione sistema: Corretta visibilità icona applicazione e voce desktop</li>
           <li>Corretto comportamento del pulsante Selettore Repo</li>
@@ -333,6 +339,7 @@
           <li>Вкладка Рекомендуемое: Улучшенная обработка ошибок и исправления стабильности UI</li>
           <li>Обновления ПО: DaVinci Resolve (пользовательский процесс), RapidRAW, Google Antigravity, Midori</li>
           <li>Удаление Snap: Поддержка Snap удалена из рекомендуемого ПО</li>
+          <li>Игровые функции: Оптимизации системы, инструменты производительности, управление лаунчерами</li>
           <li>Улучшения UI: Иконки категорий (VS Code, Steam)</li>
           <li>Системная интеграция: Исправлена видимость иконки приложения и запись рабочего стола</li>
           <li>Исправлено поведение кнопки выбора репозитория</li>
@@ -361,7 +368,8 @@
           <li>Tab Recomandat: Gestionare erori îmbunătățită și corecții stabilitate UI</li>
           <li>Actualizări software: DaVinci Resolve (flux personalizat), RapidRAW, Google Antigravity, Midori</li>
           <li>Eliminare Snap: Suport Snap eliminat din software-ul recomandat</li>
-          <li>Îmbunătățiri UI: Pictograme categorie (VS Code, Steam)</li>
+          <li>Funcții gaming: Optimizări sistem, instrumente de performanță, gestionare launchere</li>
+          <li>Îmbunătățiri UI: Pictograme categorii (VS Code, Steam)</li>
           <li>Integrare sistem: Corectată vizibilitatea pictogramei aplicației și intrarea desktop</li>
           <li>Comportament corectat al butonului Selector Repo</li>
           <li>Actualizare URL-uri tab Bun venit</li>

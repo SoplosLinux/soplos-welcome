@@ -114,6 +114,11 @@ Contact: info@soploslinux.com
   - **Google Antigravity**: Replaced Geany with Google Antigravity IDE (custom repository installation).
   - **Midori**: Replaced Epiphany with Midori lightweight browser (.deb installation).
   - **Snap Removal**: Removed Snap support from Recommended software to prioritize native and Flatpak packages.
+- **Gaming Features**:
+  - **System Optimizations**: GameMode installation, CPU performance script, gaming kernel parameters (sysctl), and more.
+  - **Performance Tools**: MangoHud + Goverlay for FPS monitoring and overlay customization.
+  - **Game Launchers**: Quick access to Steam, Lutris, Heroic, Bottles, Prism Launcher, and more.
+  - **Revert Functionality**: Easy rollback of gaming optimizations.
 - **UI Improvements**:
   - **Category Icons**: Updated Development category icon to VS Code, Gaming category icon to Steam.
   - **Installation Methods**: Full support for APT, Flatpak, .deb URLs, and custom installation scripts.

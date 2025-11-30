@@ -56,8 +56,8 @@ class GamingTab(Gtk.Box):
         
         # 1. Optimizations Section
         self._create_section(content_box, "Optimizations", [
-            ("GameMode", "Install Feral GameMode", "gamemode"),
-            ("Performance Mode",  "Install CPU performance script", "cpu-performance"),
+            ("GameMode", "Install Feral GameMode", "gaming/gamemode.png"),
+            ("Performance Mode",  "Install CPU performance script", "gaming/performance.png"),
             ("Gaming Sysctl", "Apply kernel gaming tweaks", "preferences-system"),
             ("Optimize GPU", "Configure GPU drivers for gaming", "display"),
             ("Disk I/O", "Optimize disk schedulers", "drive-harddisk"),
