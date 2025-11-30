@@ -183,6 +183,7 @@ class RecommendedTab(Gtk.Box):
         desc_label.set_max_width_chars(45)
         desc_label.set_lines(2)
         desc_label.set_ellipsize(Pango.EllipsizeMode.END)
+        desc_label.set_size_request(-1, 40)  # Force height for 2 lines to align grid
         desc_label.get_style_context().add_class('dim-label')
         info_box.pack_start(desc_label, False, False, 0)
         
