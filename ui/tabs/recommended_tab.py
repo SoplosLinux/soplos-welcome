@@ -6,7 +6,7 @@ Shows curated applications based on desktop environment and user needs.
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('GdkPixbuf', '2.0')
-from gi.repository import Gtk, GdkPixbuf, GLib
+from gi.repository import Gtk, GdkPixbuf, GLib, Pango
 import threading
 import subprocess
 import os
@@ -167,6 +167,13 @@ class RecommendedTab(Gtk.Box):
         name_label.set_halign(Gtk.Align.START)
         name_box.pack_start(name_label, False, False, 0)
         
+        # Add Flatpak badge if applicable
+        if package.get('flatpak'):
+            flatpak_badge = Gtk.Label()
+            flatpak_badge.set_markup('<span size="small" foreground="#888888" background="#333333"> Flatpak </span>')
+            flatpak_badge.set_valign(Gtk.Align.CENTER)
+            name_box.pack_start(flatpak_badge, False, False, 0)
+        
         info_box.pack_start(name_box, False, False, 0)
         
         # Package description
@@ -174,6 +181,8 @@ class RecommendedTab(Gtk.Box):
         desc_label.set_halign(Gtk.Align.START)
         desc_label.set_line_wrap(True)
         desc_label.set_max_width_chars(45)
+        desc_label.set_lines(2)
+        desc_label.set_ellipsize(Pango.EllipsizeMode.END)
         desc_label.get_style_context().add_class('dim-label')
         info_box.pack_start(desc_label, False, False, 0)
         
