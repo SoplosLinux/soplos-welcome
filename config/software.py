@@ -59,13 +59,13 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
-                'name': 'Epiphany',
-                'package': 'epiphany-browser',
-                'flatpak': 'org.gnome.Epiphany',
-                'icon': 'epiphany.png',
-                'description': 'Navegador web oficial de GNOME',
-                'official': True
-            }
+                'name': 'Midori',
+                'package': 'midori',
+                'icon': 'midori.png',
+                'description': 'Navegador web ligero, rápido y seguro',
+                'official': False,
+                'deb_url': 'https://github.com/goastian/midori-desktop/releases/download/v11.6/midori_11.6-1_amd64.deb'
+            },
         ]
     },
     
@@ -131,7 +131,7 @@ SOFTWARE_CATEGORIES = {
     
     'developer': {
         'title': 'Desarrollo',
-        'icon': 'developer',
+        'icon': 'vscode.png',
         'packages': [
             {
                 'name': 'Visual Studio Code',
@@ -152,12 +152,18 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
-                'name': 'Geany',
-                'package': 'geany',
-                'flatpak': 'org.geany.Geany',
-                'icon': 'geany.png',
-                'description': 'IDE ligero y rápido con soporte para múltiples lenguajes',
-                'official': True
+                'name': 'Google Antigravity',
+                'package': 'antigravity',
+                'icon': 'antigravity.png',
+                'description': 'IDE avanzado con gravedad cero',
+                'official': False,
+                'install_commands': [
+                    'mkdir -p /etc/apt/keyrings',
+                    'curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | gpg --dearmor --yes -o /etc/apt/keyrings/antigravity-repo-key.gpg',
+                    'echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" | tee /etc/apt/sources.list.d/antigravity.list > /dev/null',
+                    'apt update',
+                    'apt install -y antigravity'
+                ]
             },
             {
                 'name': 'Sublime Text',
@@ -236,12 +242,12 @@ SOFTWARE_CATEGORIES = {
                 'official': True
             },
             {
-                'name': 'RawTherapee',
-                'package': 'rawtherapee',
-                'flatpak': 'com.rawtherapee.RawTherapee',
-                'icon': 'rawtherapee.png',
-                'description': 'Procesador de archivos RAW gratuito',
-                'official': True
+                'name': 'RapidRAW',
+                'package': 'rapid-raw',
+                'deb_url': 'https://github.com/CyberTimon/RapidRAW/releases/download/v1.4.5/03_RapidRAW_v1.4.5_ubuntu-24.04_amd64.deb',
+                'icon': 'rapidraw.png',
+                'description': 'Editor de fotos RAW rápido y moderno',
+                'official': False
             }
         ]
     },
@@ -341,7 +347,7 @@ SOFTWARE_CATEGORIES = {
     
     'gaming': {
         'title': 'Gaming',
-        'icon': 'gaming',
+        'icon': 'steam.png',
         'packages': [
             {
                 'name': 'Steam',

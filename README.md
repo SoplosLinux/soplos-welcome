@@ -94,7 +94,7 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
-### v2.0.0 (24/11/2025)
+### v2.0.0 (30/11/2025)
 - **Complete Rewrite**: New modular architecture for better maintainability.
 - **Universal Support**: Unified codebase for GNOME, KDE, and XFCE.
 - **Improved UI**: Modernized interface with better theming support.
@@ -103,6 +103,18 @@ Contact: info@soploslinux.com
 - **Kernel Management**: Liquorix and XanMod kernels (4 variants: x64v3, x64v4, EDGE, LTS) with NVIDIA compatibility checks.
 - **CPU Microcode**: Intel and AMD firmware security updates.
 - **System Maintenance**: Tools to clean old kernels and update GRUB.
+- **Recommended Tab Enhancements**:
+  - **Custom Script Support**: Complex installation workflows (repository setup, GPG keys, multi-step installations).
+  - **Global Progress Bar Integration**: All operations now use the unified progress bar system.
+  - **Improved Error Handling**: Better feedback and UI recovery on installation failures.
+  - **UI Stability Fixes**: Resolved freezing and deformation issues during package operations.
+- **Software Updates**:
+  - **RapidRAW**: Replaced RawTherapee with RapidRAW (modern RAW photo editor via .deb).
+  - **Google Antigravity**: Replaced Geany with Google Antigravity IDE (custom repository installation).
+  - **Midori**: Replaced Epiphany with Midori lightweight browser (.deb installation).
+- **UI Improvements**:
+  - **Category Icons**: Updated Development category icon to VS Code, Gaming category icon to Steam.
+  - **Installation Methods**: Full support for APT, Flatpak, .deb URLs, and custom installation scripts.
 - **Fixed Welcome URLs**: Updated all links to point to soplos.org.
 - **Fixed Repo Selector**: Button now launches the application instead of attempting installation.
 

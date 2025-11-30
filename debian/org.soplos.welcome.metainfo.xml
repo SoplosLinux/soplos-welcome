@@ -142,7 +142,7 @@
   <developer_name>Sergi Perich</developer_name>
 
   <releases>
-    <release version="2.0.0" date="2025-11-24">
+    <release version="2.0.0" date="2025-11-30">
       <description>
         <p>Major rewrite with modern architecture and enhanced capabilities:</p>
         <ul>
@@ -160,6 +160,11 @@
           <li>Kernel management (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) with NVIDIA safety checks</li>
           <li>CPU Microcode updates (Intel and AMD automatic detection)</li>
           <li>System maintenance tools (Clean old kernels, Update GRUB)</li>
+          <li>Recommended Tab: Custom script support for complex installations</li>
+          <li>Recommended Tab: Global progress bar integration</li>
+          <li>Recommended Tab: Enhanced error handling and UI stability fixes</li>
+          <li>Software updates: RapidRAW, Google Antigravity, Midori</li>
+          <li>UI improvements: Category icons (VS Code, Steam)</li>
           <li>Fixed Repo Selector button behavior</li>
           <li>Updated Welcome tab URLs</li>
         </ul>
@@ -181,6 +186,11 @@
           <li>Gestión de núcleos (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) con verificaciones de seguridad NVIDIA</li>
           <li>Actualizaciones de microcódigo de CPU (detección automática Intel y AMD)</li>
           <li>Herramientas de mantenimiento del sistema (Limpiar núcleos antiguos, Actualizar GRUB)</li>
+          <li>Pestaña Recomendado: Soporte de scripts personalizados para instalaciones complejas</li>
+          <li>Pestaña Recomendado: Integración de barra de progreso global</li>
+          <li>Pestaña Recomendado: Manejo de errores mejorado y correcciones de estabilidad UI</li>
+          <li>Actualizaciones de software: RapidRAW, Google Antigravity, Midori</li>
+          <li>Mejoras de UI: Iconos de categoría (VS Code, Steam)</li>
           <li>Comportamiento corregido del botón Selector de Repositorios</li>
           <li>URLs de la pestaña de Bienvenida actualizadas</li>
         </ul>

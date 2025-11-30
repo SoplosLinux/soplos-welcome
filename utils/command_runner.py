@@ -222,9 +222,18 @@ class CommandRunner:
                 
                 if self.progress_bar and not self.parent_window:
                     GLib.idle_add(self.progress_bar.set_fraction, 0.0)
+                
+                # Hide progress after error
+                time.sleep(2)
+                if self.parent_window and hasattr(self.parent_window, 'hide_progress'):
+                    GLib.idle_add(self.parent_window.hide_progress)
                     
                 self.current_process = None
                 self.command_running = False
+                
+                # Run callback even on error so UI can reset
+                if on_complete:
+                    GLib.idle_add(on_complete)
         
         threading.Thread(target=execute_command, daemon=True).start()
 

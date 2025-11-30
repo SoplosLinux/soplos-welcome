@@ -47,6 +47,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - Clear variant descriptions with CPU compatibility information
 - NVIDIA compatibility warnings and safety checks
 
+### ✨ Recommended Tab Complete Overhaul
+- **Custom Script Support**: Complex installation workflows with repository setup, GPG keys, and multi-step installations
+- **Global Progress Bar Integration**: Unified progress reporting across all installation methods
+- **Enhanced Error Handling**: Robust error recovery with proper UI state management
+- **Installation Methods**: Full support for APT, Flatpak, .deb URLs, and custom installation scripts
+- **UI Stability Fixes**: 
+  - Resolved UI freezing during package operations
+  - Fixed deformation issues during installation
+  - Improved cache invalidation and status updates
+- **Software Ecosystem Updates**:
+  - **RapidRAW**: Replaced RawTherapee with modern RAW photo editor (via .deb from GitHub releases)
+  - **Google Antigravity**: Replaced Geany with advanced IDE (custom repository + GPG key installation)
+  - **Midori**: Replaced Epiphany with lightweight browser (.deb installation)
+- **UI Enhancements**:
+  - Updated Development category icon to VS Code
+  - Updated Gaming category icon to Steam
+  - Improved category icon loading with configurable support
+
 ### 🛠️ Fixed
 - Fixed DriversTab initialization
 - Fixed Repo Selector button to launch application

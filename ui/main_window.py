@@ -259,7 +259,13 @@ class MainWindow(Gtk.ApplicationWindow):
                     )
                 elif tab_class == "RecommendedTab":
                     from .tabs.recommended_tab import RecommendedTab
-                    tab_content = RecommendedTab(self.i18n_manager, self.theme_manager)
+                    tab_content = RecommendedTab(
+                        self.i18n_manager, 
+                        self.theme_manager,
+                        self,  # parent_window
+                        self.progress_bar,
+                        self.progress_label
+                    )
                 elif tab_class == "DriversTab":
                     from .tabs.drivers_tab import DriversTab
                     tab_content = DriversTab(
