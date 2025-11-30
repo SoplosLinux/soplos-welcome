@@ -1,0 +1,5 @@
+debian/org.soplos.welcome.desktop /usr/share/applications/
+assets/icons/org.soplos.welcome.png /usr/share/icons/hicolor/scalable/apps/
+assets/icons/48x48/org.soplos.welcome.png /usr/share/icons/hicolor/48x48/apps/
+assets/icons/64x64/org.soplos.welcome.png /usr/share/icons/hicolor/64x64/apps/
+assets/icons/128x128/org.soplos.welcome.png /usr/share/icons/hicolor/128x128/apps/

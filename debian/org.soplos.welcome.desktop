@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Soplos Welcome
+Comment=Welcome application for Soplos Linux
+Exec=soplos-welcome
+Icon=org.soplos.welcome
+Terminal=false
+Type=Application
+Categories=System;Settings;
+StartupNotify=true
+Keywords=welcome;setup;config;

@@ -317,17 +317,24 @@ class RecommendedTab(Gtk.Box):
         if package['name'] in prefer_flatpak and package.get('flatpak'):
             return 'flatpak'
             
-        # Custom installation commands
-        if package.get('install_commands'):
+        # Check for custom installation handlers
+        if package.get('name') == 'DaVinci Resolve':
+            return 'davinci_resolve'
+
+        # Check for custom installation commands
+        if 'install_commands' in package:
             return 'custom'
             
-        # Default Priority: APT > Flatpak > DEB
-        if package.get('package') and not package.get('deb_url'):
+        # Check for .deb URL installation
+        if package.get('deb_url'):
+            return 'deb'
+            
+        # Default Priority: APT > Flatpak
+        if package.get('package'): # APT package
             return 'apt'
         elif package.get('flatpak'):
             return 'flatpak'
-        elif package.get('deb_url'):
-            return 'deb'
+        
         return 'unknown'
     
     def _is_package_installed(self, package: dict) -> bool:
@@ -376,6 +383,10 @@ class RecommendedTab(Gtk.Box):
         command = ""
         script_name = ""
         
+        if install_method == 'davinci_resolve':
+            self._install_davinci_resolve(package)
+            return
+
         if install_method == 'apt' and package.get('package'):
             command = f"pkexec apt install -y {package['package']}"
             script_name = f"install-{package['package']}.sh"
@@ -511,3 +522,108 @@ rm -f /tmp/{pkg_name}.deb"""
         except Exception:
             pass
         return False
+    def _install_davinci_resolve(self, package_data):
+        """Handle complex DaVinci Resolve installation."""
+        # 1. Check dependencies
+        deps_script = "pkexec apt install -y fakeroot xorriso"
+        
+        # 2. Show dialog explaining manual download
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK_CANCEL,
+            text=_("DaVinci Resolve Installation")
+        )
+        dialog.format_secondary_text(
+            _("DaVinci Resolve requires manual download due to licensing.\n\n"
+              "1. Go to blackmagicdesign.com and download the Linux version (ZIP).\n"
+              "2. Click OK to select the downloaded file.\n"
+              "3. We will convert it to a Debian package and install it.")
+        )
+        response = dialog.run()
+        dialog.destroy()
+        
+        if response != Gtk.ResponseType.OK:
+            return
+
+        # 3. File Chooser
+        file_filter = Gtk.FileFilter()
+        file_filter.set_name("DaVinci Resolve Installer")
+        file_filter.add_pattern("*.zip")
+        file_filter.add_pattern("*.run")
+        
+        chooser = Gtk.FileChooserDialog(
+            title=_("Select DaVinci Resolve Installer"),
+            parent=self.parent_window,
+            action=Gtk.FileChooserAction.OPEN
+        )
+        chooser.add_buttons(
+            _("Cancel"), Gtk.ResponseType.CANCEL,
+            _("Select"), Gtk.ResponseType.OK
+        )
+        chooser.add_filter(file_filter)
+        
+        response = chooser.run()
+        filename = chooser.get_filename()
+        chooser.destroy()
+        
+        if response != Gtk.ResponseType.OK or not filename:
+            return
+
+        # 4. Create installation script
+        # We use a comprehensive script to handle extraction, conversion and installation
+        script_content = f"""
+# Install dependencies
+{deps_script}
+
+# Create temp dir
+WORK_DIR=$(mktemp -d)
+cd "$WORK_DIR"
+
+echo "Working in $WORK_DIR"
+
+# Copy installer
+echo "Copying installer..."
+cp "{filename}" .
+
+# Extract if zip
+if [[ "{filename}" == *.zip ]]; then
+    echo "Extracting ZIP..."
+    unzip -o "$(basename "{filename}")"
+    RUN_FILE=$(ls *.run | head -n 1)
+else
+    RUN_FILE="$(basename "{filename}")"
+fi
+
+# Copy local MakeResolveDeb
+echo "Copying local MakeResolveDeb..."
+cp "/usr/local/bin/soplos-welcome/services/makeresolvedeb_1.8.3_multi.sh" .
+MRD_SCRIPT="makeresolvedeb_1.8.3_multi.sh"
+chmod +x "$MRD_SCRIPT"
+
+# Run conversion
+echo "Converting package (this may take a while)..."
+./"$MRD_SCRIPT" "$RUN_FILE"
+
+# Install generated DEB
+DEB_FILE=$(ls *_amd64.deb | head -n 1)
+if [ -f "$DEB_FILE" ]; then
+    echo "Installing $DEB_FILE..."
+    pkexec apt install -y "./$DEB_FILE"
+else
+    echo "Error: DEB file not generated"
+    exit 1
+fi
+
+# Cleanup
+cd ..
+rm -rf "$WORK_DIR"
+"""
+        # We need to manually add to installing packages because _create_and_run_script expects it
+        package_id = f"multimedia:DaVinci Resolve"
+        self.installing_packages.add(package_id)
+        self._refresh_content()
+        
+        # Run script
+        self._create_and_run_script(script_content, "install-davinci.sh", package_data, is_install=True)

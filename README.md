@@ -109,12 +109,17 @@ Contact: info@soploslinux.com
   - **Improved Error Handling**: Better feedback and UI recovery on installation failures.
   - **UI Stability Fixes**: Resolved freezing and deformation issues during package operations.
 - **Software Updates**:
+  - **DaVinci Resolve**: Added professional video editor with custom installation workflow (script by Daniel Tufvesson).
   - **RapidRAW**: Replaced RawTherapee with RapidRAW (modern RAW photo editor via .deb).
   - **Google Antigravity**: Replaced Geany with Google Antigravity IDE (custom repository installation).
   - **Midori**: Replaced Epiphany with Midori lightweight browser (.deb installation).
+  - **Snap Removal**: Removed Snap support from Recommended software to prioritize native and Flatpak packages.
 - **UI Improvements**:
   - **Category Icons**: Updated Development category icon to VS Code, Gaming category icon to Steam.
   - **Installation Methods**: Full support for APT, Flatpak, .deb URLs, and custom installation scripts.
+- **System Integration**:
+  - **Icon Fixes**: Corrected application icon visibility by renaming assets to match App ID (`org.soplos.welcome`).
+  - **Desktop Entry**: Added proper `.desktop` file for system integration.
 - **Fixed Welcome URLs**: Updated all links to point to soplos.org.
 - **Fixed Repo Selector**: Button now launches the application instead of attempting installation.
 

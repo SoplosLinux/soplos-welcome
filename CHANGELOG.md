@@ -57,13 +57,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
   - Fixed deformation issues during installation
   - Improved cache invalidation and status updates
 - **Software Ecosystem Updates**:
+  - **DaVinci Resolve**: Added professional video editor with custom installation workflow (script by Daniel Tufvesson)
   - **RapidRAW**: Replaced RawTherapee with modern RAW photo editor (via .deb from GitHub releases)
   - **Google Antigravity**: Replaced Geany with advanced IDE (custom repository + GPG key installation)
   - **Midori**: Replaced Epiphany with lightweight browser (.deb installation)
+  - **Snap Removal**: Removed Snap support from Recommended software to prioritize native and Flatpak packages
 - **UI Enhancements**:
-  - Updated Development category icon to VS Code
-  - Updated Gaming category icon to Steam
+  - **Category Icons**: Updated Development category icon to VS Code, Gaming category icon to Steam
   - Improved category icon loading with configurable support
+- **System Integration**:
+  - **Icon Fixes**: Corrected application icon visibility by renaming assets to match App ID (`org.soplos.welcome`)
+  - **Desktop Entry**: Added proper `.desktop` file for system integration
 
 ### 🛠️ Fixed
 - Fixed DriversTab initialization

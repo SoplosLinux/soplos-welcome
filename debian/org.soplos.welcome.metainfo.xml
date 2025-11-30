@@ -163,8 +163,10 @@
           <li>Recommended Tab: Custom script support for complex installations</li>
           <li>Recommended Tab: Global progress bar integration</li>
           <li>Recommended Tab: Enhanced error handling and UI stability fixes</li>
-          <li>Software updates: RapidRAW, Google Antigravity, Midori</li>
+          <li>Software updates: DaVinci Resolve (custom workflow), RapidRAW, Google Antigravity, Midori</li>
+          <li>Snap Removal: Removed Snap support from Recommended software</li>
           <li>UI improvements: Category icons (VS Code, Steam)</li>
+          <li>System Integration: Fixed application icon visibility and desktop entry</li>
           <li>Fixed Repo Selector button behavior</li>
           <li>Updated Welcome tab URLs</li>
         </ul>
@@ -189,8 +191,10 @@
           <li>Pestaña Recomendado: Soporte de scripts personalizados para instalaciones complejas</li>
           <li>Pestaña Recomendado: Integración de barra de progreso global</li>
           <li>Pestaña Recomendado: Manejo de errores mejorado y correcciones de estabilidad UI</li>
-          <li>Actualizaciones de software: RapidRAW, Google Antigravity, Midori</li>
+          <li>Actualizaciones de software: DaVinci Resolve (flujo personalizado), RapidRAW, Google Antigravity, Midori</li>
+          <li>Eliminación de Snap: Eliminado soporte Snap de software recomendado</li>
           <li>Mejoras de UI: Iconos de categoría (VS Code, Steam)</li>
+          <li>Integración del sistema: Corregida visibilidad del icono de la aplicación y entrada de escritorio</li>
           <li>Comportamiento corregido del botón Selector de Repositorios</li>
           <li>URLs de la pestaña de Bienvenida actualizadas</li>
         </ul>
@@ -212,6 +216,13 @@
           <li>Gestion des noyaux (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) avec vérifications de sécurité NVIDIA</li>
           <li>Mises à jour du microcode CPU (détection automatique Intel et AMD)</li>
           <li>Outils de maintenance système (Nettoyer anciens noyaux, Mettre à jour GRUB)</li>
+          <li>Onglet Recommandé : Support de scripts personnalisés pour installations complexes</li>
+          <li>Onglet Recommandé : Intégration de la barre de progression globale</li>
+          <li>Onglet Recommandé : Gestion des erreurs améliorée et corrections de stabilité UI</li>
+          <li>Mises à jour logicielles : DaVinci Resolve (flux personnalisé), RapidRAW, Google Antigravity, Midori</li>
+          <li>Suppression de Snap : Support Snap supprimé des logiciels recommandés</li>
+          <li>Améliorations UI : Icônes de catégorie (VS Code, Steam)</li>
+          <li>Intégration système : Correction de la visibilité de l'icône de l'application et entrée de bureau</li>
           <li>Correction du comportement du bouton Sélecteur de Dépôts</li>
           <li>Mise à jour des URL de l'onglet Bienvenue</li>
         </ul>
@@ -233,6 +244,13 @@
           <li>Gestão de kernels (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) com verificações de segurança NVIDIA</li>
           <li>Atualizações de microcode de CPU (detecção automática Intel e AMD)</li>
           <li>Ferramentas de manutenção do sistema (Limpar kernels antigos, Atualizar GRUB)</li>
+          <li>Aba Recomendado: Suporte a scripts personalizados para instalações complexas</li>
+          <li>Aba Recomendado: Integração de barra de progresso global</li>
+          <li>Aba Recomendado: Tratamento de erros aprimorado e correções de estabilidade da UI</li>
+          <li>Atualizações de software: DaVinci Resolve (fluxo personalizado), RapidRAW, Google Antigravity, Midori</li>
+          <li>Remoção do Snap: Suporte ao Snap removido do software recomendado</li>
+          <li>Melhorias na UI: Ícones de categoria (VS Code, Steam)</li>
+          <li>Integração do sistema: Correção da visibilidade do ícone do aplicativo e entrada na área de trabalho</li>
           <li>Comportamento corrigido do botão Seletor de Repositórios</li>
           <li>URLs da guia Boas-vindas atualizadas</li>
         </ul>
@@ -254,6 +272,13 @@
           <li>Kernel-Verwaltung (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) mit NVIDIA-Sicherheitsprüfungen</li>
           <li>CPU-Mikrocode-Updates (automatische Erkennung von Intel und AMD)</li>
           <li>Systemwartungstools (Alte Kernel bereinigen, GRUB aktualisieren)</li>
+          <li>Empfohlen-Tab: Unterstützung für benutzerdefinierte Skripte für komplexe Installationen</li>
+          <li>Empfohlen-Tab: Globale Fortschrittsbalken-Integration</li>
+          <li>Empfohlen-Tab: Verbesserte Fehlerbehandlung und UI-Stabilitätskorrekturen</li>
+          <li>Software-Updates: DaVinci Resolve (benutzerdefinierter Workflow), RapidRAW, Google Antigravity, Midori</li>
+          <li>Snap-Entfernung: Snap-Unterstützung aus empfohlener Software entfernt</li>
+          <li>UI-Verbesserungen: Kategorie-Icons (VS Code, Steam)</li>
+          <li>Systemintegration: Korrigierte Sichtbarkeit des Anwendungssymbols und Desktop-Eintrag</li>
           <li>Korrigiertes Verhalten der Repo-Auswahltaste</li>
           <li>Aktualisierte URLs im Willkommens-Tab</li>
         </ul>
@@ -275,6 +300,13 @@
           <li>Gestione kernel (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) con controlli di sicurezza NVIDIA</li>
           <li>Aggiornamenti microcodice CPU (rilevamento automatico Intel e AMD)</li>
           <li>Strumenti di manutenzione del sistema (Pulizia vecchi kernel, Aggiornamento GRUB)</li>
+          <li>Scheda Consigliati: Supporto script personalizzati per installazioni complesse</li>
+          <li>Scheda Consigliati: Integrazione barra di avanzamento globale</li>
+          <li>Scheda Consigliati: Gestione errori migliorata e correzioni stabilità UI</li>
+          <li>Aggiornamenti software: DaVinci Resolve (flusso personalizzato), RapidRAW, Google Antigravity, Midori</li>
+          <li>Rimozione Snap: Supporto Snap rimosso dal software consigliato</li>
+          <li>Miglioramenti UI: Icone di categoria (VS Code, Steam)</li>
+          <li>Integrazione sistema: Corretta visibilità icona applicazione e voce desktop</li>
           <li>Corretto comportamento del pulsante Selettore Repo</li>
           <li>URL della scheda Benvenuto aggiornati</li>
         </ul>
@@ -296,6 +328,13 @@
           <li>Управление ядрами (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) с проверками безопасности NVIDIA</li>
           <li>Обновления микрокода CPU (автоопределение Intel и AMD)</li>
           <li>Инструменты обслуживания системы (Очистка старых ядер, Обновление GRUB)</li>
+          <li>Вкладка Рекомендуемое: Поддержка пользовательских скриптов для сложных установок</li>
+          <li>Вкладка Рекомендуемое: Интеграция глобального прогресс-бара</li>
+          <li>Вкладка Рекомендуемое: Улучшенная обработка ошибок и исправления стабильности UI</li>
+          <li>Обновления ПО: DaVinci Resolve (пользовательский процесс), RapidRAW, Google Antigravity, Midori</li>
+          <li>Удаление Snap: Поддержка Snap удалена из рекомендуемого ПО</li>
+          <li>Улучшения UI: Иконки категорий (VS Code, Steam)</li>
+          <li>Системная интеграция: Исправлена видимость иконки приложения и запись рабочего стола</li>
           <li>Исправлено поведение кнопки выбора репозитория</li>
           <li>Обновлены URL вкладки приветствия</li>
         </ul>
@@ -317,6 +356,13 @@
           <li>Gestionare kerneluri (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) cu verificări de securitate NVIDIA</li>
           <li>Actualizări microcode CPU (detectare automată Intel și AMD)</li>
           <li>Instrumente de întreținere sistem (Curățare kerneluri vechi, Actualizare GRUB)</li>
+          <li>Tab Recomandat: Suport scripturi personalizate pentru instalări complexe</li>
+          <li>Tab Recomandat: Integrare bară de progres globală</li>
+          <li>Tab Recomandat: Gestionare erori îmbunătățită și corecții stabilitate UI</li>
+          <li>Actualizări software: DaVinci Resolve (flux personalizat), RapidRAW, Google Antigravity, Midori</li>
+          <li>Eliminare Snap: Suport Snap eliminat din software-ul recomandat</li>
+          <li>Îmbunătățiri UI: Pictograme categorie (VS Code, Steam)</li>
+          <li>Integrare sistem: Corectată vizibilitatea pictogramei aplicației și intrarea desktop</li>
           <li>Comportament corectat al butonului Selector Repo</li>
           <li>Actualizare URL-uri tab Bun venit</li>
         </ul>
