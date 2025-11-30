@@ -1,0 +1,11 @@
+# Soplos I/O Schedulers Gaming Optimization
+# Archivo: /etc/udev/rules.d/60-soplos-ioschedulers.rules
+
+# HDDs -> BFQ (optimizado para latencia)
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+
+# SSDs SATA -> mq-deadline
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+
+# NVMe -> none (sin scheduler, mejor rendimiento)
+ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
