@@ -30,22 +30,22 @@ Soplos Welcome is a welcome application that guides new users through the initia
 ## 📸 Screenshots
 
 ### Welcome Tab
-![Welcome Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot1.png)
+![Welcome Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot1.png)
 
 ### Software Tab - Install Software Centers
-![Software Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot2.png)
+![Software Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot2.png)
 
 ### Drivers Tab - Hardware Detection and Driver Management
-![Drivers Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot3.png)
+![Drivers Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot3.png)
 
 ### Kernels Tab - Liquorix, XanMod Variants, and CPU Microcode
-![Kernels Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot4.png)
+![Kernels Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot4.png)
 
 ### Recommends - Install Recommended Software Easily
-![Recommends Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot5.png)
+![Recommends Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot5.png)
 
 ### Customization Tab - Personalize Your System
-![Customization Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot6.png)
+![Customization Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot6.png)
 
 ## 🔧 Installation
 
