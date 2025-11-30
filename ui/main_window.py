@@ -298,9 +298,9 @@ class MainWindow(Gtk.ApplicationWindow):
                 tab_icon = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.MENU)
                 tab_label_box.pack_start(tab_icon, False, False, 0)
                 
-                # Tab label
-                tab_label = Gtk.Label(label=tab_name)
-                tab_label_box.pack_start(tab_label, False, False, 0)
+                # Tab text
+                tab_text = Gtk.Label(label=tab_name)
+                tab_label_box.pack_start(tab_text, False, False, 0)
                 tab_label_box.show_all()
                 
                 # Add tab to notebook
@@ -311,6 +311,29 @@ class MainWindow(Gtk.ApplicationWindow):
                 
             except Exception as e:
                 print(f"Error creating tab {tab_name}: {e}")
+        
+        # Initialize hidden Gaming Tab (Easter Egg)
+        try:
+            from .tabs.gaming_tab import GamingTab
+            self.gaming_tab = GamingTab(
+                self.i18n_manager,
+                self.theme_manager,
+                self,
+                self.progress_bar,
+                self.progress_label
+            )
+            self.gaming_tab_label = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
+            icon = Gtk.Image.new_from_icon_name("input-gaming", Gtk.IconSize.MENU)
+            label = Gtk.Label(label="Gaming")
+            self.gaming_tab_label.pack_start(icon, False, False, 0)
+            self.gaming_tab_label.pack_start(label, False, False, 0)
+            self.gaming_tab_label.show_all()
+            self.gaming_tab_added = False
+        except Exception as e:
+            print(f"Error creating GamingTab: {e}")
+            self.gaming_tab = None
+            self.gaming_tab_label = None
+            self.gaming_tab_added = False
         
         print("✅ All tabs created successfully")
     
@@ -640,20 +663,62 @@ class MainWindow(Gtk.ApplicationWindow):
     
     def _on_key_press(self, widget, event):
         """Handle key press events."""
-        # Ctrl+Q to quit
-        if event.state & Gdk.ModifierType.CONTROL_MASK:
-            if event.keyval == Gdk.KEY_q:
-                self.application.quit()
+        keyval = event.keyval
+        state = event.state
+        
+        # Check for Ctrl+Q to quit
+        if state & Gdk.ModifierType.CONTROL_MASK:
+            if keyval == Gdk.KEY_q:
+                self.close()
                 return True
+            
             # Ctrl+Tab to switch tabs
-            elif event.keyval == Gdk.KEY_Tab:
+            elif keyval == Gdk.KEY_Tab:
                 current_page = self.notebook.get_current_page()
                 total_pages = self.notebook.get_n_pages()
                 next_page = (current_page + 1) % total_pages
                 self.notebook.set_current_page(next_page)
                 return True
-        
+                
+            # Easter Egg: Ctrl+G for Gaming Tab
+            elif keyval == Gdk.KEY_g:
+                self._toggle_gaming_tab()
+                return True
+            
         return False
+
+    def _toggle_gaming_tab(self):
+        """Toggle the visibility of the hidden Gaming Tab."""
+        if not hasattr(self, 'gaming_tab') or self.gaming_tab is None:
+            return
+            
+        if self.gaming_tab_added:
+            # Remove tab
+            page_num = self.notebook.page_num(self.gaming_tab)
+            if page_num != -1:
+                self.notebook.remove_page(page_num)
+                self.gaming_tab_added = False
+                print("Gaming Mode Deactivated")
+        else:
+            # Add tab
+            self.gaming_tab.show_all()  # Ensure content is visible
+            self.notebook.append_page(self.gaming_tab, self.gaming_tab_label)
+            self.gaming_tab_added = True
+            
+            # Switch to it
+            page_num = self.notebook.page_num(self.gaming_tab)
+            self.notebook.set_current_page(page_num)
+            
+            # Show notification/effect
+            print("Gaming Mode Activated!")
+            # Use progress bar to show notification
+            if hasattr(self, 'progress_revealer'):
+                self.progress_revealer.set_reveal_child(True)
+                self.progress_label.set_text(_("🎮 Gaming Mode Activated!"))
+                self.progress_bar.set_fraction(1.0)
+                
+                # Hide after 2 seconds
+                GLib.timeout_add(2000, lambda: self.progress_revealer.set_reveal_child(False))
     
     def _on_language_changed(self, menu_item, lang_code):
         """Handle language change."""
