@@ -152,6 +152,139 @@
           <li>Professional GNU Gettext internationalization</li>
           <li>Intelligent software and hardware management</li>
           <li>Complete X11 and Wayland compatibility</li>
+          <li>Automatic hardware scanning (CPU, GPU, RAM, storage, network, VM)</li>
+          <li>NVIDIA driver management (Latest + Legacy 470/390/340 via .run files)</li>
+          <li>AMD, Wi-Fi, and VM Tools support</li>
+          <li>One-click installation from hardware scan results</li>
+          <li>Smart driver recommendations</li>
+          <li>Fixed Repo Selector button behavior</li>
+          <li>Updated Welcome tab URLs</li>
+        </ul>
+      </description>
+      <description xml:lang="es">
+        <p>Reescritura mayor con arquitectura moderna y capacidades mejoradas:</p>
+        <ul>
+          <li>Reescritura completa con arquitectura modular y profesional</li>
+          <li>Soporte universal de entornos de escritorio (GNOME, KDE, XFCE)</li>
+          <li>Sistema de temas avanzado basado en CSS</li>
+          <li>Internacionalización profesional GNU Gettext</li>
+          <li>Gestión inteligente de software y hardware</li>
+          <li>Compatibilidad completa con X11 y Wayland</li>
+          <li>Escaneo automático de hardware (CPU, GPU, RAM, almacenamiento, red, VM)</li>
+          <li>Gestión de controladores NVIDIA (Último + Legacy 470/390/340 vía archivos .run)</li>
+          <li>Soporte para AMD, Wi-Fi y herramientas VM</li>
+          <li>Instalación con un clic desde resultados de escaneo de hardware</li>
+          <li>Recomendaciones inteligentes de controladores</li>
+          <li>Comportamiento corregido del botón Selector de Repositorios</li>
+          <li>URLs de la pestaña de Bienvenida actualizadas</li>
+        </ul>
+      </description>
+      <description xml:lang="fr">
+        <p>Réécriture majeure avec une architecture moderne et des capacités améliorées :</p>
+        <ul>
+          <li>Réécriture complète avec une architecture modulaire et professionnelle</li>
+          <li>Support universel des environnements de bureau (GNOME, KDE, XFCE)</li>
+          <li>Système de thèmes avancé basé sur CSS</li>
+          <li>Internationalisation professionnelle GNU Gettext</li>
+          <li>Gestion intelligente des logiciels et du matériel</li>
+          <li>Compatibilité complète X11 et Wayland</li>
+          <li>Analyse matérielle automatique (CPU, GPU, RAM, stockage, réseau, VM)</li>
+          <li>Gestion des pilotes NVIDIA (Dernier + Legacy 470/390/340 via fichiers .run)</li>
+          <li>Support AMD, Wi-Fi et outils VM</li>
+          <li>Installation en un clic depuis les résultats d'analyse matérielle</li>
+          <li>Recommandations intelligentes de pilotes</li>
+          <li>Correction du comportement du bouton Sélecteur de Dépôts</li>
+          <li>Mise à jour des URL de l'onglet Bienvenue</li>
+        </ul>
+      </description>
+      <description xml:lang="pt">
+        <p>Reescrita principal com arquitetura moderna e capacidades aprimoradas:</p>
+        <ul>
+          <li>Reescrita completa com arquitetura modular e profissional</li>
+          <li>Suporte universal a ambientes de desktop (GNOME, KDE, XFCE)</li>
+          <li>Sistema de temas avançado baseado em CSS</li>
+          <li>Internacionalização profissional GNU Gettext</li>
+          <li>Gestão inteligente de software e hardware</li>
+          <li>Compatibilidade completa com X11 e Wayland</li>
+          <li>Verificação automática de hardware (CPU, GPU, RAM, armazenamento, rede, VM)</li>
+          <li>Gestão de drivers NVIDIA (Recente + Legacy 470/390/340 via arquivos .run)</li>
+          <li>Suporte a AMD, Wi-Fi e ferramentas VM</li>
+          <li>Instalação com um clique a partir dos resultados da verificação de hardware</li>
+          <li>Recomendações inteligentes de drivers</li>
+          <li>Comportamento corrigido do botão Seletor de Repositórios</li>
+          <li>URLs da guia Boas-vindas atualizadas</li>
+        </ul>
+      </description>
+      <description xml:lang="de">
+        <p>Große Neufassung mit moderner Architektur und erweiterten Funktionen:</p>
+        <ul>
+          <li>Komplette Neufassung mit modularer, professioneller Architektur</li>
+          <li>Universelle Desktop-Umgebungsunterstützung (GNOME, KDE, XFCE)</li>
+          <li>Erweitertes CSS-basiertes Themensystem</li>
+          <li>Professionelle GNU Gettext Internationalisierung</li>
+          <li>Intelligentes Software- und Hardware-Management</li>
+          <li>Vollständige X11- und Wayland-Kompatibilität</li>
+          <li>Automatischer Hardware-Scan (CPU, GPU, RAM, Speicher, Netzwerk, VM)</li>
+          <li>NVIDIA-Treiberverwaltung (Aktuell + Legacy 470/390/340 über .run-Dateien)</li>
+          <li>Unterstützung für AMD, Wi-Fi und VM-Tools</li>
+          <li>Ein-Klick-Installation aus Hardware-Scan-Ergebnissen</li>
+          <li>Intelligente Treiberempfehlungen</li>
+          <li>Korrigiertes Verhalten der Repo-Auswahltaste</li>
+          <li>Aktualisierte URLs im Willkommens-Tab</li>
+        </ul>
+      </description>
+      <description xml:lang="it">
+        <p>Riscrittura completa con architettura moderna e funzionalità migliorate:</p>
+        <ul>
+          <li>Riscrittura completa con architettura modulare e professionale</li>
+          <li>Supporto universale per ambienti desktop (GNOME, KDE, XFCE)</li>
+          <li>Sistema di temi avanzato basato su CSS</li>
+          <li>Internazionalizzazione professionale GNU Gettext</li>
+          <li>Gestione intelligente di software e hardware</li>
+          <li>Compatibilità completa X11 e Wayland</li>
+          <li>Scansione hardware automatica (CPU, GPU, RAM, archiviazione, rete, VM)</li>
+          <li>Gestione driver NVIDIA (Ultimi + Legacy 470/390/340 via file .run)</li>
+          <li>Supporto AMD, Wi-Fi e strumenti VM</li>
+          <li>Installazione con un clic dai risultati della scansione hardware</li>
+          <li>Raccomandazioni intelligenti dei driver</li>
+          <li>Corretto comportamento del pulsante Selettore Repo</li>
+          <li>URL della scheda Benvenuto aggiornati</li>
+        </ul>
+      </description>
+      <description xml:lang="ru">
+        <p>Крупная переработка с современной архитектурой и улучшенными возможностями:</p>
+        <ul>
+          <li>Полная переработка с модульной, профессиональной архитектурой</li>
+          <li>Универсальная поддержка окружений рабочего стола (GNOME, KDE, XFCE)</li>
+          <li>Продвинутая система тем на основе CSS</li>
+          <li>Профессиональная интернационализация GNU Gettext</li>
+          <li>Умное управление программным и аппаратным обеспечением</li>
+          <li>Полная совместимость с X11 и Wayland</li>
+          <li>Автоматическое сканирование оборудования (CPU, GPU, RAM, накопители, сеть, VM)</li>
+          <li>Управление драйверами NVIDIA (Последние + Legacy 470/390/340 через .run файлы)</li>
+          <li>Поддержка AMD, Wi-Fi и инструментов VM</li>
+          <li>Установка в один клик из результатов сканирования</li>
+          <li>Умные рекомендации драйверов</li>
+          <li>Исправлено поведение кнопки выбора репозитория</li>
+          <li>Обновлены URL вкладки приветствия</li>
+        </ul>
+      </description>
+      <description xml:lang="ro">
+        <p>Rescriere majoră cu arhitectură modernă și capacități îmbunătățite:</p>
+        <ul>
+          <li>Rescriere completă cu arhitectură modulară și profesională</li>
+          <li>Suport universal pentru medii desktop (GNOME, KDE, XFCE)</li>
+          <li>Sistem avansat de teme bazat pe CSS</li>
+          <li>Internaționalizare profesională GNU Gettext</li>
+          <li>Gestionare inteligentă software și hardware</li>
+          <li>Compatibilitate completă X11 și Wayland</li>
+          <li>Scanare automată hardware (CPU, GPU, RAM, stocare, rețea, VM)</li>
+          <li>Gestionare drivere NVIDIA (Ultimele + Legacy 470/390/340 via fișiere .run)</li>
+          <li>Suport AMD, Wi-Fi și instrumente VM</li>
+          <li>Instalare cu un clic din rezultatele scanării hardware</li>
+          <li>Recomandări inteligente de drivere</li>
+          <li>Comportament corectat al butonului Selector Repo</li>
+          <li>Actualizare URL-uri tab Bun venit</li>
         </ul>
       </description>
     </release>

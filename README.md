@@ -14,6 +14,8 @@ Soplos Welcome is a welcome application that guides new users through the initia
 ## ✨ Features
 
 - Initial system setup
+- **Hardware Detection**: Automatic CPU, GPU, RAM, storage, network, and VM detection
+- **Driver Management**: NVIDIA (Latest + Legacy), AMD, Wi-Fi, VM Tools
 - Installation of recommended software
 - Desktop customization
 - Access to help and support resources
@@ -94,6 +96,9 @@ Contact: info@soploslinux.com
 - **Universal Support**: Unified codebase for GNOME, KDE, and XFCE.
 - **Improved UI**: Modernized interface with better theming support.
 - **Enhanced Software Center**: Better integration with native package managers.
+- **Driver Management**: Hardware detection and automatic driver recommendations.
+- **Fixed Welcome URLs**: Updated all links to point to soplos.org.
+- **Fixed Repo Selector**: Button now launches the application instead of attempting installation.
 
 ### v1.1.4 (08/09/2025)
 - Updated Blender icon and fixed link buttons in the welcome tab.

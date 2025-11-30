@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 
-## [2.0.0] - 2025-11-24
+## [2.0.0] - 2025-11-30
 
 ### 🏗️ Architecture Rewrite
 - Complete rewrite with modern, modular architecture.
@@ -26,6 +26,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 ### 🎨 Advanced Theming System
 - CSS-based theming engine.
 - Automatic dark/light theme detection.
+
+
+### 🖥️ Complete Drivers Tab Implementation
+- Hardware detection (CPU, GPU, RAM, storage, network, VM)
+- NVIDIA drivers (Latest + Legacy 470/390/340 via .run files)
+- DaVinci Resolve extras (OpenCL/CUDA libraries)
+- Blender CUDA toolkit
+- Full Dracut configuration (blacklist nouveau, NVIDIA modules, initramfs regeneration)
+- AMD drivers (firmware-amd-graphics + Mesa + Vulkan)
+- Wi-Fi drivers (Intel/Realtek/Broadcom)
+- VM Tools (VMware/QEMU/VirtualBox)
+- One-click installation from hardware scan results
+
+### 🛠️ Fixed
+- Fixed DriversTab initialization
+- Fixed Repo Selector button to launch application
+- Updated Welcome tab URLs to soplos.org
 
 ## [1.1.4] - 2025-09-08
 
