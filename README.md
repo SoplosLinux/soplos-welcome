@@ -29,23 +29,23 @@ Soplos Welcome is a welcome application that guides new users through the initia
 
 ## 📸 Screenshots
 
-### Main Welcome Screen
-![Main Welcome Screen](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot1.png)
+### Welcome Tab
+![Welcome Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot1.png)
 
-### Initial Setup
-![Initial Setup](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot2.png)
+### Software Tab - Install Software Centers
+![Software Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot2.png)
 
-### Software Installation
-![Software Installation](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot3.png)
+### Drivers Tab - Hardware Detection and Driver Management
+![Drivers Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot3.png)
 
-### System Configuration
-![System Configuration](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot4.png)
+### Kernels Tab - Liquorix, XanMod Variants, and CPU Microcode
+![Kernels Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot4.png)
 
-### Desktop Customization
-![Desktop Customization](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot5.png)
+### Recommends - Install Recommended Software Easily
+![Recommends Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot5.png)
 
-### About Soplos Linux
-![About Soplos Linux](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot6.png)
+### Customization Tab - Personalize Your System
+![Customization Tab](https://raw.githubusercontent.com/SoplosLinux/tyron/main/media/soplos-welcome/screenshots/screenshot6.png)
 
 ## 🔧 Installation
 
