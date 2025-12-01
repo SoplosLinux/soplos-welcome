@@ -51,6 +51,49 @@ messagedialog>box {
     color: @soplos_dark_text;
 }
 
+/* FileChooserDialog Styling - Fix for inconsistent background in KDE Plasma */
+filechooserdialog,
+filechooser {
+    background-color: @soplos_light_bg;
+    color: @soplos_dark_text;
+}
+
+filechooser .background {
+    background-color: @soplos_light_bg;
+}
+
+filechooser placessidebar {
+    background-color: #e8e8e8;
+    color: @soplos_dark_text;
+}
+
+filechooser placessidebar row {
+    background-color: #e8e8e8;
+    color: @soplos_dark_text;
+}
+
+filechooser placessidebar row:selected {
+    background-color: @soplos_orange;
+    color: @soplos_light_text;
+}
+
+filechooser pathbar {
+    background-color: #e8e8e8;
+    color: @soplos_dark_text;
+}
+
+filechooser treeview,
+filechooser treeview.view {
+    background-color: @soplos_light_bg;
+    color: @soplos_dark_text;
+}
+
+filechooser entry {
+    background-color: #ffffff;
+    color: @soplos_dark_text;
+    border-color: @soplos_border;
+}
+
 /* HeaderBar Styling - Fix for "horrible" buttons */
 headerbar {
     background-color: #e8e8e8;
