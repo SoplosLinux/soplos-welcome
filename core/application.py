@@ -154,7 +154,7 @@ class SoplosWelcomeApplication(Gtk.Application):
     def _setup_application_properties(self):
         """Setup application-wide properties."""
         # Set application name and icon
-        GLib.set_prgname('soplos-welcome')
+        GLib.set_prgname('org.soplos.welcome')
         GLib.set_application_name(_('Soplos Welcome'))
         
         # Set WM_CLASS for better integration

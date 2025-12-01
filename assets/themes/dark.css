@@ -88,28 +88,6 @@ filechooser treeview.view {
     color: @soplos_light_text;
 }
 
-/* More aggressive selectors for KDE Plasma */
-filechooser scrolledwindow,
-filechooser scrolledwindow.view {
-    background-color: @soplos_dark_bg;
-}
-
-filechooser box,
-filechooser paned {
-    background-color: @soplos_dark_bg;
-}
-
-filechooser widget {
-    background-color: @soplos_dark_bg;
-    color: @soplos_light_text;
-}
-
-filechooser list,
-filechooser list row {
-    background-color: @soplos_dark_bg;
-    color: @soplos_light_text;
-}
-
 filechooser entry {
     background-color: @soplos_darker_bg;
     color: @soplos_light_text;
@@ -117,7 +95,10 @@ filechooser entry {
 }
 
 /* HeaderBar Styling - Fix for "horrible" buttons */
-headerbar {
+headerbar,
+headerbar:backdrop,
+.titlebar,
+.titlebar:backdrop {
     background-color: @soplos_darker_bg;
     color: @soplos_light_text;
     border-bottom: 1px solid @soplos_border;
