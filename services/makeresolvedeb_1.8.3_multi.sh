@@ -933,7 +933,9 @@ close_deb
 if [[ -z "$CI_TEST" ]]; then
     create_directory "./tmp"
     echo "Creating Debian package (This can take a while. Do not interrupt)"
-    if ! TMPDIR=./tmp fakeroot dpkg-deb -b "${DEB_DIR}" "${DEB_DIR}".deb;
+    # Use -Zgzip -z1 for fastest gzip compression (level 1)
+    # This is much faster than default (level 9) while still being compatible
+    if ! TMPDIR=./tmp fakeroot dpkg-deb -Zgzip -z1 -b "${DEB_DIR}" "${DEB_DIR}".deb;
     then
 	ERRORS=$((ERRORS+1))
     fi

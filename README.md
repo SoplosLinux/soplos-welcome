@@ -109,7 +109,12 @@ Contact: info@soploslinux.com
   - **Improved Error Handling**: Better feedback and UI recovery on installation failures.
   - **UI Stability Fixes**: Resolved freezing and deformation issues during package operations.
 - **Software Updates**:
-  - **DaVinci Resolve**: Added professional video editor with custom installation workflow (script by Daniel Tufvesson).
+  - **DaVinci Resolve**: Added professional video editor with optimized custom installation workflow:
+    - Sequential installation process (dependencies → extraction → conversion → installation)
+    - Performance optimization: Reduced package build time from ~45 minutes to ~5-10 minutes using faster gzip compression
+    - Fixed .deb installation using `dpkg -i` with automatic dependency resolution
+    - Enhanced error handling and comprehensive debug logging
+    - Script by Daniel Tufvesson with Soplos optimizations
   - **RapidRAW**: Replaced RawTherapee with RapidRAW (modern RAW photo editor via .deb).
   - **Google Antigravity**: Replaced Geany with Google Antigravity IDE (custom repository installation).
   - **Midori**: Replaced Epiphany with Midori lightweight browser (.deb installation).

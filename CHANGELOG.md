@@ -57,7 +57,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
   - Fixed deformation issues during installation
   - Improved cache invalidation and status updates
 - **Software Ecosystem Updates**:
-  - **DaVinci Resolve**: Added professional video editor with custom installation workflow (script by Daniel Tufvesson)
+  - **DaVinci Resolve**: Added professional video editor with optimized custom installation workflow:
+    - Sequential installation process (dependencies → extraction → conversion → installation)
+    - Performance optimization: Reduced package build time from ~45 minutes to ~5-10 minutes using faster gzip compression (level 1)
+    - Fixed .deb installation using `dpkg -i` instead of `apt-get install` for local packages
+    - Added automatic dependency resolution with `apt-get install -f`
+    - Enhanced error handling in CommandRunner to prevent UI crashes during progress updates
+    - Comprehensive file-based debug logging (`~/soplos_davinci_debug.log`)
+    - Script by Daniel Tufvesson with Soplos optimizations
   - **RapidRAW**: Replaced RawTherapee with modern RAW photo editor (via .deb from GitHub releases)
   - **Google Antigravity**: Replaced Geany with advanced IDE (custom repository + GPG key installation)
   - **Midori**: Replaced Epiphany with lightweight browser (.deb installation)

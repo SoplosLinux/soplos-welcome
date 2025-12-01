@@ -522,12 +522,22 @@ rm -f /tmp/{pkg_name}.deb"""
         except Exception:
             pass
         return False
+    def _log_debug(self, message):
+        """Log debug message to file."""
+        try:
+            log_file = os.path.expanduser("~/soplos_davinci_debug.log")
+            with open(log_file, "a") as f:
+                import datetime
+                timestamp = datetime.datetime.now().strftime("%H:%M:%S")
+                f.write(f"[{timestamp}] {message}\n")
+        except:
+            pass
+
     def _install_davinci_resolve(self, package_data):
         """Handle complex DaVinci Resolve installation."""
-        # 1. Check dependencies
-        deps_script = "pkexec apt install -y fakeroot xorriso"
+        self._log_debug("Starting DaVinci Resolve installation flow")
         
-        # 2. Show dialog explaining manual download
+        # 1. Show dialog explaining manual download
         dialog = Gtk.MessageDialog(
             transient_for=self.parent_window,
             flags=0,
@@ -545,9 +555,10 @@ rm -f /tmp/{pkg_name}.deb"""
         dialog.destroy()
         
         if response != Gtk.ResponseType.OK:
+            self._log_debug("User cancelled at info dialog")
             return
 
-        # 3. File Chooser
+        # 2. File Chooser
         file_filter = Gtk.FileFilter()
         file_filter.set_name("DaVinci Resolve Installer")
         file_filter.add_pattern("*.zip")
@@ -569,61 +580,137 @@ rm -f /tmp/{pkg_name}.deb"""
         chooser.destroy()
         
         if response != Gtk.ResponseType.OK or not filename:
+            self._log_debug("User cancelled at file chooser")
             return
 
-        # 4. Create installation script
-        # We use a comprehensive script to handle extraction, conversion and installation
-        script_content = f"""
-# Install dependencies
-{deps_script}
+        self._log_debug(f"Selected file: {filename}")
 
-# Create temp dir
-WORK_DIR=$(mktemp -d)
-cd "$WORK_DIR"
-
-echo "Working in $WORK_DIR"
-
-# Copy installer
-echo "Copying installer..."
-cp "{filename}" .
-
-# Extract if zip
-if [[ "{filename}" == *.zip ]]; then
-    echo "Extracting ZIP..."
-    unzip -o "$(basename "{filename}")"
-    RUN_FILE=$(ls *.run | head -n 1)
-else
-    RUN_FILE="$(basename "{filename}")"
-fi
-
-# Copy local MakeResolveDeb
-echo "Copying local MakeResolveDeb..."
-cp "/usr/local/bin/soplos-welcome/services/makeresolvedeb_1.8.3_multi.sh" .
-MRD_SCRIPT="makeresolvedeb_1.8.3_multi.sh"
-chmod +x "$MRD_SCRIPT"
-
-# Run conversion
-echo "Converting package (this may take a while)..."
-./"$MRD_SCRIPT" "$RUN_FILE"
-
-# Install generated DEB
-DEB_FILE=$(ls *_amd64.deb | head -n 1)
-if [ -f "$DEB_FILE" ]; then
-    echo "Installing $DEB_FILE..."
-    pkexec apt install -y "./$DEB_FILE"
-else
-    echo "Error: DEB file not generated"
-    exit 1
-fi
-
-# Cleanup
-cd ..
-rm -rf "$WORK_DIR"
-"""
-        # We need to manually add to installing packages because _create_and_run_script expects it
-        package_id = f"multimedia:DaVinci Resolve"
+        # Start installation process
+        package_id = "multimedia:DaVinci Resolve"
         self.installing_packages.add(package_id)
         self._refresh_content()
         
-        # Run script
-        self._create_and_run_script(script_content, "install-davinci.sh", package_data, is_install=True)
+        # Step 1: Install dependencies
+        self._davinci_step_1_deps(filename, package_data)
+
+    def _davinci_step_1_deps(self, filename, package_data):
+        """Step 1: Install dependencies (requires root)."""
+        self._log_debug("Step 1: Installing dependencies...")
+        cmd = "pkexec apt-get install -y fakeroot xorriso unzip"
+        self.command_runner.run_command(cmd, lambda: self._davinci_step_2_extract(filename, package_data))
+
+    def _davinci_step_2_extract(self, filename, package_data):
+        """Step 2: Extract installer to local work directory."""
+        self._log_debug("Step 2: Extracting...")
+        
+        installer_dir = os.path.dirname(filename)
+        work_dir = os.path.join(installer_dir, "soplos-davinci-work")
+        self._log_debug(f"Work dir: {work_dir}")
+        
+        # Clean previous work dir
+        if os.path.exists(work_dir):
+            import shutil
+            shutil.rmtree(work_dir, ignore_errors=True)
+        os.makedirs(work_dir, exist_ok=True)
+        
+        if filename.lower().endswith(".zip"):
+            # Unzip to work dir
+            cmd = f"unzip -o '{filename}' -d '{work_dir}'"
+            self._log_debug(f"Running: {cmd}")
+            self.command_runner.run_command(cmd, lambda: self._davinci_step_3_convert(work_dir, package_data))
+        else:
+            # Copy .run file
+            cmd = f"cp '{filename}' '{work_dir}/'"
+            self._log_debug(f"Running: {cmd}")
+            self.command_runner.run_command(cmd, lambda: self._davinci_step_3_convert(work_dir, package_data))
+
+    def _davinci_step_3_convert(self, work_dir, package_data):
+        """Step 3: Run makeresolvedeb (as user)."""
+        self._log_debug("Step 3: Converting...")
+        
+        # Find .run file
+        run_file = None
+        for f in os.listdir(work_dir):
+            if f.endswith(".run"):
+                run_file = f
+                break
+        
+        if not run_file:
+            self._log_debug("ERROR: No .run file found in work dir")
+            self._on_package_operation_complete(package_data, False)
+            return
+
+        self._log_debug(f"Found run file: {run_file}")
+
+        # Copy makeresolvedeb script
+        src_script = "/usr/local/bin/soplos-welcome/services/makeresolvedeb_1.8.3_multi.sh"
+        dst_script = os.path.join(work_dir, "makeresolvedeb.sh")
+        
+        import shutil
+        try:
+            shutil.copy(src_script, dst_script)
+            os.chmod(dst_script, 0o755)
+            os.chmod(os.path.join(work_dir, run_file), 0o755)
+        except Exception as e:
+            self._log_debug(f"ERROR: Failed to prepare scripts: {e}")
+            self._on_package_operation_complete(package_data, False)
+            return
+
+        # Run conversion
+        # IMPORTANT: Run as current user, NOT root. CommandRunner runs as user by default.
+        # We chain commands: cd to dir, then run script
+        cmd = f"cd '{work_dir}' && ./makeresolvedeb.sh '{run_file}'"
+        self._log_debug(f"Running conversion: {cmd}")
+        self.command_runner.run_command(cmd, lambda: self._davinci_step_4_install(work_dir, package_data))
+
+    def _davinci_step_4_install(self, work_dir, package_data):
+        """Step 4: Install generated .deb (requires root)."""
+        self._log_debug("Step 4: Installing .deb...")
+        
+        # Find .deb file
+        deb_file = None
+        for f in os.listdir(work_dir):
+            if f.endswith(".deb"):
+                deb_file = f
+                break
+        
+        if not deb_file:
+            self._log_debug("ERROR: No .deb file generated")
+            self._on_package_operation_complete(package_data, False)
+            return
+
+        full_deb_path = os.path.join(work_dir, deb_file)
+        self._log_debug(f"Installing deb: {full_deb_path}")
+        
+        # Install
+        cmd = f"pkexec apt-get install -y '{full_deb_path}'"
+        self.command_runner.run_command(cmd, lambda: self._davinci_cleanup(work_dir, package_data))
+
+    def _davinci_cleanup(self, work_dir, package_data):
+        """Step 5: Cleanup."""
+        self._log_debug("Step 5: Cleanup...")
+        import shutil
+        shutil.rmtree(work_dir, ignore_errors=True)
+        
+        # Mark as complete
+        # We need to manually trigger the completion logic
+        # Since we added it to installing_packages manually
+        package_id = "multimedia:DaVinci Resolve"
+        if package_id in self.installing_packages:
+            self.installing_packages.remove(package_id)
+        
+        self._refresh_content()
+        
+        self._log_debug("Installation success")
+        
+        # Show success dialog
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK,
+            text=_("Installation Complete")
+        )
+        dialog.format_secondary_text(_("DaVinci Resolve has been installed successfully."))
+        dialog.run()
+        dialog.destroy()

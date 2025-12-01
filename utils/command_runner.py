@@ -176,12 +176,15 @@ class CommandRunner:
                     if progress is not None:
                         if self.parent_window and hasattr(self.parent_window, 'show_progress'):
                             # Only update fraction, keep text if we set it specifically above
-                            GLib.idle_add(self.parent_window.show_progress, None, progress)
+                            # Use last known message to avoid crashing if show_progress doesn't handle None
+                            msg = getattr(self, 'last_message', _("Processing..."))
+                            GLib.idle_add(self.parent_window.show_progress, msg, progress)
                         elif self.progress_bar:
                             GLib.idle_add(self.progress_bar.set_fraction, progress)
                     else:
                         # Just update text if no progress value
                         if self.parent_window and hasattr(self.parent_window, 'show_progress'):
+                            self.last_message = line
                             GLib.idle_add(self.parent_window.show_progress, line, None)
                 
                 process.wait()
