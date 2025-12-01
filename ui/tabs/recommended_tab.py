@@ -642,8 +642,18 @@ rm -f /tmp/{pkg_name}.deb"""
 
         self._log_debug(f"Found run file: {run_file}")
 
-        # Copy makeresolvedeb script
-        src_script = "/usr/local/bin/soplos-welcome/services/makeresolvedeb_1.8.3_multi.sh"
+        # Find makeresolvedeb script using dynamic path resolution
+        # Get the directory where this Python file is located
+        current_file = os.path.abspath(__file__)
+        # Go up to the main application directory (ui/tabs -> ui -> root)
+        app_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file)))
+        src_script = os.path.join(app_root, "services", "makeresolvedeb_1.8.3_multi.sh")
+        
+        if not os.path.exists(src_script):
+            self._log_debug(f"ERROR: makeresolvedeb script not found at {src_script}")
+            self._on_package_operation_complete(package_data, False)
+            return
+        
         dst_script = os.path.join(work_dir, "makeresolvedeb.sh")
         
         import shutil
