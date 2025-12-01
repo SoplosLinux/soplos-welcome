@@ -464,7 +464,7 @@ def get_icon_path(category: str, icon_name: str) -> Path:
     elif icon_name:
         return PROJECT_ROOT / 'assets' / 'icons' / icon_name
     else:
-        return PROJECT_ROOT / 'assets' / 'icons' / 'com.soplos.welcome.png'
+        return PROJECT_ROOT / 'assets' / 'icons' / 'org.soplos.welcome.png'
 
 def get_category_icon_path(category: str) -> Path:
     """Get the path to a category icon."""

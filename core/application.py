@@ -27,7 +27,7 @@ class SoplosWelcomeApplication(Gtk.Application):
     def __init__(self):
         """Initialize the Soplos Welcome application."""
         super().__init__(
-            application_id='com.soplos.welcome',
+            application_id='org.soplos.welcome',
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE
         )
         
@@ -159,10 +159,10 @@ class SoplosWelcomeApplication(Gtk.Application):
         
         # Set WM_CLASS for better integration
         if hasattr(Gdk, 'set_program_class'):
-            Gdk.set_program_class('com.soplos.welcome')
+            Gdk.set_program_class('org.soplos.welcome')
         
         # Set default window icon
-        icon_path = self.assets_path / 'icons' / 'com.soplos.welcome.png'
+        icon_path = self.assets_path / 'icons' / 'org.soplos.welcome.png'
         if icon_path.exists():
             try:
                 Gtk.Window.set_default_icon_from_file(str(icon_path))
@@ -262,7 +262,7 @@ Examples:
   soplos-welcome --theme=dark       # Start with dark theme
   soplos-welcome --debug            # Start in debug mode
 
-For more information, visit: https://soploslinux.org
+For more information, visit: https://soplos.org
 """)
         print(help_text)
     

@@ -25,10 +25,11 @@ from pathlib import Path
 class WelcomeTab(Gtk.Box):
     """Welcome tab with system information and quick actions."""
     
-    def __init__(self, i18n_manager, theme_manager):
+    def __init__(self, i18n_manager, theme_manager, assets_path=None):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=20)
         self.i18n_manager = i18n_manager
         self.theme_manager = theme_manager
+        self.assets_path = assets_path
         
         self.set_margin_left(25)
         self.set_margin_right(25)
@@ -68,12 +69,19 @@ class WelcomeTab(Gtk.Box):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
         box.set_halign(Gtk.Align.CENTER)
         
+        # Determine assets path
+        if self.assets_path:
+            assets_base = self.assets_path
+        else:
+            # Fallback: calculate from current file location
+            assets_base = Path(__file__).parent.parent.parent / 'assets'
+        
         # Soplos logo
         try:
-            logo_path = "/usr/local/bin/soplos-welcome/assets/icons/soplos-logo.png"
-            if os.path.exists(logo_path):
+            logo_path = assets_base / 'icons' / 'soplos-logo.png'
+            if logo_path.exists():
                 pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-                    logo_path, 128, 128, True
+                    str(logo_path), 128, 128, True
                 )
                 logo_image = Gtk.Image.new_from_pixbuf(pixbuf)
                 box.pack_start(logo_image, False, False, 0)
@@ -81,10 +89,10 @@ class WelcomeTab(Gtk.Box):
             print(f"Error loading logo: {e}")
             # Fallback to welcome icon
             try:
-                fallback_path = "/usr/local/bin/soplos-welcome/assets/icons/com.soplos.welcome.png"
-                if os.path.exists(fallback_path):
+                fallback_path = assets_base / 'icons' / 'org.soplos.welcome.png'
+                if fallback_path.exists():
                     pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-                        fallback_path, 128, 128, True
+                        str(fallback_path), 128, 128, True
                     )
                     logo_image = Gtk.Image.new_from_pixbuf(pixbuf)
                     box.pack_start(logo_image, False, False, 0)
@@ -350,7 +358,7 @@ class WelcomeTab(Gtk.Box):
         from pathlib import Path
         
         autostart_dir = Path.home() / ".config" / "autostart"
-        autostart_file = autostart_dir / "com.soplos.welcome.desktop"
+        autostart_file = autostart_dir / "org.soplos.welcome.desktop"
         
         return autostart_file.exists()
     
@@ -360,7 +368,7 @@ class WelcomeTab(Gtk.Box):
         from pathlib import Path
         
         autostart_dir = Path.home() / ".config" / "autostart"
-        autostart_file = autostart_dir / "com.soplos.welcome.desktop"
+        autostart_file = autostart_dir / "org.soplos.welcome.desktop"
         
         if switch.get_active():
             # Enable autostart
@@ -368,14 +376,28 @@ class WelcomeTab(Gtk.Box):
                 # Create autostart directory if it doesn't exist
                 autostart_dir.mkdir(parents=True, exist_ok=True)
                 
-                # Create desktop file content
-                desktop_content = f"""[Desktop Entry]
+                # Create desktop file content with all 8 language translations
+                desktop_content = """[Desktop Entry]
 Name=Soplos Welcome
 Name[es]=Bienvenida a Soplos
+Name[en]=Soplos Welcome
+Name[fr]=Bienvenue à Soplos
+Name[de]=Soplos Willkommen
+Name[pt]=Bem-vindo ao Soplos
+Name[it]=Benvenuto in Soplos
+Name[ro]=Bun venit la Soplos
+Name[ru]=Добро пожаловать в Soplos
 Comment=Soplos Linux Welcome Application
 Comment[es]=Aplicación de Bienvenida de Soplos Linux
-Exec=python3 {os.path.abspath('/usr/local/bin/soplos-welcome/main.py')}
-Icon=com.soplos.welcome
+Comment[en]=Soplos Linux Welcome Application
+Comment[fr]=Application de bienvenue de Soplos Linux
+Comment[de]=Soplos Linux Willkommensanwendung
+Comment[pt]=Aplicação de Boas-vindas do Soplos Linux
+Comment[it]=Applicazione di benvenuto di Soplos Linux
+Comment[ro]=Aplicația de bun venit Soplos Linux
+Comment[ru]=Приложение приветствия Soplos Linux
+Exec=soplos-welcome
+Icon=org.soplos.welcome
 Terminal=false
 Type=Application
 Categories=System;

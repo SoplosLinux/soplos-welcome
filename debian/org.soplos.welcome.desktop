@@ -1,6 +1,22 @@
 [Desktop Entry]
 Name=Soplos Welcome
+Name[es]=Bienvenida a Soplos
+Name[en]=Soplos Welcome
+Name[fr]=Bienvenue à Soplos
+Name[de]=Soplos Willkommen
+Name[pt]=Bem-vindo ao Soplos
+Name[it]=Benvenuto in Soplos
+Name[ro]=Bun venit la Soplos
+Name[ru]=Добро пожаловать в Soplos
 Comment=Welcome application for Soplos Linux
+Comment[es]=Aplicación de bienvenida para Soplos Linux
+Comment[en]=Welcome application for Soplos Linux
+Comment[fr]=Application de bienvenue pour Soplos Linux
+Comment[de]=Willkommensanwendung für Soplos Linux
+Comment[pt]=Aplicação de boas-vindas para Soplos Linux
+Comment[it]=Applicazione di benvenuto per Soplos Linux
+Comment[ro]=Aplicație de bun venit pentru Soplos Linux
+Comment[ru]=Приложение приветствия для Soplos Linux
 Exec=soplos-welcome
 Icon=org.soplos.welcome
 Terminal=false

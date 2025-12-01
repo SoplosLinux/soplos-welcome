@@ -60,7 +60,7 @@ class MainWindow(Gtk.ApplicationWindow):
     def _set_window_icon(self):
         """Set the window icon."""
         try:
-            icon_path = self.application.assets_path / 'icons' / 'com.soplos.welcome.png'
+            icon_path = self.application.assets_path / 'icons' / 'org.soplos.welcome.png'
             if icon_path.exists():
                 self.set_icon_from_file(str(icon_path))
             else:
@@ -246,7 +246,7 @@ class MainWindow(Gtk.ApplicationWindow):
                 # Create appropriate tab content
                 if tab_class == "WelcomeTab":
                     from .tabs.welcome_tab import WelcomeTab
-                    tab_content = WelcomeTab(self.i18n_manager, self.theme_manager)
+                    tab_content = WelcomeTab(self.i18n_manager, self.theme_manager, self.application.assets_path)
                 elif tab_class == "SoftwareTab":
                     from .tabs.software_tab import SoftwareTab
                     tab_content = SoftwareTab(
@@ -639,13 +639,13 @@ class MainWindow(Gtk.ApplicationWindow):
         dialog.set_comments(_("The world's most advanced welcome application for Linux"))
         dialog.set_copyright("Copyright © 2025 Sergi Perich")
         dialog.set_license_type(Gtk.License.GPL_3_0)
-        dialog.set_website("https://soploslinux.org")
+        dialog.set_website("https://soplos.org")
         dialog.set_website_label(_("Soplos Linux Website"))
         dialog.set_authors(["Sergi Perich"])
         
         # Set logo if available
         try:
-            logo_path = self.application.assets_path / 'icons' / 'com.soplos.welcome.png'
+            logo_path = self.application.assets_path / 'icons' / 'org.soplos.welcome.png'
             if logo_path.exists():
                 logo_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(str(logo_path), 128, 128, True)
                 dialog.set_logo(logo_pixbuf)
