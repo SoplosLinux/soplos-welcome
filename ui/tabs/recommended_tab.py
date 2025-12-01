@@ -522,20 +522,9 @@ rm -f /tmp/{pkg_name}.deb"""
         except Exception:
             pass
         return False
-    def _log_debug(self, message):
-        """Log debug message to file."""
-        try:
-            log_file = os.path.expanduser("~/soplos_davinci_debug.log")
-            with open(log_file, "a") as f:
-                import datetime
-                timestamp = datetime.datetime.now().strftime("%H:%M:%S")
-                f.write(f"[{timestamp}] {message}\n")
-        except:
-            pass
 
     def _install_davinci_resolve(self, package_data):
         """Handle complex DaVinci Resolve installation."""
-        self._log_debug("Starting DaVinci Resolve installation flow")
         
         # 1. Show dialog explaining manual download
         dialog = Gtk.MessageDialog(
@@ -555,7 +544,6 @@ rm -f /tmp/{pkg_name}.deb"""
         dialog.destroy()
         
         if response != Gtk.ResponseType.OK:
-            self._log_debug("User cancelled at info dialog")
             return
 
         # 2. File Chooser
@@ -580,10 +568,8 @@ rm -f /tmp/{pkg_name}.deb"""
         chooser.destroy()
         
         if response != Gtk.ResponseType.OK or not filename:
-            self._log_debug("User cancelled at file chooser")
             return
 
-        self._log_debug(f"Selected file: {filename}")
 
         # Start installation process
         package_id = "multimedia:DaVinci Resolve"
@@ -595,17 +581,14 @@ rm -f /tmp/{pkg_name}.deb"""
 
     def _davinci_step_1_deps(self, filename, package_data):
         """Step 1: Install dependencies (requires root)."""
-        self._log_debug("Step 1: Installing dependencies...")
         cmd = "pkexec apt-get install -y fakeroot xorriso unzip"
         self.command_runner.run_command(cmd, lambda: self._davinci_step_2_extract(filename, package_data))
 
     def _davinci_step_2_extract(self, filename, package_data):
         """Step 2: Extract installer to local work directory."""
-        self._log_debug("Step 2: Extracting...")
         
         installer_dir = os.path.dirname(filename)
         work_dir = os.path.join(installer_dir, "soplos-davinci-work")
-        self._log_debug(f"Work dir: {work_dir}")
         
         # Clean previous work dir
         if os.path.exists(work_dir):
@@ -616,17 +599,14 @@ rm -f /tmp/{pkg_name}.deb"""
         if filename.lower().endswith(".zip"):
             # Unzip to work dir
             cmd = f"unzip -o '{filename}' -d '{work_dir}'"
-            self._log_debug(f"Running: {cmd}")
             self.command_runner.run_command(cmd, lambda: self._davinci_step_3_convert(work_dir, package_data))
         else:
             # Copy .run file
             cmd = f"cp '{filename}' '{work_dir}/'"
-            self._log_debug(f"Running: {cmd}")
             self.command_runner.run_command(cmd, lambda: self._davinci_step_3_convert(work_dir, package_data))
 
     def _davinci_step_3_convert(self, work_dir, package_data):
         """Step 3: Run makeresolvedeb (as user)."""
-        self._log_debug("Step 3: Converting...")
         
         # Find .run file
         run_file = None
@@ -636,11 +616,9 @@ rm -f /tmp/{pkg_name}.deb"""
                 break
         
         if not run_file:
-            self._log_debug("ERROR: No .run file found in work dir")
             self._on_package_operation_complete(package_data, False)
             return
 
-        self._log_debug(f"Found run file: {run_file}")
 
         # Find makeresolvedeb script using dynamic path resolution
         # Get the directory where this Python file is located
@@ -650,7 +628,6 @@ rm -f /tmp/{pkg_name}.deb"""
         src_script = os.path.join(app_root, "services", "makeresolvedeb_1.8.3_multi.sh")
         
         if not os.path.exists(src_script):
-            self._log_debug(f"ERROR: makeresolvedeb script not found at {src_script}")
             self._on_package_operation_complete(package_data, False)
             return
         
@@ -662,7 +639,6 @@ rm -f /tmp/{pkg_name}.deb"""
             os.chmod(dst_script, 0o755)
             os.chmod(os.path.join(work_dir, run_file), 0o755)
         except Exception as e:
-            self._log_debug(f"ERROR: Failed to prepare scripts: {e}")
             self._on_package_operation_complete(package_data, False)
             return
 
@@ -670,12 +646,10 @@ rm -f /tmp/{pkg_name}.deb"""
         # IMPORTANT: Run as current user, NOT root. CommandRunner runs as user by default.
         # We chain commands: cd to dir, then run script
         cmd = f"cd '{work_dir}' && ./makeresolvedeb.sh '{run_file}'"
-        self._log_debug(f"Running conversion: {cmd}")
         self.command_runner.run_command(cmd, lambda: self._davinci_step_4_install(work_dir, package_data))
 
     def _davinci_step_4_install(self, work_dir, package_data):
         """Step 4: Install generated .deb (requires root)."""
-        self._log_debug("Step 4: Installing .deb...")
         
         # Find .deb file
         deb_file = None
@@ -685,12 +659,10 @@ rm -f /tmp/{pkg_name}.deb"""
                 break
         
         if not deb_file:
-            self._log_debug("ERROR: No .deb file generated")
             self._on_package_operation_complete(package_data, False)
             return
 
         full_deb_path = os.path.join(work_dir, deb_file)
-        self._log_debug(f"Installing deb: {full_deb_path}")
         
         # Install
         cmd = f"pkexec apt-get install -y '{full_deb_path}'"
@@ -698,7 +670,6 @@ rm -f /tmp/{pkg_name}.deb"""
 
     def _davinci_cleanup(self, work_dir, package_data):
         """Step 5: Cleanup."""
-        self._log_debug("Step 5: Cleanup...")
         import shutil
         shutil.rmtree(work_dir, ignore_errors=True)
         
@@ -711,7 +682,6 @@ rm -f /tmp/{pkg_name}.deb"""
         
         self._refresh_content()
         
-        self._log_debug("Installation success")
         
         # Show success dialog
         dialog = Gtk.MessageDialog(
