@@ -125,3 +125,4 @@ dmypy.json
 # OS
 .DS_Store
 Thumbs.db
+wget-log*
