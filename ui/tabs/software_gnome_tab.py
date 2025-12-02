@@ -429,13 +429,8 @@ flatpak update -y
         self._create_and_run_script(script_content, f"uninstall-{main_package}.sh", main_package)
     
     def _on_flathub_clicked(self, widget):
-        """Add Flathub repository for GNOME."""
-        script_content = """
-# Add Flathub for system
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-# Also add for user
-flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-"""
+        """Add Flathub repository."""
+        script_content = "flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo"
         self._create_and_run_script(script_content, "add-flathub-gnome.sh")
     
     def _on_extensions_clicked(self, widget):
