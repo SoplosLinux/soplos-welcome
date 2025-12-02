@@ -237,6 +237,7 @@ class MainWindow(Gtk.ApplicationWindow):
             (_("Software"), "SoftwareTab", "system-software-install"), 
             (_("Drivers"), "DriversTab", "preferences-system"),
             (_("Kernels"), "KernelsTab", "applications-system"),
+            (_("Security"), "SecurityTab", "security-high"),
             (_("Recommended"), "RecommendedTab", "starred"),
             (_("Customization"), "CustomizationTab", "preferences-desktop-theme")
         ]
@@ -278,6 +279,15 @@ class MainWindow(Gtk.ApplicationWindow):
                 elif tab_class == "KernelsTab":
                     from .tabs.kernels_tab import KernelsTab
                     tab_content = KernelsTab(
+                        self.i18n_manager,
+                        self.theme_manager,
+                        self,  # parent_window
+                        self.progress_bar,
+                        self.progress_label
+                    )
+                elif tab_class == "SecurityTab":
+                    from .tabs.security_tab import SecurityTab
+                    tab_content = SecurityTab(
                         self.i18n_manager,
                         self.theme_manager,
                         self,  # parent_window
