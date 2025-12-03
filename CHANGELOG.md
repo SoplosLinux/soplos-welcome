@@ -82,7 +82,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
   - **Icon Fixes**: Corrected application icon visibility by renaming assets to match App ID (`org.soplos.welcome`)
   - **Desktop Entry**: Added proper `.desktop` file for system integration
 
+### 🔒 Security Tab Implementation
+- **System Backups**: Integration with Timeshift and Deja Dup.
+- **Firewall Management**: GUFW integration and real-time UFW status monitoring.
+- **Filesystem Tools**: BTRFS Assistant detection and management.
+- **Antivirus & Security**: ClamTk and rkhunter integration.
+- **One-Click Actions**: Configure, Activate, Update, and Scan buttons.
+
+### 🎨 Customization Tab Implementation
+- **Universal Desktop Support**: Native customization for XFCE, GNOME, and Plasma.
+- **XFCE Integration**: 
+  - 4 Soplos Tools: Theme Manager, Docklike, GRUB Editor, Plymouth Manager.
+  - 7 Native Settings: Appearance, Desktop, Window Manager, Keyboard, Mouse, Notifications, Settings Editor.
+- **GNOME Integration**:
+  - Soplos Tools: GRUB Editor, Plymouth Manager.
+  - Native Settings: Control Center, Tweaks, Extensions, dconf Editor.
+- **Plasma Integration**:
+  - Soplos Tools: GRUB Editor, Plymouth Manager.
+  - Native Settings: Look and Feel, Login Screen, Plymouth, System Settings (via .desktop files).
+- **Smart Features**: Automatic DE detection, visual descriptions, debounce protection.
+
 ### 🛠️ Fixed
+- **CRITICAL: GPU Detection Fix**: Resolved false positive AMD detection caused by 'compatible' string matching. Now correctly identifies NVIDIA, Intel, and VMware SVGA adapters using regex word boundaries.
 - Fixed DriversTab initialization
 - Fixed Repo Selector button to launch application
 - Updated Welcome tab URLs to soplos.org

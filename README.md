@@ -19,8 +19,9 @@ Soplos Welcome is a welcome application that guides new users through the initia
 - **Kernel Management**: Liquorix, XanMod (x64v3, x64v4, EDGE, LTS) with NVIDIA compatibility checks
 - **CPU Microcode Updates**: Intel and AMD firmware security updates
 - **System Maintenance**: Clean old kernels, Update GRUB
+- **Security Center**: Backups (Timeshift/Deja Dup), Firewall (GUFW), Antivirus (ClamTk), and Filesystem tools
+- **Desktop Customization**: Native tools for XFCE, GNOME, and Plasma + Soplos exclusive tools
 - Installation of recommended software
-- Desktop customization
 - Access to help and support resources
 - Intuitive and user-friendly interface
 - Support for multiple languages
