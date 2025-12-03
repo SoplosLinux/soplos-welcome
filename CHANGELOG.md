@@ -70,7 +70,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
   - **Midori**: Replaced Epiphany with lightweight browser (.deb installation)
   - **Snap Removal**: Removed Snap support from Recommended software to prioritize native and Flatpak packages
 - **Gaming Features**:
-  - **System Optimizations**: GameMode installation, CPU performance mode script, gaming sysctl profile
+  - **System Optimizations**: GameMode installation, CPU performance mode script with power-profiles-daemon, gaming sysctl profile
+  - **Performance Mode**: Fully implemented with automatic power-profiles-daemon installation and configuration
+  - **GPU Optimization**: Automatic GPU vendor detection (NVIDIA/AMD/Intel) with environment configuration files for optimal gaming drivers
+  - **Disk I/O Optimization**: Udev rules implementation for optimal disk schedulers (mq-deadline for SSD, none for NVMe, BFQ for HDD)
   - **Performance Monitoring**: MangoHud + Goverlay integration for FPS overlay
   - **Game Launchers**: Quick installation for Steam, Lutris, Heroic, Bottles, Prism Launcher, RetroArch, Discord
   - **Revert Functionality**: One-click rollback of all gaming optimizations
@@ -104,6 +107,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 
 ### 🛠️ Fixed
 - **CRITICAL: GPU Detection Fix**: Resolved false positive AMD detection caused by 'compatible' string matching. Now correctly identifies NVIDIA, Intel, and VMware SVGA adapters using regex word boundaries.
+- **KDE Plasma Icon**: Resolved application icon display issue in KDE Plasma with proper WM_CLASS and .desktop file association.
+- **Welcome Tab Autostart**: Fixed .desktop file creation and dynamic path resolution for autostart functionality.
+- **Flatpak Installation**: Corrected Flathub repository setup and package installation in Tyson variant, ensuring user-level installations work without password prompts.
+- **Recommends Tab UI**: Improved button alignment consistency by enforcing minimum height for description labels, eliminating visual inconsistencies.
 - Fixed DriversTab initialization
 - Fixed Repo Selector button to launch application
 - Updated Welcome tab URLs to soplos.org

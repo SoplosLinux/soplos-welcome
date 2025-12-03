@@ -165,12 +165,17 @@
           <li>Recommended Tab: Enhanced error handling and UI stability fixes</li>
           <li>Software updates: DaVinci Resolve (optimized custom workflow: 10x faster build, fixed installation, enhanced stability), RapidRAW, Google Antigravity, Midori</li>
           <li>Snap Removal: Removed Snap support from Recommended software</li>
+          <li>Gaming Tab: Performance Mode with power-profiles-daemon, GPU Optimization (NVIDIA/AMD/Intel detection), Disk I/O Optimization (udev rules)</li>
           <li>Gaming features: System optimizations, performance tools, game launcher management</li>
           <li>UI improvements: Category icons (VS Code, Steam)</li>
           <li>System Integration: Fixed application icon visibility and desktop entry</li>
           <li>Security Tab: System backups, Firewall, Antivirus, and Filesystem tools</li>
           <li>Customization Tab: Native customization for XFCE, GNOME, and Plasma</li>
           <li>Critical Fix: Resolved GPU detection issues (false positive AMD)</li>
+          <li>Fixed KDE Plasma icon display with proper WM_CLASS</li>
+          <li>Fixed Welcome Tab autostart .desktop file creation</li>
+          <li>Fixed Flatpak installation in Tyson variant</li>
+          <li>Fixed Recommends Tab UI button alignment</li>
           <li>Fixed Repo Selector button behavior</li>
           <li>Updated Welcome tab URLs</li>
         </ul>
@@ -197,12 +202,17 @@
           <li>Pestaña Recomendado: Manejo de errores mejorado y correcciones de estabilidad UI</li>
           <li>Actualizaciones de software: DaVinci Resolve (flujo optimizado: compilación 10x más rápida, instalación corregida, estabilidad mejorada), RapidRAW, Google Antigravity, Midori</li>
           <li>Eliminación de Snap: Soporte Snap eliminado del software recomendado</li>
+          <li>Gaming Tab: Modo Rendimiento con power-profiles-daemon, Optimización GPU (detección NVIDIA/AMD/Intel), Optimización Disco I/O (reglas udev)</li>
           <li>Funciones gaming: Optimizaciones del sistema, herramientas de rendimiento, gestión de launchers</li>
           <li>Mejoras de UI: Iconos de categoría (VS Code, Steam)</li>
           <li>Integración del sistema: Corregida visibilidad del icono de la aplicación y entrada de escritorio</li>
           <li>Pestaña de Seguridad: Copias de seguridad, Firewall, Antivirus y herramientas de sistema de archivos</li>
           <li>Pestaña de Personalización: Personalización nativa para XFCE, GNOME y Plasma</li>
           <li>Corrección Crítica: Resueltos problemas de detección de GPU (falsos positivos AMD)</li>
+          <li>Corregida visualización de icono en KDE Plasma con WM_CLASS adecuado</li>
+          <li>Corregida creación de archivo .desktop de autoarranque en pestaña Bienvenida</li>
+          <li>Corregida instalación Flatpak en variante Tyson</li>
+          <li>Corregida alineación de botones en pestaña Recomendados</li>
           <li>Comportamiento corregido del botón Selector de Repositorios</li>
           <li>URLs de la pestaña de Bienvenida actualizadas</li>
         </ul>
@@ -229,12 +239,17 @@
           <li>Onglet Recommandé : Gestion des erreurs améliorée et corrections de stabilité UI</li>
           <li>Mises à jour logicielles : DaVinci Resolve (flux optimisé : compilation 10x plus rapide, installation corrigée, stabilité améliorée), RapidRAW, Google Antigravity, Midori</li>
           <li>Suppression de Snap : Support Snap supprimé des logiciels recommandés</li>
+          <li>Onglet Gaming: Mode Performance avec power-profiles-daemon, Optimisation GPU (détection NVIDIA/AMD/Intel), Optimisation E/S disque (règles udev)</li>
           <li>Fonctionnalités gaming : Optimisations système, outils de performance, gestion de lanceurs</li>
           <li>Améliorations UI : Icônes de catégorie (VS Code, Steam)</li>
           <li>Intégration système : Correction de la visibilité de l'icône de l'application et entrée de bureau</li>
           <li>Onglet Sécurité: Sauvegardes système, Pare-feu, Antivirus et outils de système de fichiers</li>
           <li>Onglet Personnalisation: Personnalisation native pour XFCE, GNOME et Plasma</li>
           <li>Correction Critique: Résolution des problèmes de détection GPU (faux positifs AMD)</li>
+          <li>Correction affichage icône KDE Plasma avec WM_CLASS approprié</li>
+          <li>Correction création fichier .desktop autostart onglet Bienvenue</li>
+          <li>Correction installation Flatpak dans variante Tyson</li>
+          <li>Correction alignement boutons onglet Recommandé</li>
           <li>Correction du comportement du bouton Sélecteur de Dépôts</li>
           <li>Mise à jour des URL de l'onglet Bienvenue</li>
         </ul>
@@ -261,12 +276,17 @@
           <li>Aba Recomendado: Tratamento de erros aprimorado e correções de estabilidade da UI</li>
           <li>Atualizações de software: DaVinci Resolve (fluxo otimizado: compilação 10x mais rápida, instalação corrigida, estabilidade aprimorada), RapidRAW, Google Antigravity, Midori</li>
           <li>Remoção do Snap: Suporte Snap removido do software recomendado</li>
+          <li>Aba Gaming: Modo Desempenho com power-profiles-daemon, Otimização GPU (detecção NVIDIA/AMD/Intel), Otimização E/S disco (regras udev)</li>
           <li>Recursos de gaming: Otimizações do sistema, ferramentas de desempenho, gerenciamento de launchers</li>
           <li>Melhorias de UI: Ícones de categoria (VS Code, Steam)</li>
           <li>Integração do sistema: Correção da visibilidade do ícone do aplicativo e entrada na área de trabalho</li>
           <li>Aba de Segurança: Backups do sistema, Firewall, Antivírus e ferramentas de sistema de arquivos</li>
           <li>Aba de Personalização: Personalização nativa para XFCE, GNOME e Plasma</li>
           <li>Correção Crítica: Resolvidos problemas de detecção de GPU (falsos positivos AMD)</li>
+          <li>Corrigida exibição ícone KDE Plasma com WM_CLASS adequado</li>
+          <li>Corrigida criação arquivo .desktop autostart aba Boas-vindas</li>
+          <li>Corrigida instalação Flatpak na variante Tyson</li>
+          <li>Corrigido alinhamento botões aba Recomendado</li>
           <li>Comportamento corrigido do botão Seletor de Repositórios</li>
           <li>URLs da guia Boas-vindas atualizadas</li>
         </ul>
@@ -293,12 +313,17 @@
           <li>Empfohlen-Tab: Verbesserte Fehlerbehandlung und UI-Stabilitätskorrekturen</li>
           <li>Software-Updates: DaVinci Resolve (optimierter Workflow: 10x schnellerer Build, korrigierte Installation, verbesserte Stabilität), RapidRAW, Google Antigravity, Midori</li>
           <li>Snap-Entfernung: Snap-Unterstützung aus empfohlener Software entfernt</li>
+          <li>Gaming-Tab: Leistungsmodus mit power-profiles-daemon, GPU-Optimierung (Erkennung NVIDIA/AMD/Intel), Festplatten-E/A-Optimierung (udev-Regeln)</li>
           <li>Gaming-Funktionen: Systemoptimierungen, Leistungstools, Launcher-Verwaltung</li>
           <li>UI-Verbesserungen: Kategoriesymbole (VS Code, Steam)</li>
           <li>Systemintegration: Korrigierte Sichtbarkeit des Anwendungssymbols und Desktop-Eintrag</li>
           <li>Sicherheits-Tab: System-Backups, Firewall, Antivirus und Dateisystem-Tools</li>
           <li>Anpassungs-Tab: Native Anpassung für XFCE, GNOME und Plasma</li>
           <li>Kritische Korrektur: GPU-Erkennungsprobleme behoben (falsche AMD-Positivmeldungen)</li>
+          <li>Korrigierte KDE Plasma Symbol-Anzeige mit WM_CLASS</li>
+          <li>Korrigierte .desktop Autostart-Datei Erstellung Willkommens-Tab</li>
+          <li>Korrigierte Flatpak-Installation in Tyson-Variante</li>
+          <li>Korrigierte Button-Ausrichtung Empfohlen-Tab</li>
           <li>Korrigiertes Verhalten der Repo-Auswahltaste</li>
           <li>Aktualisierte URLs im Willkommens-Tab</li>
         </ul>
@@ -325,12 +350,17 @@
           <li>Scheda Consigliati: Gestione errori migliorata e correzioni stabilità UI</li>
           <li>Aggiornamenti software: DaVinci Resolve (flusso ottimizzato: build 10x più veloce, installazione corretta, stabilità migliorata), RapidRAW, Google Antigravity, Midori</li>
           <li>Rimozione Snap: Supporto Snap rimosso dal software consigliato</li>
+          <li>Scheda Gaming: Modalità Prestazioni con power-profiles-daemon, Ottimizzazione GPU (rilevamento NVIDIA/AMD/Intel), Ottimizzazione I/O disco (regole udev)</li>
           <li>Funzionalità gaming: Ottimizzazioni di sistema, strumenti di prestazioni, gestione launcher</li>
           <li>Miglioramenti UI: Icone di categoria (VS Code, Steam)</li>
           <li>Integrazione sistema: Corretta visibilità icona applicazione e voce desktop</li>
           <li>Scheda Sicurezza: Backup di sistema, Firewall, Antivirus e strumenti per file system</li>
           <li>Scheda Personalizzazione: Personalizzazione nativa per XFCE, GNOME e Plasma</li>
           <li>Correzione Critica: Risolti problemi di rilevamento GPU (falsi positivi AMD)</li>
+          <li>Corretta visualizzazione icona KDE Plasma con WM_CLASS</li>
+          <li>Corretta creazione file .desktop autostart scheda Benvenuto</li>
+          <li>Corretta installazione Flatpak nella variante Tyson</li>
+          <li>Corretto allineamento pulsanti scheda Consigliati</li>
           <li>Corretto comportamento del pulsante Selettore Repo</li>
           <li>URL della scheda Benvenuto aggiornati</li>
         </ul>
@@ -357,12 +387,17 @@
           <li>Вкладка Рекомендуемое: Улучшенная обработка ошибок и исправления стабильности UI</li>
           <li>Обновления ПО: DaVinci Resolve (оптимизированный процесс: сборка в 10 раз быстрее, исправленная установка, улучшенная стабильность), RapidRAW, Google Antigravity, Midori</li>
           <li>Удаление Snap: Поддержка Snap удалена из рекомендуемого ПО</li>
+          <li>Вкладка Gaming: Режим производительности с power-profiles-daemon, Оптимизация GPU (обнаружение NVIDIA/AMD/Intel), Оптимизация дискового ввода-вывода (правила udev)</li>
           <li>Игровые функции: Оптимизации системы, инструменты производительности, управление лаунчерами</li>
           <li>Улучшения UI: Иконки категорий (VS Code, Steam)</li>
           <li>Системная интеграция: Исправлена видимость иконки приложения и запись рабочего стола</li>
           <li>Вкладка Безопасность: Резервные копии системы, Firewall, Антивирус и инструменты файловой системы</li>
           <li>Вкладка Настройка: Встроенная настройка для XFCE, GNOME и Plasma</li>
           <li>Критическое Исправление: Решены проблемы обнаружения GPU (ложные срабатывания AMD)</li>
+          <li>Исправлено отображение иконки KDE Plasma с WM_CLASS</li>
+          <li>Исправлено создание файла .desktop автозапуска вкладка Приветствие</li>
+          <li>Исправлена установка Flatpak в варианте Tyson</li>
+          <li>Исправлено выравнивание кнопок вкладка Рекомендуемое</li>
           <li>Исправлено поведение кнопки выбора репозитория</li>
           <li>Обновлены URL вкладки приветствия</li>
         </ul>
@@ -389,12 +424,17 @@
           <li>Tab Recomandat: Gestionare erori îmbunătățită și corecții stabilitate UI</li>
           <li>Actualizări software: DaVinci Resolve (flux optimizat: compilare de 10x mai rapidă, instalare corectată, stabilitate îmbunătățită), RapidRAW, Google Antigravity, Midori</li>
           <li>Eliminare Snap: Suport Snap eliminat din software-ul recomandat</li>
+          <li>Tab Gaming: Mod Performanță cu power-profiles-daemon, Optimizare GPU (detectare NVIDIA/AMD/Intel), Optimizare I/O disc (reguli udev)</li>
           <li>Funcții gaming: Optimizări sistem, instrumente de performanță, gestionare launchere</li>
           <li>Îmbunătățiri UI: Pictograme categorii (VS Code, Steam)</li>
           <li>Integrare sistem: Corectată vizibilitatea pictogramei aplicației și intrarea desktop</li>
           <li>Tab Securitate: Backup-uri de sistem, Firewall, Antivirus și instrumente pentru sistem de fișiere</li>
           <li>Tab Personalizare: Personalizare nativă pentru XFCE, GNOME și Plasma</li>
           <li>Corectare Critică: Rezolvate problemele de detectare GPU (fals pozitive AMD)</li>
+          <li>Corectată afișare pictogramă KDE Plasma cu WM_CLASS</li>
+          <li>Corectată creare fișier .desktop autostart tab Bun venit</li>
+          <li>Corectată instalare Flatpak în varianta Tyson</li>
+          <li>Corectat aliniere butoane tab Recomandat</li>
           <li>Comportament corectat al butonului Selector Repo</li>
           <li>Actualizare URL-uri tab Bun venit</li>
         </ul>

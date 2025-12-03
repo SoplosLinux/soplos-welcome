@@ -121,7 +121,10 @@ Contact: info@soploslinux.com
   - **Midori**: Replaced Epiphany with Midori lightweight browser (.deb installation).
   - **Snap Removal**: Removed Snap support from Recommended software to prioritize native and Flatpak packages.
 - **Gaming Features**:
-  - **System Optimizations**: GameMode installation, CPU performance script, gaming kernel parameters (sysctl), and more.
+  - **System Optimizations**: GameMode installation, CPU performance script with power-profiles-daemon, gaming kernel parameters (sysctl).
+  - **Performance Mode**: Fully implemented with automatic power-profiles-daemon installation and configuration.
+  - **GPU Optimization**: Automatic GPU vendor detection (NVIDIA/AMD/Intel) with driver environment configuration for optimal gaming performance.
+  - **Disk I/O Optimization**: Udev rules for optimal disk schedulers (mq-deadline for SSD, none for NVMe, BFQ for HDD).
   - **Performance Tools**: MangoHud + Goverlay for FPS monitoring and overlay customization.
   - **Game Launchers**: Quick access to Steam, Lutris, Heroic, Bottles, Prism Launcher, and more.
   - **Revert Functionality**: Easy rollback of gaming optimizations.
@@ -133,6 +136,10 @@ Contact: info@soploslinux.com
   - **Desktop Entry**: Added proper `.desktop` file for system integration.
 - **Fixed Welcome URLs**: Updated all links to point to soplos.org.
 - **Fixed Repo Selector**: Button now launches the application instead of attempting installation.
+- **Fixed KDE Icon**: Resolved application icon display issue in KDE Plasma with proper WM_CLASS configuration.
+- **Fixed Welcome Tab Autostart**: Corrected .desktop file creation and path resolution for autostart functionality.
+- **Fixed Flatpak Installation**: Corrected Flathub repository setup and package installation in Tyson variant.
+- **Recommends Tab UI**: Improved button alignment consistency with minimum height enforcement for description labels.
 
 ### v1.1.4 (08/09/2025)
 - Updated Blender icon and fixed link buttons in the welcome tab.
