@@ -483,26 +483,19 @@ class GamingTab(Gtk.Box):
             error_dialog.destroy()
             return
         
-        # Determine GPU vendor
-        gpu_vendor = None
-        gpu_model = "Unknown"
+        # Determine GPU vendor(s) - detect ALL GPUs for hybrid detection
+        gpus = []
         
         for line in lspci_output.lower().split('\n'):
             if 'vga' in line or '3d' in line or 'display' in line:
                 if 'nvidia' in line:
-                    gpu_vendor = 'nvidia'
-                    gpu_model = line.split(':')[-1].strip().title()
-                    break
+                    gpus.append(('nvidia', line.split(':')[-1].strip().title()))
                 elif 'amd' in line or 'ati' in line or 'radeon' in line:
-                    gpu_vendor = 'amd'
-                    gpu_model = line.split(':')[-1].strip().title()
-                    break
+                    gpus.append(('amd', line.split(':')[-1].strip().title()))
                 elif 'intel' in line:
-                    gpu_vendor = 'intel'
-                    gpu_model = line.split(':')[-1].strip().title()
-                    break
+                    gpus.append(('intel', line.split(':')[-1].strip().title()))
         
-        if not gpu_vendor:
+        if not gpus:
             error_dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
@@ -517,6 +510,30 @@ class GamingTab(Gtk.Box):
             error_dialog.run()
             error_dialog.destroy()
             return
+        
+        # Check if hybrid graphics (multiple GPUs)
+        is_hybrid = len(gpus) > 1
+        has_nvidia = any(vendor == 'nvidia' for vendor, _ in gpus)
+        
+        # Determine primary GPU (NVIDIA > AMD > Intel)
+        gpu_vendor = None
+        gpu_model = "Unknown"
+        
+        for vendor, model in gpus:
+            if vendor == 'nvidia':
+                gpu_vendor = 'nvidia'
+                gpu_model = model
+                break
+        
+        if not gpu_vendor:
+            for vendor, model in gpus:
+                if vendor == 'amd':
+                    gpu_vendor = 'amd'
+                    gpu_model = model
+                    break
+        
+        if not gpu_vendor:
+            gpu_vendor, gpu_model = gpus[0]
         
         # Confirm with user
         optimizations_text = {
@@ -568,6 +585,61 @@ class GamingTab(Gtk.Box):
                 "pkexec", "cp", source_file, dest_file
             ], check=True)
             
+            # Install prime-run if hybrid NVIDIA system
+            prime_run_installed = False
+            if is_hybrid and has_nvidia:
+                try:
+                    prime_run_source = os.path.join(BASE_DIR, "services", "gaming", "prime-run")
+                    prime_run_dest = "/usr/local/bin/prime-run"
+                    
+                    # Copy prime-run script
+                    subprocess.run([
+                        "pkexec", "cp", prime_run_source, prime_run_dest
+                    ], check=True)
+                    
+                    # Make executable
+                    subprocess.run([
+                        "pkexec", "chmod", "+x", prime_run_dest
+                    ], check=True)
+                    
+                    prime_run_installed = True
+                except subprocess.CalledProcessError:
+                    # Non-critical error, continue
+                    pass
+            
+            # Build success message
+            if is_hybrid and has_nvidia:
+                # Hybrid graphics message
+                integrated_gpu = next((m for v, m in gpus if v in ['intel', 'amd']), "Unknown")
+                
+                success_msg = (
+                    f"✅ Hybrid Graphics Optimized!\\n\\n"
+                    f"GPU Dedicada: {gpu_model}\\n"
+                    f"GPU Integrada: {integrated_gpu}\\n\\n"
+                )
+                
+                if prime_run_installed:
+                    success_msg += (
+                        f"✅ prime-run script installed to /usr/local/bin/prime-run\\n\\n"
+                        f"Usage for hybrid graphics:\\n"
+                        f"• Steam: Add 'prime-run %command%' to game launch options\\n"
+                        f"• Lutris: Add 'prime-run' as a prefix\\n"
+                        f"• Terminal: prime-run <application>\\n\\n"
+                        f"This forces games to use your NVIDIA GPU.\\n\\n"
+                    )
+                
+                success_msg += (
+                    f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\\n\\n"
+                    f"Configuration saved to: {dest_file}"
+                )
+            else:
+                # Single GPU message
+                success_msg = (
+                    f"Gaming optimizations applied for {gpu_model}.\\n\\n"
+                    f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\\n\\n"
+                    f"Configuration saved to:\\n{dest_file}"
+                )
+            
             # Show success
             success_dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
@@ -576,11 +648,7 @@ class GamingTab(Gtk.Box):
                 buttons=Gtk.ButtonsType.OK,
                 text=f"{gpu_vendor.upper()} GPU Optimized!"
             )
-            success_dialog.format_secondary_text(
-                f"Gaming optimizations applied for {gpu_model}.\\n\\n"
-                "⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\\n\\n"
-                f"Configuration saved to:\\n{dest_file}"
-            )
+            success_dialog.format_secondary_text(success_msg)
             success_dialog.run()
             success_dialog.destroy()
             
