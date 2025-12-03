@@ -14,39 +14,57 @@ def detect_gpu():
     try:
         lspci_output = subprocess.check_output(['lspci'], stderr=subprocess.DEVNULL).decode('utf-8')
         
+        # Store all detected GPUs
+        nvidia_gpus = []
+        amd_gpus = []
+        intel_gpus = []
+        
         for line in lspci_output.split('\n'):
             line_lower = line.lower()
             
-            # NVIDIA GPU
-            if 'nvidia' in line_lower and any(k in line_lower for k in ['vga', '3d', 'display']):
+            # Skip if not a display device
+            if not any(k in line_lower for k in ['vga', '3d', 'display']):
+                continue
+            
+            # NVIDIA GPU (word boundary to avoid false positives)
+            if re.search(r'\bnvidia\b', line_lower):
                 model = _extract_nvidia_model(line)
                 driver = _recommend_nvidia_driver(model)
-                return {
+                nvidia_gpus.append({
                     'vendor': 'NVIDIA',
                     'model': model,
                     'recommended_driver': driver,
                     'type': 'Dedicada'
-                }
+                })
             
-            # AMD GPU
-            elif any(k in line_lower for k in ['amd', 'ati', 'radeon']) and any(k in line_lower for k in ['vga', '3d', 'display']):
+            # AMD GPU (word boundaries for amd, ati, radeon)
+            elif re.search(r'\b(amd|ati|radeon)\b', line_lower):
                 model = _extract_amd_model(line)
-                return {
+                amd_gpus.append({
                     'vendor': 'AMD',
                     'model': model,
                     'recommended_driver': 'firmware-amd-graphics libgl1-mesa-dri mesa-vulkan-drivers',
                     'type': 'Dedicada/Integrada'
-                }
+                })
             
-            # Intel GPU
-            elif 'intel' in line_lower and any(k in line_lower for k in ['vga', '3d', 'display']):
+            # Intel GPU (word boundary)
+            elif re.search(r'\bintel\b', line_lower):
                 model = _extract_intel_model(line)
-                return {
+                intel_gpus.append({
                     'vendor': 'Intel',
                     'model': model,
                     'recommended_driver': 'intel-media-va-driver mesa-vulkan-drivers',
                     'type': 'Integrada'
-                }
+                })
+        
+        # Priority: NVIDIA > AMD > Intel
+        # Return the most relevant GPU (dedicated over integrated)
+        if nvidia_gpus:
+            return nvidia_gpus[0]
+        elif amd_gpus:
+            return amd_gpus[0]
+        elif intel_gpus:
+            return intel_gpus[0]
         
         return {'vendor': 'Desconocido', 'model': 'No detectado', 'recommended_driver': None, 'type': 'N/A'}
     
