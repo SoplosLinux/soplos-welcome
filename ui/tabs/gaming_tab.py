@@ -463,43 +463,255 @@ class GamingTab(Gtk.Box):
     
     def _optimize_gpu(self):
         """Optimize GPU drivers for gaming."""
-        # This is a complex function, will be implemented in next iteration
+        import subprocess
+        import os
+        from config.paths import BASE_DIR
+        
+        # Detect GPU using lspci
+        try:
+            lspci_output = subprocess.check_output(['lspci'], universal_newlines=True)
+        except subprocess.CalledProcessError:
+            error_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text="GPU Detection Failed"
+            )
+            error_dialog.format_secondary_text("Could not detect GPU. Please install 'pciutils' package.")
+            error_dialog.run()
+            error_dialog.destroy()
+            return
+        
+        # Determine GPU vendor
+        gpu_vendor = None
+        gpu_model = "Unknown"
+        
+        for line in lspci_output.lower().split('\n'):
+            if 'vga' in line or '3d' in line or 'display' in line:
+                if 'nvidia' in line:
+                    gpu_vendor = 'nvidia'
+                    gpu_model = line.split(':')[-1].strip().title()
+                    break
+                elif 'amd' in line or 'ati' in line or 'radeon' in line:
+                    gpu_vendor = 'amd'
+                    gpu_model = line.split(':')[-1].strip().title()
+                    break
+                elif 'intel' in line:
+                    gpu_vendor = 'intel'
+                    gpu_model = line.split(':')[-1].strip().title()
+                    break
+        
+        if not gpu_vendor:
+            error_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text="Unsupported GPU"
+            )
+            error_dialog.format_secondary_text(
+                "Could not detect a supported GPU (NVIDIA, AMD, or Intel).\\n\\n"
+                "GPU optimizations are only available for these vendors."
+            )
+            error_dialog.run()
+            error_dialog.destroy()
+            return
+        
+        # Confirm with user
+        optimizations_text = {
+            'nvidia': (
+                "• Shader disk cache enabled\\n"
+                "• Threaded optimization enabled\\n"
+                "• VSync disabled (lower input lag)\\n"
+                "• NVAPI enabled for Proton"
+            ),
+            'amd': (
+                "• GPL shader pipeline enabled\\n"
+                "• RADV driver forced\\n"
+                "• OpenGL threading enabled\\n"
+                "• Radeonsi driver optimization"
+            ),
+            'intel': (
+                "• OpenGL threading enabled\\n"
+                "• Iris driver optimization (Gen9+)"
+            )
+        }
+        
         dialog = Gtk.MessageDialog(
             transient_for=self.parent_window,
             flags=0,
-            message_type=Gtk.MessageType.INFO,
-            buttons=Gtk.ButtonsType.OK,
-            text="GPU Optimization"
+            message_type=Gtk.MessageType.QUESTION,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=f"Optimize {gpu_vendor.upper()} GPU for Gaming?"
         )
         dialog.format_secondary_text(
-            "GPU optimization coming in next update!\n\n"
-            "This will detect your GPU and apply:\n"
-            "• AMD: RADV/Mesa optimizations\n"
-            "• NVIDIA: Threading + shader cache\n"
-            "• Intel: Mesa optimizations"
+            f"Detected GPU: {gpu_model}\\n\\n"
+            f"Optimizations to apply:\\n{optimizations_text[gpu_vendor]}\\n\\n"
+            "These settings will be applied system-wide via environment variables.\\n\\n"
+            "Continue?"
         )
-        dialog.run()
+        
+        response = dialog.run()
         dialog.destroy()
+        
+        if response != Gtk.ResponseType.YES:
+            return
+        
+        # Copy appropriate config file
+        source_file = os.path.join(BASE_DIR, "services", "gaming", f"{gpu_vendor}-env.conf")
+        dest_file = f"/etc/environment.d/50-soplos-{gpu_vendor}-gaming.conf"
+        
+        try:
+            # Copy config file
+            subprocess.run([
+                "pkexec", "cp", source_file, dest_file
+            ], check=True)
+            
+            # Show success
+            success_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.INFO,
+                buttons=Gtk.ButtonsType.OK,
+                text=f"{gpu_vendor.upper()} GPU Optimized!"
+            )
+            success_dialog.format_secondary_text(
+                f"Gaming optimizations applied for {gpu_model}.\\n\\n"
+                "⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\\n\\n"
+                f"Configuration saved to:\\n{dest_file}"
+            )
+            success_dialog.run()
+            success_dialog.destroy()
+            
+        except subprocess.CalledProcessError as e:
+            error_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text="Optimization Failed"
+            )
+            error_dialog.format_secondary_text(str(e))
+            error_dialog.run()
+            error_dialog.destroy()
+
     
     def _optimize_disk_io(self):
         """Optimize disk I/O schedulers."""
-        # Similar to sysctl, will be implemented
-        dialog = Gtk.MessageDialog(
-            transient_for=self.parent_window,
-            flags=0,
-            message_type=Gtk.MessageType.INFO,
-            buttons=Gtk.ButtonsType.OK,
-            text="Disk I/O Optimization"
-        )
-        dialog.format_secondary_text(
-            "Disk I/O optimization coming in next update!\n\n"
-            "This will assign optimal schedulers:\n"
-            "• HDD: BFQ (best latency)\n"
-            "• SSD: mq-deadline\n"
-            "• NVMe: none (maximum performance)"
-        )
-        dialog.run()
-        dialog.destroy()
+        import subprocess
+        import os
+        from config.paths import BASE_DIR
+        
+        source_file = os.path.join(BASE_DIR, "services", "gaming", "ioschedulers.rules")
+        dest_file = "/etc/udev/rules.d/60-soplos-ioschedulers.rules"
+        
+        # Check if already applied
+        is_applied = os.path.exists(dest_file)
+        
+        if is_applied:
+            # Revert
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text="Revert Disk I/O Optimizations?"
+            )
+            dialog.format_secondary_text("This will remove the custom I/O scheduler rules.")
+            
+            response = dialog.run()
+            dialog.destroy()
+            
+            if response != Gtk.ResponseType.YES:
+                return
+            
+            try:
+                subprocess.run(["pkexec", "rm", dest_file], check=True)
+                subprocess.run(["pkexec", "udevadm", "control", "--reload-rules"], check=True)
+                subprocess.run(["pkexec", "udevadm", "trigger"], check=True)
+                
+                success_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Disk I/O optimizations reverted!"
+                )
+                success_dialog.run()
+                success_dialog.destroy()
+                
+            except subprocess.CalledProcessError as e:
+                error_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Revert failed"
+                )
+                error_dialog.format_secondary_text(str(e))
+                error_dialog.run()
+                error_dialog.destroy()
+        else:
+            # Apply
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text="Optimize Disk I/O Schedulers?"
+            )
+            dialog.format_secondary_text(
+                "This will configure optimal I/O schedulers for gaming:\\n\\n"
+                "• HDD: BFQ scheduler (best latency)\\n"
+                "• SSD (SATA): mq-deadline\\n"
+                "• NVMe: none (maximum performance)\\n\\n"
+                "Changes take effect immediately without reboot.\\n\\n"
+                "Continue?"
+            )
+            
+            response = dialog.run()
+            dialog.destroy()
+            
+            if response != Gtk.ResponseType.YES:
+                return
+            
+            try:
+                # Copy udev rules
+                subprocess.run(["pkexec", "cp", source_file, dest_file], check=True)
+                
+                # Reload udev rules
+                subprocess.run(["pkexec", "udevadm", "control", "--reload-rules"], check=True)
+                
+                # Trigger udev to apply rules
+                subprocess.run(["pkexec", "udevadm", "trigger"], check=True)
+                
+                success_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Disk I/O Optimized!"
+                )
+                success_dialog.format_secondary_text(
+                    "I/O schedulers have been optimized for gaming.\\n\\n"
+                    "Changes are active immediately.\\n\\n"
+                    f"Configuration saved to:\\n{dest_file}"
+                )
+                success_dialog.run()
+                success_dialog.destroy()
+                
+            except subprocess.CalledProcessError as e:
+                error_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Optimization failed"
+                )
+                error_dialog.format_secondary_text(str(e))
+                error_dialog.run()
+                error_dialog.destroy()
     
     def _install_mangohud(self):
         """Install MangoHud + Goverlay."""
