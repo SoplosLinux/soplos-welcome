@@ -296,7 +296,11 @@ class MainWindow(Gtk.ApplicationWindow):
                     )
                 elif tab_class == "CustomizationTab":
                     from .tabs.customization_tab import CustomizationTab
-                    tab_content = CustomizationTab(self.i18n_manager, self.theme_manager)
+                    tab_content = CustomizationTab(
+                        self.i18n_manager, 
+                        self.theme_manager,
+                        self.environment_detector
+                    )
                 else:
                     # Create placeholder tab for others
                     tab_content = self._create_placeholder_tab(tab_name, tab_class, icon_name)
