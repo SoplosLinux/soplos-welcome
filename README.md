@@ -127,6 +127,7 @@ Contact: info@soploslinux.com
   - **Disk I/O Optimization**: Udev rules for optimal disk schedulers (mq-deadline for SSD, none for NVMe, BFQ for HDD).
   - **Performance Tools**: MangoHud + Goverlay for FPS monitoring and overlay customization.
   - **Game Launchers**: Quick access to Steam, Lutris, Heroic, Bottles, Prism Launcher, and more.
+  - **Gaming Wallpapers**: Automatic installation of gaming-themed wallpapers with GNOME XML registry support.
   - **Revert Functionality**: Easy rollback of gaming optimizations.
 - **UI Improvements**:
   - **Category Icons**: Updated Development category icon to VS Code, Gaming category icon to Steam.

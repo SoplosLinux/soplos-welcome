@@ -201,10 +201,12 @@ class GamingTab(Gtk.Box):
             self._optimize_disk_io()
         elif name == "MangoHud":
             self._install_mangohud()
+        elif name == "Gaming Wallpapers":
+            self._install_gaming_wallpapers()
         elif name == "Revert All":
             self._revert_all_optimizations()
         else:
-            # Placeholder for launchers and wallpapers
+            # Placeholder for other launchers
             dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
@@ -897,4 +899,182 @@ class GamingTab(Gtk.Box):
             error_dialog.format_secondary_text(str(e))
             error_dialog.run()
             error_dialog.destroy()
+    
+    def _install_gaming_wallpapers(self):
+        """Install gaming wallpapers to the appropriate directory based on DE."""
+        import subprocess
+        import os
+        import tempfile
+        import shutil
+        from config.paths import BASE_DIR
+        
+        # Detect current DE
+        session = os.environ.get('XDG_CURRENT_DESKTOP', '').lower()
+        
+        # Determine destination directory based on DE
+        is_gnome = False
+        if 'kde' in session or 'plasma' in session:
+            dest_dir = "/usr/share/wallpapers/soplos"
+            de_name = "KDE Plasma"
+        elif 'xfce' in session:
+            dest_dir = "/usr/share/backgrounds/soplos"
+            de_name = "XFCE"
+        elif 'gnome' in session:
+            # GNOME uses backgrounds
+            dest_dir = "/usr/share/backgrounds/soplos"
+            de_name = "GNOME"
+            is_gnome = True
+        else:
+            # Default to backgrounds for unknown DEs
+            dest_dir = "/usr/share/backgrounds/soplos"
+            de_name = "your desktop environment"
+        
+        # Confirmation dialog
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.QUESTION,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text="Install Gaming Wallpapers?"
+        )
+        dialog.format_secondary_text(
+            f"This will install exclusive gaming wallpapers for {de_name}.\\n\\n"
+            f"Destination: {dest_dir}\\n\\n"
+            "Continue?"
+        )
+        
+        response = dialog.run()
+        dialog.destroy()
+        
+        if response != Gtk.ResponseType.YES:
+            return
+        
+        try:
+            # Path to compressed wallpapers
+            wallpapers_archive = os.path.join(BASE_DIR, "assets", "wallpapers", "wallpapers.tar.xz")
+            
+            if not os.path.exists(wallpapers_archive):
+                raise FileNotFoundError(f"Wallpapers archive not found: {wallpapers_archive}")
+            
+            # Create temporary directory for extraction
+            with tempfile.TemporaryDirectory() as temp_dir:
+                # Extract archive
+                subprocess.run([
+                    "tar", "-xf", wallpapers_archive, "-C", temp_dir
+                ], check=True)
+                
+                # Copy wallpapers to destination (with pkexec for system directory)
+                # Find extracted wallpapers
+                extracted_files = []
+                for root, dirs, files in os.walk(temp_dir):
+                    for file in files:
+                        if file.lower().endswith(('.jpg', '.jpeg', '.png', '.webp')):
+                            extracted_files.append(os.path.join(root, file))
+                
+                if not extracted_files:
+                    raise FileNotFoundError("No wallpaper files found in archive")
+                
+                # Copy each file with pkexec
+                installed_filenames = []
+                for wallpaper in extracted_files:
+                    filename = os.path.basename(wallpaper)
+                    subprocess.run([
+                        "pkexec", "cp", wallpaper, dest_dir
+                    ], check=True)
+                    installed_filenames.append(filename)
+                
+                # Generate GNOME XML if needed
+                if is_gnome:
+                    self._generate_gnome_wallpaper_xml(installed_filenames, dest_dir, temp_dir)
+            
+            # Success dialog
+            success_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.INFO,
+                buttons=Gtk.ButtonsType.OK,
+                text="Gaming wallpapers installed successfully!"
+            )
+            success_dialog.format_secondary_text(
+                f"Wallpapers have been installed to:\\n{dest_dir}\\n\\n"
+                f"You can now select them from your {de_name} wallpaper settings."
+            )
+            success_dialog.run()
+            success_dialog.destroy()
+            
+        except FileNotFoundError as e:
+            error_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text="Archive not found"
+            )
+            error_dialog.format_secondary_text(str(e))
+            error_dialog.run()
+            error_dialog.destroy()
+            
+        except subprocess.CalledProcessError as e:
+            error_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text="Installation failed"
+            )
+            error_dialog.format_secondary_text(
+                f"Failed to install wallpapers: {str(e)}\\n\\n"
+                "Make sure you have proper permissions."
+            )
+            error_dialog.run()
+            error_dialog.destroy()
+            
+        except Exception as e:
+            error_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text="Unexpected error"
+            )
+            error_dialog.format_secondary_text(str(e))
+            error_dialog.run()
+            error_dialog.destroy()
+    
+    def _generate_gnome_wallpaper_xml(self, filenames, dest_dir, temp_dir):
+        """Generate GNOME wallpaper XML file based on installed files."""
+        import subprocess
+        import os
+        
+        # Sort files by name for consistent ordering
+        filenames.sort()
+        
+        # Generate XML content
+        xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        xml_content += '<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">\n'
+        xml_content += '<wallpapers>\n'
+        
+        for filename in filenames:
+            # Remove extension for the name
+            name_without_ext = os.path.splitext(filename)[0]
+            
+            xml_content += '  <wallpaper deleted="false">\n'
+            xml_content += f'    <name>Soplos Gaming {name_without_ext}</name>\n'
+            xml_content += f'    <filename>{dest_dir}/{filename}</filename>\n'
+            xml_content += '    <options>zoom</options>\n'
+            xml_content += '  </wallpaper>\n'
+        
+        xml_content += '</wallpapers>\n'
+        
+        # Write XML to temp file
+        temp_xml = os.path.join(temp_dir, "soplos-gaming-wallpapers.xml")
+        with open(temp_xml, 'w') as f:
+            f.write(xml_content)
+        
+        # Copy XML to system directory with pkexec
+        xml_dest = "/usr/share/gnome-background-properties/soplos-gaming-wallpapers.xml"
+        subprocess.run([
+            "pkexec", "cp", temp_xml, xml_dest
+        ], check=True)
+
 
