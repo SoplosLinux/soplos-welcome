@@ -918,12 +918,14 @@ class GamingTab(Gtk.Box):
         
         # Determine destination directory based on DE
         is_gnome = False
+        is_xfce = False
         if 'kde' in session or 'plasma' in session:
             dest_dir = "/usr/share/wallpapers/soplos"
             de_name = "KDE Plasma"
         elif 'xfce' in session:
             dest_dir = "/usr/share/backgrounds/soplos"
             de_name = "XFCE"
+            is_xfce = True
         elif 'gnome' in session:
             # GNOME uses backgrounds
             dest_dir = "/usr/share/backgrounds/soplos"
@@ -943,8 +945,8 @@ class GamingTab(Gtk.Box):
             text="Install Gaming Wallpapers?"
         )
         dialog.format_secondary_text(
-            f"This will install exclusive gaming wallpapers for {de_name}.\\n\\n"
-            f"Destination: {dest_dir}\\n\\n"
+            f"This will install exclusive gaming wallpapers for {de_name}.\n\n"
+            f"Destination: {dest_dir}\n\n"
             "Continue?"
         )
         
@@ -968,7 +970,6 @@ class GamingTab(Gtk.Box):
                     "tar", "-xf", wallpapers_archive, "-C", temp_dir
                 ], check=True)
                 
-                # Copy wallpapers to destination (with pkexec for system directory)
                 # Find extracted wallpapers
                 extracted_files = []
                 for root, dirs, files in os.walk(temp_dir):
@@ -979,20 +980,45 @@ class GamingTab(Gtk.Box):
                 if not extracted_files:
                     raise FileNotFoundError("No wallpaper files found in archive")
                 
-                # Copy each file with pkexec
-                installed_filenames = []
-                for wallpaper in extracted_files:
-                    filename = os.path.basename(wallpaper)
-                    subprocess.run([
-                        "pkexec", "cp", wallpaper, dest_dir
-                    ], check=True)
-                    installed_filenames.append(filename)
+                # Copy all files with a SINGLE pkexec call using bash
+                filenames = [os.path.basename(f) for f in extracted_files]
+                files_str = ' '.join([f'"{f}"' for f in extracted_files])
+                
+                # Create consolidated bash script for both copy AND symlinks (single pkexec)
+                install_script = f"""#!/bin/bash
+# Copy wallpapers
+mkdir -p {dest_dir}
+cp {files_str} {dest_dir}/
+"""
+                
+                # Add symlink commands for XFCE in the SAME script
+                if is_xfce:
+                    xfce_dir = "/usr/share/backgrounds/xfce"
+                    install_script += f"\n# Create XFCE symlinks\nmkdir -p {xfce_dir}\n"
+                    for filename in filenames:
+                        source = f"{dest_dir}/{filename}"
+                        target = f"{xfce_dir}/{filename}"
+                        install_script += f'ln -sf {source} {target}\n'
+                
+                script_path = os.path.join(temp_dir, "install_wallpapers.sh")
+                with open(script_path, 'w') as f:
+                    f.write(install_script)
+                os.chmod(script_path, 0o755)
+                
+                # Execute EVERYTHING with single pkexec (copy + symlinks)
+                subprocess.run(["pkexec", "bash", script_path], check=True)
+
                 
                 # Generate GNOME XML if needed
                 if is_gnome:
-                    self._generate_gnome_wallpaper_xml(installed_filenames, dest_dir, temp_dir)
+                    self._generate_gnome_wallpaper_xml(filenames, dest_dir, temp_dir)
             
             # Success dialog
+            success_message = f"Wallpapers have been installed to:\n{dest_dir}"
+            if is_xfce:
+                success_message += f"\n\nSymlinks created in:\n/usr/share/backgrounds/xfce/"
+            success_message += f"\n\nYou can now select them from your {de_name} wallpaper settings."
+            
             success_dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
@@ -1000,10 +1026,7 @@ class GamingTab(Gtk.Box):
                 buttons=Gtk.ButtonsType.OK,
                 text="Gaming wallpapers installed successfully!"
             )
-            success_dialog.format_secondary_text(
-                f"Wallpapers have been installed to:\\n{dest_dir}\\n\\n"
-                f"You can now select them from your {de_name} wallpaper settings."
-            )
+            success_dialog.format_secondary_text(success_message)
             success_dialog.run()
             success_dialog.destroy()
             
