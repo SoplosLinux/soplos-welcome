@@ -399,7 +399,7 @@ class RecommendedTab(Gtk.Box):
             # Create a script for downloading and installing .deb
             deb_url = package['deb_url']
             pkg_name = package['package']
-            command = f"""wget -O /tmp/{pkg_name}.deb "{deb_url}"
+            command = f"""wget -q --show-progress -O /tmp/{pkg_name}.deb "{deb_url}"
 pkexec apt install -y /tmp/{pkg_name}.deb
 rm -f /tmp/{pkg_name}.deb"""
             script_name = f"install-{pkg_name}.sh"

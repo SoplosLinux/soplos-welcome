@@ -5,7 +5,7 @@ Central GUI component that manages all tabs and overall application interface.
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk, GLib, GdkPixbuf
+from gi.repository import Gtk, Gdk, GLib, GdkPixbuf, Pango
 
 from core.i18n_manager import _
 from core import __version__
@@ -218,6 +218,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.progress_label = Gtk.Label()
         self.progress_label.get_style_context().add_class(CSS_CLASSES['status_label'])
         self.progress_label.set_text(_("Ready"))
+        self.progress_label.set_ellipsize(Pango.EllipsizeMode.MIDDLE)  # Truncate long text
+        self.progress_label.set_max_width_chars(80)  # Limit width
         progress_box.pack_start(self.progress_label, False, False, 0)
         
         self.progress_revealer.add(progress_box)

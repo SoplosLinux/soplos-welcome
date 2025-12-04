@@ -50,7 +50,13 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.clamtk_row = None
         self.rkhunter_row = None
         
+        # Timer for periodic UFW status updates
+        self.ufw_timer_id = None
+        
         self._create_ui()
+        
+        # Start periodic UFW status check (every 3 seconds)
+        self._start_ufw_status_timer()
     
     def _create_ui(self):
         """Create the security tab interface."""
@@ -274,27 +280,28 @@ class SecurityTab(Gtk.ScrolledWindow):
     def _detect_filesystem(self):
         """Detect root filesystem type."""
         try:
+            # Use findmnt which correctly detects BTRFS even with subvolumes (@, @home, etc.)
             result = subprocess.run(
-                ["df", "-T", "/", "--output=fstype"],
+                ["findmnt", "-n", "-o", "FSTYPE", "/"],
                 capture_output=True, text=True
             )
-            lines = result.stdout.strip().split('\n')
-            if len(lines) > 1:
-                return lines[1].strip()
+            if result.returncode == 0:
+                return result.stdout.strip().lower()
         except:
-            return "unknown"
+            pass
         return "unknown"
     
     def _is_ufw_active(self):
         """Check if UFW firewall is active."""
         try:
-            result = subprocess.run(
-                ["ufw", "status"],
-                capture_output=True, text=True
-            )
-            return "Status: active" in result.stdout
+            # Read UFW config file (no password needed)
+            with open('/etc/ufw/ufw.conf', 'r') as f:
+                for line in f:
+                    if line.strip().startswith('ENABLED='):
+                        return 'yes' in line.lower()
         except:
-            return False
+            pass
+        return False
     
     def _is_package_installed(self, package_name):
         """Check if a package is installed."""
@@ -430,6 +437,7 @@ class SecurityTab(Gtk.ScrolledWindow):
     def _on_operation_complete(self, success=True):
         """Callback after operation completes."""
         GLib.timeout_add(1000, self._update_all_buttons)
+        GLib.timeout_add(1000, self._update_ufw_status)
     
     # Event handlers
     def _on_install_package(self, packages):
@@ -475,23 +483,13 @@ echo "Uninstallation complete."
         is_active = self._is_ufw_active()
         
         if is_active:
-            script_content = """#!/bin/bash
-echo "Deactivating UFW firewall..."
-pkexec ufw disable
-echo "Firewall deactivated."
-"""
+            # Single pkexec call for disable
+            command = "pkexec bash -c 'ufw disable'"
         else:
-            script_content = """#!/bin/bash
-echo "Activating UFW firewall..."
-pkexec ufw enable
-echo "Firewall activated."
-"""
+            # Single pkexec call for enable (all commands run as root)
+            command = "pkexec bash -c 'ufw --force enable && systemctl enable ufw && systemctl start ufw'"
         
-        script_path = "/tmp/toggle-ufw.sh"
-        with open(script_path, "w") as f:
-            f.write(script_content)
-        os.chmod(script_path, 0o755)
-        self.command_runner.run_command(script_path, self._on_operation_complete)
+        self.command_runner.run_command(command, self._on_operation_complete)
     
     def _on_update_clamav(self, widget):
         """Update ClamAV virus definitions."""
@@ -518,3 +516,20 @@ echo "Scan complete. Check results above."
             f.write(script_content)
         os.chmod(script_path, 0o755)
         self.command_runner.run_command(script_path)
+    
+    def _start_ufw_status_timer(self):
+        """Start periodic UFW status check."""
+        # Check every 3 seconds
+        self.ufw_timer_id = GLib.timeout_add_seconds(3, self._periodic_ufw_check)
+    
+    def _stop_ufw_status_timer(self):
+        """Stop periodic UFW status check."""
+        if self.ufw_timer_id:
+            GLib.source_remove(self.ufw_timer_id)
+            self.ufw_timer_id = None
+    
+    def _periodic_ufw_check(self):
+        """Periodic check of UFW status (called by timer)."""
+        self._update_ufw_status()
+        return True  # Keep timer running
+

@@ -178,6 +178,9 @@
           <li>Fixed Recommends Tab UI button alignment</li>
           <li>Fixed Repo Selector button behavior</li>
           <li>Updated Welcome tab URLs</li>
+          <li>Fixed UFW Firewall status detection, activation, and periodic updates</li>
+          <li>Fixed BTRFS filesystem detection for Calamares subvolumes</li>
+          <li>Fixed window deformation during downloads</li>
         </ul>
       </description>
       <description xml:lang="es">
@@ -215,6 +218,9 @@
           <li>Corregida alineación de botones en pestaña Recomendados</li>
           <li>Comportamiento corregido del botón Selector de Repositorios</li>
           <li>URLs de la pestaña de Bienvenida actualizadas</li>
+          <li>Corregida detección, activación y actualizaciones periódicas firewall UFW</li>
+          <li>Corregida detección filesystem BTRFS para subvolúmenes Calamares</li>
+          <li>Corregida deformación ventana durante descargas</li>
         </ul>
       </description>
       <description xml:lang="fr">
@@ -252,6 +258,9 @@
           <li>Correction alignement boutons onglet Recommandé</li>
           <li>Correction du comportement du bouton Sélecteur de Dépôts</li>
           <li>Mise à jour des URL de l'onglet Bienvenue</li>
+          <li>Correction détection, activation et mises à jour périodiques pare-feu UFW</li>
+          <li>Correction détection système de fichiers BTRFS pour sous-volumes Calamares</li>
+          <li>Correction déformation fenêtre pendant téléchargements</li>
         </ul>
       </description>
       <description xml:lang="pt">
@@ -289,6 +298,9 @@
           <li>Corrigido alinhamento botões aba Recomendado</li>
           <li>Comportamento corrigido do botão Seletor de Repositórios</li>
           <li>URLs da guia Boas-vindas atualizadas</li>
+          <li>Corrigida detecção, ativação e atualizações periódicas firewall UFW</li>
+          <li>Corrigida detecção sistema de arquivos BTRFS para subvolumes Calamares</li>
+          <li>Corrigida deformação janela durante downloads</li>
         </ul>
       </description>
       <description xml:lang="de">
@@ -326,6 +338,9 @@
           <li>Korrigierte Button-Ausrichtung Empfohlen-Tab</li>
           <li>Korrigiertes Verhalten der Repo-Auswahltaste</li>
           <li>Aktualisierte URLs im Willkommens-Tab</li>
+          <li>Korrigierte UFW-Firewall-Statuserkennung, -Aktivierung und periodische Updates</li>
+          <li>Korrigierte BTRFS-Dateisystemerkennung für Calamares-Subvolumes</li>
+          <li>Korrigierte Fensterverformung während Downloads</li>
         </ul>
       </description>
       <description xml:lang="it">
@@ -363,6 +378,9 @@
           <li>Corretto allineamento pulsanti scheda Consigliati</li>
           <li>Corretto comportamento del pulsante Selettore Repo</li>
           <li>URL della scheda Benvenuto aggiornati</li>
+          <li>Corretta rilevamento, attivazione e aggiornamenti periodici firewall UFW</li>
+          <li>Corretta rilevamento filesystem BTRFS per sottovolumi Calamares</li>
+          <li>Corretta deformazione finestra durante download</li>
         </ul>
       </description>
       <description xml:lang="ru">
@@ -400,6 +418,9 @@
           <li>Исправлено выравнивание кнопок вкладка Рекомендуемое</li>
           <li>Исправлено поведение кнопки выбора репозитория</li>
           <li>Обновлены URL вкладки приветствия</li>
+          <li>Исправлено обнаружение, активация и периодические обновления брандмауэра UFW</li>
+          <li>Исправлено обнаружение файловой системы BTRFS для подтомов Calamares</li>
+          <li>Исправлена деформация окна во время загрузок</li>
         </ul>
       </description>
       <description xml:lang="ro">
@@ -437,6 +458,9 @@
           <li>Corectat aliniere butoane tab Recomandat</li>
           <li>Comportament corectat al butonului Selector Repo</li>
           <li>Actualizare URL-uri tab Bun venit</li>
+          <li>Corectată detectare, activare și actualizări periodice firewall UFW</li>
+          <li>Corectată detectare sistem fișiere BTRFS pentru subvolume Calamares</li>
+          <li>Corectată deformare fereastră în timpul descărcărilor</li>
         </ul>
       </description>
     </release>

@@ -174,6 +174,9 @@ Contact: info@soploslinux.com
 - **Fixed Welcome Tab Autostart**: Corrected .desktop file creation and path resolution for autostart functionality.
 - **Fixed Flatpak Installation**: Corrected Flathub repository setup and package installation in Tyson variant.
 - **Recommends Tab UI**: Improved button alignment consistency with minimum height enforcement for description labels.
+- **Fixed UFW Firewall**: Status detection and activation (single password prompt, no interactive prompts), periodic status updates to detect external changes.
+- **Fixed BTRFS Detection**: Filesystem detection for Calamares subvolumes (@, @home).
+- **Fixed Window Deformation**: Progress label stretching during downloads.
 
 ### v1.1.4 (08/09/2025)
 - Updated Blender icon and fixed link buttons in the welcome tab.

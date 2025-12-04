@@ -127,6 +127,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - **Welcome Tab Autostart**: Fixed .desktop file creation and dynamic path resolution for autostart functionality.
 - **Flatpak Installation**: Corrected Flathub repository setup and package installation in Tyson variant, ensuring user-level installations work without password prompts.
 - **Recommends Tab UI**: Improved button alignment consistency by enforcing minimum height for description labels, eliminating visual inconsistencies.
+- **Security Tab - UFW Firewall**: Fixed status detection by reading `/etc/ufw/ufw.conf` directly, simplified activation to single `pkexec` call, added `--force` flag to prevent interactive prompts, enabled systemd service persistence, added periodic status check (every 3s) to detect external changes from GUFW
+- **Security Tab - BTRFS Detection**: Fixed filesystem detection using `findmnt` instead of incompatible `df` flags, now correctly detects BTRFS with Calamares subvolumes (@, @home)
+- **Window Deformation**: Fixed progress label stretching during downloads by adding text ellipsization and width limits
 - Fixed DriversTab initialization
 - Fixed Repo Selector button to launch application
 - Updated Welcome tab URLs to soplos.org
