@@ -1,0 +1,140 @@
+/* Gaming RGB Theme - Black with Red Neon Accents */
+
+/* Main window background - Pure black */
+window {
+    background-color: #000000;
+}
+
+/* Buttons - Red neon glow */
+button {
+    background-image: linear-gradient(to bottom, #1a0000, #0d0000);
+    border: 1px solid #ff0000;
+    color: #ffffff;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+}
+
+button:hover {
+    background-image: linear-gradient(to bottom, #330000, #1a0000);
+    border: 1px solid #ff3333;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+button.suggested-action {
+    background-image: linear-gradient(to bottom, #cc0000, #990000);
+    border: 1px solid #ff0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+}
+
+button.suggested-action:hover {
+    background-image: linear-gradient(to bottom, #ff0000, #cc0000);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 1.0);
+}
+
+button.destructive-action {
+    background-image: linear-gradient(to bottom, #660000, #330000);
+    border: 1px solid #cc0000;
+}
+
+/* Headers - Red accent */
+headerbar {
+    background-image: linear-gradient(to bottom, #1a0000, #0d0000);
+    border-bottom: 2px solid #ff0000;
+    box-shadow: 0 2px 10px rgba(255, 0, 0, 0.4);
+}
+
+headerbar button {
+    border: 1px solid #660000;
+}
+
+/* Frames - Red borders */
+frame {
+    border: 1px solid #ff0000;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+}
+
+frame > border {
+    border: 1px solid #ff0000;
+}
+
+/* Labels - Red gradient for titles */
+label {
+    color: #ffffff;
+}
+
+frame > label {
+    color: #ff3333;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+/* Progress bars - Red neon */
+progressbar progress {
+    background-image: linear-gradient(to right, #cc0000, #ff0000);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+}
+
+progressbar trough {
+    background-color: #1a0000;
+    border: 1px solid #660000;
+}
+
+/* Notebook tabs - Red active tab */
+notebook > header > tabs > tab {
+    background-image: linear-gradient(to bottom, #0d0000, #000000);
+    border: 1px solid #660000;
+    color: #999999;
+}
+
+notebook > header > tabs > tab:checked {
+    background-image: linear-gradient(to bottom, #330000, #1a0000);
+    border: 1px solid #ff0000;
+    color: #ff3333;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+}
+
+notebook > header > tabs > tab:hover {
+    background-color: #1a0000;
+    color: #ff6666;
+}
+
+/* Scrollbars - Red accent */
+scrollbar slider {
+    background-color: #660000;
+    border: 1px solid #ff0000;
+}
+
+scrollbar slider:hover {
+    background-color: #990000;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+/* Entry fields - Red focus */
+entry {
+    background-color: #0d0000;
+    border: 1px solid #660000;
+    color: #ffffff;
+}
+
+entry:focus {
+    border: 1px solid #ff0000;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
+}
+
+/* Menu - Dark with red accents */
+menu {
+    background-color: #0d0000;
+    border: 1px solid #ff0000;
+}
+
+menuitem {
+    color: #ffffff;
+}
+
+menuitem:hover {
+    background-color: #330000;
+    color: #ff3333;
+}
+
+/* Special gaming glow effect for important elements */
+.gaming-glow {
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+}

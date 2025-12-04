@@ -5,15 +5,18 @@ Hidden easter egg tab with gaming optimizations and tools.
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import Gtk, GdkPixbuf, Pango
 
 from config.paths import ICONS_DIR
+from utils.command_runner import CommandRunner
+import subprocess
+import os
 
 class GamingTab(Gtk.Box):
     """Hidden gaming tab with optimizations and tools."""
     
     def __init__(self, i18n_manager, theme_manager, parent_window, progress_bar, progress_label):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL)
         
         self.i18n_manager = i18n_manager
         self.theme_manager = theme_manager
@@ -21,14 +24,25 @@ class GamingTab(Gtk.Box):
         self.progress_bar = progress_bar
         self.progress_label = progress_label
         
+        # Create CommandRunner for launcher installations
+        self.command_runner = CommandRunner(self.progress_bar, self.progress_label, self.parent_window)
+        
+        # Cache for launcher installation status
+        self.launcher_status_cache = {}
+        
+        # RGB Theme state
+        self.rgb_theme_active = False
+        self.rgb_css_provider = None
+        
         # Set margins
-        self.set_margin_top(20)
-        self.set_margin_bottom(20)
         self.set_margin_left(20)
         self.set_margin_right(20)
+        self.set_margin_top(20)
+        self.set_margin_bottom(20)
         
         # Create UI
         self._create_ui()
+        self.show_all()
         
     def _create_ui(self):
         """Create the user interface."""
@@ -65,19 +79,8 @@ class GamingTab(Gtk.Box):
             ("Revert All", "Undo all gaming optimizations", "edit-undo")
         ])
         
-        # 2. Launchers Section
-        # 2. Launchers Section
-        self._create_section(content_box, "Launchers", [
-            ("Steam", "Install Steam", "gaming/steam.png"),
-            ("Lutris", "Install Lutris", "gaming/lutris.png"),
-            ("Heroic", "Install Heroic Games Launcher", "gaming/heroic.png"),
-            ("Bottles", "Install Bottles", "gaming/bottles.png"),
-            ("Prism Launcher", "Minecraft Launcher with mod support", "gaming/prism.png"),
-            ("Itch.io", "Indie games marketplace", "gaming/itch-io.png"),
-            ("Minigalaxy", "Simple GOG client", "gaming/gog.png"),
-            ("RetroArch", "All-in-one emulation frontend", "gaming/retroarch.png"),
-            ("Discord", "Chat for gamers", "comunications/discord.png")
-        ])
+        # 2. Launchers Section (dynamic from config)
+        self._create_launchers_section(content_box)
         
         # 3. Wallpapers Section
         self._create_section(content_box, "Customization", [
@@ -203,6 +206,8 @@ class GamingTab(Gtk.Box):
             self._install_mangohud()
         elif name == "Gaming Wallpapers":
             self._install_gaming_wallpapers()
+        elif name == "RGB Theme":
+            self._toggle_rgb_theme()
         elif name == "Revert All":
             self._revert_all_optimizations()
         else:
@@ -1077,4 +1082,415 @@ class GamingTab(Gtk.Box):
             "pkexec", "cp", temp_xml, xml_dest
         ], check=True)
 
-
+    def _create_launchers_section(self, parent):
+        """Create launchers section with install buttons and badges."""
+        # Define launchers locally (NOT from config/software.py to avoid duplicates in recommended tab)
+        launchers = [
+            {
+                'name': 'Steam',
+                'package': None,
+                'flatpak': 'com.valvesoftware.Steam',
+                'icon': 'steam.png',
+                'description': 'Plataforma de distribución digital de videojuegos',
+                'official': False
+            },
+            {
+                'name': 'Lutris',
+                'package': 'lutris',
+                'flatpak': 'net.lutris.Lutris',
+                'icon': 'lutris.png',
+                'description': 'Plataforma unificada para gestionar juegos en Linux',
+                'official': True
+            },
+            {
+                'name': 'Heroic Games Launcher',
+                'package': None,
+                'flatpak': 'com.heroicgameslauncher.hgl',
+                'icon': 'heroic.png',
+                'description': 'Launcher para juegos de Epic, GOG y Amazon Games',
+                'official': False
+            },
+            {
+                'name': 'Bottles',
+                'package': None,
+                'flatpak': 'com.usebottles.bottles',
+                'icon': 'bottles.png',
+                'description': 'Ejecuta aplicaciones Windows en Linux usando Wine',
+                'official': False
+            },
+            {
+                'name': 'Prism Launcher',
+                'package': None,
+                'flatpak': 'org.prismlauncher.PrismLauncher',
+                'icon': 'prism.png',
+                'description': 'Launcher personalizado para Minecraft',
+                'official': False
+            },
+            {
+                'name': 'Itch.io',
+                'package': None,
+                'flatpak': 'io.itch.itch',
+                'icon': 'itch-io.png',
+                'description': 'Plataforma de distribución de juegos indie',
+                'official': False
+            },
+            {
+                'name': 'Minigalaxy',
+                'package': 'minigalaxy',
+                'flatpak': 'io.github.sharkwouter.Minigalaxy',
+                'icon': 'gog.png',
+                'description': 'Cliente simple para GOG.com',
+                'official': True
+            },
+            {
+                'name': 'RetroArch',
+                'package': 'retroarch',
+                'flatpak': 'org.libretro.RetroArch',
+                'icon': 'retroarch.png',
+                'description': 'Frontend para emuladores y motores de juegos',
+                'official': True
+            },
+            {
+                'name': 'Discord',
+                'package': None,
+                'flatpak': 'com.discordapp.Discord',
+                'icon': 'discord.png',
+                'description': 'Plataforma de comunicación para comunidades gaming',
+                'official': False
+            }
+        ]
+        
+        if not launchers:
+            return
+        
+        # Section Frame
+        section_frame = Gtk.Frame()
+        section_frame.set_label_align(0.02, 0.5)
+        section_frame.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
+        parent.pack_start(section_frame, False, False, 0)
+        
+        # Section title
+        title = Gtk.Label()
+        title.set_markup('<span size="large" weight="bold">Launchers</span>')
+        section_frame.set_label_widget(title)
+        
+        # Grid for launchers
+        grid = Gtk.Grid()
+        grid.set_row_spacing(10)
+        grid.set_column_spacing(15)
+        grid.set_margin_left(20)
+        grid.set_margin_right(20)
+        grid.set_margin_top(15)
+        grid.set_margin_bottom(15)
+        grid.set_column_homogeneous(True)
+        
+        # Add launcher widgets (2 columns)
+        row = 0
+        col = 0
+        max_cols = 2
+        
+        for launcher in launchers:
+            launcher_widget = self._create_launcher_widget(launcher)
+            grid.attach(launcher_widget, col, row, 1, 1)
+            
+            col += 1
+            if col >= max_cols:
+                col = 0
+                row += 1
+        
+        section_frame.add(grid)
+    
+    def _create_launcher_widget(self, launcher):
+        """Create a widget for a single launcher with badges."""
+        # Main container
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        box.set_margin_top(8)
+        box.set_margin_bottom(8)
+        
+        # Icon
+        icon = self._load_launcher_icon(launcher.get('icon', ''))
+        if icon:
+            box.pack_start(icon, False, False, 0)
+        
+        # Info box
+        info_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        
+        # Name + Badges
+        name_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        
+        name_label = Gtk.Label()
+        name_text = f"<b>{launcher['name']}</b>"
+        name_label.set_markup(name_text)
+        name_label.set_halign(Gtk.Align.START)
+        name_box.pack_start(name_label, False, False, 0)
+        
+        # Add Flatpak badge ONLY when using flatpak (same style as recommended tab)
+        install_method = self._get_install_method(launcher)
+        if install_method == 'flatpak':
+            flatpak_badge = Gtk.Label()
+            flatpak_badge.set_markup('<span size="small" foreground="#888888" background="#333333"> Flatpak </span>')
+            flatpak_badge.set_valign(Gtk.Align.CENTER)
+            name_box.pack_start(flatpak_badge, False, False, 0)
+        
+        # Official badge
+        if launcher.get('official', False):
+            official_badge = Gtk.Image.new_from_icon_name("security-high-symbolic", Gtk.IconSize.MENU)
+            official_badge.get_style_context().add_class('success-color')
+            official_badge.set_tooltip_text("Official Package")
+            name_box.pack_start(official_badge, False, False, 0)
+        
+        info_box.pack_start(name_box, False, False, 0)
+        
+        # Description
+        desc_label = Gtk.Label(launcher.get('description', ''))
+        desc_label.set_halign(Gtk.Align.START)
+        desc_label.set_line_wrap(True)
+        desc_label.set_max_width_chars(45)
+        desc_label.set_lines(2)
+        desc_label.set_ellipsize(Pango.EllipsizeMode.END)
+        desc_label.set_size_request(-1, 40)
+        desc_label.get_style_context().add_class('dim-label')
+        info_box.pack_start(desc_label, False, False, 0)
+        
+        box.pack_start(info_box, True, True, 0)
+        
+        # Button
+        button_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        button_box.set_valign(Gtk.Align.CENTER)
+        
+        if self._is_launcher_installed(launcher):
+            button = Gtk.Button.new_with_label("Desinstalar")
+            button.get_style_context().add_class('destructive-action')
+            button.set_size_request(110, -1)
+            button.connect('clicked', self._on_uninstall_launcher, launcher)
+        else:
+            button = Gtk.Button.new_with_label("Instalar")
+            button.get_style_context().add_class('suggested-action')
+            button.set_size_request(110, -1)
+            button.connect('clicked', self._on_install_launcher, launcher)
+        
+        button_box.pack_start(button, False, False, 0)
+        box.pack_start(button_box, False, False, 0)
+        
+        return box
+    
+    def _load_launcher_icon(self, icon_name):
+        """Load launcher icon."""
+        if not icon_name:
+            return None
+        
+        try:
+            # Discord icon is in comunications folder
+            if icon_name == 'discord.png':
+                icon_path = os.path.join(ICONS_DIR, 'comunications', icon_name)
+            else:
+                icon_path = os.path.join(ICONS_DIR, 'gaming', icon_name)
+            
+            if os.path.exists(icon_path):
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
+                    icon_path, 48, 48, True
+                )
+                return Gtk.Image.new_from_pixbuf(pixbuf)
+        except Exception as e:
+            print(f"Error loading launcher icon {icon_name}: {e}")
+        
+        return None
+    
+    def _get_install_method(self, launcher):
+        """Get preferred install method for launcher."""
+        # Prefer Flatpak for certain launchers (like recommended tab)
+        prefer_flatpak = ['Steam', 'Heroic Games Launcher', 'Bottles', 'Discord', 
+                         'Prism Launcher', 'Itch.io']
+        
+        if launcher['name'] in prefer_flatpak and launcher.get('flatpak'):
+            return 'flatpak'
+        
+        # APT first if available
+        if launcher.get('package'):
+            return 'apt'
+        elif launcher.get('flatpak'):
+            return 'flatpak'
+        
+        return 'unknown'
+    
+    def _is_launcher_installed(self, launcher):
+        """Check if launcher is installed."""
+        name = launcher['name']
+        
+        # Check cache
+        if name in self.launcher_status_cache:
+            return self.launcher_status_cache[name]
+        
+        method = self._get_install_method(launcher)
+        is_installed = False
+        
+        try:
+            if method == 'apt' and launcher.get('package'):
+                result = subprocess.run(
+                    ['dpkg', '-s', launcher['package']],
+                    capture_output=True, text=True
+                )
+                is_installed = 'Status: install ok installed' in result.stdout
+            elif method == 'flatpak' and launcher.get('flatpak'):
+                result = subprocess.run(
+                    ['flatpak', 'info', launcher['flatpak']],
+                    capture_output=True, text=True
+                )
+                is_installed = result.returncode == 0
+        except:
+            pass
+        
+        self.launcher_status_cache[name] = is_installed
+        return is_installed
+    
+    def _on_install_launcher(self, button, launcher):
+        """Install launcher."""
+        method = self._get_install_method(launcher)
+        command = ""
+        script_name = ""
+        
+        if method == 'apt' and launcher.get('package'):
+            command = f"pkexec apt install -y {launcher['package']}"
+            script_name = f"install-{launcher['package']}.sh"
+        elif method == 'flatpak' and launcher.get('flatpak'):
+            command = f"flatpak install -y flathub {launcher['flatpak']}"
+            script_name = f"install-{launcher['flatpak'].replace('.', '-')}.sh"
+        
+        if command:
+            self._run_launcher_script(command, script_name, launcher)
+    
+    def _on_uninstall_launcher(self, button, launcher):
+        """Uninstall launcher."""
+        method = self._get_install_method(launcher)
+        command = ""
+        script_name = ""
+        
+        if method == 'apt' and launcher.get('package'):
+            command = f"pkexec apt remove -y {launcher['package']}"
+            script_name = f"uninstall-{launcher['package']}.sh"
+        elif method == 'flatpak' and launcher.get('flatpak'):
+            command = f"flatpak uninstall -y {launcher['flatpak']}"
+            script_name = f"uninstall-{launcher['flatpak'].replace('.', '-')}.sh"
+        
+        if command:
+            self._run_launcher_script(command, script_name, launcher)
+    
+    def _run_launcher_script(self, command, script_name, launcher):
+        """Create and run installation script."""
+        script_path = f"/tmp/{script_name}"
+        try:
+            with open(script_path, "w") as f:
+                f.write("#!/bin/bash\n")
+                f.write("set -e\n")
+                f.write(command + "\n")
+                f.write("echo 'Operation completed successfully'\n")
+            os.chmod(script_path, 0o755)
+            
+            # Run and refresh on complete
+            self.command_runner.run_command(
+                script_path,
+                lambda: self._on_launcher_operation_complete(launcher)
+            )
+        except Exception as e:
+            print(f"Error running launcher script: {e}")
+    
+    def _on_launcher_operation_complete(self, launcher):
+        """Handle launcher operation completion."""
+        # Clear cache
+        if launcher['name'] in self.launcher_status_cache:
+            del self.launcher_status_cache[launcher['name']]
+        
+        # Recreate the launchers section (refresh UI)
+        print(f"Launcher operation completed for {launcher['name']}")
+        # Note: Full UI refresh would require rebuilding the entire content_box
+        # For now, cache invalidation ensures next check is accurate
+    
+    def _toggle_rgb_theme(self):
+        """Toggle RGB Gaming theme (black with red neon accents)."""
+        from gi.repository import Gdk
+        
+        if self.rgb_theme_active:
+            # Deactivate RGB theme
+            if self.rgb_css_provider:
+                screen = Gdk.Screen.get_default()
+                Gtk.StyleContext.remove_provider_for_screen(
+                    screen,
+                    self.rgb_css_provider
+                )
+                self.rgb_css_provider = None
+            
+            self.rgb_theme_active = False
+            
+            # Show confirmation
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.INFO,
+                buttons=Gtk.ButtonsType.OK,
+                text="RGB Theme Deactivated"
+            )
+            dialog.format_secondary_text("The RGB gaming theme has been disabled.")
+            dialog.run()
+            dialog.destroy()
+        else:
+            # Activate RGB theme
+            try:
+                # Load gaming RGB CSS
+                rgb_css_path = os.path.join(
+                    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                    'assets', 'themes', 'gaming-rgb.css'
+                )
+                
+                if not os.path.exists(rgb_css_path):
+                    dialog = Gtk.MessageDialog(
+                        transient_for=self.parent_window,
+                        flags=0,
+                        message_type=Gtk.MessageType.ERROR,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Error"
+                    )
+                    dialog.format_secondary_text(f"RGB theme file not found:\n{rgb_css_path}")
+                    dialog.run()
+                    dialog.destroy()
+                    return
+                
+                # Create and apply CSS provider
+                self.rgb_css_provider = Gtk.CssProvider()
+                self.rgb_css_provider.load_from_path(rgb_css_path)
+                
+                screen = Gdk.Screen.get_default()
+                Gtk.StyleContext.add_provider_for_screen(
+                    screen,
+                    self.rgb_css_provider,
+                    Gtk.STYLE_PROVIDER_PRIORITY_USER  # High priority to override
+                )
+                
+                self.rgb_theme_active = True
+                
+                # Show confirmation
+                dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="RGB Theme Activated! 🎮"
+                )
+                dialog.format_secondary_text(
+                    "Gaming RGB theme applied!\n\n"
+                    "• Black background with red neon accents\n"
+                    "• Click 'RGB Theme' again to deactivate"
+                )
+                dialog.run()
+                dialog.destroy()
+                
+            except Exception as e:
+                dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Error Activating RGB Theme"
+                )
+                dialog.format_secondary_text(f"Failed to load RGB theme:\n{str(e)}")
+                dialog.run()
+                dialog.destroy()

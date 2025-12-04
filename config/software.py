@@ -415,10 +415,10 @@ SOFTWARE_CATEGORIES = {
         'packages': [
             {
                 'name': 'Steam',
-                'package': 'steam',
+                'package': None,
                 'flatpak': 'com.valvesoftware.Steam',
                 'icon': 'steam.png',
-                'description': 'Plataforma de distribución de juegos',
+                'description': 'Plataforma de distribución digital de videojuegos',
                 'official': False
             },
             {
@@ -426,15 +426,15 @@ SOFTWARE_CATEGORIES = {
                 'package': 'lutris',
                 'flatpak': 'net.lutris.Lutris',
                 'icon': 'lutris.png',
-                'description': 'Plataforma de gaming para Linux',
+                'description': 'Plataforma unificada para gestionar juegos en Linux',
                 'official': True
             },
             {
                 'name': 'Bottles',
-                'package': 'bottles',
+                'package': None,
                 'flatpak': 'com.usebottles.bottles',
                 'icon': 'bottles.png',
-                'description': 'Gestor de prefijos de Wine fácil de usar',
+                'description': 'Ejecuta aplicaciones Windows en Linux usando Wine',
                 'official': False
             },
             {
@@ -442,7 +442,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'retroarch',
                 'flatpak': 'org.libretro.RetroArch',
                 'icon': 'retroarch.png',
-                'description': 'Frontend para emuladores y engines de juegos',
+                'description': 'Frontend para emuladores y motores de juegos',
                 'official': True
             },
             {
@@ -450,7 +450,7 @@ SOFTWARE_CATEGORIES = {
                 'package': None,
                 'flatpak': 'com.heroicgameslauncher.hgl',
                 'icon': 'heroic.png',
-                'description': 'Launcher para Epic Games Store y GOG',
+                'description': 'Launcher para juegos de Epic, GOG y Amazon Games',
                 'official': False
             }
         ]

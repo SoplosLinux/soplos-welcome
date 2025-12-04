@@ -75,7 +75,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
   - **GPU Optimization**: Automatic GPU vendor detection (NVIDIA/AMD/Intel) with environment configuration files for optimal gaming drivers
   - **Disk I/O Optimization**: Udev rules implementation for optimal disk schedulers (mq-deadline for SSD, none for NVMe, BFQ for HDD)
   - **Performance Monitoring**: MangoHud + Goverlay integration for FPS overlay
-  - **Game Launchers**: Quick installation for Steam, Lutris, Heroic, Bottles, Prism Launcher, RetroArch, Discord
+  - **Game Launchers**: Full installation/uninstallation support for 9 gaming platforms:
+    - **Steam (Flatpak)**: Digital game distribution platform
+    - **Lutris (APT/Flatpak)**: Unified game manager for Linux with official repository package badge
+    - **Heroic Games Launcher (Flatpak)**: Launcher for Epic Games, GOG, and Amazon Games
+    - **Bottles (Flatpak)**: Run Windows applications using Wine with intuitive prefix management
+    - **Prism Launcher (Flatpak)**: Custom Minecraft launcher with mod support
+    - **Itch.io (Flatpak)**: Indie game marketplace and distribution platform
+    - **Minigalaxy (APT/Flatpak)**: Simple GOG.com client with official repository package badge
+    - **RetroArch (APT/Flatpak)**: Multi-system emulator frontend with official repository package badge
+    - **Discord (Flatpak)**: Gaming community communication platform
+  - **Installation Method Badges**: Visual indicators (Flatpak badge) to show package installation source
+  - **Official Package Badges**: Security shield icon for packages from official Debian repositories
+  - **RGB Gaming Theme**: Toggle-able gaming theme with black background and red neon accents:
+    - Applies instantly without requiring application restart
+    - Modern gaming aesthetic with glowing effects
+    - One-click activation/deactivation from Gaming tab
   - **Gaming Wallpapers**: Automatic installation with GNOME XML registry support for seamless integration
   - **Revert Functionality**: One-click rollback of all gaming optimizations
   - **Custom Icons**: Vibrant gaming-themed icons for better visual identity

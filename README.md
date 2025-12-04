@@ -31,22 +31,43 @@ Soplos Welcome is a welcome application that guides new users through the initia
 ## 📸 Screenshots
 
 ### Welcome Tab
-![Welcome Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot1.png)
+![Welcome Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot01.png)
 
 ### Software Tab - Install Software Centers
-![Software Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot2.png)
+![Software Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot02.png)
 
-### Drivers Tab - Hardware Detection and Driver Management
-![Drivers Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot3.png)
+### Drivers Tab - Hardware Scan and NVIDIA/AMD (Part 1)
+![Drivers Tab Part 1](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot03.png)
 
-### Kernels Tab - Liquorix, XanMod Variants, and CPU Microcode
-![Kernels Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot4.png)
+### Drivers Tab - Wi-Fi, Other Drivers, and VM Tools (Part 2)
+![Drivers Tab Part 2](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot04.png)
 
-### Recommends - Install Recommended Software Easily
-![Recommends Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot5.png)
+### Kernels Tab - CPU Microcode and System Information (Part 1)
+![Kernels Tab Part 1](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot05.png)
+
+### Kernels Tab - Liquorix and XanMod Kernel Variants (Part 2)
+![Kernels Tab Part 2](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot06.png)
+
+### Security Tab - System Backups and Firewall (Part 1)
+![Security Tab Part 1](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot07.png)
+
+### Security Tab - Filesystem Tools and Antivirus (Part 2)
+![Security Tab Part 2](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot08.png)
+
+### Recommended Tab - Install Recommended Software
+![Recommended Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot09.png)
 
 ### Customization Tab - Personalize Your System
-![Customization Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot6.png)
+![Customization Tab](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot10.png)
+
+### Gaming Tab - System Optimizations (Part 1)
+![Gaming Tab Part 1](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot11.png)
+
+### Gaming Tab - Game Launchers (Part 2)
+![Gaming Tab Part 2](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot12.png)
+
+### Gaming Tab - RGB Theme Activated
+![Gaming RGB Theme](https://raw.githubusercontent.com/SoplosLinux/soplos-welcome/main/assets/screenshots/screenshot13.png)
 
 ## 🔧 Installation
 
@@ -126,7 +147,19 @@ Contact: info@soploslinux.com
   - **GPU Optimization**: Automatic GPU vendor detection (NVIDIA/AMD/Intel) with driver environment configuration for optimal gaming performance.
   - **Disk I/O Optimization**: Udev rules for optimal disk schedulers (mq-deadline for SSD, none for NVMe, BFQ for HDD).
   - **Performance Tools**: MangoHud + Goverlay for FPS monitoring and overlay customization.
-  - **Game Launchers**: Quick access to Steam, Lutris, Heroic, Bottles, Prism Launcher, and more.
+  - **Game Launchers**: Full installation support for 9 gaming platforms:
+    - Steam (Flatpak) - Digital game distribution platform
+    - Lutris (APT/Flatpak) - Unified game manager for Linux
+    - Heroic Games Launcher (Flatpak) - Epic Games, GOG, and Amazon Games
+    - Bottles (Flatpak) - Run Windows applications using Wine
+    - Prism Launcher (Flatpak) - Custom Minecraft launcher
+    - Itch.io (Flatpak) - Indie game marketplace
+    - Minigalaxy (APT/Flatpak) - Simple GOG.com client
+    - RetroArch (APT/Flatpak) - Multi-emulator frontend
+    - Discord (Flatpak) - Gaming community communication
+  - **Installation Method Badges**: Visual indicators showing APT or Flatpak installation methods.
+  - **Official Package Badges**: Security indicators for official repository packages.
+  - **RGB Gaming Theme**: Toggle-able black theme with red neon accents, applies instantly without restart.
   - **Gaming Wallpapers**: Automatic installation of gaming-themed wallpapers with GNOME XML registry support.
   - **Revert Functionality**: Easy rollback of gaming optimizations.
 - **UI Improvements**:
