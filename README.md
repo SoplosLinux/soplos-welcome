@@ -116,7 +116,7 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
-### v2.0.0 (30/11/2025)
+### v2.0.0 (04/12/2025)
 - **Complete Rewrite**: New modular architecture for better maintainability.
 - **Universal Support**: Unified codebase for GNOME, KDE, and XFCE.
 - **Improved UI**: Modernized interface with better theming support.
