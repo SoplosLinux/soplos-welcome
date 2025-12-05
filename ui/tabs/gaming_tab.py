@@ -241,8 +241,7 @@ class GamingTab(Gtk.Box):
             "GameMode optimizes system performance when running games.\n\n"
             "Packages to install:\n"
             "- gamemode\n"
-            "- libgamemode0\n"
-            "- libgamemode0:i386 (for 32-bit games)\n\n"
+            "- libgamemode0\n\n"
             "Continue?"
         )
         
@@ -255,8 +254,8 @@ class GamingTab(Gtk.Box):
         # Install via pkexec
         try:
             subprocess.run([
-                "pkexec", "apt", "install", "-y",
-                "gamemode", "libgamemode0", "libgamemode0:i386"
+                "pkexec", "bash", "-c",
+                "/usr/bin/apt install -y gamemode libgamemode0"
             ], check=True)
             
             # Show success
@@ -319,18 +318,10 @@ class GamingTab(Gtk.Box):
         
         try:
             # Install power-profiles-daemon if not present
+            # Single pkexec call for all operations
             subprocess.run([
-                "pkexec", "apt", "install", "-y", "power-profiles-daemon"
-            ], check=True)
-            
-            # Copy script
-            subprocess.run([
-                "pkexec", "cp", script_source, script_dest
-            ], check=True)
-            
-            # Make executable
-            subprocess.run([
-                "pkexec", "chmod", "+x", script_dest
+                "pkexec", "bash", "-c",
+                f"/usr/bin/apt install -y power-profiles-daemon && cp '{script_source}' '{script_dest}' && chmod +x '{script_dest}'"
             ], check=True)
             
             # Show success
@@ -392,8 +383,11 @@ class GamingTab(Gtk.Box):
                 return
             
             try:
-                subprocess.run(["pkexec", "rm", sysctl_file], check=True)
-                subprocess.run(["pkexec", "sysctl", "--system"], check=True)
+                # Single pkexec call
+                subprocess.run([
+                    "pkexec", "bash", "-c",
+                    f"rm -f {sysctl_file} && /usr/sbin/sysctl --system"
+                ], check=True)
                 
                 success_dialog = Gtk.MessageDialog(
                     transient_for=self.parent_window,
@@ -442,8 +436,11 @@ class GamingTab(Gtk.Box):
                 return
             
             try:
-                subprocess.run(["pkexec", "cp", sysctl_source, sysctl_file], check=True)
-                subprocess.run(["pkexec", "sysctl", "--system"], check=True)
+                # Single pkexec call
+                subprocess.run([
+                    "pkexec", "bash", "-c",
+                    f"cp '{sysctl_source}' {sysctl_file} && /usr/sbin/sysctl --system"
+                ], check=True)
                 
                 success_dialog = Gtk.MessageDialog(
                     transient_for=self.parent_window,
@@ -494,13 +491,26 @@ class GamingTab(Gtk.Box):
         gpus = []
         
         for line in lspci_output.lower().split('\n'):
-            if 'vga' in line or '3d' in line or 'display' in line:
-                if 'nvidia' in line:
-                    gpus.append(('nvidia', line.split(':')[-1].strip().title()))
-                elif 'amd' in line or 'ati' in line or 'radeon' in line:
-                    gpus.append(('amd', line.split(':')[-1].strip().title()))
-                elif 'intel' in line:
-                    gpus.append(('intel', line.split(':')[-1].strip().title()))
+            # Only process VGA/3D/Display controller lines
+            if not ('vga' in line or '3d' in line or 'display' in line):
+                continue
+            
+            # Check for NVIDIA
+            if 'nvidia' in line:
+                model = line.split(':')[-1].strip().title()
+                gpus.append(('nvidia', model))
+            # Check for AMD - be specific to avoid VM false positives
+            elif 'amd' in line and ('radeon' in line or 'rx ' in line or 'hd ' in line or 'r5' in line or 'r7' in line):
+                model = line.split(':')[-1].strip().title()
+                gpus.append(('amd', model))
+            # Check for ATI with word boundaries
+            elif ' ati ' in line or line.startswith('ati '):
+                model = line.split(':')[-1].strip().title()
+                gpus.append(('amd', model))
+            # Check for Intel
+            elif 'intel' in line:
+                model = line.split(':')[-1].strip().title()
+                gpus.append(('intel', model))
         
         if not gpus:
             error_dialog = Gtk.MessageDialog(
@@ -511,7 +521,7 @@ class GamingTab(Gtk.Box):
                 text="Unsupported GPU"
             )
             error_dialog.format_secondary_text(
-                "Could not detect a supported GPU (NVIDIA, AMD, or Intel).\\n\\n"
+                "Could not detect a supported GPU (NVIDIA, AMD, or Intel).\n\n"
                 "GPU optimizations are only available for these vendors."
             )
             error_dialog.run()
@@ -570,9 +580,9 @@ class GamingTab(Gtk.Box):
             text=f"Optimize {gpu_vendor.upper()} GPU for Gaming?"
         )
         dialog.format_secondary_text(
-            f"Detected GPU: {gpu_model}\\n\\n"
-            f"Optimizations to apply:\\n{optimizations_text[gpu_vendor]}\\n\\n"
-            "These settings will be applied system-wide via environment variables.\\n\\n"
+            f"Detected GPU: {gpu_model}\n\n"
+            f"Optimizations to apply:\n{optimizations_text[gpu_vendor]}\n\n"
+            "These settings will be applied system-wide via environment variables.\n\n"
             "Continue?"
         )
         
@@ -586,33 +596,24 @@ class GamingTab(Gtk.Box):
         source_file = os.path.join(BASE_DIR, "services", "gaming", f"{gpu_vendor}-env.conf")
         dest_file = f"/etc/environment.d/50-soplos-{gpu_vendor}-gaming.conf"
         
+        
         try:
-            # Copy config file
-            subprocess.run([
-                "pkexec", "cp", source_file, dest_file
-            ], check=True)
+            # Build consolidated bash command
+            bash_cmd = f"cp '{source_file}' '{dest_file}'"
             
-            # Install prime-run if hybrid NVIDIA system
+            # Add prime-run installation if hybrid NVIDIA system
             prime_run_installed = False
             if is_hybrid and has_nvidia:
-                try:
-                    prime_run_source = os.path.join(BASE_DIR, "services", "gaming", "prime-run")
-                    prime_run_dest = "/usr/local/bin/prime-run"
-                    
-                    # Copy prime-run script
-                    subprocess.run([
-                        "pkexec", "cp", prime_run_source, prime_run_dest
-                    ], check=True)
-                    
-                    # Make executable
-                    subprocess.run([
-                        "pkexec", "chmod", "+x", prime_run_dest
-                    ], check=True)
-                    
-                    prime_run_installed = True
-                except subprocess.CalledProcessError:
-                    # Non-critical error, continue
-                    pass
+                prime_run_source = os.path.join(BASE_DIR, "services", "gaming", "prime-run")
+                prime_run_dest = "/usr/local/bin/prime-run"
+                bash_cmd += f" && cp '{prime_run_source}' '{prime_run_dest}' && chmod +x '{prime_run_dest}'"
+                prime_run_installed = True
+            
+            # Execute everything with single pkexec
+            subprocess.run([
+                "pkexec", "bash", "-c",
+                bash_cmd
+            ], check=True)
             
             # Build success message
             if is_hybrid and has_nvidia:
@@ -620,31 +621,31 @@ class GamingTab(Gtk.Box):
                 integrated_gpu = next((m for v, m in gpus if v in ['intel', 'amd']), "Unknown")
                 
                 success_msg = (
-                    f"✅ Hybrid Graphics Optimized!\\n\\n"
-                    f"GPU Dedicada: {gpu_model}\\n"
-                    f"GPU Integrada: {integrated_gpu}\\n\\n"
+                    f"✅ Hybrid Graphics Optimized!\n\n"
+                    f"GPU Dedicada: {gpu_model}\n"
+                    f"GPU Integrada: {integrated_gpu}\n\n"
                 )
                 
                 if prime_run_installed:
                     success_msg += (
-                        f"✅ prime-run script installed to /usr/local/bin/prime-run\\n\\n"
-                        f"Usage for hybrid graphics:\\n"
-                        f"• Steam: Add 'prime-run %command%' to game launch options\\n"
-                        f"• Lutris: Add 'prime-run' as a prefix\\n"
-                        f"• Terminal: prime-run <application>\\n\\n"
-                        f"This forces games to use your NVIDIA GPU.\\n\\n"
+                        f"✅ prime-run script installed to /usr/local/bin/prime-run\n\n"
+                        f"Usage for hybrid graphics:\n"
+                        f"• Steam: Add 'prime-run %command%' to game launch options\n"
+                        f"• Lutris: Add 'prime-run' as a prefix\n"
+                        f"• Terminal: prime-run <application>\n\n"
+                        f"This forces games to use your NVIDIA GPU.\n\n"
                     )
                 
                 success_msg += (
-                    f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\\n\\n"
+                    f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\n\n"
                     f"Configuration saved to: {dest_file}"
                 )
             else:
                 # Single GPU message
                 success_msg = (
-                    f"Gaming optimizations applied for {gpu_model}.\\n\\n"
-                    f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\\n\\n"
-                    f"Configuration saved to:\\n{dest_file}"
+                    f"Gaming optimizations applied for {gpu_model}.\n\n"
+                    f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\n\n"
+                    f"Configuration saved to:\n{dest_file}"
                 )
             
             # Show success
@@ -702,9 +703,11 @@ class GamingTab(Gtk.Box):
                 return
             
             try:
-                subprocess.run(["pkexec", "rm", dest_file], check=True)
-                subprocess.run(["pkexec", "udevadm", "control", "--reload-rules"], check=True)
-                subprocess.run(["pkexec", "udevadm", "trigger"], check=True)
+                # Single pkexec call
+                subprocess.run([
+                    "pkexec", "bash", "-c",
+                    f"rm -f {dest_file} && /usr/bin/udevadm control --reload-rules && /usr/bin/udevadm trigger"
+                ], check=True)
                 
                 success_dialog = Gtk.MessageDialog(
                     transient_for=self.parent_window,
@@ -737,11 +740,11 @@ class GamingTab(Gtk.Box):
                 text="Optimize Disk I/O Schedulers?"
             )
             dialog.format_secondary_text(
-                "This will configure optimal I/O schedulers for gaming:\\n\\n"
-                "• HDD: BFQ scheduler (best latency)\\n"
-                "• SSD (SATA): mq-deadline\\n"
-                "• NVMe: none (maximum performance)\\n\\n"
-                "Changes take effect immediately without reboot.\\n\\n"
+                "This will configure optimal I/O schedulers for gaming:\n\n"
+                "• HDD: BFQ scheduler (best latency)\n"
+                "• SSD (SATA): mq-deadline\n"
+                "• NVMe: none (maximum performance)\n\n"
+                "Changes take effect immediately without reboot.\n\n"
                 "Continue?"
             )
             
@@ -752,14 +755,11 @@ class GamingTab(Gtk.Box):
                 return
             
             try:
-                # Copy udev rules
-                subprocess.run(["pkexec", "cp", source_file, dest_file], check=True)
-                
-                # Reload udev rules
-                subprocess.run(["pkexec", "udevadm", "control", "--reload-rules"], check=True)
-                
-                # Trigger udev to apply rules
-                subprocess.run(["pkexec", "udevadm", "trigger"], check=True)
+                # Single pkexec call for all operations
+                subprocess.run([
+                    "pkexec", "bash", "-c",
+                    f"cp '{source_file}' '{dest_file}' && /usr/bin/udevadm control --reload-rules && /usr/bin/udevadm trigger"
+                ], check=True)
                 
                 success_dialog = Gtk.MessageDialog(
                     transient_for=self.parent_window,
@@ -769,9 +769,9 @@ class GamingTab(Gtk.Box):
                     text="Disk I/O Optimized!"
                 )
                 success_dialog.format_secondary_text(
-                    "I/O schedulers have been optimized for gaming.\\n\\n"
-                    "Changes are active immediately.\\n\\n"
-                    f"Configuration saved to:\\n{dest_file}"
+                    "I/O schedulers have been optimized for gaming.\n\n"
+                    "Changes are active immediately.\n\n"
+                    f"Configuration saved to:\n{dest_file}"
                 )
                 success_dialog.run()
                 success_dialog.destroy()
@@ -800,11 +800,9 @@ class GamingTab(Gtk.Box):
             text="Install MangoHud + Goverlay?"
         )
         dialog.format_secondary_text(
-            "MangoHud provides an FPS and system monitoring overlay for games.\n"
-            "Goverlay is a GUI configurator for MangoHud.\n\n"
+            "MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more.\n\n"
             "Packages to install:\n"
             "- mangohud\n"
-            "- mangohud:i386 (for 32-bit games)\n"
             "- goverlay\n\n"
             "Continue?"
         )
@@ -817,8 +815,8 @@ class GamingTab(Gtk.Box):
         
         try:
             subprocess.run([
-                "pkexec", "apt", "install", "-y",
-                "mangohud", "mangohud:i386", "goverlay"
+                "pkexec", "bash", "-c",
+                "/usr/bin/apt install -y mangohud goverlay"
             ], check=True)
             
             success_dialog = Gtk.MessageDialog(
@@ -877,10 +875,37 @@ class GamingTab(Gtk.Box):
             return
         
         try:
-            # Remove sysctl if exists
+            # Build consolidated revert command
+            revert_cmds = []
+            
+            # Revert sysctl if exists
             if os.path.exists("/etc/sysctl.d/99-soplos-gaming.conf"):
-                subprocess.run(["pkexec", "rm", "/etc/sysctl.d/99-soplos-gaming.conf"], check=True)
-                subprocess.run(["pkexec", "sysctl", "--system"], check=True)
+                revert_cmds.append("rm -f /etc/sysctl.d/99-soplos-gaming.conf")
+                revert_cmds.append("/usr/sbin/sysctl --system")
+            
+            # Revert GPU env vars if exist
+            import glob
+            gpu_files = glob.glob("/etc/environment.d/50-soplos-*-gaming.conf")
+            for gpu_file in gpu_files:
+                revert_cmds.append(f"rm -f {gpu_file}")
+            
+            # Revert Disk I/O if exists
+            if os.path.exists("/etc/udev/rules.d/60-ioschedulers.rules"):
+                revert_cmds.append("rm -f /etc/udev/rules.d/60-ioschedulers.rules")
+                revert_cmds.append("/usr/bin/udevadm control --reload-rules")
+                revert_cmds.append("/usr/bin/udevadm trigger")
+            
+            # Revert Performance Mode script if exists
+            if os.path.exists("/usr/local/bin/soplos-game-performance"):
+                revert_cmds.append("rm -f /usr/local/bin/soplos-game-performance")
+            
+            # Execute all reverts with single pkexec if there's anything to revert
+            if revert_cmds:
+                combined_cmd = " && ".join(revert_cmds)
+                subprocess.run([
+                    "pkexec", "bash", "-c",
+                    combined_cmd
+                ], check=True)
             
             success_dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
@@ -1051,8 +1076,8 @@ cp {files_str} {dest_dir}/
                 text="Installation failed"
             )
             error_dialog.format_secondary_text(
-                f"Failed to install wallpapers: {str(e)}\\n\\n"
-                "Make sure you have proper permissions."
+                f"Failed to install wallpapers: {str(e)}\n\n"
+                "Please check your internet connection and try again."
             )
             error_dialog.run()
             error_dialog.destroy()

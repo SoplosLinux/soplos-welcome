@@ -123,6 +123,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 
 ### 🛠️ Fixed
 - **CRITICAL: GPU Detection Fix**: Resolved false positive AMD detection caused by 'compatible' string matching. Now correctly identifies NVIDIA, Intel, and VMware SVGA adapters using regex word boundaries.
+- **Gaming Tab Dialog Messages**: Fixed dialog messages showing literal `\n` instead of line breaks by correcting double-escaped newlines (`\\n` → `\n`) in 8 locations
+- **Gaming Tab GPU Detection**: Improved GPU detection to avoid false AMD detection in VMs (Red Hat VirtIO), now uses word-boundary checks for ATI matching
+- **Gaming Tab 32-bit Packages**: Removed `:i386` package dependencies (GameMode and MangoHud) to support 64-bit only systems
+- **Gaming Tab Single Password**: All optimization operations now use single `pkexec bash -c` call (Performance Mode, Gaming Sysctl, Disk I/O, GPU, Revert All)
+- **Gaming Tab Revert All**: Complete revert functionality now removes sysctl, GPU environment vars, Disk I/O rules, and Performance Mode script
 - **KDE Plasma Icon**: Resolved application icon display issue in KDE Plasma with proper WM_CLASS and .desktop file association.
 - **Welcome Tab Autostart**: Fixed .desktop file creation and dynamic path resolution for autostart functionality.
 - **Flatpak Installation**: Corrected Flathub repository setup and package installation in Tyson variant, ensuring user-level installations work without password prompts.

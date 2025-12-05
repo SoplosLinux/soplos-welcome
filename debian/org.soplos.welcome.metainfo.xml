@@ -172,6 +172,7 @@
           <li>Security Tab: System backups, Firewall, Antivirus, and Filesystem tools</li>
           <li>Customization Tab: Native customization for XFCE, GNOME, and Plasma</li>
           <li>Critical Fix: Resolved GPU detection issues (false positive AMD)</li>
+          <li>Gaming Tab: Fixed dialog messages showing line breaks correctly, improved GPU detection for VMs, removed 32-bit packages, single password prompt for all optimizations, complete Revert All functionality</li>
           <li>Fixed KDE Plasma icon display with proper WM_CLASS</li>
           <li>Fixed Welcome Tab autostart .desktop file creation</li>
           <li>Fixed Flatpak installation in Tyson variant</li>
@@ -212,6 +213,7 @@
           <li>Pestaña de Seguridad: Copias de seguridad, Firewall, Antivirus y herramientas de sistema de archivos</li>
           <li>Pestaña de Personalización: Personalización nativa para XFCE, GNOME y Plasma</li>
           <li>Corrección Crítica: Resueltos problemas de detección de GPU (falsos positivos AMD)</li>
+          <li>Gaming Tab: Corregidos mensajes de diálogo mostrando saltos de línea correctamente, mejorada detección GPU en VMs, eliminados paquetes 32-bit, un solo prompt de contraseña para todas las optimizaciones, funcionalidad Revertir Todo completa</li>
           <li>Corregida visualización de icono en KDE Plasma con WM_CLASS adecuado</li>
           <li>Corregida creación de archivo .desktop de autoarranque en pestaña Bienvenida</li>
           <li>Corregida instalación Flatpak en variante Tyson</li>
@@ -252,6 +254,7 @@
           <li>Onglet Sécurité: Sauvegardes système, Pare-feu, Antivirus et outils de système de fichiers</li>
           <li>Onglet Personnalisation: Personnalisation native pour XFCE, GNOME et Plasma</li>
           <li>Correction Critique: Résolution des problèmes de détection GPU (faux positifs AMD)</li>
+          <li>Onglet Gaming: Messages de dialogue affichant correctement les sauts de ligne, détection GPU améliorée pour les VMs, suppression des paquets 32-bit, invite de mot de passe unique pour toutes les optimisations, fonctionnalité Tout Réinitialiser complète</li>
           <li>Correction affichage icône KDE Plasma avec WM_CLASS approprié</li>
           <li>Correction création fichier .desktop autostart onglet Bienvenue</li>
           <li>Correction installation Flatpak dans variante Tyson</li>
@@ -292,6 +295,7 @@
           <li>Aba de Segurança: Backups do sistema, Firewall, Antivírus e ferramentas de sistema de arquivos</li>
           <li>Aba de Personalização: Personalização nativa para XFCE, GNOME e Plasma</li>
           <li>Correção Crítica: Resolvidos problemas de detecção de GPU (falsos positivos AMD)</li>
+          <li>Aba Gaming: Mensagens de diálogo exibindo quebras de linha corretamente, detecção de GPU melhorada para VMs, removidos pacotes 32-bit, prompt de senha único para todas as otimizações, funcionalidade Reverter Tudo completa</li>
           <li>Corrigida exibição ícone KDE Plasma com WM_CLASS adequado</li>
           <li>Corrigida criação arquivo .desktop autostart aba Boas-vindas</li>
           <li>Corrigida instalação Flatpak na variante Tyson</li>
@@ -332,6 +336,7 @@
           <li>Sicherheits-Tab: System-Backups, Firewall, Antivirus und Dateisystem-Tools</li>
           <li>Anpassungs-Tab: Native Anpassung für XFCE, GNOME und Plasma</li>
           <li>Kritische Korrektur: GPU-Erkennungsprobleme behoben (falsche AMD-Positivmeldungen)</li>
+          <li>Gaming-Tab: Dialog-Nachrichten zeigen korrekt Zeilenumbrüche, verbesserte GPU-Erkennung für VMs, entfernte 32-Bit-Pakete, einzelne Passwortabfrage für alle Optimierungen, vollständige Alles-Zurücksetzen-Funktionalität</li>
           <li>Korrigierte KDE Plasma Symbol-Anzeige mit WM_CLASS</li>
           <li>Korrigierte .desktop Autostart-Datei Erstellung Willkommens-Tab</li>
           <li>Korrigierte Flatpak-Installation in Tyson-Variante</li>
@@ -372,6 +377,7 @@
           <li>Scheda Sicurezza: Backup di sistema, Firewall, Antivirus e strumenti per file system</li>
           <li>Scheda Personalizzazione: Personalizzazione nativa per XFCE, GNOME e Plasma</li>
           <li>Correzione Critica: Risolti problemi di rilevamento GPU (falsi positivi AMD)</li>
+          <li>Scheda Gaming: Messaggi di dialogo visualizzano correttamente interruzioni di riga, migliorato rilevamento GPU per VM, rimossi pacchetti 32-bit, richiesta password singola per tutte le ottimizzazioni, funzionalità Ripristina Tutto completa</li>
           <li>Corretta visualizzazione icona KDE Plasma con WM_CLASS</li>
           <li>Corretta creazione file .desktop autostart scheda Benvenuto</li>
           <li>Corretta installazione Flatpak nella variante Tyson</li>
@@ -412,6 +418,7 @@
           <li>Вкладка Безопасность: Резервные копии системы, Firewall, Антивирус и инструменты файловой системы</li>
           <li>Вкладка Настройка: Встроенная настройка для XFCE, GNOME и Plasma</li>
           <li>Критическое Исправление: Решены проблемы обнаружения GPU (ложные срабатывания AMD)</li>
+          <li>Вкладка Gaming: Диалоговые сообщения правильно показывают переносы строк, улучшено обнаружение GPU для VM, удалены 32-битные пакеты, единственный запрос пароля для всех оптимизаций, полная функциональность Вернуть Всё</li>
           <li>Исправлено отображение иконки KDE Plasma с WM_CLASS</li>
           <li>Исправлено создание файла .desktop автозапуска вкладка Приветствие</li>
           <li>Исправлена установка Flatpak в варианте Tyson</li>
@@ -452,6 +459,7 @@
           <li>Tab Securitate: Backup-uri de sistem, Firewall, Antivirus și instrumente pentru sistem de fișiere</li>
           <li>Tab Personalizare: Personalizare nativă pentru XFCE, GNOME și Plasma</li>
           <li>Corectare Critică: Rezolvate problemele de detectare GPU (fals pozitive AMD)</li>
+          <li>Tab Gaming: Mesajele de dialog afișează corect întreruperile de linie, detectare GPU îmbunătățită pentru VM-uri, eliminate pachetele 32-bit, solicitare unică de parolă pentru toate optimizările, funcționalitate completă Resetare Totală</li>
           <li>Corectată afișare pictogramă KDE Plasma cu WM_CLASS</li>
           <li>Corectată creare fișier .desktop autostart tab Bun venit</li>
           <li>Corectată instalare Flatpak în varianta Tyson</li>
