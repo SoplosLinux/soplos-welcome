@@ -37,6 +37,13 @@ class RecommendedTab(Gtk.Box):
         self.installing_packages = set()  # Track packages being installed
         self.package_status_cache = {}    # Cache for package installation status
         
+        # Batch mode state
+        self.batch_mode = False
+        self.selected_apt = []
+        self.selected_flatpak = []
+        self.selected_deb_urls = []  # List of (url, package_name) tuples
+        self.selected_custom = []  # List of (commands_list, package_name) tuples
+        
         self.set_margin_left(20)
         self.set_margin_right(20)
         self.set_margin_top(20)
@@ -47,17 +54,28 @@ class RecommendedTab(Gtk.Box):
     def _init_ui(self):
         """Initialize the UI."""
         # Header
-        header_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        
+        # Left side: titles
+        titles_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
         
         title = Gtk.Label()
         title.set_markup(f'<span size="18000" weight="bold">{self.i18n_manager._("Recommended for You")}</span>')
         title.set_halign(Gtk.Align.START)
-        header_box.pack_start(title, False, False, 0)
+        titles_box.pack_start(title, False, False, 0)
         
         subtitle = Gtk.Label(self.i18n_manager._("Curated applications based on your desktop environment"))
         subtitle.set_halign(Gtk.Align.START)
         subtitle.get_style_context().add_class('dim-label')
-        header_box.pack_start(subtitle, False, False, 0)
+        titles_box.pack_start(subtitle, False, False, 0)
+        
+        header_box.pack_start(titles_box, True, True, 0)
+        
+        # Right side: batch mode toggle button
+        self.batch_toggle_button = Gtk.Button.new_with_label("Selección Múltiple")
+        self.batch_toggle_button.set_valign(Gtk.Align.CENTER)
+        self.batch_toggle_button.connect('clicked', self._on_toggle_batch_mode)
+        header_box.pack_end(self.batch_toggle_button, False, False, 0)
         
         self.pack_start(header_box, False, False, 0)
         
@@ -71,6 +89,26 @@ class RecommendedTab(Gtk.Box):
         scrolled.add(self.content_box)
         
         self.pack_start(scrolled, True, True, 0)
+        
+        # Bottom batch action bar (initially hidden)
+        self.batch_bar = Gtk.ActionBar()
+        
+        batch_bar_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        
+        self.batch_label = Gtk.Label("0 programas seleccionados")
+        self.batch_label.get_style_context().add_class('dim-label')
+        batch_bar_box.pack_start(self.batch_label, False, False, 0)
+        
+        batch_install_button = Gtk.Button.new_with_label("Instalar Seleccionados")
+        batch_install_button.get_style_context().add_class('suggested-action')
+        batch_install_button.connect('clicked', self._on_install_batch)
+        batch_bar_box.pack_end(batch_install_button, False, False, 0)
+        
+        self.batch_bar.set_center_widget(batch_bar_box)
+        batch_bar_box.show_all()  # Show all internal widgets
+        self.pack_end(self.batch_bar, False, False, 0)
+        self.batch_bar.set_no_show_all(True)  # Prevent showing with parent's show_all
+        self.batch_bar.hide()  # Hide initially
         
         # Load content
         self._load_recommended_software()
@@ -227,7 +265,28 @@ class RecommendedTab(Gtk.Box):
         package_id = f"{category_id}:{package['name']}"
         is_processing = package_id in self.installing_packages
         
-        if is_processing:
+        # Check if this package should be excluded from batch mode (only DaVinci Resolve)
+        install_method = self._get_install_method(package)
+        exclude_from_batch = install_method == 'davinci_resolve'
+        
+        # BATCH MODE: Show checkbox for compatible packages
+        if self.batch_mode and not exclude_from_batch and not is_processing:
+            is_installed = self._is_package_installed(package)
+            
+            if not is_installed:
+                # Show checkbox
+                checkbox = Gtk.CheckButton()
+                checkbox.set_valign(Gtk.Align.CENTER)
+                checkbox.connect('toggled', self._on_checkbox_toggled, package, category_id)
+                button_box.pack_start(checkbox, False, False, 0)
+            else:
+                # Already installed - show label
+                installed_label = Gtk.Label("Instalado")
+                installed_label.get_style_context().add_class('dim-label')
+                button_box.pack_start(installed_label, False, False, 0)
+        
+        # NORMAL MODE or EXCLUDED PACKAGES: Show buttons
+        elif is_processing:
             # Processing state - Button disabled or showing status
             # Since we use global progress bar, we just show a disabled button or label
             processing_label = Gtk.Label(self.i18n_manager._("Processing..."))
@@ -496,6 +555,230 @@ rm -f /tmp/{pkg_name}.deb"""
             
         # Refresh UI
         GLib.idle_add(self._refresh_content)
+    
+    def _on_toggle_batch_mode(self, button):
+        """Toggle between normal and batch installation mode."""
+        self.batch_mode = not self.batch_mode
+        
+        # Update button label
+        if self.batch_mode:
+            self.batch_toggle_button.set_label("Modo Normal")
+        else:
+            self.batch_toggle_button.set_label("Selección Múltiple")
+            # Clear selections when exiting batch mode
+            self.selected_apt.clear()
+            self.selected_flatpak.clear()
+            self.selected_deb_urls.clear()
+            self.selected_custom.clear()
+            self.batch_bar.hide()
+        
+        # Rebuild content with new mode
+        self._refresh_content()
+    
+    def _on_checkbox_toggled(self, checkbox, package, category_id):
+        """Handle checkbox toggle in batch mode."""
+        install_method = self._get_install_method(package)
+        
+        if checkbox.get_active():
+            # Add to appropriate list
+            if install_method == 'apt' and package.get('package'):
+                if package['package'] not in self.selected_apt:
+                    self.selected_apt.append(package['package'])
+            elif install_method == 'flatpak' and package.get('flatpak'):
+                if package['flatpak'] not in self.selected_flatpak:
+                    self.selected_flatpak.append(package['flatpak'])
+            elif install_method == 'deb' and package.get('deb_url'):
+                deb_info = (package['deb_url'], package['package'])
+                if deb_info not in self.selected_deb_urls:
+                    self.selected_deb_urls.append(deb_info)
+            elif install_method == 'custom' and package.get('install_commands'):
+                custom_info = (package['install_commands'], package['package'])
+                if custom_info not in self.selected_custom:
+                    self.selected_custom.append(custom_info)
+        else:
+            # Remove from appropriate list
+            if install_method == 'apt' and package['package'] in self.selected_apt:
+                self.selected_apt.remove(package['package'])
+            elif install_method == 'flatpak' and package['flatpak'] in self.selected_flatpak:
+                self.selected_flatpak.remove(package['flatpak'])
+            elif install_method == 'deb':
+                deb_info = (package['deb_url'], package['package'])
+                if deb_info in self.selected_deb_urls:
+                    self.selected_deb_urls.remove(deb_info)
+            elif install_method == 'custom':
+                # Find and remove custom script
+                custom_to_remove = None
+                for custom_info in self.selected_custom:
+                    if custom_info[1] == package['package']:
+                        custom_to_remove = custom_info
+                        break
+                if custom_to_remove:
+                    self.selected_custom.remove(custom_to_remove)
+        
+        self._update_batch_bar()
+    
+    def _update_batch_bar(self):
+        """Update the batch action bar with selection count."""
+        total = len(self.selected_apt) + len(self.selected_flatpak) + len(self.selected_deb_urls) + len(self.selected_custom)
+        
+        if total > 0:
+            self.batch_label.set_text(f"{total} programa{'s' if total != 1 else ''} seleccionado{'s' if total != 1 else ''}")
+            self.batch_bar.show()
+        else:
+            self.batch_bar.hide()
+    
+    def _on_install_batch(self, button):
+        """Install all selected packages."""
+        total = len(self.selected_apt) + len(self.selected_flatpak) + len(self.selected_deb_urls) + len(self.selected_custom)
+        
+        if total == 0:
+            return
+        
+        # Show confirmation dialog
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.QUESTION,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=f"¿Instalar {total} programas seleccionados?"
+        )
+        
+        details = []
+        if self.selected_apt:
+            details.append(f"APT: {', '.join(self.selected_apt)}")
+        if self.selected_flatpak:
+            flatpak_names = [fp.split('.')[-1] for fp in self.selected_flatpak]
+            details.append(f"Flatpak: {', '.join(flatpak_names)}")
+        if self.selected_deb_urls:
+            deb_names = [name for _, name in self.selected_deb_urls]
+            details.append(f".deb: {', '.join(deb_names)}")
+        if self.selected_custom:
+            custom_names = [name for _, name in self.selected_custom]
+            details.append(f"Custom: {', '.join(custom_names)}")
+        
+        dialog.format_secondary_text("\n".join(details))
+        
+        response = dialog.run()
+        dialog.destroy()
+        
+        if response != Gtk.ResponseType.YES:
+            return
+        
+        # Disable batch mode during installation
+        self.batch_toggle_button.set_sensitive(False)
+        self.batch_bar.hide()
+        
+        # Start batch installation
+        self._install_batch_step_1_apt()
+    
+    def _install_batch_step_1_apt(self):
+        """Step 1: Install all APT packages in single command."""
+        if self.selected_apt:
+            packages = ' '.join(self.selected_apt)
+            cmd = f"pkexec apt install -y {packages}"
+            self.command_runner.run_command(cmd, self._install_batch_step_2_flatpak)
+        else:
+            self._install_batch_step_2_flatpak()
+    
+    def _install_batch_step_2_flatpak(self):
+        """Step 2: Install Flatpak packages sequentially."""
+        if self.selected_flatpak:
+            self._install_next_flatpak(0)
+        else:
+            self._install_batch_step_3_deb()
+    
+    def _install_next_flatpak(self, index):
+        """Install next Flatpak package."""
+        if index >= len(self.selected_flatpak):
+            self._install_batch_step_3_deb()
+            return
+        
+        flatpak_id = self.selected_flatpak[index]
+        cmd = f"flatpak install -y flathub {flatpak_id}"
+        self.command_runner.run_command(cmd, lambda: self._install_next_flatpak(index + 1))
+    
+    def _install_batch_step_3_deb(self):
+        """Step 3: Install .deb packages sequentially."""
+        if self.selected_deb_urls:
+            self._install_next_deb(0)
+        else:
+            self._install_batch_step_4_custom()
+    
+    def _install_next_deb(self, index):
+        """Install next .deb package."""
+        if index >= len(self.selected_deb_urls):
+            self._install_batch_step_4_custom()
+            return
+        
+        deb_url, pkg_name = self.selected_deb_urls[index]
+        cmd = f"""wget -q --show-progress -O /tmp/{pkg_name}.deb "{deb_url}"
+pkexec apt install -y /tmp/{pkg_name}.deb
+rm -f /tmp/{pkg_name}.deb"""
+        
+        self.command_runner.run_command(cmd, lambda: self._install_next_deb(index + 1))
+    
+    def _install_batch_step_4_custom(self):
+        """Step 4: Install custom script packages sequentially."""
+        if self.selected_custom:
+            self._install_next_custom(0)
+        else:
+            self._install_batch_complete()
+    
+    def _install_next_custom(self, index):
+        """Install next custom script package."""
+        if index >= len(self.selected_custom):
+            self._install_batch_complete()
+            return
+        
+        commands_list, pkg_name = self.selected_custom[index]
+        
+        # Create temporary script file (same approach as individual install)
+        script_name = f"batch-install-{pkg_name}.sh"
+        script_path = f"/tmp/{script_name}"
+        
+        try:
+            with open(script_path, "w") as f:
+                f.write("#!/bin/bash\n")
+                f.write("\n".join(commands_list))
+                f.write("\necho 'Operation completed successfully'\n")
+            os.chmod(script_path, 0o755)
+            
+            # Run script with pkexec
+            cmd = f"pkexec {script_path}"
+            self.command_runner.run_command(cmd, lambda: self._install_next_custom(index + 1))
+        except Exception as e:
+            print(f"Error creating custom script for {pkg_name}: {e}")
+            # Skip to next on error
+            self._install_next_custom(index + 1)
+    
+    def _install_batch_complete(self):
+        """Complete batch installation."""
+        # Clear selections
+        self.selected_apt.clear()
+        self.selected_flatpak.clear()
+        self.selected_deb_urls.clear()
+        self.selected_custom.clear()
+        
+        # Clear cache
+        self.package_status_cache.clear()
+        
+        # Re-enable batch mode toggle
+        self.batch_toggle_button.set_sensitive(True)
+        
+        # Refresh UI
+        self._refresh_content()
+        
+        # Show completion dialog
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK,
+            text="Instalación por lotes completada"
+        )
+        dialog.format_secondary_text("Todos los programas seleccionados han sido instalados.")
+        dialog.run()
+        dialog.destroy()
     
     def _clear_status(self):
         """Clear the status message."""

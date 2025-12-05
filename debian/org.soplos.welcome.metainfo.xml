@@ -160,6 +160,7 @@
           <li>Kernel management (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) with NVIDIA safety checks</li>
           <li>CPU Microcode updates (Intel and AMD automatic detection)</li>
           <li>System maintenance tools (Clean old kernels, Update GRUB)</li>
+          <li>Recommended Tab: Batch Installation ("Selección Múltiple") mode with support for APT, Flatpak, .deb, and custom scripts (only DaVinci Resolve excluded)</li>
           <li>Recommended Tab: Custom script support for complex installations</li>
           <li>Recommended Tab: Global progress bar integration</li>
           <li>Recommended Tab: Enhanced error handling and UI stability fixes</li>
@@ -201,6 +202,7 @@
           <li>Gestión de núcleos (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) con verificaciones de seguridad NVIDIA</li>
           <li>Actualizaciones de microcódigo de CPU (detección automática Intel y AMD)</li>
           <li>Herramientas de mantenimiento del sistema (Limpiar núcleos antiguos, Actualizar GRUB)</li>
+          <li>Pestaña Recomendado: Instalación por lotes (modo "Selección Múltiple") con soporte para APT, Flatpak, .deb y scripts personalizados (solo DaVinci Resolve excluido)</li>
           <li>Pestaña Recomendado: Soporte de scripts personalizados para instalaciones complejas</li>
           <li>Pestaña Recomendado: Integración de barra de progreso global</li>
           <li>Pestaña Recomendado: Manejo de errores mejorado y correcciones de estabilidad UI</li>
@@ -242,6 +244,7 @@
           <li>Gestion des noyaux (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) avec vérifications de sécurité NVIDIA</li>
           <li>Mises à jour du microcode CPU (détection automatique Intel et AMD)</li>
           <li>Outils de maintenance système (Nettoyer anciens noyaux, Mettre à jour GRUB)</li>
+          <li>Onglet Recommandé : Installation par lots (mode "Sélection Multiple") avec prise en charge APT, Flatpak, .deb et scripts personnalisés (seul DaVinci Resolve exclu)</li>
           <li>Onglet Recommandé : Support de scripts personnalisés pour installations complexes</li>
           <li>Onglet Recommandé : Intégration de la barre de progression globale</li>
           <li>Onglet Recommandé : Gestion des erreurs améliorée et corrections de stabilité UI</li>
@@ -283,6 +286,7 @@
           <li>Gestão de kernels (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) com verificações de segurança NVIDIA</li>
           <li>Atualizações de microcode de CPU (detecção automática Intel e AMD)</li>
           <li>Ferramentas de manutenção do sistema (Limpar kernels antigos, Atualizar GRUB)</li>
+          <li>Aba Recomendado: Instalação em lote (modo "Seleção Múltipla") com suporte para APT, Flatpak, .deb e scripts personalizados (apenas DaVinci Resolve excluído)</li>
           <li>Aba Recomendado: Suporte a scripts personalizados para instalações complexas</li>
           <li>Aba Recomendado: Integração de barra de progresso global</li>
           <li>Aba Recomendado: Tratamento de erros aprimorado e correções de estabilidade da UI</li>
@@ -324,6 +328,7 @@
           <li>Kernel-Verwaltung (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) mit NVIDIA-Sicherheitsprüfungen</li>
           <li>CPU-Mikrocode-Updates (automatische Erkennung von Intel und AMD)</li>
           <li>Systemwartungstools (Alte Kernel bereinigen, GRUB aktualisieren)</li>
+          <li>Empfohlen-Tab: Batch-Installation ("Mehrfachauswahl"-Modus) mit Unterstützung für APT, Flatpak, .deb und benutzerdefinierte Skripte (nur DaVinci Resolve ausgeschlossen)</li>
           <li>Empfohlen-Tab: Unterstützung für benutzerdefinierte Skripte für komplexe Installationen</li>
           <li>Empfohlen-Tab: Globale Fortschrittsbalken-Integration</li>
           <li>Empfohlen-Tab: Verbesserte Fehlerbehandlung und UI-Stabilitätskorrekturen</li>
@@ -365,6 +370,7 @@
           <li>Gestione kernel (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) con controlli di sicurezza NVIDIA</li>
           <li>Aggiornamenti microcodice CPU (rilevamento automatico Intel e AMD)</li>
           <li>Strumenti di manutenzione del sistema (Pulizia vecchi kernel, Aggiornamento GRUB)</li>
+          <li>Scheda Consigliati: Installazione batch (modalità "Selezione Multipla") con supporto per APT, Flatpak, .deb e script personalizzati (solo DaVinci Resolve escluso)</li>
           <li>Scheda Consigliati: Supporto script personalizzati per installazioni complesse</li>
           <li>Scheda Consigliati: Integrazione barra di avanzamento globale</li>
           <li>Scheda Consigliati: Gestione errori migliorata e correzioni stabilità UI</li>
@@ -406,6 +412,7 @@
           <li>Управление ядрами (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) с проверками безопасности NVIDIA</li>
           <li>Обновления микрокода CPU (автоопределение Intel и AMD)</li>
           <li>Инструменты обслуживания системы (Очистка старых ядер, Обновление GRUB)</li>
+          <li>Вкладка Рекомендуемое: Пакетная установка (режим "Множественный выбор") с поддержкой APT, Flatpak, .deb и пользовательских скриптов (только DaVinci Resolve исключен)</li>
           <li>Вкладка Рекомендуемое: Поддержка пользовательских скриптов для сложных установок</li>
           <li>Вкладка Рекомендуемое: Интеграция глобального прогресс-бара</li>
           <li>Вкладка Рекомендуемое: Улучшенная обработка ошибок и исправления стабильности UI</li>
@@ -447,6 +454,7 @@
           <li>Gestionare kerneluri (Liquorix, XanMod x64v3/x64v4/EDGE/LTS) cu verificări de securitate NVIDIA</li>
           <li>Actualizări microcode CPU (detectare automată Intel și AMD)</li>
           <li>Instrumente de întreținere sistem (Curățare kerneluri vechi, Actualizare GRUB)</li>
+          <li>Tab Recomandat: Instalare în lot (modul "Selecție Multiplă") cu suport pentru APT, Flatpak, .deb și scripturi personalizate (doar DaVinci Resolve exclus)</li>
           <li>Tab Recomandat: Suport scripturi personalizate pentru instalări complexe</li>
           <li>Tab Recomandat: Integrare bară de progres globală</li>
           <li>Tab Recomandat: Gestionare erori îmbunătățită și corecții stabilitate UI</li>

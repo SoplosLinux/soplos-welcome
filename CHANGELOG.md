@@ -48,6 +48,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - NVIDIA compatibility warnings and safety checks
 
 ### ✨ Recommended Tab Complete Overhaul
+- **Batch Installation Mode**: New "Selección Múltiple" mode allows selecting and installing multiple packages simultaneously
+  - Toggle between normal (individual buttons) and batch (checkboxes) modes
+  - Smart grouping: APT packages installed in single command, Flatpak/deb/custom scripts sequential
+  - Bottom action bar with selection counter and batch install button
+  - Full support for custom scripts (Google Antigravity, Brave, Zed, Sublime Text, etc.)
+  - Only DaVinci Resolve excluded due to complex multi-step installation
 - **Custom Script Support**: Complex installation workflows with repository setup, GPG keys, and multi-step installations
 - **Global Progress Bar Integration**: Unified progress reporting across all installation methods
 - **Enhanced Error Handling**: Robust error recovery with proper UI state management
