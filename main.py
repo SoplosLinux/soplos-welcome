@@ -10,8 +10,6 @@ import sys
 import os
 import warnings
 from pathlib import Path
-import atexit
-import shutil
 
 # Add project root to Python path
 PROJECT_ROOT = Path(__file__).parent
@@ -27,19 +25,7 @@ if not os.environ.get('ENABLE_ACCESSIBILITY'):
     os.environ['AT_SPI_BUS'] = '0'
 
 
-def cleanup_pycache():
-    """Remove all __pycache__ directories on exit."""
-    try:
-        for root, dirs, files in os.walk(PROJECT_ROOT):
-            if '__pycache__' in dirs:
-                pycache_path = os.path.join(root, '__pycache__')
-                shutil.rmtree(pycache_path, ignore_errors=True)
-    except Exception:
-        pass  # Silent cleanup, don't interrupt exit
-
-
-# Register cleanup function to run on exit
-atexit.register(cleanup_pycache)
+# Cleanup handled by SoplosWelcomeApplication now
 
 
 def main():

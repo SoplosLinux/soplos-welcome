@@ -46,10 +46,45 @@ class SoplosWelcomeApplication(Gtk.Application):
         self.connect('startup', self.on_startup)
         self.connect('activate', self.on_activate)
         self.connect('command-line', self.on_command_line)
+        self.connect('shutdown', self.on_shutdown)
         
         # Setup signal handlers for graceful shutdown
         signal.signal(signal.SIGINT, self._handle_signal)
         signal.signal(signal.SIGTERM, self._handle_signal)
+        
+    def on_shutdown(self, app):
+        """Called when the application shuts down."""
+        print("Shutting down Soplos Welcome...")
+        self._cleanup_garbage()
+
+    def _cleanup_garbage(self):
+        """Remove __pycache__ and other temporary files."""
+        try:
+            import shutil
+            root_path = self.app_path
+            print(f"Cleaning runtimes from: {root_path}")
+            
+            # Clean __pycache__
+            for root, dirs, files in os.walk(root_path):
+                if '__pycache__' in dirs:
+                    pycache_path = os.path.join(root, '__pycache__')
+                    try:
+                        shutil.rmtree(pycache_path, ignore_errors=True)
+                    except Exception:
+                        pass
+                        
+            # Clean any rogue .deb files in root/bin that might have slipped (strict policy)
+            # This addresses the user's specific complaint about r2modman.deb
+            for file in os.listdir(root_path):
+                if file.endswith(".deb") or (file.endswith(".sh") and "makeresolve" not in file):
+                   try:
+                       os.remove(os.path.join(root_path, file))
+                       print(f"Removed rogue file: {file}")
+                   except Exception:
+                       pass
+                       
+        except Exception as e:
+            print(f"Cleanup warning: {e}")
     
     def on_startup(self, app):
         """Called when the application starts up."""
