@@ -141,6 +141,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - **Security Tab - UFW Firewall**: Fixed status detection by reading `/etc/ufw/ufw.conf` directly, simplified activation to single `pkexec` call, added `--force` flag to prevent interactive prompts, enabled systemd service persistence, added periodic status check (every 3s) to detect external changes from GUFW
 - **Security Tab - BTRFS Detection**: Fixed filesystem detection using `findmnt` instead of incompatible `df` flags, now correctly detects BTRFS with Calamares subvolumes (@, @home)
 - **Window Deformation**: Fixed progress label stretching during downloads by adding text ellipsization and width limits
+- **Gaming Tab**: Fixed wallpaper installation progress bar (now shows progress during extraction)
+- **Gaming Tab**: Added toggle functionality for Performance Mode (install/uninstall)
+- **Gaming Tab**: Safety update - Removed wallpaper uninstallation to protect system files
+- **Gaming Tab**: Updated "Revert All" dialog to accurately reflect implemented optimizations (GPU/Disk I/O)
+- **Gaming Tab**: Added support for 4 new Flatpak launchers: R2ModMan (Mods), Moonlight (Streaming), Chiaki4deck (PS4/PS5), Vinegar (Roblox)
+- **Gaming Tab**: Reordered launchers list for better organization
 - Fixed DriversTab initialization
 - Fixed Repo Selector button to launch application
 - Updated Welcome tab URLs to soplos.org

@@ -718,38 +718,37 @@ rm -f /tmp/{pkg_name}.deb"""
         self.command_runner.run_command(cmd, lambda: self._install_next_deb(index + 1))
     
     def _install_batch_step_4_custom(self):
-        """Step 4: Install custom script packages sequentially."""
-        if self.selected_custom:
-            self._install_next_custom(0)
-        else:
-            self._install_batch_complete()
-    
-    def _install_next_custom(self, index):
-        """Install next custom script package."""
-        if index >= len(self.selected_custom):
+        """Step 4: Install custom script packages in single consolidated script."""
+        if not self.selected_custom:
             self._install_batch_complete()
             return
         
-        commands_list, pkg_name = self.selected_custom[index]
-        
-        # Create temporary script file (same approach as individual install)
-        script_name = f"batch-install-{pkg_name}.sh"
-        script_path = f"/tmp/{script_name}"
+        # Consolidate ALL custom scripts into ONE script file to avoid multiple password prompts
+        script_path = "/tmp/batch-install-custom-all.sh"
         
         try:
             with open(script_path, "w") as f:
                 f.write("#!/bin/bash\n")
-                f.write("\n".join(commands_list))
-                f.write("\necho 'Operation completed successfully'\n")
+                f.write("# Batch installation of custom script packages\n")
+                f.write("set -e  # Exit on error\n\n")
+                
+                for commands_list, pkg_name in self.selected_custom:
+                    f.write(f"# Installing {pkg_name}\n")
+                    f.write(f"echo 'Installing {pkg_name}...'\n")
+                    f.write("\n".join(commands_list))
+                    f.write("\n\n")
+                
+                f.write("echo 'All custom scripts completed successfully'\n")
+            
             os.chmod(script_path, 0o755)
             
-            # Run script with pkexec
+            # Single pkexec call for ALL custom scripts
             cmd = f"pkexec {script_path}"
-            self.command_runner.run_command(cmd, lambda: self._install_next_custom(index + 1))
+            self.command_runner.run_command(cmd, self._install_batch_complete)
+            
         except Exception as e:
-            print(f"Error creating custom script for {pkg_name}: {e}")
-            # Skip to next on error
-            self._install_next_custom(index + 1)
+            print(f"Error creating consolidated custom script: {e}")
+            self._install_batch_complete()
     
     def _install_batch_complete(self):
         """Complete batch installation."""

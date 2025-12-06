@@ -148,15 +148,19 @@ Contact: info@soploslinux.com
   - **GPU Optimization**: Automatic GPU vendor detection (NVIDIA/AMD/Intel) with driver environment configuration for optimal gaming performance.
   - **Disk I/O Optimization**: Udev rules for optimal disk schedulers (mq-deadline for SSD, none for NVMe, BFQ for HDD).
   - **Performance Tools**: MangoHud + Goverlay for FPS monitoring and overlay customization.
-  - **Game Launchers**: Full installation support for 9 gaming platforms:
+  - **Game Launchers**: Full installation support for 13 gaming platforms:
     - Steam (Flatpak) - Digital game distribution platform
     - Lutris (APT/Flatpak) - Unified game manager for Linux
     - Heroic Games Launcher (Flatpak) - Epic Games, GOG, and Amazon Games
     - Bottles (Flatpak) - Run Windows applications using Wine
+    - Vinegar (Flatpak) - Modern Roblox Launcher
+    - R2ModMan (Flatpak) - Mod manager for Lethal Company, Valheim, etc.
     - Prism Launcher (Flatpak) - Custom Minecraft launcher
     - Itch.io (Flatpak) - Indie game marketplace
     - Minigalaxy (APT/Flatpak) - Simple GOG.com client
     - RetroArch (APT/Flatpak) - Multi-emulator frontend
+    - Moonlight (Flatpak) - NVIDIA GameStream/Sunshine client
+    - Chiaki (Flatpak) - PlayStation Remote Play (HDR support)
     - Discord (Flatpak) - Gaming community communication
   - **Installation Method Badges**: Visual indicators showing APT or Flatpak installation methods.
   - **Official Package Badges**: Security indicators for official repository packages.
@@ -179,6 +183,7 @@ Contact: info@soploslinux.com
 - **Fixed UFW Firewall**: Status detection and activation (single password prompt, no interactive prompts), periodic status updates to detect external changes.
 - **Fixed BTRFS Detection**: Filesystem detection for Calamares subvolumes (@, @home).
 - **Fixed Window Deformation**: Progress label stretching during downloads.
+- **Improved Gaming Tab**: Fixed wallpaper installation progress bar, added Performance Mode toggle, updated Revert All dialog, removed wallpaper uninstallation for safety.
 
 ### v1.1.4 (08/09/2025)
 - Updated Blender icon and fixed link buttons in the welcome tab.

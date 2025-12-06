@@ -5,7 +5,7 @@ Hidden easter egg tab with gaming optimizations and tools.
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, GdkPixbuf, Pango
+from gi.repository import Gtk, GdkPixbuf, Pango, GLib
 
 from config.paths import ICONS_DIR
 from utils.command_runner import CommandRunner
@@ -251,30 +251,56 @@ class GamingTab(Gtk.Box):
         if response != Gtk.ResponseType.YES:
             return
         
-        # Install via pkexec
+        # Install via CommandRunner with progress bar
+        import tempfile
+        
+        # Create temporary script
+        script_content = """#!/bin/bash
+set -e
+echo "Installing GameMode..."
+/usr/bin/apt update
+/usr/bin/apt install -y gamemode libgamemode0
+echo "GameMode installed successfully!"
+"""
+        
         try:
-            subprocess.run([
-                "pkexec", "bash", "-c",
-                "/usr/bin/apt install -y gamemode libgamemode0"
-            ], check=True)
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                tf.write(script_content)
+                script_path = tf.name
             
-            # Show success
-            success_dialog = Gtk.MessageDialog(
-                transient_for=self.parent_window,
-                flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.OK,
-                text="GameMode installed successfully!"
-            )
-            success_dialog.format_secondary_text(
-                "Usage:\n"
-                "• Steam: Add 'gamemoderun %command%' to game launch options\n"
-                "• Lutris: Enable 'Feral GameMode' in game settings"
-            )
-            success_dialog.run()
-            success_dialog.destroy()
+            os.chmod(script_path, 0o755)
             
-        except subprocess.CalledProcessError as e:
+            # Success callback
+            def on_complete():
+                # Clean up
+                try:
+                    os.unlink(script_path)
+                except:
+                    pass
+                
+                # Show success
+                success_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="GameMode installed successfully!"
+                )
+                success_dialog.format_secondary_text(
+                    "Usage:\n"
+                    "• Steam: Add 'gamemoderun %command%' to game launch options\n"
+                    "• Lutris: Enable 'Feral GameMode' in game settings"
+                )
+                success_dialog.run()
+                success_dialog.destroy()
+            
+            # Run with CommandRunner
+            self.command_runner.run_command(
+                f"pkexec bash {script_path}",
+                on_complete
+            )
+            
+        except Exception as e:
             error_dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
@@ -287,7 +313,7 @@ class GamingTab(Gtk.Box):
             error_dialog.destroy()
     
     def _install_performance_mode(self):
-        """Install Performance Mode script."""
+        """Install or remove Performance Mode script."""
         import subprocess
         import os
         from config.paths import BASE_DIR
@@ -295,63 +321,162 @@ class GamingTab(Gtk.Box):
         script_source = os.path.join(BASE_DIR, "services", "gaming", "game-performance.sh")
         script_dest = "/usr/local/bin/soplos-game-performance"
         
-        dialog = Gtk.MessageDialog(
-            transient_for=self.parent_window,
-            flags=0,
-            message_type=Gtk.MessageType.QUESTION,
-            buttons=Gtk.ButtonsType.YES_NO,
-            text="Install Performance Mode Script?"
-        )
-        dialog.format_secondary_text(
-            "This script temporarily sets CPU to 'performance' mode when launching games.\n\n"
-            "Requirements:\n"
-            "- power-profiles-daemon\n\n"
-            "The script will be installed to /usr/local/bin/soplos-game-performance\n\n"
-            "Continue?"
-        )
+        # Check if already installed
+        is_installed = os.path.exists(script_dest)
         
-        response = dialog.run()
-        dialog.destroy()
-        
-        if response != Gtk.ResponseType.YES:
-            return
-        
-        try:
-            # Install power-profiles-daemon if not present
-            # Single pkexec call for all operations
-            subprocess.run([
-                "pkexec", "bash", "-c",
-                f"/usr/bin/apt install -y power-profiles-daemon && cp '{script_source}' '{script_dest}' && chmod +x '{script_dest}'"
-            ], check=True)
-            
-            # Show success
-            success_dialog = Gtk.MessageDialog(
+        if is_installed:
+            # Remove
+            dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.OK,
-                text="Performance Mode script installed!"
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text="Remove Performance Mode Script?"
             )
-            success_dialog.format_secondary_text(
-                "Usage:\n"
-                "• Steam: Add 'soplos-game-performance %command%' to game launch options\n"
-                "• Lutris: Add 'soplos-game-performance' as a prefix in Lutris settings\n\n"
-                "Your CPU will automatically switch to performance mode when games are running."
-            )
-            success_dialog.run()
-            success_dialog.destroy()
+            dialog.format_secondary_text("This will remove the soplos-game-performance script.")
             
-        except subprocess.CalledProcessError as e:
-            error_dialog = Gtk.MessageDialog(
+            response = dialog.run()
+            dialog.destroy()
+            
+            if response != Gtk.ResponseType.YES:
+                return
+            
+            try:
+                # Create temporary script
+                import tempfile
+                script_content = f"""#!/bin/bash
+set -e
+echo "Removing performance script..."
+rm -f '{script_dest}'
+echo "Performance Mode removed successfully!"
+"""
+                
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                    tf.write(script_content)
+                    temp_script = tf.name
+                
+                os.chmod(temp_script, 0o755)
+                
+                # Success callback
+                def on_complete():
+                    # Clean up
+                    try:
+                        os.unlink(temp_script)
+                    except:
+                        pass
+                    
+                    success_dialog = Gtk.MessageDialog(
+                        transient_for=self.parent_window,
+                        flags=0,
+                        message_type=Gtk.MessageType.INFO,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Performance Mode removed!"
+                    )
+                    success_dialog.run()
+                    success_dialog.destroy()
+                
+                # Run with CommandRunner
+                self.command_runner.run_command(
+                    f"pkexec bash {temp_script}",
+                    on_complete
+                )
+                
+            except Exception as e:
+                error_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Removal failed"
+                )
+                error_dialog.format_secondary_text(str(e))
+                error_dialog.run()
+                error_dialog.destroy()
+        else:
+            # Install
+            dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
-                message_type=Gtk.MessageType.ERROR,
-                buttons=Gtk.ButtonsType.OK,
-                text="Installation failed"
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text="Install Performance Mode Script?"
             )
-            error_dialog.format_secondary_text(str(e))
-            error_dialog.run()
-            error_dialog.destroy()
+            dialog.format_secondary_text(
+                "This script temporarily sets CPU to 'performance' mode when launching games.\n\n"
+                "Requirements:\n"
+                "- power-profiles-daemon\n\n"
+                "The script will be installed to /usr/local/bin/soplos-game-performance\n\n"
+                "Continue?"
+            )
+            
+            response = dialog.run()
+            dialog.destroy()
+            
+            if response != Gtk.ResponseType.YES:
+                return
+            
+            try:
+                # Create temporary script
+                import tempfile
+                script_content = f"""#!/bin/bash
+set -e
+echo "Installing power-profiles-daemon..."
+/usr/bin/apt update
+/usr/bin/apt install -y power-profiles-daemon
+echo "Copying performance script..."
+cp '{script_source}' '{script_dest}'
+chmod +x '{script_dest}'
+echo "Performance Mode installed successfully!"
+"""
+                
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                    tf.write(script_content)
+                    temp_script = tf.name
+                
+                os.chmod(temp_script, 0o755)
+                
+                # Success callback
+                def on_complete():
+                    # Clean up
+                    try:
+                        os.unlink(temp_script)
+                    except:
+                        pass
+                    
+                    # Show success
+                    success_dialog = Gtk.MessageDialog(
+                        transient_for=self.parent_window,
+                        flags=0,
+                        message_type=Gtk.MessageType.INFO,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Performance Mode script installed!"
+                    )
+                    success_dialog.format_secondary_text(
+                        "Usage:\n"
+                        "• Steam: Add 'soplos-game-performance %command%' to game launch options\n"
+                        "• Lutris: Add 'soplos-game-performance' as a prefix in Lutris settings\n\n"
+                        "Your CPU will automatically switch to performance mode when games are running."
+                    )
+                    success_dialog.run()
+                    success_dialog.destroy()
+                
+                # Run with CommandRunner
+                self.command_runner.run_command(
+                    f"pkexec bash {temp_script}",
+                    on_complete
+                )
+                
+            except Exception as e:
+                error_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Installation failed"
+                )
+                error_dialog.format_secondary_text(str(e))
+                error_dialog.run()
+                error_dialog.destroy()
     
     def _toggle_gaming_sysctl(self):
         """Apply or revert gaming sysctl tweaks."""
@@ -383,23 +508,47 @@ class GamingTab(Gtk.Box):
                 return
             
             try:
-                # Single pkexec call
-                subprocess.run([
-                    "pkexec", "bash", "-c",
-                    f"rm -f {sysctl_file} && /usr/sbin/sysctl --system"
-                ], check=True)
+                # Create temporary script
+                import tempfile
+                script_content = f"""#!/bin/bash
+set -e
+echo "Reverting gaming sysctl tweaks..."
+rm -f {sysctl_file}
+/usr/sbin/sysctl --system
+echo "Sysctl tweaks reverted successfully!"
+"""
                 
-                success_dialog = Gtk.MessageDialog(
-                    transient_for=self.parent_window,
-                    flags=0,
-                    message_type=Gtk.MessageType.INFO,
-                    buttons=Gtk.ButtonsType.OK,
-                    text="Gaming sysctl tweaks reverted!"
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                    tf.write(script_content)
+                    temp_script = tf.name
+                
+                os.chmod(temp_script, 0o755)
+                
+                # Success callback
+                def on_complete():
+                    # Clean up
+                    try:
+                        os.unlink(temp_script)
+                    except:
+                        pass
+    
+                    success_dialog = Gtk.MessageDialog(
+                        transient_for=self.parent_window,
+                        flags=0,
+                        message_type=Gtk.MessageType.INFO,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Gaming sysctl tweaks reverted!"
+                    )
+                    success_dialog.run()
+                    success_dialog.destroy()
+                
+                # Run with CommandRunner
+                self.command_runner.run_command(
+                    f"pkexec bash {temp_script}",
+                    on_complete
                 )
-                success_dialog.run()
-                success_dialog.destroy()
                 
-            except subprocess.CalledProcessError as e:
+            except Exception as e:
                 error_dialog = Gtk.MessageDialog(
                     transient_for=self.parent_window,
                     flags=0,
@@ -436,24 +585,48 @@ class GamingTab(Gtk.Box):
                 return
             
             try:
-                # Single pkexec call
-                subprocess.run([
-                    "pkexec", "bash", "-c",
-                    f"cp '{sysctl_source}' {sysctl_file} && /usr/sbin/sysctl --system"
-                ], check=True)
+                # Create temporary script
+                import tempfile
+                script_content = f"""#!/bin/bash
+set -e
+echo "Applying gaming sysctl tweaks..."
+cp '{sysctl_source}' {sysctl_file}
+/usr/sbin/sysctl --system
+echo "Sysctl tweaks applied successfully!"
+"""
                 
-                success_dialog = Gtk.MessageDialog(
-                    transient_for=self.parent_window,
-                    flags=0,
-                    message_type=Gtk.MessageType.INFO,
-                    buttons=Gtk.ButtonsType.OK,
-                    text="Gaming sysctl tweaks applied!"
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                    tf.write(script_content)
+                    temp_script = tf.name
+                
+                os.chmod(temp_script, 0o755)
+                
+                # Success callback
+                def on_complete():
+                    # Clean up
+                    try:
+                        os.unlink(temp_script)
+                    except:
+                        pass
+    
+                    success_dialog = Gtk.MessageDialog(
+                        transient_for=self.parent_window,
+                        flags=0,
+                        message_type=Gtk.MessageType.INFO,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Gaming sysctl tweaks applied!"
+                    )
+                    success_dialog.format_secondary_text("Kernel parameters optimized for gaming.")
+                    success_dialog.run()
+                    success_dialog.destroy()
+                
+                # Run with CommandRunner
+                self.command_runner.run_command(
+                    f"pkexec bash {temp_script}",
+                    on_complete
                 )
-                success_dialog.format_secondary_text("Kernel parameters optimized for gaming.")
-                success_dialog.run()
-                success_dialog.destroy()
                 
-            except subprocess.CalledProcessError as e:
+            except Exception as e:
                 error_dialog = Gtk.MessageDialog(
                     transient_for=self.parent_window,
                     flags=0,
@@ -599,68 +772,93 @@ class GamingTab(Gtk.Box):
         
         try:
             # Build consolidated bash command
-            bash_cmd = f"cp '{source_file}' '{dest_file}'"
+            import tempfile
+            
+            script_content = f"""#!/bin/bash
+set -e
+echo "Copying GPU configuration..."
+cp '{source_file}' '{dest_file}'
+"""
             
             # Add prime-run installation if hybrid NVIDIA system
             prime_run_installed = False
             if is_hybrid and has_nvidia:
                 prime_run_source = os.path.join(BASE_DIR, "services", "gaming", "prime-run")
                 prime_run_dest = "/usr/local/bin/prime-run"
-                bash_cmd += f" && cp '{prime_run_source}' '{prime_run_dest}' && chmod +x '{prime_run_dest}'"
+                script_content += f"""echo "Installing prime-run script..."
+cp '{prime_run_source}' '{prime_run_dest}'
+chmod +x '{prime_run_dest}'
+"""
                 prime_run_installed = True
             
-            # Execute everything with single pkexec
-            subprocess.run([
-                "pkexec", "bash", "-c",
-                bash_cmd
-            ], check=True)
+            script_content += "echo \"GPU optimization complete!\""
             
-            # Build success message
-            if is_hybrid and has_nvidia:
-                # Hybrid graphics message
-                integrated_gpu = next((m for v, m in gpus if v in ['intel', 'amd']), "Unknown")
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                tf.write(script_content)
+                temp_script = tf.name
+            
+            os.chmod(temp_script, 0o755)
+            
+            # Success callback
+            def on_complete():
+                # Clean up
+                try:
+                    os.unlink(temp_script)
+                except:
+                    pass
                 
-                success_msg = (
-                    f"✅ Hybrid Graphics Optimized!\n\n"
-                    f"GPU Dedicada: {gpu_model}\n"
-                    f"GPU Integrada: {integrated_gpu}\n\n"
-                )
-                
-                if prime_run_installed:
+                # Build success message
+                if is_hybrid and has_nvidia:
+                    # Hybrid graphics message
+                    integrated_gpu = next((m for v, m in gpus if v in ['intel', 'amd']), "Unknown")
+                    
+                    success_msg = (
+                        f"✅ Hybrid Graphics Optimized!\n\n"
+                        f"GPU Dedicada: {gpu_model}\n"
+                        f"GPU Integrada: {integrated_gpu}\n\n"
+                    )
+                    
+                    if prime_run_installed:
+                        success_msg += (
+                            f"✅ prime-run script installed to /usr/local/bin/prime-run\n\n"
+                            f"Usage for hybrid graphics:\n"
+                            f"• Steam: Add 'prime-run %command%' to game launch options\n"
+                            f"• Lutris: Add 'prime-run' as a prefix\n"
+                            f"• Terminal: prime-run <application>\n\n"
+                            f"This forces games to use your NVIDIA GPU.\n\n"
+                        )
+                    
                     success_msg += (
-                        f"✅ prime-run script installed to /usr/local/bin/prime-run\n\n"
-                        f"Usage for hybrid graphics:\n"
-                        f"• Steam: Add 'prime-run %command%' to game launch options\n"
-                        f"• Lutris: Add 'prime-run' as a prefix\n"
-                        f"• Terminal: prime-run <application>\n\n"
-                        f"This forces games to use your NVIDIA GPU.\n\n"
+                        f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\n\n"
+                        f"Configuration saved to: {dest_file}"
+                    )
+                else:
+                    # Single GPU message
+                    success_msg = (
+                        f"Gaming optimizations applied for {gpu_model}.\n\n"
+                        f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\n\n"
+                        f"Configuration saved to:\n{dest_file}"
                     )
                 
-                success_msg += (
-                    f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\n\n"
-                    f"Configuration saved to: {dest_file}"
+                # Show success
+                success_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=f"{gpu_vendor.upper()} GPU Optimized!"
                 )
-            else:
-                # Single GPU message
-                success_msg = (
-                    f"Gaming optimizations applied for {gpu_model}.\n\n"
-                    f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\n\n"
-                    f"Configuration saved to:\n{dest_file}"
-                )
+                success_dialog.format_secondary_text(success_msg)
+                success_dialog.run()
+                success_dialog.destroy()
             
-            # Show success
-            success_dialog = Gtk.MessageDialog(
-                transient_for=self.parent_window,
-                flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.OK,
-                text=f"{gpu_vendor.upper()} GPU Optimized!"
+            # Execute with CommandRunner
+            self.command_runner.run_command(
+                f"pkexec bash {temp_script}",
+                on_complete
             )
-            success_dialog.format_secondary_text(success_msg)
-            success_dialog.run()
-            success_dialog.destroy()
             
-        except subprocess.CalledProcessError as e:
+        except Exception as e:
             error_dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
@@ -703,23 +901,48 @@ class GamingTab(Gtk.Box):
                 return
             
             try:
-                # Single pkexec call
-                subprocess.run([
-                    "pkexec", "bash", "-c",
-                    f"rm -f {dest_file} && /usr/bin/udevadm control --reload-rules && /usr/bin/udevadm trigger"
-                ], check=True)
+                # Create temporary script
+                import tempfile
+                script_content = f"""#!/bin/bash
+set -e
+echo "Reverting disk I/O optimizations..."
+rm -f {dest_file}
+/usr/bin/udevadm control --reload-rules
+/usr/bin/udevadm trigger
+echo "Disk I/O optimizations reverted successfully!"
+"""
                 
-                success_dialog = Gtk.MessageDialog(
-                    transient_for=self.parent_window,
-                    flags=0,
-                    message_type=Gtk.MessageType.INFO,
-                    buttons=Gtk.ButtonsType.OK,
-                    text="Disk I/O optimizations reverted!"
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                    tf.write(script_content)
+                    temp_script = tf.name
+                
+                os.chmod(temp_script, 0o755)
+                
+                # Success callback
+                def on_complete():
+                    # Clean up
+                    try:
+                        os.unlink(temp_script)
+                    except:
+                        pass
+    
+                    success_dialog = Gtk.MessageDialog(
+                        transient_for=self.parent_window,
+                        flags=0,
+                        message_type=Gtk.MessageType.INFO,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Disk I/O optimizations reverted!"
+                    )
+                    success_dialog.run()
+                    success_dialog.destroy()
+                
+                # Run with CommandRunner
+                self.command_runner.run_command(
+                    f"pkexec bash {temp_script}",
+                    on_complete
                 )
-                success_dialog.run()
-                success_dialog.destroy()
                 
-            except subprocess.CalledProcessError as e:
+            except Exception as e:
                 error_dialog = Gtk.MessageDialog(
                     transient_for=self.parent_window,
                     flags=0,
@@ -755,28 +978,53 @@ class GamingTab(Gtk.Box):
                 return
             
             try:
-                # Single pkexec call for all operations
-                subprocess.run([
-                    "pkexec", "bash", "-c",
-                    f"cp '{source_file}' '{dest_file}' && /usr/bin/udevadm control --reload-rules && /usr/bin/udevadm trigger"
-                ], check=True)
+                # Create temporary script
+                import tempfile
+                script_content = f"""#!/bin/bash
+set -e
+echo "Applying disk I/O optimizations..."
+cp '{source_file}' '{dest_file}'
+/usr/bin/udevadm control --reload-rules
+/usr/bin/udevadm trigger
+echo "Disk I/O optimized successfully!"
+"""
                 
-                success_dialog = Gtk.MessageDialog(
-                    transient_for=self.parent_window,
-                    flags=0,
-                    message_type=Gtk.MessageType.INFO,
-                    buttons=Gtk.ButtonsType.OK,
-                    text="Disk I/O Optimized!"
-                )
-                success_dialog.format_secondary_text(
-                    "I/O schedulers have been optimized for gaming.\n\n"
-                    "Changes are active immediately.\n\n"
-                    f"Configuration saved to:\n{dest_file}"
-                )
-                success_dialog.run()
-                success_dialog.destroy()
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                    tf.write(script_content)
+                    temp_script = tf.name
                 
-            except subprocess.CalledProcessError as e:
+                os.chmod(temp_script, 0o755)
+                
+                # Success callback
+                def on_complete():
+                    # Clean up
+                    try:
+                        os.unlink(temp_script)
+                    except:
+                        pass
+    
+                    success_dialog = Gtk.MessageDialog(
+                        transient_for=self.parent_window,
+                        flags=0,
+                        message_type=Gtk.MessageType.INFO,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Disk I/O Optimized!"
+                    )
+                    success_dialog.format_secondary_text(
+                        "I/O schedulers have been optimized for gaming.\n\n"
+                        "Changes are active immediately.\n\n"
+                        f"Configuration saved to:\n{dest_file}"
+                    )
+                    success_dialog.run()
+                    success_dialog.destroy()
+                
+                # Run with CommandRunner
+                self.command_runner.run_command(
+                    f"pkexec bash {temp_script}",
+                    on_complete
+                )
+                
+            except Exception as e:
                 error_dialog = Gtk.MessageDialog(
                     transient_for=self.parent_window,
                     flags=0,
@@ -791,6 +1039,8 @@ class GamingTab(Gtk.Box):
     def _install_mangohud(self):
         """Install MangoHud + Goverlay."""
         import subprocess
+        import tempfile
+        import os
         
         dialog = Gtk.MessageDialog(
             transient_for=self.parent_window,
@@ -814,28 +1064,52 @@ class GamingTab(Gtk.Box):
             return
         
         try:
-            subprocess.run([
-                "pkexec", "bash", "-c",
-                "/usr/bin/apt install -y mangohud goverlay"
-            ], check=True)
+            # Create temporary script
+            script_content = """#!/bin/bash
+set -e
+echo "Installing MangoHud and dependencies..."
+/usr/bin/apt update
+/usr/bin/apt install -y mangohud goverlay
+echo "MangoHud + Goverlay installed successfully!"
+"""
             
-            success_dialog = Gtk.MessageDialog(
-                transient_for=self.parent_window,
-                flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.OK,
-                text="MangoHud + Goverlay installed!"
-            )
-            success_dialog.format_secondary_text(
-                "Usage:\n"
-                "• Steam: Add 'mangohud %command%' to game launch options\n"
-                "• Configure via Goverlay application\n"
-                "• Toggle in-game with Shift+F12"
-            )
-            success_dialog.run()
-            success_dialog.destroy()
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                tf.write(script_content)
+                temp_script = tf.name
             
-        except subprocess.CalledProcessError as e:
+            os.chmod(temp_script, 0o755)
+            
+            # Success callback
+            def on_complete():
+                # Clean up
+                try:
+                    os.unlink(temp_script)
+                except:
+                    pass
+                
+                success_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="MangoHud + Goverlay installed!"
+                )
+                success_dialog.format_secondary_text(
+                    "Usage:\n"
+                    "• Steam: Add 'mangohud %command%' to game launch options\n"
+                    "• Configure via Goverlay application\n"
+                    "• Toggle in-game with Shift+F12"
+                )
+                success_dialog.run()
+                success_dialog.destroy()
+            
+            # Run with CommandRunner
+            self.command_runner.run_command(
+                f"pkexec bash {temp_script}",
+                on_complete
+            )
+            
+        except Exception as e:
             error_dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
@@ -846,6 +1120,7 @@ class GamingTab(Gtk.Box):
             error_dialog.format_secondary_text(str(e))
             error_dialog.run()
             error_dialog.destroy()
+
     
     def _revert_all_optimizations(self):
         """Revert all gaming optimizations."""
@@ -862,9 +1137,10 @@ class GamingTab(Gtk.Box):
         dialog.format_secondary_text(
             "This will remove:\n"
             "• Gaming sysctl tweaks\n"
-            "• GPU optimizations (future)\n"
-            "• Disk I/O optimizations (future)\n\n"
-            "GameMode, MangoHud, and scripts will remain installed.\n\n"
+            "• GPU optimizations\n"
+            "• Disk I/O optimizations\n"
+            "• Performance Mode script\n\n"
+            "GameMode and MangoHud will remain installed.\n\n"
             "Continue?"
         )
         
@@ -875,50 +1151,96 @@ class GamingTab(Gtk.Box):
             return
         
         try:
-            # Build consolidated revert command
-            revert_cmds = []
+            # Build consolidated revert script
+            import tempfile
+            import glob
+            
+            script_lines = ["#!/bin/bash", "set -e"]
+            has_changes = False
             
             # Revert sysctl if exists
             if os.path.exists("/etc/sysctl.d/99-soplos-gaming.conf"):
-                revert_cmds.append("rm -f /etc/sysctl.d/99-soplos-gaming.conf")
-                revert_cmds.append("/usr/sbin/sysctl --system")
+                script_lines.append("echo 'Reverting gaming sysctl tweaks...'")
+                script_lines.append("rm -f /etc/sysctl.d/99-soplos-gaming.conf")
+                script_lines.append("/usr/sbin/sysctl --system")
+                has_changes = True
             
             # Revert GPU env vars if exist
-            import glob
             gpu_files = glob.glob("/etc/environment.d/50-soplos-*-gaming.conf")
-            for gpu_file in gpu_files:
-                revert_cmds.append(f"rm -f {gpu_file}")
+            if gpu_files:
+                script_lines.append("echo 'Removing GPU optimizations...'")
+                for gpu_file in gpu_files:
+                    script_lines.append(f"rm -f {gpu_file}")
+                has_changes = True
             
             # Revert Disk I/O if exists
-            if os.path.exists("/etc/udev/rules.d/60-ioschedulers.rules"):
-                revert_cmds.append("rm -f /etc/udev/rules.d/60-ioschedulers.rules")
-                revert_cmds.append("/usr/bin/udevadm control --reload-rules")
-                revert_cmds.append("/usr/bin/udevadm trigger")
+            if os.path.exists("/etc/udev/rules.d/60-soplos-ioschedulers.rules"):
+                script_lines.append("echo 'Reverting disk I/O optimizations...'")
+                script_lines.append("rm -f /etc/udev/rules.d/60-soplos-ioschedulers.rules")
+                script_lines.append("/usr/bin/udevadm control --reload-rules")
+                script_lines.append("/usr/bin/udevadm trigger")
+                has_changes = True
             
             # Revert Performance Mode script if exists
             if os.path.exists("/usr/local/bin/soplos-game-performance"):
-                revert_cmds.append("rm -f /usr/local/bin/soplos-game-performance")
+                script_lines.append("echo 'Removing performance mode script...'")
+                script_lines.append("rm -f /usr/local/bin/soplos-game-performance")
+                has_changes = True
             
-            # Execute all reverts with single pkexec if there's anything to revert
-            if revert_cmds:
-                combined_cmd = " && ".join(revert_cmds)
-                subprocess.run([
-                    "pkexec", "bash", "-c",
-                    combined_cmd
-                ], check=True)
+            # Revert prime-run if exists
+            if os.path.exists("/usr/local/bin/prime-run"):
+                script_lines.append("echo 'Removing prime-run script...'")
+                script_lines.append("rm -f /usr/local/bin/prime-run")
+                has_changes = True
             
-            success_dialog = Gtk.MessageDialog(
-                transient_for=self.parent_window,
-                flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.OK,
-                text="Optimizations reverted!"
-            )
-            success_dialog.format_secondary_text("All gaming tweaks have been removed.")
-            success_dialog.run()
-            success_dialog.destroy()
+            if has_changes:
+                script_lines.append("echo 'All optimizations reverted successfully!'")
+                script_content = "\n".join(script_lines)
+                
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                    tf.write(script_content)
+                    temp_script = tf.name
+                
+                os.chmod(temp_script, 0o755)
+                
+                # Success callback
+                def on_complete():
+                    # Clean up
+                    try:
+                        os.unlink(temp_script)
+                    except:
+                        pass
+    
+                    success_dialog = Gtk.MessageDialog(
+                        transient_for=self.parent_window,
+                        flags=0,
+                        message_type=Gtk.MessageType.INFO,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Optimizations reverted!"
+                    )
+                    success_dialog.format_secondary_text("All gaming tweaks have been removed.")
+                    success_dialog.run()
+                    success_dialog.destroy()
+                
+                # Run with CommandRunner
+                self.command_runner.run_command(
+                    f"pkexec bash {temp_script}",
+                    on_complete
+                )
+            else:
+                # Nothing to revert
+                info_dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="No optimizations found"
+                )
+                info_dialog.format_secondary_text("No gaming optimizations are currently applied.")
+                info_dialog.run()
+                info_dialog.destroy()
             
-        except subprocess.CalledProcessError as e:
+        except Exception as e:
             error_dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
@@ -980,7 +1302,7 @@ class GamingTab(Gtk.Box):
         
         if response != Gtk.ResponseType.YES:
             return
-        
+            
         try:
             # Path to compressed wallpapers
             wallpapers_archive = os.path.join(BASE_DIR, "assets", "wallpapers", "wallpapers.tar.xz")
@@ -989,71 +1311,103 @@ class GamingTab(Gtk.Box):
                 raise FileNotFoundError(f"Wallpapers archive not found: {wallpapers_archive}")
             
             # Create temporary directory for extraction
-            with tempfile.TemporaryDirectory() as temp_dir:
-                # Extract archive
-                subprocess.run([
-                    "tar", "-xf", wallpapers_archive, "-C", temp_dir
-                ], check=True)
-                
-                # Find extracted wallpapers
-                extracted_files = []
-                for root, dirs, files in os.walk(temp_dir):
-                    for file in files:
-                        if file.lower().endswith(('.jpg', '.jpeg', '.png', '.webp')):
-                            extracted_files.append(os.path.join(root, file))
-                
-                if not extracted_files:
-                    raise FileNotFoundError("No wallpaper files found in archive")
-                
-                # Copy all files with a SINGLE pkexec call using bash
-                filenames = [os.path.basename(f) for f in extracted_files]
-                files_str = ' '.join([f'"{f}"' for f in extracted_files])
-                
-                # Create consolidated bash script for both copy AND symlinks (single pkexec)
-                install_script = f"""#!/bin/bash
-# Copy wallpapers
-mkdir -p {dest_dir}
-cp {files_str} {dest_dir}/
-"""
-                
-                # Add symlink commands for XFCE in the SAME script
-                if is_xfce:
-                    xfce_dir = "/usr/share/backgrounds/xfce"
-                    install_script += f"\n# Create XFCE symlinks\nmkdir -p {xfce_dir}\n"
-                    for filename in filenames:
-                        source = f"{dest_dir}/{filename}"
-                        target = f"{xfce_dir}/{filename}"
-                        install_script += f'ln -sf {source} {target}\n'
-                
-                script_path = os.path.join(temp_dir, "install_wallpapers.sh")
-                with open(script_path, 'w') as f:
-                    f.write(install_script)
-                os.chmod(script_path, 0o755)
-                
-                # Execute EVERYTHING with single pkexec (copy + symlinks)
-                subprocess.run(["pkexec", "bash", script_path], check=True)
+            temp_dir = tempfile.mkdtemp()
+            
+            # Build complete installation script (including extraction)
+            # Create consolidated bash script that extracts AND installs
+            install_script = f"""#!/bin/bash
+set -e
 
-                
-                # Generate GNOME XML if needed
-                if is_gnome:
-                    self._generate_gnome_wallpaper_xml(filenames, dest_dir, temp_dir)
+# Extract wallpapers
+echo "Extracting wallpapers..."
+tar -xf "{wallpapers_archive}" -C "{temp_dir}"
+
+# Create destination directory
+echo "Creating wallpaper directory..."
+mkdir -p {dest_dir}
+
+# Install wallpapers
+echo "Installing wallpapers..."
+for file in "{temp_dir}"/*.{{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}}; do
+    if [ -f "$file" ]; then
+        cp "$file" "{dest_dir}/"
+    fi
+done
+"""
             
-            # Success dialog
-            success_message = f"Wallpapers have been installed to:\n{dest_dir}"
+            # Add symlink commands for XFCE
             if is_xfce:
-                success_message += f"\n\nSymlinks created in:\n/usr/share/backgrounds/xfce/"
-            success_message += f"\n\nYou can now select them from your {de_name} wallpaper settings."
+                xfce_dir = "/usr/share/backgrounds/xfce"
+                install_script += f"""
+echo 'Creating XFCE symlinks...'
+mkdir -p {xfce_dir}
+for file in "{dest_dir}"/*.{{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}}; do
+    if [ -f "$file" ]; then
+        filename=$(basename "$file")
+        ln -sf "{dest_dir}/$filename" "{xfce_dir}/$filename"
+    fi
+done
+"""
             
-            success_dialog = Gtk.MessageDialog(
-                transient_for=self.parent_window,
-                flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.OK,
-                text="Gaming wallpapers installed successfully!"
-            )
-            success_dialog.format_secondary_text(success_message)
-            success_dialog.run()
-            success_dialog.destroy()
+            install_script += "echo 'Wallpapers installed successfully!'"
+            
+            # Write script to temporary file
+            script_path = os.path.join(temp_dir, "install_wallpapers.sh")
+            with open(script_path, 'w') as f:
+                f.write(install_script)
+            os.chmod(script_path, 0o755)
+            
+            try:
+                # Success callback
+                def on_complete():
+                    # Generate GNOME XML if needed (after installation completes)
+                    if is_gnome:
+                        # Get list of installed wallpapers
+                        import glob
+                        installed_files = []
+                        for ext in ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG', 'WEBP']:
+                            installed_files.extend(glob.glob(f"{dest_dir}/*.{ext}"))
+                        filenames = [os.path.basename(f) for f in installed_files]
+                        if filenames:
+                            self._generate_gnome_wallpaper_xml(filenames, dest_dir, temp_dir)
+                    
+                    # Clean up temp directory (after everything completes)
+                    import shutil
+                    try:
+                        shutil.rmtree(temp_dir)
+                    except:
+                        pass
+                    
+                    # Success dialog (inside callback)
+                    success_message = f"Wallpapers have been installed to:\n{dest_dir}"
+                    if is_xfce:
+                        success_message += f"\n\nSymlinks created in:\n/usr/share/backgrounds/xfce/"
+                    success_message += f"\n\nYou can now select them from your {de_name} wallpaper settings."
+                    
+                    success_dialog = Gtk.MessageDialog(
+                        transient_for=self.parent_window,
+                        flags=0,
+                        message_type=Gtk.MessageType.INFO,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Gaming wallpapers installed successfully!"
+                    )
+                    success_dialog.format_secondary_text(success_message)
+                    success_dialog.run()
+                    success_dialog.destroy()
+                
+                # Execute with CommandRunner to show progress bar
+                self.command_runner.run_command(
+                    f"pkexec bash {script_path}",
+                    on_complete
+                )
+            except Exception as inner_e:
+                # Clean up on error
+                import shutil
+                try:
+                    shutil.rmtree(temp_dir)
+                except:
+                    pass
+                raise inner_e
             
         except FileNotFoundError as e:
             error_dialog = Gtk.MessageDialog(
@@ -1066,7 +1420,7 @@ cp {files_str} {dest_dir}/
             error_dialog.format_secondary_text(str(e))
             error_dialog.run()
             error_dialog.destroy()
-            
+                
         except subprocess.CalledProcessError as e:
             error_dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
@@ -1133,7 +1487,7 @@ cp {files_str} {dest_dir}/
     def _create_launchers_section(self, parent):
         """Create launchers section with install buttons and badges."""
         # Define launchers locally (NOT from config/software.py to avoid duplicates in recommended tab)
-        launchers = [
+        self.launchers_data = [
             {
                 'name': 'Steam',
                 'package': None,
@@ -1164,6 +1518,22 @@ cp {files_str} {dest_dir}/
                 'flatpak': 'com.usebottles.bottles',
                 'icon': 'bottles.png',
                 'description': 'Ejecuta aplicaciones Windows en Linux usando Wine',
+                'official': False
+            },
+            {
+                'name': 'R2ModMan',
+                'package': 'r2modman',
+                'deb_url': 'https://github.com/ebkr/r2modmanPlus/releases/download/v3.2.11/r2modman_3.2.11_amd64.deb',
+                'icon': 'r2modman.png',
+                'description': 'Gestor de mods para Lethal Company, Valheim y más',
+                'official': False
+            },
+            {
+                'name': 'Vinegar (Roblox)',
+                'package': None,
+                'flatpak': 'org.vinegarhq.Vinegar',
+                'icon': 'vinegar.png',
+                'description': 'Launcher moderno para jugar a Roblox en Linux',
                 'official': False
             },
             {
@@ -1199,6 +1569,22 @@ cp {files_str} {dest_dir}/
                 'official': True
             },
             {
+                'name': 'Moonlight',
+                'package': None,
+                'flatpak': 'com.moonlight_stream.Moonlight',
+                'icon': 'moonlight.png',
+                'description': 'Cliente de streaming NVIDIA GameStream/Sunshine',
+                'official': False
+            },
+            {
+                'name': 'Chiaki (PS4/PS5)',
+                'package': None,
+                'flatpak': 'io.github.streetpea.Chiaki4deck',
+                'icon': 'chiaki.png',
+                'description': 'Cliente de PlayStation Remote Play (Versión HDR)',
+                'official': False
+            },
+            {
                 'name': 'Discord',
                 'package': None,
                 'flatpak': 'com.discordapp.Discord',
@@ -1207,9 +1593,6 @@ cp {files_str} {dest_dir}/
                 'official': False
             }
         ]
-        
-        if not launchers:
-            return
         
         # Section Frame
         section_frame = Gtk.Frame()
@@ -1223,30 +1606,40 @@ cp {files_str} {dest_dir}/
         section_frame.set_label_widget(title)
         
         # Grid for launchers
-        grid = Gtk.Grid()
-        grid.set_row_spacing(10)
-        grid.set_column_spacing(15)
-        grid.set_margin_left(20)
-        grid.set_margin_right(20)
-        grid.set_margin_top(15)
-        grid.set_margin_bottom(15)
-        grid.set_column_homogeneous(True)
+        self.launchers_grid = Gtk.Grid()
+        self.launchers_grid.set_row_spacing(10)
+        self.launchers_grid.set_column_spacing(15)
+        self.launchers_grid.set_margin_left(20)
+        self.launchers_grid.set_margin_right(20)
+        self.launchers_grid.set_margin_top(15)
+        self.launchers_grid.set_margin_bottom(15)
+        self.launchers_grid.set_column_homogeneous(True)
         
+        self._populate_launchers_grid()
+        
+        section_frame.add(self.launchers_grid)
+
+    def _populate_launchers_grid(self):
+        """Populate the launchers grid."""
+        # Clear existing children
+        for child in self.launchers_grid.get_children():
+            self.launchers_grid.remove(child)
+            
         # Add launcher widgets (2 columns)
         row = 0
         col = 0
         max_cols = 2
         
-        for launcher in launchers:
+        for launcher in self.launchers_data:
             launcher_widget = self._create_launcher_widget(launcher)
-            grid.attach(launcher_widget, col, row, 1, 1)
+            self.launchers_grid.attach(launcher_widget, col, row, 1, 1)
             
             col += 1
             if col >= max_cols:
                 col = 0
                 row += 1
-        
-        section_frame.add(grid)
+                
+        self.launchers_grid.show_all()
     
     def _create_launcher_widget(self, launcher):
         """Create a widget for a single launcher with badges."""
@@ -1348,10 +1741,15 @@ cp {files_str} {dest_dir}/
         """Get preferred install method for launcher."""
         # Prefer Flatpak for certain launchers (like recommended tab)
         prefer_flatpak = ['Steam', 'Heroic Games Launcher', 'Bottles', 'Discord', 
-                         'Prism Launcher', 'Itch.io']
+                         'Prism Launcher', 'Itch.io', 'R2ModMan', 'Vinegar (Roblox)',
+                         'Moonlight', 'Chiaki (PS4/PS5)']
         
         if launcher['name'] in prefer_flatpak and launcher.get('flatpak'):
             return 'flatpak'
+        
+        # Check specific methods
+        if launcher.get('deb_url'):
+            return 'deb_url'
         
         # APT first if available
         if launcher.get('package'):
@@ -1373,13 +1771,14 @@ cp {files_str} {dest_dir}/
         is_installed = False
         
         try:
-            if method == 'apt' and launcher.get('package'):
+            if (method == 'apt' or method == 'deb_url') and launcher.get('package'):
                 result = subprocess.run(
                     ['dpkg', '-s', launcher['package']],
                     capture_output=True, text=True
                 )
                 is_installed = 'Status: install ok installed' in result.stdout
             elif method == 'flatpak' and launcher.get('flatpak'):
+                # Use flatpak info which returns 0 if installed, 1 if not
                 result = subprocess.run(
                     ['flatpak', 'info', launcher['flatpak']],
                     capture_output=True, text=True
@@ -1400,7 +1799,18 @@ cp {files_str} {dest_dir}/
         if method == 'apt' and launcher.get('package'):
             command = f"pkexec apt install -y {launcher['package']}"
             script_name = f"install-{launcher['package']}.sh"
+        elif method == 'deb_url' and launcher.get('deb_url'):
+            # Download and install local deb with dependency handling
+            filename = f"/tmp/{launcher['package']}.deb"
+            # Use dpkg -i and fix broken dependencies if needed
+            command = (
+                f"wget -O {filename} {launcher['deb_url']} && "
+                f"pkexec bash -c 'dpkg -i {filename} || apt-get install -f -y' && "
+                f"rm -f {filename}"
+            )
+            script_name = f"install-{launcher['package']}.sh"
         elif method == 'flatpak' and launcher.get('flatpak'):
+            # Standard install (matches recommended tab behavior)
             command = f"flatpak install -y flathub {launcher['flatpak']}"
             script_name = f"install-{launcher['flatpak'].replace('.', '-')}.sh"
         
@@ -1416,7 +1826,12 @@ cp {files_str} {dest_dir}/
         if method == 'apt' and launcher.get('package'):
             command = f"pkexec apt remove -y {launcher['package']}"
             script_name = f"uninstall-{launcher['package']}.sh"
+            
+        elif method == 'deb_url' and launcher.get('package'):
+            command = f"pkexec apt remove -y {launcher['package']}"
+            script_name = f"uninstall-{launcher['package']}.sh"
         elif method == 'flatpak' and launcher.get('flatpak'):
+            # Standard uninstall (matches recommended tab behavior exactly)
             command = f"flatpak uninstall -y {launcher['flatpak']}"
             script_name = f"uninstall-{launcher['flatpak'].replace('.', '-')}.sh"
         
@@ -1429,7 +1844,6 @@ cp {files_str} {dest_dir}/
         try:
             with open(script_path, "w") as f:
                 f.write("#!/bin/bash\n")
-                f.write("set -e\n")
                 f.write(command + "\n")
                 f.write("echo 'Operation completed successfully'\n")
             os.chmod(script_path, 0o755)
@@ -1444,14 +1858,14 @@ cp {files_str} {dest_dir}/
     
     def _on_launcher_operation_complete(self, launcher):
         """Handle launcher operation completion."""
-        # Clear cache
+        # Clear cache for this specific launcher
         if launcher['name'] in self.launcher_status_cache:
             del self.launcher_status_cache[launcher['name']]
         
-        # Recreate the launchers section (refresh UI)
-        print(f"Launcher operation completed for {launcher['name']}")
-        # Note: Full UI refresh would require rebuilding the entire content_box
-        # For now, cache invalidation ensures next check is accurate
+        print(f"Operación completada para {launcher['name']}. Actualizando UI...")
+        
+        # Schedule grid refresh on main thread
+        GLib.idle_add(self._populate_launchers_grid)
     
     def _toggle_rgb_theme(self):
         """Toggle RGB Gaming theme (black with red neon accents)."""

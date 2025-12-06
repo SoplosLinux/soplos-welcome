@@ -167,7 +167,7 @@
           <li>Software updates: DaVinci Resolve (optimized custom workflow: 10x faster build, fixed installation, enhanced stability), RapidRAW, Google Antigravity, Midori</li>
           <li>Snap Removal: Removed Snap support from Recommended software</li>
           <li>Gaming Tab: Performance Mode with power-profiles-daemon, GPU Optimization (NVIDIA/AMD/Intel detection), Disk I/O Optimization (udev rules), RGB Gaming Theme (instant black/red neon theme toggle), Gaming Wallpapers with GNOME XML support</li>
-          <li>Gaming Launchers: Full support for 9 platforms (Steam, Lutris, Heroic, Bottles, Prism, Itch.io, Minigalaxy, RetroArch, Discord) with installation/uninstallation, APT/Flatpak badges, and official package indicators</li>
+          <li>Gaming Launchers: Full support for 13 platforms (Steam, Lutris, Heroic, Bottles, Vinegar, R2ModMan, Prism, Itch.io, Minigalaxy, RetroArch, Moonlight, Chiaki, Discord) with installation/uninstallation, APT/Flatpak badges, and official package indicators</li>
           <li>UI improvements: Category icons (VS Code, Steam)</li>
           <li>System Integration: Fixed application icon visibility and desktop entry</li>
           <li>Security Tab: System backups, Firewall, Antivirus, and Filesystem tools</li>
@@ -183,6 +183,10 @@
           <li>Fixed UFW Firewall status detection, activation, and periodic updates</li>
           <li>Fixed BTRFS filesystem detection for Calamares subvolumes</li>
           <li>Fixed window deformation during downloads</li>
+          <li>Gaming Tab: Fixed wallpaper installation progress bar (now shows progress during extraction)</li>
+          <li>Gaming Tab: Added toggle functionality for Performance Mode (install/uninstall)</li>
+          <li>Gaming Tab: Safety update - Removed wallpaper uninstallation to protect system files</li>
+          <li>Gaming Tab: Updated "Revert All" dialog to accurately reflect implemented optimizations (GPU/Disk I/O)</li>
         </ul>
       </description>
       <description xml:lang="es">
@@ -209,7 +213,7 @@
           <li>Actualizaciones de software: DaVinci Resolve (flujo optimizado: compilación 10x más rápida, instalación corregida, estabilidad mejorada), RapidRAW, Google Antigravity, Midori</li>
           <li>Eliminación de Snap: Soporte Snap eliminado del software recomendado</li>
           <li>Gaming Tab: Modo Rendimiento con power-profiles-daemon, Optimización GPU (detección NVIDIA/AMD/Intel), Optimización Disco I/O (reglas udev), Tema RGB Gaming (tema negro/rojo neón con activación instantánea), Fondos Gaming con soporte XML GNOME</li>
-          <li>Launchers de Gaming: Soporte completo para 9 plataformas (Steam, Lutris, Heroic, Bottles, Prism, Itch.io, Minigalaxy, RetroArch, Discord) con instalación/desinstalación, badges APT/Flatpak e indicadores de paquetes oficiales</li>
+          <li>Launchers de Gaming: Soporte completo para 13 plataformas (Steam, Lutris, Heroic, Bottles, Vinegar, R2ModMan, Prism, Itch.io, Minigalaxy, RetroArch, Moonlight, Chiaki, Discord) con instalación/desinstalación, badges APT/Flatpak e indicadores de paquetes oficiales</li>
           <li>Mejoras de UI: Iconos de categoría (VS Code, Steam)</li>
           <li>Integración del sistema: Corregida visibilidad del icono de la aplicación y entrada de escritorio</li>
           <li>Pestaña de Seguridad: Copias de seguridad, Firewall, Antivirus y herramientas de sistema de archivos</li>
@@ -225,6 +229,10 @@
           <li>Corregida detección, activación y actualizaciones periódicas firewall UFW</li>
           <li>Corregida detección filesystem BTRFS para subvolúmenes Calamares</li>
           <li>Corregida deformación ventana durante descargas</li>
+          <li>Gaming Tab: Corregida barra de progreso instalación fondos (ahora muestra progreso durante extracción)</li>
+          <li>Gaming Tab: Añadida funcionalidad de activar/desactivar para Modo Rendimiento</li>
+          <li>Gaming Tab: Actualización de seguridad - Eliminada desinstalación de fondos</li>
+          <li>Gaming Tab: Actualizado diálogo "Revertir Todo" (GPU/Disk I/O implementados)</li>
         </ul>
       </description>
       <description xml:lang="fr">
@@ -251,7 +259,7 @@
           <li>Mises à jour logicielles : DaVinci Resolve (flux optimisé : compilation 10x plus rapide, installation corrigée, stabilité améliorée), RapidRAW, Google Antigravity, Midori</li>
           <li>Suppression de Snap : Support Snap supprimé des logiciels recommandés</li>
           <li>Onglet Gaming: Mode Performance avec power-profiles-daemon, Optimisation GPU (détection NVIDIA/AMD/Intel), Optimisation E/S disque (règles udev), Thème RGB Gaming (activation instantanée du thème noir/rouge néon), Fonds d'écran Gaming avec support XML GNOME</li>
-          <li>Lanceurs Gaming: Support complet pour 9 plateformes (Steam, Lutris, Heroic, Bottles, Prism, Itch.io, Minigalaxy, RetroArch, Discord) avec installation/désinstallation, badges APT/Flatpak et indicateurs de paquets officiels</li>
+          <li>Lanceurs Gaming: Support complet pour 13 plateformes (Steam, Lutris, Heroic, Bottles, Vinegar, R2ModMan, Prism, Itch.io, Minigalaxy, RetroArch, Moonlight, Chiaki, Discord) avec installation/désinstallation, badges APT/Flatpak et indicateurs de paquets officiels</li>
           <li>Améliorations UI : Icônes de catégorie (VS Code, Steam)</li>
           <li>Intégration système : Correction de la visibilité de l'icône de l'application et entrée de bureau</li>
           <li>Onglet Sécurité: Sauvegardes système, Pare-feu, Antivirus et outils de système de fichiers</li>
@@ -267,6 +275,10 @@
           <li>Correction détection, activation et mises à jour périodiques pare-feu UFW</li>
           <li>Correction détection système de fichiers BTRFS pour sous-volumes Calamares</li>
           <li>Correction déformation fenêtre pendant téléchargements</li>
+          <li>Onglet Gaming: Correction barre progression installation fonds d'écran (pendant l'extraction)</li>
+          <li>Onglet Gaming: Ajout fonctionnalité bascule pour Mode Performance</li>
+          <li>Onglet Gaming: Mise à jour sécurité - Suppression désinstallation fonds d'écran</li>
+          <li>Onglet Gaming: Mise à jour dialogue "Tout Réinitialiser" (GPU/Disk I/O implémentés)</li>
         </ul>
       </description>
       <description xml:lang="pt">
@@ -293,7 +305,7 @@
           <li>Atualizações de software: DaVinci Resolve (fluxo otimizado: compilação 10x mais rápida, instalação corrigida, estabilidade aprimorada), RapidRAW, Google Antigravity, Midori</li>
           <li>Remoção do Snap: Suporte Snap removido do software recomendado</li>
           <li>Aba Gaming: Modo Desempenho com power-profiles-daemon, Otimização GPU (detecção NVIDIA/AMD/Intel), Otimização E/S disco (regras udev), Tema RGB Gaming (ativação instantânea do tema preto/vermelho neon), Papéis de Parede Gaming com suporte XML GNOME</li>
-          <li>Launchers de Gaming: Suporte completo para 9 plataformas (Steam, Lutris, Heroic, Bottles, Prism, Itch.io, Minigalaxy, RetroArch, Discord) com instalação/desinstalação, badges APT/Flatpak e indicadores de pacotes oficiais</li>
+          <li>Launchers de Gaming: Suporte completo para 13 plataformas (Steam, Lutris, Heroic, Bottles, Vinegar, R2ModMan, Prism, Itch.io, Minigalaxy, RetroArch, Moonlight, Chiaki, Discord) com instalação/desinstalação, badges APT/Flatpak e indicadores de pacotes oficiais</li>
           <li>Melhorias de UI: Ícones de categoria (VS Code, Steam)</li>
           <li>Integração do sistema: Correção da visibilidade do ícone do aplicativo e entrada na área de trabalho</li>
           <li>Aba de Segurança: Backups do sistema, Firewall, Antivírus e ferramentas de sistema de arquivos</li>
@@ -309,6 +321,10 @@
           <li>Corrigida detecção, ativação e atualizações periódicas firewall UFW</li>
           <li>Corrigida detecção sistema de arquivos BTRFS para subvolumes Calamares</li>
           <li>Corrigida deformação janela durante downloads</li>
+          <li>Aba Gaming: Corrigida barra de progresso instalação papéis de parede (durante extração)</li>
+          <li>Aba Gaming: Adicionada funcionalidade de alternância para Modo Desempenho</li>
+          <li>Aba Gaming: Atualização de segurança - Removida desinstalação de papéis de parede</li>
+          <li>Aba Gaming: Atualizado diálogo "Reverter Tudo" (GPU/Disk I/O implementados)</li>
         </ul>
       </description>
       <description xml:lang="de">
@@ -335,7 +351,7 @@
           <li>Software-Updates: DaVinci Resolve (optimierter Workflow: 10x schnellerer Build, korrigierte Installation, verbesserte Stabilität), RapidRAW, Google Antigravity, Midori</li>
           <li>Snap-Entfernung: Snap-Unterstützung aus empfohlener Software entfernt</li>
           <li>Gaming-Tab: Leistungsmodus mit power-profiles-daemon, GPU-Optimierung (Erkennung NVIDIA/AMD/Intel), Festplatten-E/A-Optimierung (udev-Regeln), RGB Gaming-Design (sofortige Umschaltung auf schwarz/rot Neon-Design), Gaming-Hintergrundbilder mit GNOME XML-Unterstützung</li>
-          <li>Gaming-Launcher: Vollständige Unterstützung für 9 Plattformen (Steam, Lutris, Heroic, Bottles, Prism, Itch.io, Minigalaxy, RetroArch, Discord) mit Installation/Deinstallation, APT/Flatpak-Badges und offiziellen Paket-Indikatoren</li>
+          <li>Gaming-Launcher: Vollständige Unterstützung für 13 Plattformen (Steam, Lutris, Heroic, Bottles, Vinegar, R2ModMan, Prism, Itch.io, Minigalaxy, RetroArch, Moonlight, Chiaki, Discord) mit Installation/Deinstallation, APT/Flatpak-Badges und offiziellen Paket-Indikatoren</li>
           <li>UI-Verbesserungen: Kategoriesymbole (VS Code, Steam)</li>
           <li>Systemintegration: Korrigierte Sichtbarkeit des Anwendungssymbols und Desktop-Eintrag</li>
           <li>Sicherheits-Tab: System-Backups, Firewall, Antivirus und Dateisystem-Tools</li>
@@ -351,6 +367,10 @@
           <li>Korrigierte UFW-Firewall-Statuserkennung, -Aktivierung und periodische Updates</li>
           <li>Korrigierte BTRFS-Dateisystemerkennung für Calamares-Subvolumes</li>
           <li>Korrigierte Fensterverformung während Downloads</li>
+          <li>Gaming-Tab: Fortschrittsbalken Installation Wallpaper korrigiert (während Entpacken)</li>
+          <li>Gaming-Tab: Umschaltfunktion für Leistungsmodus hinzugefügt</li>
+          <li>Gaming-Tab: Sicherheitsupdate - Deinstallation von Wallpapern entfernt</li>
+          <li>Gaming-Tab: Dialog "Alles zurücksetzen" aktualisiert (GPU/Disk I/O implementiert)</li>
         </ul>
       </description>
       <description xml:lang="it">
@@ -377,7 +397,7 @@
           <li>Aggiornamenti software: DaVinci Resolve (flusso ottimizzato: build 10x più veloce, installazione corretta, stabilità migliorata), RapidRAW, Google Antigravity, Midori</li>
           <li>Rimozione Snap: Supporto Snap rimosso dal software consigliato</li>
           <li>Scheda Gaming: Modalità Prestazioni con power-profiles-daemon, Ottimizzazione GPU (rilevamento NVIDIA/AMD/Intel), Ottimizzazione I/O disco (regole udev), Tema RGB Gaming (attivazione istantanea del tema nero/rosso neon), Sfondi Gaming con supporto XML GNOME</li>
-          <li>Launcher Gaming: Supporto completo per 9 piattaforme (Steam, Lutris, Heroic, Bottles, Prism, Itch.io, Minigalaxy, RetroArch, Discord) con installazione/disinstallazione, badge APT/Flatpak e indicatori di pacchetti ufficiali</li>
+          <li>Launcher Gaming: Supporto completo per 13 piattaforme (Steam, Lutris, Heroic, Bottles, Vinegar, R2ModMan, Prism, Itch.io, Minigalaxy, RetroArch, Moonlight, Chiaki, Discord) con installazione/disinstallazione, badge APT/Flatpak e indicatori di pacchetti ufficiali</li>
           <li>Miglioramenti UI: Icone di categoria (VS Code, Steam)</li>
           <li>Integrazione sistema: Corretta visibilità icona applicazione e voce desktop</li>
           <li>Scheda Sicurezza: Backup di sistema, Firewall, Antivirus e strumenti per file system</li>
@@ -393,6 +413,10 @@
           <li>Corretta rilevamento, attivazione e aggiornamenti periodici firewall UFW</li>
           <li>Corretta rilevamento filesystem BTRFS per sottovolumi Calamares</li>
           <li>Corretta deformazione finestra durante download</li>
+          <li>Scheda Gaming: Corretta barra avanzamento installazione sfondi (durante estrazione)</li>
+          <li>Scheda Gaming: Aggiunta funzionalità attiva/disattiva Modalità Prestazioni</li>
+          <li>Scheda Gaming: Aggiornamento sicurezza - Rimossa disinstallazione sfondi</li>
+          <li>Scheda Gaming: Aggiornato dialogo "Ripristina Tutto" (GPU/Disk I/O implementati)</li>
         </ul>
       </description>
       <description xml:lang="ru">
@@ -419,7 +443,7 @@
           <li>Обновления ПО: DaVinci Resolve (оптимизированный процесс: сборка в 10 раз быстрее, исправленная установка, улучшенная стабильность), RapidRAW, Google Antigravity, Midori</li>
           <li>Удаление Snap: Поддержка Snap удалена из рекомендуемого ПО</li>
           <li>Вкладка Gaming: Режим производительности с power-profiles-daemon, Оптимизация GPU (обнаружение NVIDIA/AMD/Intel), Оптимизация дискового ввода-вывода (правила udev), RGB Gaming Тема (мгновенное переключение черно-красной неоновой темы), Игровые обои с поддержкой GNOME XML</li>
-          <li>Игровые лаунчеры: Полная поддержка 9 платформ (Steam, Lutris, Heroic, Bottles, Prism, Itch.io, Minigalaxy, RetroArch, Discord) с установкой/удалением, значками APT/Flatpak и индикаторами официальных пакетов</li>
+          <li>Игровые лаунчеры: Полная поддержка 13 платформ (Steam, Lutris, Heroic, Bottles, Vinegar, R2ModMan, Prism, Itch.io, Minigalaxy, RetroArch, Moonlight, Chiaki, Discord) с установкой/удалением, значками APT/Flatpak и индикаторами официальных пакетов</li>
           <li>Улучшения UI: Иконки категорий (VS Code, Steam)</li>
           <li>Системная интеграция: Исправлена видимость иконки приложения и запись рабочего стола</li>
           <li>Вкладка Безопасность: Резервные копии системы, Firewall, Антивирус и инструменты файловой системы</li>
@@ -435,6 +459,10 @@
           <li>Исправлено обнаружение, активация и периодические обновления брандмауэра UFW</li>
           <li>Исправлено обнаружение файловой системы BTRFS для подтомов Calamares</li>
           <li>Исправлена деформация окна во время загрузок</li>
+          <li>Вкладка Gaming: Исправлен прогресс-бар установки обоев (во время распаковки)</li>
+          <li>Вкладка Gaming: Добавлен переключатель для Режима производительности</li>
+          <li>Вкладка Gaming: Обновление безопасности - Удалена деинсталляция обоев</li>
+          <li>Вкладка Gaming: Обновлен диалог "Вернуть Всё" (GPU/Disk I/O реализованы)</li>
         </ul>
       </description>
       <description xml:lang="ro">
@@ -461,7 +489,7 @@
           <li>Actualizări software: DaVinci Resolve (flux optimizat: compilare de 10x mai rapidă, instalare corectată, stabilitate îmbunătățită), RapidRAW, Google Antigravity, Midori</li>
           <li>Eliminare Snap: Suport Snap eliminat din software-ul recomandat</li>
           <li>Tab Gaming: Mod Performanță cu power-profiles-daemon, Optimizare GPU (detectare NVIDIA/AMD/Intel), Optimizare I/O disc (reguli udev), Temă RGB Gaming (activare instantanee a temei negru/roșu neon), Fundaluri Gaming cu suport XML GNOME</li>
-          <li>Launchere Gaming: Suport complet pentru 9 platforme (Steam, Lutris, Heroic, Bottles, Prism, Itch.io, Minigalaxy, RetroArch, Discord) cu instalare/dezinstalare, badge APT/Flatpak și indicatori de pachete oficiale</li>
+          <li>Launchere Gaming: Suport complet pentru 13 platforme (Steam, Lutris, Heroic, Bottles, Vinegar, R2ModMan, Prism, Itch.io, Minigalaxy, RetroArch, Moonlight, Chiaki, Discord) cu instalare/dezinstalare, badge APT/Flatpak și indicatori de pachete oficiale</li>
           <li>Îmbunătățiri UI: Pictograme categorii (VS Code, Steam)</li>
           <li>Integrare sistem: Corectată vizibilitatea pictogramei aplicației și intrarea desktop</li>
           <li>Tab Securitate: Backup-uri de sistem, Firewall, Antivirus și instrumente pentru sistem de fișiere</li>
@@ -477,6 +505,10 @@
           <li>Corectată detectare, activare și actualizări periodice firewall UFW</li>
           <li>Corectată detectare sistem fișiere BTRFS pentru subvolume Calamares</li>
           <li>Corectată deformare fereastră în timpul descărcărilor</li>
+          <li>Tab Gaming: Corectată bara progres instalare fundaluri (în timpul extracției)</li>
+          <li>Tab Gaming: Adăugată funcționalitate comutare Mod Performanță</li>
+          <li>Tab Gaming: Actualizare securitate - Eliminată dezinstalare fundaluri</li>
+          <li>Tab Gaming: Actualizat dialog "Resetare Totală" (GPU/Disk I/O implementate)</li>
         </ul>
       </description>
     </release>
