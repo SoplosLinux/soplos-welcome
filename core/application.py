@@ -72,14 +72,21 @@ class SoplosWelcomeApplication(Gtk.Application):
                         shutil.rmtree(pycache_path, ignore_errors=True)
                     except Exception:
                         pass
-                        
+                         
             # Clean any rogue .deb files in root/bin that might have slipped (strict policy)
-            # This addresses the user's specific complaint about r2modman.deb
+            # Preserve essential build scripts (translation, makeresolve)
+            essential_scripts = {'build_translations.sh', 'translation_progress.sh'}
             for file in os.listdir(root_path):
-                if file.endswith(".deb") or (file.endswith(".sh") and "makeresolve" not in file):
+                if file.endswith(".deb"):
+                    try:
+                        os.remove(os.path.join(root_path, file))
+                        print(f"Removed rogue .deb: {file}")
+                    except Exception:
+                        pass
+                elif file.endswith(".sh") and file not in essential_scripts and "makeresolve" not in file:
                    try:
                        os.remove(os.path.join(root_path, file))
-                       print(f"Removed rogue file: {file}")
+                       print(f"Removed rogue script: {file}")
                    except Exception:
                        pass
                        

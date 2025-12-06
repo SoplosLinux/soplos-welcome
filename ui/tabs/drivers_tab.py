@@ -59,13 +59,13 @@ class DriversTab(Gtk.ScrolledWindow):
         
         # --- Hardware Scan Button (at the top for easy access) ---
         scan_label = Gtk.Label()
-        scan_label.set_markup(f'<span weight="bold" size="14000">{_("Detección de Hardware")}</span>')
+        scan_label.set_markup(f'<span weight="bold" size="14000">{_("Hardware Detection")}</span>')
         scan_label.set_halign(Gtk.Align.START)
         self.drivers_box.pack_start(scan_label, False, False, 5)
         
         scan_btn = self._create_button(
-            _("Escanear Hardware"),
-            _("Detecta automáticamente el hardware y recomienda drivers")
+            _("Scan Hardware"),
+            _("Automatically detect hardware and recommend drivers")
         )
         scan_btn.connect("clicked", self._on_scan_hardware)
         self.drivers_box.pack_start(scan_btn, False, False, 5)
@@ -407,7 +407,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
             
             # Create dialog
             dialog = Gtk.Dialog(
-                title=_("Información del Sistema"),
+                title=_("System Information"),
                 parent=self.parent_window,
                 flags=0
             )
@@ -429,7 +429,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
             
             # CPU Section
             if results.get('cpu'):
-                cpu_frame = Gtk.Frame(label="🖥️ Procesador")
+                cpu_frame = Gtk.Frame(label=f"🖥️ {_('Processor')}")
                 cpu_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
                 cpu_box.set_margin_left(15)
                 cpu_box.set_margin_right(15)
@@ -438,7 +438,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
                 
                 cpu = results['cpu']
                 cpu_label = Gtk.Label()
-                cpu_label.set_markup(f"<b>Modelo:</b> {cpu.get('model', 'N/A')}\n<b>Núcleos:</b> {cpu.get('cores', 0)} | <b>Hilos:</b> {cpu.get('threads', 0)}")
+                cpu_label.set_markup(f"<b>{_('Model:')}</b> {cpu.get('model', 'N/A')}\n<b>{_('Cores:')}</b> {cpu.get('cores', 0)} | <b>{_('Threads:')}</b> {cpu.get('threads', 0)}")
                 cpu_label.set_line_wrap(True)
                 cpu_label.set_xalign(0)
                 cpu_box.pack_start(cpu_label, False, False, 0)
@@ -448,7 +448,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
             
             # GPU Section
             if results.get('gpu'):
-                gpu_frame = Gtk.Frame(label="🎮 Tarjeta Gráfica")
+                gpu_frame = Gtk.Frame(label=f"🎮 {_('Graphics Card')}")
                 gpu_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
                 gpu_box.set_margin_left(15)
                 gpu_box.set_margin_right(15)
@@ -457,7 +457,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
                 
                 gpu = results['gpu']
                 gpu_label = Gtk.Label()
-                gpu_label.set_markup(f"<b>Fabricante:</b> {gpu.get('vendor', 'N/A')}\n<b>Modelo:</b> {gpu.get('model', 'N/A')}\n<b>Tipo:</b> {gpu.get('type', 'N/A')}")
+                gpu_label.set_markup(f"<b>{_('Vendor:')}</b> {gpu.get('vendor', 'N/A')}\n<b>{_('Model:')}</b> {gpu.get('model', 'N/A')}\n<b>{_('Type:')}</b> {gpu.get('type', 'N/A')}")
                 gpu_label.set_line_wrap(True)
                 gpu_label.set_xalign(0)
                 gpu_box.pack_start(gpu_label, False, False, 0)
@@ -465,13 +465,13 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
                 # Recommended driver
                 if gpu.get('recommended_driver'):
                     driver_label = Gtk.Label()
-                    driver_label.set_markup(f"<b>Driver recomendado:</b> {gpu['recommended_driver']}")
+                    driver_label.set_markup(f"<b>{_('Recommended driver:')}</b> {gpu['recommended_driver']}")
                     driver_label.set_xalign(0)
                     driver_label.get_style_context().add_class("suggested-action")
                     gpu_box.pack_start(driver_label, False, False, 0)
                     
                     # Install button for recommended driver
-                    install_gpu_btn = Gtk.Button(label=f"Instalar {gpu['recommended_driver']}")
+                    install_gpu_btn = Gtk.Button(label=f"{_('Install')} {gpu['recommended_driver']}")
                     install_gpu_btn.get_style_context().add_class("suggested-action")
                     install_gpu_btn.connect("clicked", self._on_install_recommended_driver, 
                                            gpu['recommended_driver'], dialog)
@@ -482,7 +482,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
             
             # Memory Section
             if results.get('memory'):
-                mem_frame = Gtk.Frame(label="💾 Memoria RAM")
+                mem_frame = Gtk.Frame(label=f"💾 {_('RAM Memory')}")
                 mem_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
                 mem_box.set_margin_left(15)
                 mem_box.set_margin_right(15)
@@ -491,7 +491,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
                
                 mem = results['memory']
                 mem_label = Gtk.Label()
-                mem_label.set_markup(f"<b>Total:</b> {mem.get('total', 'N/A')} | <b>Disponible:</b> {mem.get('available', 'N/A')}")
+                mem_label.set_markup(f"<b>{_('Total:')}</b> {mem.get('total', '0 GB')} | <b>{_('Available:')}</b> {mem.get('available', '0 GB')}")
                 mem_label.set_xalign(0)
                 mem_box.pack_start(mem_label, False, False, 0)
                 
@@ -500,7 +500,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
             
             # VM Detection
             if results.get('vm_detection', {}).get('is_vm'):
-                vm_frame = Gtk.Frame(label="🖥️ Máquina Virtual")
+                vm_frame = Gtk.Frame(label="🖥️ " + _("Virtual Machine"))
                 vm_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
                 vm_box.set_margin_left(15)
                 vm_box.set_margin_right(15)
@@ -509,18 +509,18 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
                 
                 vm = results['vm_detection']
                 vm_label = Gtk.Label()
-                vm_label.set_markup(f"<b>Tipo:</b> {vm.get('type', 'N/A')}")
+                vm_label.set_markup(f"<b>{_('Type:')}</b> {vm.get('type', _('N/A'))}")
                 vm_label.set_xalign(0)
                 vm_box.pack_start(vm_label, False, False, 0)
                 
                 if vm.get('recommended_tools'):
                     tools_label = Gtk.Label()
-                    tools_label.set_markup(f"<b>Herramientas recomendadas:</b> {vm['recommended_tools']}")
+                    tools_label.set_markup(f"<b>{_('Recommended tools:')}</b> {vm['recommended_tools']}")
                     tools_label.set_xalign(0)
                     vm_box.pack_start(tools_label, False, False, 0)
                     
                     # Install button for VM tools
-                    install_vm_btn = Gtk.Button(label=f"Instalar {vm['recommended_tools']}")
+                    install_vm_btn = Gtk.Button(label=f"{_('Install')} {vm['recommended_tools']}")
                     install_vm_btn.get_style_context().add_class("suggested-action")
                     install_vm_btn.connect("clicked", self._on_driver_clicked, vm['recommended_tools'])
                     install_vm_btn.connect("clicked", lambda x: dialog.destroy())
@@ -531,7 +531,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
             
             # Storage
             if results.get('storage'):
-                storage_frame = Gtk.Frame(label="💿 Almacenamiento")
+                storage_frame = Gtk.Frame(label=f"💿 {_('Storage')}")
                 storage_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
                 storage_box.set_margin_left(15)
                 storage_box.set_margin_right(15)
@@ -549,7 +549,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
             
             # Network
             if results.get('network'):
-                net_frame = Gtk.Frame(label="🌐 Red")
+                net_frame = Gtk.Frame(label=f"🌐 {_('Network')}")
                 net_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
                 net_box.set_margin_left(15)
                 net_box.set_margin_right(15)
@@ -569,7 +569,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
                 main_box.pack_start(net_frame, False, False, 5)
             
             # Close button
-            close_btn = Gtk.Button(label=_("Cerrar"))
+            close_btn = Gtk.Button(label=_("Close"))
             close_btn.connect("clicked", lambda x: dialog.destroy())
             dialog.get_action_area().pack_start(close_btn, False, False, 0)
             

@@ -445,7 +445,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         script_content = f"""#!/bin/bash
 echo "Installing {packages}..."
 pkexec apt install -y {packages}
-echo "Installation complete."
+echo "{_('Installation complete.')}"
 """
         script_path = f"/tmp/install-{packages.split()[0]}.sh"
         with open(script_path, "w") as f:
@@ -458,7 +458,7 @@ echo "Installation complete."
         script_content = f"""#!/bin/bash
 echo "Uninstalling {packages}..."
 pkexec apt remove -y {packages}
-echo "Uninstallation complete."
+echo "{_('Uninstallation complete.')}"
 """
         script_path = f"/tmp/uninstall-{packages.split()[0]}.sh"
         with open(script_path, "w") as f:
@@ -493,27 +493,35 @@ echo "Uninstallation complete."
     
     def _on_update_clamav(self, widget):
         """Update ClamAV virus definitions."""
-        script_content = """#!/bin/bash
-echo "Updating ClamAV virus definitions..."
-pkexec freshclam
-echo "Definitions updated successfully."
-"""
+        # Create the inner script that will run with root privileges
+        inner_script = "/tmp/freshclam-update.sh"
+        with open(inner_script, "w") as f:
+            f.write("#!/bin/bash\n")
+            f.write("systemctl stop clamav-freshclam 2>/dev/null || true\n")
+            f.write("freshclam 2>&1\n")
+            f.write("systemctl start clamav-freshclam 2>/dev/null || true\n")
+        os.chmod(inner_script, 0o755)
+        
+        # Create the outer script that calls pkexec
         script_path = "/tmp/update-clamav.sh"
         with open(script_path, "w") as f:
-            f.write(script_content)
+            f.write("#!/bin/bash\n")
+            f.write(f"echo '{_('Updating virus definitions...')}'\n")
+            f.write(f"pkexec {inner_script}\n")
+            f.write(f"echo '{_('Definitions updated successfully!')}'\n")
+            f.write("sleep 2\n")
         os.chmod(script_path, 0o755)
         self.command_runner.run_command(script_path)
     
     def _on_scan_rkhunter(self):
         """Run rkhunter system scan."""
-        script_content = """#!/bin/bash
-echo "Scanning system for rootkits and threats..."
-pkexec rkhunter --check --skip-keypress
-echo "Scan complete. Check results above."
-"""
         script_path = "/tmp/scan-rkhunter.sh"
         with open(script_path, "w") as f:
-            f.write(script_content)
+            f.write("#!/bin/bash\n")
+            f.write(f"echo '{_('Scanning system for rootkits...')}'\n")
+            f.write("pkexec rkhunter --check --skip-keypress --nocolors 2>&1 | grep -v '^$'\n")
+            f.write(f"echo '{_('Scan complete.')}'\n")
+            f.write("sleep 3\n")
         os.chmod(script_path, 0o755)
         self.command_runner.run_command(script_path)
     

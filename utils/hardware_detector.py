@@ -7,6 +7,7 @@ import subprocess
 import re
 import os
 from gi.repository import GLib
+from core.i18n_manager import _
 
 
 def detect_gpu():
@@ -34,7 +35,7 @@ def detect_gpu():
                     'vendor': 'NVIDIA',
                     'model': model,
                     'recommended_driver': driver,
-                    'type': 'Dedicada'
+                    'type': _('Dedicated')
                 })
             
             # AMD GPU (word boundaries for amd, ati, radeon)
@@ -44,7 +45,7 @@ def detect_gpu():
                     'vendor': 'AMD',
                     'model': model,
                     'recommended_driver': 'firmware-amd-graphics libgl1-mesa-dri mesa-vulkan-drivers',
-                    'type': 'Dedicada/Integrada'
+                    'type': _('Dedicated/Integrated')
                 })
             
             # Intel GPU (word boundary)
@@ -54,7 +55,7 @@ def detect_gpu():
                     'vendor': 'Intel',
                     'model': model,
                     'recommended_driver': 'intel-media-va-driver mesa-vulkan-drivers',
-                    'type': 'Integrada'
+                    'type': _('Integrated')
                 })
         
         # Priority: NVIDIA > AMD > Intel
@@ -66,11 +67,11 @@ def detect_gpu():
         elif intel_gpus:
             return intel_gpus[0]
         
-        return {'vendor': 'Desconocido', 'model': 'No detectado', 'recommended_driver': None, 'type': 'N/A'}
+        return {'vendor': _('Unknown'), 'model': _('Not detected'), 'recommended_driver': None, 'type': _('N/A')}
     
     except Exception as e:
         print(f"Error detecting GPU: {e}")
-        return {'vendor': 'Error', 'model': str(e), 'recommended_driver': None, 'type': 'N/A'}
+        return {'vendor': _('Error'), 'model': str(e), 'recommended_driver': None, 'type': _('N/A')}
 
 
 def _extract_nvidia_model(line):
@@ -158,7 +159,7 @@ def detect_cpu():
         
         # Extract model name
         model_match = re.search(r'model name\s*:\s*(.+)', cpuinfo)
-        model = model_match.group(1).strip() if model_match else "Desconocido"
+        model = model_match.group(1).strip() if model_match else _('Unknown')
         
         # Count cores and threads
         threads = len(re.findall(r'processor\s*:', cpuinfo))
@@ -173,7 +174,7 @@ def detect_cpu():
     
     except Exception as e:
         print(f"Error detecting CPU: {e}")
-        return {'model': 'Error', 'cores': 0, 'threads': 0}
+        return {'model': _('Error'), 'cores': 0, 'threads': 0}
 
 
 def detect_memory():
@@ -195,7 +196,7 @@ def detect_memory():
     
     except Exception as e:
         print(f"Error detecting memory: {e}")
-        return {'total': 'Error', 'available': 'Error'}
+        return {'total': _('Error'), 'available': _('Error')}
 
 
 def detect_vm():
@@ -262,7 +263,7 @@ def detect_storage():
                     devices.append({
                         'name': parts[0],
                         'size': parts[1],
-                        'type': 'Disco'
+                        'type': _('Disk')
                     })
             return devices
         return []
@@ -283,11 +284,11 @@ def detect_network():
                     
                     # Determine type
                     if iface.startswith('wl'):
-                        info['type'] = 'Wi-Fi'
+                        info['type'] = _('Wi-Fi')
                     elif iface.startswith('en') or iface.startswith('eth'):
-                        info['type'] = 'Ethernet'
+                        info['type'] = _('Ethernet')
                     else:
-                        info['type'] = 'Otro'
+                        info['type'] = _('Other')
                     
                     # Get MAC
                     mac_path = f'/sys/class/net/{iface}/address'
@@ -300,7 +301,7 @@ def detect_network():
                     if os.path.exists(state_path):
                         with open(state_path, 'r') as f:
                             state = f.read().strip()
-                            info['status'] = 'Conectado' if state == 'up' else 'Desconectado'
+                            info['status'] = _('Connected') if state == 'up' else _('Disconnected')
                     
                     interfaces.append(info)
         
@@ -324,37 +325,37 @@ def scan_hardware(update_status_cb, update_progress_cb, show_results_cb):
         results = {}
         
         # CPU
-        GLib.idle_add(update_status_cb, "Detectando CPU...")
+        GLib.idle_add(update_status_cb, _('Detecting CPU...'))
         GLib.idle_add(update_progress_cb, 0.1)
         results['cpu'] = detect_cpu()
         
         # Memory
-        GLib.idle_add(update_status_cb, "Detectando memoria...")
+        GLib.idle_add(update_status_cb, _('Detecting memory...'))
         GLib.idle_add(update_progress_cb, 0.2)
         results['memory'] = detect_memory()
         
         # GPU
-        GLib.idle_add(update_status_cb, "Detectando GPU...")
+        GLib.idle_add(update_status_cb, _('Detecting GPU...'))
         GLib.idle_add(update_progress_cb, 0.4)
         results['gpu'] = detect_gpu()
         
         # VM Detection
-        GLib.idle_add(update_status_cb, "Detectando máquina virtual...")
+        GLib.idle_add(update_status_cb, _('Detecting virtual machine...'))
         GLib.idle_add(update_progress_cb, 0.6)
         results['vm_detection'] = detect_vm()
         
         # Storage
-        GLib.idle_add(update_status_cb, "Detectando almacenamiento...")
+        GLib.idle_add(update_status_cb, _('Detecting storage...'))
         GLib.idle_add(update_progress_cb, 0.8)
         results['storage'] = detect_storage()
         
         # Network
-        GLib.idle_add(update_status_cb, "Detectando red...")
+        GLib.idle_add(update_status_cb, _('Detecting network...'))
         GLib.idle_add(update_progress_cb, 0.9)
         results['network'] = detect_network()
         
         # Show results
-        GLib.idle_add(update_status_cb, "Escaneo completado")
+        GLib.idle_add(update_status_cb, _('Scan completed'))
         GLib.idle_add(update_progress_cb, 1.0)
         GLib.idle_add(show_results_cb, results)
     

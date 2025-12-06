@@ -300,7 +300,7 @@ class KernelsTab(Gtk.ScrolledWindow):
                 'kernel': current_kernel,
                 'type': kernel_type,
                 'arch': arch,
-                'uptime': uptime
+                'uptime': self._format_uptime_localized(uptime)
             }
         except Exception as e:
             logging.error(f"Error obtaining kernel information: {e}")
@@ -310,6 +310,34 @@ class KernelsTab(Gtk.ScrolledWindow):
                 'arch': _("Not detected"),
                 'uptime': _("Unknown")
             }
+
+    def _format_uptime_localized(self, uptime_str):
+        """Format uptime string to be localized"""
+        # uptime -p returns strings like "up 2 hours, 30 minutes"
+        # We need to parse numbers and translate text
+        try:
+            # Remove "up " prefix
+            clean_str = uptime_str.replace("up ", "").strip()
+            parts = clean_str.split(", ")
+            localized_parts = []
+            
+            for part in parts:
+                if "week" in part:
+                    num = part.split()[0]
+                    localized_parts.append(f"{num} {_('weeks')}")
+                elif "day" in part:
+                    num = part.split()[0]
+                    localized_parts.append(f"{num} {_('days')}")
+                elif "hour" in part:
+                    num = part.split()[0]
+                    localized_parts.append(f"{num} {_('hours')}")
+                elif "minute" in part:
+                    num = part.split()[0]
+                    localized_parts.append(f"{num} {_('minutes')}")
+            
+            return ", ".join(localized_parts)
+        except Exception:
+            return uptime_str
 
     def _update_kernel_info(self):
         """Update the information of the current kernel"""
@@ -645,14 +673,22 @@ echo "{_('Current Kernel')}: $CURRENT_KERNEL"
 BASE_KERNEL=$(dpkg -l 'linux-image-*' | grep '^ii' | grep -v liquorix | grep -v xanmod | sort -V | tail -n1 | awk '{{print $2}}')
 
 # Check count
-KERNEL_COUNT=$(dpkg -l 'linux-image-*' | grep '^ii' | wc -l)
+# Check count
+KERNEL_COUNT=$(dpkg -l 'linux-image-[0-9]*' | grep '^ii' | wc -l)
 if [ "$KERNEL_COUNT" -le 2 ]; then
     echo "{_('No old kernels to remove.')}"
     exit 0
 fi
 
-KEEP_LIST="$CURRENT_KERNEL\\|$(echo $BASE_KERNEL | sed 's/linux-image-//')"
-REMOVE_LIST=$(dpkg -l 'linux-image-*' | grep '^ii' | grep -v "$KEEP_LIST" | awk '{{print $2}}')
+# Construct regex for grep -E (extended regex)
+# Escape dots in version numbers for regex safety
+CURRENT_SAFE=$(echo "$CURRENT_KERNEL" | sed 's/\\./\\\\./g')
+BASE_SAFE=$(echo "$BASE_KERNEL" | sed 's/linux-image-//' | sed 's/\\./\\\\./g')
+
+KEEP_PATTERN="$CURRENT_SAFE|$BASE_SAFE"
+
+# Find kernels to remove
+REMOVE_LIST=$(dpkg -l 'linux-image-[0-9]*' | grep '^ii' | grep -vE "$KEEP_PATTERN" | awk '{{print $2}}')
 
 if [ -z "$REMOVE_LIST" ]; then
     echo "{_('No old kernels to remove.')}"
@@ -680,7 +716,11 @@ echo "{_('Cleanup complete.')}"
     def on_update_grub_clicked(self, widget):
         script_content = f"""#!/bin/bash
 echo "{_('Updating GRUB...')}"
-pkexec update-grub
+if [ -x /usr/sbin/update-grub ]; then
+    pkexec /usr/sbin/update-grub
+else
+    pkexec update-grub
+fi
 echo "{_('GRUB update complete.')}"
 """
         script_path = "/tmp/update-grub.sh"

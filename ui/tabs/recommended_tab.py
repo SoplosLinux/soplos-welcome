@@ -14,7 +14,7 @@ import urllib.request
 from pathlib import Path
 
 from config.software import get_all_categories
-
+from core.i18n_manager import _
 
 from config.paths import ICONS_DIR
 
@@ -75,14 +75,14 @@ class RecommendedTab(Gtk.Box):
         header_box.pack_start(titles_box, True, True, 0)
         
         # Right side: batch mode toggle button
-        self.batch_toggle_button = Gtk.Button.new_with_label("Selección Múltiple")
+        self.batch_toggle_button = Gtk.Button.new_with_label(_("Multiple Selection"))
         self.batch_toggle_button.set_valign(Gtk.Align.CENTER)
         self.batch_toggle_button.connect('clicked', self._on_toggle_batch_mode)
         header_box.pack_end(self.batch_toggle_button, False, False, 0)
         
         # Search entry (to the left of batch button)
         self.search_entry = Gtk.SearchEntry()
-        self.search_entry.set_placeholder_text("Buscar programas...")
+        self.search_entry.set_placeholder_text(_("Search programs..."))
         self.search_entry.set_max_width_chars(30)
         self.search_entry.set_valign(Gtk.Align.CENTER)
         self.search_entry.connect('search-changed', self._on_search_changed)
@@ -97,6 +97,7 @@ class RecommendedTab(Gtk.Box):
         
         # Main content box
         self.content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=15)
+        self.content_box.set_margin_right(10) # Prevent scrollbar overlap
         scrolled.add(self.content_box)
         
         self.pack_start(scrolled, True, True, 0)
@@ -107,21 +108,21 @@ class RecommendedTab(Gtk.Box):
         batch_bar_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         
         # Left side: Select/Deselect all buttons
-        select_all_button = Gtk.Button.new_with_label("Seleccionar Todos")
+        select_all_button = Gtk.Button.new_with_label(_("Select All"))
         select_all_button.connect('clicked', self._on_select_all)
         batch_bar_box.pack_start(select_all_button, False, False, 0)
         
-        deselect_all_button = Gtk.Button.new_with_label("Deseleccionar Todos")
+        deselect_all_button = Gtk.Button.new_with_label(_("Deselect All"))
         deselect_all_button.connect('clicked', self._on_deselect_all)
         batch_bar_box.pack_start(deselect_all_button, False, False, 0)
         
         # Center: Counter
-        self.batch_label = Gtk.Label("0 programas seleccionados")
+        self.batch_label = Gtk.Label(_("0 programs selected"))
         self.batch_label.get_style_context().add_class('dim-label')
         batch_bar_box.pack_start(self.batch_label, True, True, 0)
         
         # Right side: Install button
-        batch_install_button = Gtk.Button.new_with_label("Instalar Seleccionados")
+        batch_install_button = Gtk.Button.new_with_label(_("Install Selected"))
         batch_install_button.get_style_context().add_class('suggested-action')
         batch_install_button.connect('clicked', self._on_install_batch)
         batch_bar_box.pack_end(batch_install_button, False, False, 0)
@@ -152,7 +153,7 @@ class RecommendedTab(Gtk.Box):
         # Show "no results" message if search query is active but nothing matches
         if self.search_query and not has_results:
             no_results_label = Gtk.Label()
-            no_results_label.set_markup(f'<span size="12000">No se encontraron resultados para "{self.search_query}"</span>')
+            no_results_label.set_markup(f'<span size="12000">{_("No results found for")} "{self.search_query}"</span>')
             no_results_label.get_style_context().add_class('dim-label')
             no_results_label.set_margin_top(50)
             self.content_box.pack_start(no_results_label, True, True, 0)
@@ -266,7 +267,7 @@ class RecommendedTab(Gtk.Box):
         install_method = self._get_install_method(package)
         if install_method == 'flatpak':
             flatpak_badge = Gtk.Label()
-            flatpak_badge.set_markup('<span size="small" foreground="#888888" background="#333333"> Flatpak </span>')
+            flatpak_badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> {_("Flatpak")} </span>')
             flatpak_badge.set_valign(Gtk.Align.CENTER)
             name_box.pack_start(flatpak_badge, False, False, 0)
         
@@ -334,7 +335,7 @@ class RecommendedTab(Gtk.Box):
                 button_box.pack_start(checkbox, False, False, 0)
             else:
                 # Already installed - show label
-                installed_label = Gtk.Label("Instalado")
+                installed_label = Gtk.Label(_("Installed"))
                 installed_label.get_style_context().add_class('dim-label')
                 button_box.pack_start(installed_label, False, False, 0)
         
@@ -351,14 +352,14 @@ class RecommendedTab(Gtk.Box):
             
             if is_installed:
                 # Installed state - show uninstall button
-                uninstall_button = Gtk.Button.new_with_label("Desinstalar")
+                uninstall_button = Gtk.Button.new_with_label(_("Uninstall"))
                 uninstall_button.get_style_context().add_class('destructive-action')
                 uninstall_button.set_size_request(110, -1)
                 uninstall_button.connect('clicked', self._on_uninstall_package, category_id, package)
                 button_box.pack_start(uninstall_button, False, False, 0)
             else:
                 # Not installed state
-                install_button = Gtk.Button.new_with_label("Instalar")
+                install_button = Gtk.Button.new_with_label(_("Install"))
                 install_button.get_style_context().add_class('suggested-action')
                 install_button.set_size_request(110, -1)
                 install_button.connect('clicked', self._on_install_package, category_id, package)
@@ -558,7 +559,7 @@ rm -f /tmp/{pkg_name}.deb"""
             with open(script_path, "w") as f:
                 f.write("#!/bin/bash\n")
                 f.write(script_content)
-                f.write("\necho 'Operation completed successfully'\n")
+                f.write(f"\necho '{_('Operation completed successfully')}'\n")
             os.chmod(script_path, 0o755)
             
             # Run with CommandRunner - use pkexec to run entire script with privileges
@@ -615,9 +616,9 @@ rm -f /tmp/{pkg_name}.deb"""
         
         # Update button label
         if self.batch_mode:
-            self.batch_toggle_button.set_label("Modo Normal")
+            self.batch_toggle_button.set_label(_("Normal Mode"))
         else:
-            self.batch_toggle_button.set_label("Selección Múltiple")
+            self.batch_toggle_button.set_label(_("Multiple Selection"))
             # Clear selections when exiting batch mode
             self.selected_apt.clear()
             self.selected_flatpak.clear()
@@ -754,7 +755,7 @@ rm -f /tmp/{pkg_name}.deb"""
         total = len(self.selected_apt) + len(self.selected_flatpak) + len(self.selected_deb_urls) + len(self.selected_custom)
         
         if total > 0:
-            self.batch_label.set_text(f"{total} programa{'s' if total != 1 else ''} seleccionado{'s' if total != 1 else ''}")
+            self.batch_label.set_text(_("{} programs selected").format(total) if total != 1 else _("1 program selected"))
             self.batch_bar.show()
         else:
             self.batch_bar.hide()
@@ -772,7 +773,7 @@ rm -f /tmp/{pkg_name}.deb"""
             flags=0,
             message_type=Gtk.MessageType.QUESTION,
             buttons=Gtk.ButtonsType.YES_NO,
-            text=f"¿Instalar {total} programas seleccionados?"
+            text=_("Install {} selected programs?").format(total)
         )
         
         details = []
@@ -830,24 +831,48 @@ rm -f /tmp/{pkg_name}.deb"""
         self.command_runner.run_command(cmd, lambda: self._install_next_flatpak(index + 1))
     
     def _install_batch_step_3_deb(self):
-        """Step 3: Install .deb packages sequentially."""
-        if self.selected_deb_urls:
-            self._install_next_deb(0)
-        else:
-            self._install_batch_step_4_custom()
-    
-    def _install_next_deb(self, index):
-        """Install next .deb package."""
-        if index >= len(self.selected_deb_urls):
+        """Step 3: Install all .deb packages in single consolidated script."""
+        if not self.selected_deb_urls:
             self._install_batch_step_4_custom()
             return
         
-        deb_url, pkg_name = self.selected_deb_urls[index]
-        cmd = f"""wget -q --show-progress -O /tmp/{pkg_name}.deb "{deb_url}"
-pkexec apt install -y /tmp/{pkg_name}.deb
-rm -f /tmp/{pkg_name}.deb"""
+        # Create a single script that downloads and installs ALL .deb packages
+        script_path = "/tmp/batch-install-deb-all.sh"
         
-        self.command_runner.run_command(cmd, lambda: self._install_next_deb(index + 1))
+        try:
+            with open(script_path, "w") as f:
+                f.write("#!/bin/bash\n")
+                f.write("# Batch download and installation of .deb packages\n\n")
+                
+                f.write("set -e  # Exit on error\n\n")
+                
+                # First, download all .deb files (no root needed)
+                for deb_url, pkg_name in self.selected_deb_urls:
+                    f.write(f"echo '{_('Downloading')} {pkg_name}...'\n")
+                    f.write(f'wget -q --show-progress -O /tmp/{pkg_name}.deb "{deb_url}" || {{ echo "{_("Download failed for")} {pkg_name}"; exit 1; }}\n')
+                    f.write(f'chmod 644 /tmp/{pkg_name}.deb\n')
+                
+                f.write(f"\necho '{_('Installing all .deb packages...')}'\n")
+                
+                # Then install all at once (running as root)
+                deb_files = " ".join([f"/tmp/{pkg_name}.deb" for _, pkg_name in self.selected_deb_urls])
+                f.write(f"dpkg -i {deb_files} || apt-get install -f -y || {{ echo '{_("Installation failed")}'; exit 1; }}\n")
+                
+                # Cleanup
+                for _, pkg_name in self.selected_deb_urls:
+                    f.write(f"rm -f /tmp/{pkg_name}.deb\n")
+                
+                f.write(f"echo '{_('All .deb packages installed successfully')}'\n")
+            
+            os.chmod(script_path, 0o755)
+            
+            # Execute entire script with pkexec (single password prompt, root permissions for download & install)
+            cmd = f"pkexec {script_path}"
+            self.command_runner.run_command(cmd, self._install_batch_step_4_custom)
+            
+        except Exception as e:
+            print(f"Error creating consolidated .deb script: {e}")
+            self._install_batch_step_4_custom()
     
     def _install_batch_step_4_custom(self):
         """Step 4: Install custom script packages in single consolidated script."""
@@ -905,15 +930,15 @@ rm -f /tmp/{pkg_name}.deb"""
             flags=0,
             message_type=Gtk.MessageType.INFO,
             buttons=Gtk.ButtonsType.OK,
-            text="Instalación por lotes completada"
+            text=_("Batch Installation Complete")
         )
-        dialog.format_secondary_text("Todos los programas seleccionados han sido instalados.")
+        dialog.format_secondary_text(_("All selected programs have been installed."))
         dialog.run()
         dialog.destroy()
     
     def _clear_status(self):
         """Clear the status message."""
-        self.status_label.set_text("Listo")
+        self.status_label.set_text(_("Ready"))
         return False  # Don't repeat
     
     def _refresh_content(self):
@@ -962,7 +987,7 @@ rm -f /tmp/{pkg_name}.deb"""
 
         # 2. File Chooser
         file_filter = Gtk.FileFilter()
-        file_filter.set_name("DaVinci Resolve Installer")
+        file_filter.set_name(_("DaVinci Resolve Installer"))
         file_filter.add_pattern("*.zip")
         file_filter.add_pattern("*.run")
         

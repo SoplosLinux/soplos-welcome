@@ -142,7 +142,7 @@
   <developer_name>Sergi Perich</developer_name>
 
   <releases>
-    <release version="2.0.0" date="2025-12-04">
+    <release version="2.0.0" date="2025-12-06">
       <description>
         <p>Major rewrite with modern architecture and enhanced capabilities:</p>
         <ul>
@@ -189,6 +189,13 @@
           <li>Gaming Tab: Added toggle functionality for Performance Mode (install/uninstall)</li>
           <li>Gaming Tab: Safety update - Removed wallpaper uninstallation to protect system files</li>
           <li>Gaming Tab: Updated "Revert All" dialog to accurately reflect implemented optimizations (GPU/Disk I/O)</li>
+          <li>Fixed Batch Installation: Improved reliability for Chrome, RapidRAW, Midori, and Cursor installations (now use sequential logic with dpkg -i)</li>
+          <li>Fixed Clean System: Consolidated cleanup commands into a single administrator password prompt</li>
+          <li>Fixed Recommended Tab UI: Resolved vertical scrollbar overlapping content boxes</li>
+          <li>Updated Google Antigravity: Description updated to "Advanced Agentic AI Coding Assistant"</li>
+          <li>Fixed Translations: Comprehensive cleanup of Spanish dictionary (removed duplicates, fixed fuzzy entries) and added missing gaming wallpaper confirmations</li>
+          <li>Fixed ClamAV: Resolved single password prompt issue and added missing translations for update process</li>
+          <li>Fixed Progress Bar: Corrected calculation logic to prevent percentage overflow (>100%) during batch installations</li>
         </ul>
       </description>
       <description xml:lang="es">
@@ -237,6 +244,13 @@
           <li>Gaming Tab: Añadida funcionalidad de activar/desactivar para Modo Rendimiento</li>
           <li>Gaming Tab: Actualización de seguridad - Eliminada desinstalación de fondos</li>
           <li>Gaming Tab: Actualizado diálogo "Revertir Todo" (GPU/Disk I/O implementados)</li>
+          <li>Instalación por lotes corregida: Fiabilidad mejorada para Chrome, RapidRAW, Midori y Cursor (lógica secuencial con dpkg -i)</li>
+          <li>Limpiar Sistema: Optimizado para requerir solo una contraseña de administrador</li>
+          <li>UI: Corregido solapamiento de barra de desplazamiento en pestaña Recomendado</li>
+          <li>Actualizada descripción de Google Antigravity a "Asistente de programación IA avanzado basado en agentes"</li>
+          <li>Limpieza de traducciones: Corregidas entradas confusas y duplicados en el diccionario español, añadidas confirmaciones de fondos</li>
+          <li>Corrección actualización ClamAV: Resueltos problemas de contraseña única y traducciones faltantes</li>
+          <li>Corrección Barra de Progreso: Resuelto problema de desbordamiento (>100%) en pestaña Recomendado durante instalaciones por lotes</li>
         </ul>
       </description>
       <description xml:lang="fr">
@@ -285,6 +299,13 @@
           <li>Onglet Gaming: Ajout fonctionnalité bascule pour Mode Performance</li>
           <li>Onglet Gaming: Mise à jour sécurité - Suppression désinstallation fonds d'écran</li>
           <li>Onglet Gaming: Mise à jour dialogue "Tout Réinitialiser" (GPU/Disk I/O implémentés)</li>
+          <li>Installation par lots corrigée : Fiabilité améliorée pour Chrome, RapidRAW, Midori et Cursor</li>
+          <li>Nettoyer le système : Optimisé pour ne nécessiter qu'un seul mot de passe administrateur</li>
+          <li>UI : Correction du chevauchement de la barre de défilement dans l'onglet Recommandé</li>
+          <li>Mise à jour de la description de Google Antigravity</li>
+          <li>Nettoyage des traductions : Correction des entrées floues et des doublons dans le dictionnaire espagnol</li>
+          <li>Correction mise à jour ClamAV : Résolution des problèmes de mot de passe unique et de traductions manquantes</li>
+          <li>Correction barre de progression : Résolution du problème de dépassement (>100%) dans l'onglet Recommandé</li>
         </ul>
       </description>
       <description xml:lang="pt">
@@ -333,6 +354,13 @@
           <li>Aba Gaming: Adicionada funcionalidade de alternância para Modo Desempenho</li>
           <li>Aba Gaming: Atualização de segurança - Removida desinstalação de papéis de parede</li>
           <li>Aba Gaming: Atualizado diálogo "Reverter Tudo" (GPU/Disk I/O implementados)</li>
+          <li>Instalação em lote corrigida: Confiabilidade aprimorada para Chrome, RapidRAW, Midori e Cursor</li>
+          <li>Limpar Sistema: Otimizado para exigir apenas uma senha de administrador</li>
+          <li>UI: Corrigida sobreposição da barra de rolagem na aba Recomendado</li>
+          <li>Atualizada descrição do Google Antigravity</li>
+          <li>Limpeza de traduções: Corrigidas entradas confusas e duplicatas no dicionário espanhol</li>
+          <li>Correção atualização ClamAV: Resolvidos problemas de senha única e traduções ausentes</li>
+          <li>Correção Barra de Progresso: Resolvido problema de estouro (>100%) na aba Recomendado durante instalações em lote</li>
         </ul>
       </description>
       <description xml:lang="de">
@@ -381,6 +409,13 @@
           <li>Gaming-Tab: Umschaltfunktion für Leistungsmodus hinzugefügt</li>
           <li>Gaming-Tab: Sicherheitsupdate - Deinstallation von Wallpapern entfernt</li>
           <li>Gaming-Tab: Dialog "Alles zurücksetzen" aktualisiert (GPU/Disk I/O implementiert)</li>
+          <li>Batch-Installation korrigiert: Verbesserte Zuverlässigkeit für Chrome, RapidRAW, Midori und Cursor</li>
+          <li>System bereinigen: Optimiert, um nur eine Administrator-Passwortabfrage zu benötigen</li>
+          <li>UI: Scrollbalken-Überlappung im Empfohlen-Tab behoben</li>
+          <li>Google Antigravity Beschreibung aktualisiert</li>
+          <li>Übersetzungsbereinigung: Unklare Einträge und Duplikate im spanischen Wörterbuch korrigiert</li>
+          <li>ClamAV-Update korrigiert: Einzel-Passwortabfrage und fehlende Übersetzungen behoben</li>
+          <li>Fortschrittsbalken korrigiert: Überlaufproblem (>100%) im Empfohlen-Tab behoben</li>
         </ul>
       </description>
       <description xml:lang="it">
@@ -429,6 +464,13 @@
           <li>Scheda Gaming: Aggiunta funzionalità attiva/disattiva Modalità Prestazioni</li>
           <li>Scheda Gaming: Aggiornamento sicurezza - Rimossa disinstallazione sfondi</li>
           <li>Scheda Gaming: Aggiornato dialogo "Ripristina Tutto" (GPU/Disk I/O implementati)</li>
+          <li>Installazione batch corretta: Affidabilità migliorata per Chrome, RapidRAW, Midori e Cursor</li>
+          <li>Pulisci Sistema: Ottimizzato per richiedere una sola password amministratore</li>
+          <li>UI: Risolto sovrapposizione barra di scorrimento nella scheda Consigliati</li>
+          <li>Aggiornata descrizione di Google Antigravity</li>
+          <li>Pulizia traduzioni: Corrette voci confuse e duplicati nel dizionario spagnolo</li>
+          <li>Correzione aggiornamento ClamAV: Risolti problemi di password unica e traduzioni mancanti</li>
+          <li>Correzione Barra di Avanzamento: Risolto problema di overflow (>100%) nella scheda Consigliati</li>
         </ul>
       </description>
       <description xml:lang="ru">
@@ -477,6 +519,13 @@
           <li>Вкладка Gaming: Добавлен переключатель для Режима производительности</li>
           <li>Вкладка Gaming: Обновление безопасности - Удалена деинсталляция обоев</li>
           <li>Вкладка Gaming: Обновлен диалог "Вернуть Всё" (GPU/Disk I/O реализованы)</li>
+          <li>Исправлена пакетная установка: Улучшена надежность для Chrome, RapidRAW, Midori и Cursor</li>
+          <li>Очистка системы: Оптимизировано для запроса только одного пароля администратора</li>
+          <li>UI: Исправлено наложение полосы прокрутки во вкладке Рекомендуемое</li>
+          <li>Обновлено описание Google Antigravity</li>
+          <li>Очистка переводов: Исправлены нечеткие записи и дубликаты в испанском словаре</li>
+          <li>Исправлено обновление ClamAV: Решены проблемы с паролем и отсутствующими переводами</li>
+          <li>Исправлен прогресс-бар: Решена проблема переполнения (>100%) во вкладке Рекомендуемое</li>
         </ul>
       </description>
       <description xml:lang="ro">
@@ -525,6 +574,13 @@
           <li>Tab Gaming: Adăugată funcționalitate comutare Mod Performanță</li>
           <li>Tab Gaming: Actualizare securitate - Eliminată dezinstalare fundaluri</li>
           <li>Tab Gaming: Actualizat dialog "Resetare Totală" (GPU/Disk I/O implementate)</li>
+          <li>Instalare în lot corectată: Fiabilitate îmbunătățită pentru Chrome, RapidRAW, Midori și Cursor</li>
+          <li>Curățare Sistem: Optimizat pentru a necesita o singură parolă de administrator</li>
+          <li>UI: Corectată suprapunerea barei de derulare în tab-ul Recomandat</li>
+          <li>Actualizată descrierea Google Antigravity</li>
+          <li>Curățare traduceri: Corectate intrările neclare și duplicatele din dicționarul spaniol</li>
+          <li>Corecție actualizare ClamAV: Rezolvate problemele cu parola unică și traducerile lipsă</li>
+          <li>Corecție Bară de Progres: Rezolvată problema depășirii (>100%) în tab-ul Recomandat</li>
         </ul>
       </description>
     </release>

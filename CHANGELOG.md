@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 
-## [2.0.0] - 2025-12-04
+## [2.0.0] - 2025-12-06
 
 ### 🏗️ Architecture Rewrite
 - Complete rewrite with modern, modular architecture.
@@ -162,6 +162,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - Fixed DriversTab initialization
 - Fixed Repo Selector button to launch application
 - Updated Welcome tab URLs to soplos.org
+- **Fixed Batch Installation**: Improved reliability for Chrome, RapidRAW, Midori, and Cursor installations (now use sequential logic with `dpkg -i`).
+- **Fixed Clean System**: Consolidated cleanup commands into a single administrator password prompt (GNOME, Plasma, XFCE).
+- **Fixed Recommended Tab UI**: Resolved vertical scrollbar overlapping content boxes.
+- **Updated Google Antigravity**: Description updated to "Advanced Agentic AI Coding Assistant".
+- **Fixed Translations**: Comprehensive cleanup of Spanish dictionary (removed duplicates, fixed fuzzy entries) and added missing gaming wallpaper confirmations.
+- **Fixed ClamAV**: Resolved single password prompt issue and added missing translations for update process.
+- **Fixed Progress Bar**: Corrected calculation logic to prevent percentage overflow (>100%) during batch installations.
 
 ## [1.1.4] - 2025-09-08
 

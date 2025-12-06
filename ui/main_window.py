@@ -340,7 +340,7 @@ class MainWindow(Gtk.ApplicationWindow):
             )
             self.gaming_tab_label = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
             icon = Gtk.Image.new_from_icon_name("input-gaming", Gtk.IconSize.MENU)
-            label = Gtk.Label(label="Gaming")
+            label = Gtk.Label(label=_("Gaming"))
             self.gaming_tab_label.pack_start(icon, False, False, 0)
             self.gaming_tab_label.pack_start(label, False, False, 0)
             self.gaming_tab_label.show_all()
@@ -474,7 +474,7 @@ class MainWindow(Gtk.ApplicationWindow):
         }
         
         desc_label = Gtk.Label()
-        desc_label.set_text(descriptions.get(tab_name.replace(_(""), ""), _("Tab content coming soon...")))
+        desc_label.set_text(descriptions.get(tab_name.replace("", ""), _("Tab content coming soon...")))
         desc_label.get_style_context().add_class(CSS_CLASSES['welcome_subtitle'])
         desc_label.set_line_wrap(True)
         desc_label.set_justify(Gtk.Justification.CENTER)
@@ -784,16 +784,16 @@ class MainWindow(Gtk.ApplicationWindow):
         button.set_sensitive(False)
         
         # Simulate realistic installation progress
-        self.show_progress(_("Preparando instalación..."), 0.0)
+        self.show_progress(_("Preparing installation..."), 0.0)
         
         def update_progress():
             steps = [
-                (_("Descargando paquete..."), 0.2),
-                (_("Verificando dependencias..."), 0.4),
-                (_("Instalando archivos..."), 0.6),
-                (_("Configurando aplicación..."), 0.8),
-                (_("Finalizando instalación..."), 0.9),
-                (_("¡Instalación completada!"), 1.0)
+                (_("Downloading package..."), 0.2),
+                (_("Verifying dependencies..."), 0.4),
+                (_("Installing files..."), 0.6),
+                (_("Configuring application..."), 0.8),
+                (_("Finalizing installation..."), 0.9),
+                (_("Installation completed!"), 1.0)
             ]
             
             def run_step(step_index):
@@ -821,7 +821,7 @@ class MainWindow(Gtk.ApplicationWindow):
         button.set_sensitive(True)
         
         # Show success notification
-        self.show_progress(_("✅ Instalación exitosa"), 1.0)
+        self.show_progress(_("✅ Installation successful"), 1.0)
         GLib.timeout_add(2000, self.hide_progress)
         
         return False
@@ -830,14 +830,14 @@ class MainWindow(Gtk.ApplicationWindow):
         """Demo uninstall operation with progress."""
         button.set_sensitive(False)
         
-        self.show_progress(_("Desinstalando paquete..."), 0.0)
+        self.show_progress(_("Uninstalling package..."), 0.0)
         
         def update_uninstall_progress():
             steps = [
-                (_("Deteniendo servicios..."), 0.3),
-                (_("Eliminando archivos..."), 0.7),
-                (_("Limpiando configuración..."), 0.9),
-                (_("¡Desinstalación completada!"), 1.0)
+                (_("Stopping services..."), 0.3),
+                (_("Removing files..."), 0.7),
+                (_("Cleaning configuration..."), 0.9),
+                (_("Uninstallation completed!"), 1.0)
             ]
             
             def run_step(step_index):
@@ -862,7 +862,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.hide_progress()
         button.set_sensitive(True)
         
-        self.show_progress(_("✅ Desinstalación exitosa"), 1.0)
+        self.show_progress(_("✅ Uninstallation successful"), 1.0)
         GLib.timeout_add(2000, self.hide_progress)
         
         return False

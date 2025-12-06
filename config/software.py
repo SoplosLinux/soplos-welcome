@@ -5,6 +5,7 @@ Defines available software categories and packages.
 
 import os
 from pathlib import Path
+from core.i18n_manager import _
 
 # Get project root
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -12,7 +13,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 # Software categories with their packages
 SOFTWARE_CATEGORIES = {
     'browsers': {
-        'title': 'Navegadores Web',
+        'title': _('Web Browsers'),
         'icon': 'browsers',
         'packages': [
             {
@@ -20,23 +21,27 @@ SOFTWARE_CATEGORIES = {
                 'package': 'firefox',
                 'flatpak': 'org.mozilla.firefox',
                 'icon': 'firefox.png',
-                'description': 'Navegador web libre y gratuito desarrollado por Mozilla',
+                'description': _('Free and open-source web browser developed by Mozilla'),
                 'official': True
             },
             {
                 'name': 'Google Chrome',
                 'package': 'google-chrome-stable',
                 'icon': 'chrome.png',
-                'description': 'Navegador web desarrollado por Google',
+                'description': _('Web browser developed by Google'),
                 'official': False,
-                'deb_url': 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb'
+                'install_commands': [
+                    'wget -q -O /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb',
+                    'apt install -y /tmp/google-chrome.deb',
+                    'rm /tmp/google-chrome.deb'
+                ]
             },
             {
                 'name': 'Chromium',
                 'package': 'chromium',
                 'flatpak': 'org.chromium.Chromium',
                 'icon': 'chromium.png',
-                'description': 'Proyecto de código abierto detrás de Google Chrome',
+                'description': _('Open-source project behind Google Chrome'),
                 'official': True
             },
             {
@@ -44,7 +49,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'brave-browser',
                 'flatpak': 'com.brave.Browser',
                 'icon': 'brave.png',
-                'description': 'Navegador centrado en la privacidad que bloquea anuncios',
+                'description': _('Privacy-focused browser that blocks ads'),
                 'official': False,
                 'install_commands': [
                     'apt install -y curl',
@@ -59,22 +64,26 @@ SOFTWARE_CATEGORIES = {
                 'package': 'librewolf',
                 'flatpak': 'io.gitlab.librewolf-community',
                 'icon': 'librewolf.png',
-                'description': 'Fork de Firefox centrado en privacidad, seguridad y libertad',
+                'description': _('Firefox fork focused on privacy, security and freedom'),
                 'official': False
             },
             {
                 'name': 'Midori',
                 'package': 'midori',
                 'icon': 'midori.png',
-                'description': 'Navegador web ligero, rápido y seguro',
+                'description': _('Lightweight, fast and secure web browser'),
                 'official': False,
-                'deb_url': 'https://github.com/goastian/midori-desktop/releases/download/v11.6/midori_11.6-1_amd64.deb'
+                'install_commands': [
+                    'wget -q -O /tmp/midori.deb https://github.com/goastian/midori-desktop/releases/download/v11.6/midori_11.6-1_amd64.deb',
+                    'apt install -y /tmp/midori.deb',
+                    'rm /tmp/midori.deb'
+                ]
             },
         ]
     },
     
     'comunications': {
-        'title': 'Comunicación',
+        'title': _('Communication'),
         'icon': 'comunications',
         'packages': [
             {
@@ -82,7 +91,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'thunderbird',
                 'flatpak': 'org.mozilla.Thunderbird',
                 'icon': 'thunderbird.png',
-                'description': 'Cliente de correo electrónico libre desarrollado por Mozilla',
+                'description': _('Free email client developed by Mozilla'),
                 'official': True
             },
             {
@@ -90,7 +99,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'discord',
                 'flatpak': 'com.discordapp.Discord',
                 'icon': 'discord.png',
-                'description': 'Aplicación de comunicación para comunidades y gaming',
+                'description': _('Communication app for communities and gaming'),
                 'official': False
             },
             {
@@ -98,7 +107,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'telegram-desktop',
                 'flatpak': 'org.telegram.desktop',
                 'icon': 'telegram.png',
-                'description': 'Aplicación de mensajería rápida y segura',
+                'description': _('Fast and secure messaging app'),
                 'official': False
             },
             {
@@ -106,7 +115,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'signal-desktop',
                 'flatpak': 'org.signal.Signal',
                 'icon': 'signal.png',
-                'description': 'Mensajería privada con cifrado de extremo a extremo',
+                'description': _('Private messaging with end-to-end encryption'),
                 'official': False
             },
             {
@@ -114,7 +123,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'element-desktop',
                 'flatpak': 'im.riot.Riot',
                 'icon': 'element.png',
-                'description': 'Cliente para Matrix, comunicación descentralizada',
+                'description': _('Matrix client for decentralized communication'),
                 'official': False
             },
             {
@@ -122,14 +131,14 @@ SOFTWARE_CATEGORIES = {
                 'package': None,
                 'flatpak': 'io.github.mimbrero.WhatsAppDesktop',
                 'icon': 'whatsapp.png',
-                'description': 'Cliente no oficial de WhatsApp para escritorio',
+                'description': _('Unofficial WhatsApp desktop client'),
                 'official': False
             }
         ]
     },
     
     'developer': {
-        'title': 'Desarrollo',
+        'title': _('Development'),
         'icon': 'vscode.png',
         'packages': [
             {
@@ -137,7 +146,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'code',
                 'flatpak': 'com.visualstudio.code',
                 'icon': 'vscode.png',
-                'description': 'Editor de código fuente desarrollado por Microsoft',
+                'description': _('Source code editor developed by Microsoft'),
                 'official': False,
                 'install_commands': [
                     'apt install -y wget gpg apt-transport-https',
@@ -152,14 +161,14 @@ SOFTWARE_CATEGORIES = {
                 'package': 'codium',
                 'flatpak': 'com.vscodium.codium',
                 'icon': 'vscodium.png',
-                'description': 'Versión libre de Visual Studio Code sin telemetría',
+                'description': _('Free version of Visual Studio Code without telemetry'),
                 'official': False
             },
             {
                 'name': 'Google Antigravity',
                 'package': 'antigravity',
                 'icon': 'antigravity.png',
-                'description': 'IDE avanzado con gravedad cero',
+                'description': _('Advanced Agentic AI Coding Assistant'),
                 'official': False,
                 'install_commands': [
                     'mkdir -p /etc/apt/keyrings',
@@ -174,7 +183,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'sublime-text',
                 'flatpak': 'com.sublimetext.three',
                 'icon': 'sublime-text.png',
-                'description': 'Editor de texto sofisticado para código y marcado',
+                'description': _('Sophisticated text editor for code and markup'),
                 'official': False,
                 'install_commands': [
                     'apt install -y wget gpg apt-transport-https',
@@ -188,9 +197,13 @@ SOFTWARE_CATEGORIES = {
             {
                 'name': 'Cursor',
                 'package': 'cursor',
-                'deb_url': 'https://api2.cursor.sh/updates/download/golden/linux-x64-deb/cursor/2.1',
+                'install_commands': [
+                    'wget -q -O /tmp/cursor.deb "https://api2.cursor.sh/updates/download/golden/linux-x64-deb/cursor/0.43.3"',
+                    'apt install -y /tmp/cursor.deb',
+                    'rm /tmp/cursor.deb'
+                ],
                 'icon': 'cursor.png',
-                'description': 'Editor de código con IA integrada',
+                'description': _('Code editor with integrated AI'),
                 'official': False
             },
             {
@@ -198,7 +211,7 @@ SOFTWARE_CATEGORIES = {
                 'package': None,
                 'flatpak': None,
                 'icon': 'zed.png',
-                'description': 'Editor de código colaborativo de alto rendimiento',
+                'description': _('High-performance collaborative code editor'),
                 'official': False,
                 'install_commands': [
                     'curl -fsSL https://zed.dev/install.sh | sh'
@@ -209,28 +222,28 @@ SOFTWARE_CATEGORIES = {
                 'package': 'geany',
                 'flatpak': 'org.geany.Geany',
                 'icon': 'geany.png',
-                'description': 'IDE ligero y rápido con soporte para múltiples lenguajes',
+                'description': _('Lightweight and fast IDE with multi-language support'),
                 'official': True
             },
             {
                 'name': 'Bluefish',
                 'package': 'bluefish',
                 'icon': 'bluefish.png',
-                'description': 'Editor avanzado para programadores web',
+                'description': _('Advanced editor for web programmers'),
                 'official': True
             },
             {
                 'name': 'FileZilla',
                 'package': 'filezilla',
                 'icon': 'filezilla.png',
-                'description': 'Cliente FTP/SFTP rápido y confiable',
+                'description': _('Fast and reliable FTP/SFTP client'),
                 'official': True
             }
         ]
     },
     
     'graphics': {
-        'title': 'Gráficos y Diseño',
+        'title': _('Graphics and Design'),
         'icon': 'graphics',
         'packages': [
             {
@@ -238,7 +251,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'gimp',
                 'flatpak': 'org.gimp.GIMP',
                 'icon': 'gimp.png',
-                'description': 'Editor de imágenes avanzado y gratuito',
+                'description': _('Advanced and free image editor'),
                 'official': True
             },
             {
@@ -246,7 +259,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'inkscape',
                 'flatpak': 'org.inkscape.Inkscape',
                 'icon': 'inkscape.png',
-                'description': 'Editor de gráficos vectoriales profesional',
+                'description': _('Professional vector graphics editor'),
                 'official': True
             },
             {
@@ -254,7 +267,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'blender',
                 'flatpak': 'org.blender.Blender',
                 'icon': 'blender.png',
-                'description': 'Suite de creación 3D completa y gratuita',
+                'description': _('Complete and free 3D creation suite'),
                 'official': True
             },
             {
@@ -262,7 +275,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'krita',
                 'flatpak': 'org.kde.krita',
                 'icon': 'krita.png',
-                'description': 'Programa de pintura digital profesional',
+                'description': _('Professional digital painting program'),
                 'official': True
             },
             {
@@ -270,22 +283,26 @@ SOFTWARE_CATEGORIES = {
                 'package': 'darktable',
                 'flatpak': 'org.darktable.Darktable',
                 'icon': 'darktable.png',
-                'description': 'Mesa de trabajo virtual para fotografía',
+                'description': _('Virtual lighttable for photography'),
                 'official': True
             },
             {
                 'name': 'RapidRAW',
                 'package': 'rapid-raw',
-                'deb_url': 'https://github.com/CyberTimon/RapidRAW/releases/download/v1.4.5/03_RapidRAW_v1.4.5_ubuntu-24.04_amd64.deb',
+                'install_commands': [
+                    'wget -q -O /tmp/rapidraw.deb https://github.com/CyberTimon/RapidRAW/releases/download/v1.4.6/03_RapidRAW_v1.4.6_ubuntu-24.04_amd64.deb',
+                    'apt install -y /tmp/rapidraw.deb',
+                    'rm /tmp/rapidraw.deb'
+                ],
                 'icon': 'rapidraw.png',
-                'description': 'Editor de fotos RAW rápido y moderno',
+                'description': _('Fast and modern RAW photo editor'),
                 'official': False
             }
         ]
     },
     
     'multimedia': {
-        'title': 'Multimedia',
+        'title': _('Multimedia'),
         'icon': 'multimedia',
         'packages': [
             {
@@ -293,7 +310,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'vlc',
                 'flatpak': 'org.videolan.VLC',
                 'icon': 'vlc.png',
-                'description': 'Reproductor multimedia universal',
+                'description': _('Universal media player'),
                 'official': True
             },
             {
@@ -301,7 +318,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'obs-studio',
                 'flatpak': 'com.obsproject.Studio',
                 'icon': 'obs-studio.png',
-                'description': 'Software para streaming y grabación de video',
+                'description': _('Software for streaming and video recording'),
                 'official': True
             },
             {
@@ -309,7 +326,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'kdenlive',
                 'flatpak': 'org.kde.kdenlive',
                 'icon': 'kdenlive.png',
-                'description': 'Editor de video no lineal profesional',
+                'description': _('Professional non-linear video editor'),
                 'official': True
             },
             {
@@ -317,7 +334,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'audacity',
                 'flatpak': 'org.audacityteam.Audacity',
                 'icon': 'audacity.png',
-                'description': 'Editor de audio gratuito y de código abierto',
+                'description': _('Free and open-source audio editor'),
                 'official': True
             },
             {
@@ -325,21 +342,21 @@ SOFTWARE_CATEGORIES = {
                 'package': 'mpv',
                 'flatpak': 'io.mpv.Mpv',
                 'icon': 'mpv.png',
-                'description': 'Reproductor multimedia minimalista y potente',
+                'description': _('Minimalist and powerful media player'),
                 'official': True
             },
             {
                 'name': 'LMMS',
                 'package': 'lmms',
                 'icon': 'lmms.png',
-                'description': 'Estación de trabajo de audio digital',
+                'description': _('Digital audio workstation'),
                 'official': True
             },
             {
                 'name': 'Mixxx',
                 'package': 'mixxx',
                 'icon': 'mixxx.png',
-                'description': 'Software profesional de DJ',
+                'description': _('Professional DJ software'),
                 'official': True
             },
             {
@@ -347,7 +364,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'kodi',
                 'flatpak': 'tv.kodi.Kodi',
                 'icon': 'kodi.png',
-                'description': 'Centro multimedia de código abierto',
+                'description': _('Open-source media center'),
                 'official': True
             },
             {
@@ -355,7 +372,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'openshot-qt',
                 'flatpak': 'org.openshot.OpenShot',
                 'icon': 'openshot.png',
-                'description': 'Editor de video fácil de usar',
+                'description': _('Easy to use video editor'),
                 'official': True
             },
             {
@@ -363,7 +380,7 @@ SOFTWARE_CATEGORIES = {
                 'package': None,
                 'flatpak': None,
                 'icon': 'davinci-resolve.png',
-                'description': 'Edición de video profesional (Script por Daniel Tufvesson)',
+                'description': _('Professional video editing (Script by Daniel Tufvesson)'),
                 'official': False,
                 'custom_install': True
             }
@@ -371,7 +388,7 @@ SOFTWARE_CATEGORIES = {
     },
     
     'office': {
-        'title': 'Oficina',
+        'title': _('Office'),
         'icon': 'office',
         'packages': [
             {
@@ -379,7 +396,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'libreoffice',
                 'flatpak': 'org.libreoffice.LibreOffice',
                 'icon': 'libreoffice.png',
-                'description': 'Suite ofimática completa y gratuita',
+                'description': _('Complete and free office suite'),
                 'official': True
             },
             {
@@ -387,7 +404,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'onlyoffice-desktopeditors',
                 'flatpak': 'org.onlyoffice.desktopeditors',
                 'icon': 'onlyoffice.png',
-                'description': 'Suite ofimática compatible con Microsoft Office',
+                'description': _('Office suite compatible with Microsoft Office'),
                 'official': False
             },
             {
@@ -395,7 +412,7 @@ SOFTWARE_CATEGORIES = {
                 'package': None,
                 'flatpak': 'com.wps.Office',
                 'icon': 'wpsoffice.png',
-                'description': 'Suite ofimática ligera y elegante',
+                'description': _('Lightweight and elegant office suite'),
                 'official': False
             },
             {
@@ -403,14 +420,14 @@ SOFTWARE_CATEGORIES = {
                 'package': None,
                 'flatpak': 'com.adobe.Reader',
                 'icon': 'reader.png',
-                'description': 'Lector de PDF de Adobe',
+                'description': _('Adobe PDF reader'),
                 'official': False
             }
         ]
     },
     
     'gaming': {
-        'title': 'Gaming',
+        'title': _('Gaming'),
         'icon': 'steam.png',
         'packages': [
             {
@@ -418,7 +435,7 @@ SOFTWARE_CATEGORIES = {
                 'package': None,
                 'flatpak': 'com.valvesoftware.Steam',
                 'icon': 'steam.png',
-                'description': 'Plataforma de distribución digital de videojuegos',
+                'description': _('Digital distribution platform for video games'),
                 'official': False
             },
             {
@@ -426,7 +443,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'lutris',
                 'flatpak': 'net.lutris.Lutris',
                 'icon': 'lutris.png',
-                'description': 'Plataforma unificada para gestionar juegos en Linux',
+                'description': _('Unified platform for managing games on Linux'),
                 'official': True
             },
             {
@@ -434,7 +451,7 @@ SOFTWARE_CATEGORIES = {
                 'package': None,
                 'flatpak': 'com.usebottles.bottles',
                 'icon': 'bottles.png',
-                'description': 'Ejecuta aplicaciones Windows en Linux usando Wine',
+                'description': _('Run Windows applications on Linux using Wine'),
                 'official': False
             },
             {
@@ -442,7 +459,7 @@ SOFTWARE_CATEGORIES = {
                 'package': 'retroarch',
                 'flatpak': 'org.libretro.RetroArch',
                 'icon': 'retroarch.png',
-                'description': 'Frontend para emuladores y motores de juegos',
+                'description': _('Frontend for emulators and game engines'),
                 'official': True
             },
             {
@@ -450,7 +467,7 @@ SOFTWARE_CATEGORIES = {
                 'package': None,
                 'flatpak': 'com.heroicgameslauncher.hgl',
                 'icon': 'heroic.png',
-                'description': 'Launcher para juegos de Epic, GOG y Amazon Games',
+                'description': _('Launcher for Epic, GOG and Amazon Games'),
                 'official': False
             }
         ]

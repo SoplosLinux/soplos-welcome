@@ -116,7 +116,7 @@ class WelcomeTab(Gtk.Box):
         
         # Subtitle
         subtitle = Gtk.Label()
-        subtitle.set_markup('<span size="12000">Tu puerta de entrada al ecosistema Soplos</span>')
+        subtitle.set_markup(f'<span size="12000">{_("Your gateway to the Soplos ecosystem")}</span>')
         subtitle.set_halign(Gtk.Align.CENTER)
         subtitle.get_style_context().add_class('dim-label')
         subtitle.set_margin_bottom(1)
@@ -209,7 +209,7 @@ class WelcomeTab(Gtk.Box):
         # Create button content with icon and text
         btn_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         start_icon = Gtk.Image.new_from_icon_name("media-playback-start", Gtk.IconSize.BUTTON)
-        start_label = Gtk.Label(_("Comenzar"))
+        start_label = Gtk.Label(_("Get Started"))
         btn_box.pack_start(start_icon, False, False, 0)
         btn_box.pack_start(start_label, False, False, 0)
         btn_box.set_halign(Gtk.Align.CENTER)
@@ -237,7 +237,7 @@ class WelcomeTab(Gtk.Box):
         forum_btn.set_size_request(100, 45)
         forum_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         forum_icon = Gtk.Image.new_from_icon_name("system-users", Gtk.IconSize.BUTTON)
-        forum_label = Gtk.Label(_("Foros"))
+        forum_label = Gtk.Label(_("Forums"))
         forum_box.pack_start(forum_icon, False, False, 0)
         forum_box.pack_start(forum_label, False, False, 0)
         forum_box.set_halign(Gtk.Align.CENTER)
@@ -265,7 +265,7 @@ class WelcomeTab(Gtk.Box):
         donate_btn.get_style_context().add_class('soplos-button-accent')
         donate_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         donate_icon = Gtk.Image.new_from_icon_name("emblem-favorite", Gtk.IconSize.BUTTON)
-        donate_label = Gtk.Label(_("Donar"))
+        donate_label = Gtk.Label(_("Donate"))
         donate_box.pack_start(donate_icon, False, False, 0)
         donate_box.pack_start(donate_label, False, False, 0)
         donate_box.set_halign(Gtk.Align.CENTER)
@@ -309,8 +309,8 @@ class WelcomeTab(Gtk.Box):
             webbrowser.open("https://soplos.org")
         except Exception as e:
             print(f"Error opening website: {e}")
-            self._show_error_dialog(_("No se pudo abrir el sitio web"), 
-                                   _("Verifica tu conexión a internet e inténtalo de nuevo."))
+            self._show_error_dialog(_("Could not open website"), 
+                                   _("Check your internet connection and try again."))
     
     def _on_forum_clicked(self, button):
         """Handle Forum button click."""
@@ -318,8 +318,8 @@ class WelcomeTab(Gtk.Box):
             webbrowser.open("https://soplos.org/forums")
         except Exception as e:
             print(f"Error opening forum: {e}")
-            self._show_error_dialog(_("No se pudo abrir el foro"), 
-                                   _("Verifica tu conexión a internet e inténtalo de nuevo."))
+            self._show_error_dialog(_("Could not open forum"), 
+                                   _("Check your internet connection and try again."))
     
     def _on_wiki_clicked(self, button):
         """Handle Wiki button click."""
@@ -327,8 +327,8 @@ class WelcomeTab(Gtk.Box):
             webbrowser.open("https://soplos.org/wiki")
         except Exception as e:
             print(f"Error opening wiki: {e}")
-            self._show_error_dialog(_("No se pudo abrir la wiki"), 
-                                   _("Verifica tu conexión a internet e inténtalo de nuevo."))
+            self._show_error_dialog(_("Could not open wiki"), 
+                                   _("Check your internet connection and try again."))
     
     def _on_donate_clicked(self, button):
         """Handle Donate button click."""
@@ -336,8 +336,8 @@ class WelcomeTab(Gtk.Box):
             webbrowser.open("https://www.paypal.com/paypalme/isubdes")
         except Exception as e:
             print(f"Error opening donation page: {e}")
-            self._show_error_dialog(_("No se pudo abrir la página de donaciones"), 
-                                   _("Verifica tu conexión a internet e inténtalo de nuevo."))
+            self._show_error_dialog(_("Could not open donation page"), 
+                                   _("Check your internet connection and try again."))
     
     def _show_error_dialog(self, primary_text, secondary_text):
         """Show error dialog."""

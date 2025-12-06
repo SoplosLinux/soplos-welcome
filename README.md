@@ -116,7 +116,7 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
-### v2.0.0 (04/12/2025)
+### v2.0.0 (06/12/2025)
 - **Complete Rewrite**: New modular architecture for better maintainability.
 - **Universal Support**: Unified codebase for GNOME, KDE, and XFCE.
 - **Improved UI**: Modernized interface with better theming support.
@@ -186,6 +186,13 @@ Contact: info@soploslinux.com
 - **Fixed BTRFS Detection**: Filesystem detection for Calamares subvolumes (@, @home).
 - **Fixed Window Deformation**: Progress label stretching during downloads.
 - **Improved Gaming Tab**: Fixed wallpaper installation progress bar, added Performance Mode toggle, updated Revert All dialog, removed wallpaper uninstallation for safety.
+- **Fixed Batch Installation**: Improved reliability for Chrome, RapidRAW, Midori, and Cursor installations.
+- **Fixed Clean System**: Optimized to require only a single password prompt.
+- **Fixed Recommended Tab UI**: Resolved scrollbar overlap issue.
+- **Updated Google Antigravity**: Description updated to "Advanced Agentic AI Coding Assistant".
+- **Fixed Translations**: Comprehensive cleanup of Spanish dictionary and missing wallpaper messages.
+- **Fixed ClamAV**: Resolved password prompt and translation issues.
+- **Fixed Progress Bar**: Corrected percentage overflow (>100%) in batch mode.
 
 ### v1.1.4 (08/09/2025)
 - Updated Blender icon and fixed link buttons in the welcome tab.

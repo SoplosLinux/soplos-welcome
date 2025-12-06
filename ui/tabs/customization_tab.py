@@ -72,7 +72,7 @@ class CustomizationTab(Gtk.ScrolledWindow):
             self._create_xfce_ui(container)
         elif de == 'gnome':
             self._create_gnome_ui(container)
-        elif de == 'plasma':
+        elif de == 'kde':
             self._create_plasma_ui(container)
         else:
             self._create_placeholder_ui(container)
@@ -298,6 +298,34 @@ class CustomizationTab(Gtk.ScrolledWindow):
         # GNOME tools
         gnome_tools = [
             {
+                'icon_name': 'preferences-desktop-wallpaper',
+                'label': _('Wallpaper'),
+                'description': _('Desktop background'),
+                'tooltip': _('GNOME Background Settings'),
+                'command': 'gnome-control-center background'
+            },
+            {
+                'icon_name': 'preferences-desktop-display',
+                'label': _('Display'),
+                'description': _('Monitor settings'),
+                'tooltip': _('GNOME Display Settings'),
+                'command': 'gnome-control-center display'
+            },
+            {
+                'icon_name': 'gnome-power-manager',
+                'label': _('Power'),
+                'description': _('Power management'),
+                'tooltip': _('GNOME Power Settings'),
+                'command': 'gnome-control-center power'
+            },
+            {
+                'icon_name': 'multimedia-volume-control',
+                'label': _('Sound'),
+                'description': _('Sound settings'),
+                'tooltip': _('GNOME Sound Settings'),
+                'command': 'gnome-control-center sound'
+            },
+            {
                 'icon_name': 'gnome-control-center',
                 'label': _('Settings'),
                 'description': _('System settings'),
@@ -424,6 +452,34 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 'description': _('Boot splash configuration'),
                 'tooltip': _('KDE Plymouth Settings'),
                 'desktop_file': 'kcm_plymouth.desktop'
+            },
+            {
+                'icon_name': 'preferences-desktop-wallpaper',
+                'label': _('Wallpaper'),
+                'description': _('Desktop background'),
+                'tooltip': _('KDE Wallpaper Settings'),
+                'command': 'systemsettings kcm_wallpaper'
+            },
+            {
+                'icon_name': 'preferences-desktop-icons',
+                'label': _('Icons'),
+                'description': _('Icon theme'),
+                'tooltip': _('KDE Icon Settings'),
+                'command': 'systemsettings kcm_icons'
+            },
+            {
+                'icon_name': 'preferences-desktop-cursors',
+                'label': _('Cursor'),
+                'description': _('Mouse cursor style'),
+                'tooltip': _('KDE Cursor Settings'),
+                'command': 'systemsettings kcm_cursortheme'
+            },
+            {
+                'icon_name': 'preferences-desktop-font',
+                'label': _('Fonts'),
+                'description': _('System fonts'),
+                'tooltip': _('KDE Font Settings'),
+                'command': 'systemsettings kcm_fonts'
             },
             {
                 'icon_name': 'systemsettings',
@@ -632,8 +688,17 @@ class CustomizationTab(Gtk.ScrolledWindow):
         
         # Launch tool
         try:
-            if os.path.exists(command):
-                subprocess.Popen([command])
+            import shlex
+            import shutil
+            
+            # Split command into args
+            args = shlex.split(command)
+            executable = args[0]
+            
+            if os.path.exists(executable):
+                subprocess.Popen(args)
+            elif shutil.which(executable):
+                subprocess.Popen(args)
             else:
                 print(f"Tool not found: {command}")
         except Exception as e:

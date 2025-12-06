@@ -118,7 +118,7 @@ class SoftwarePlasmaTab(Gtk.Box):
             main_package = packages.split()[0]
             if main_package == "soplos-repo-selector":
                 # Create Launch button for Repo Selector
-                button = Gtk.Button(label=_(u"Abrir"))
+                button = Gtk.Button(label=_("Open"))
                 button.get_style_context().add_class("suggested-action")
                 button.connect("clicked", self._on_repo_selector_clicked)
             else:
@@ -235,7 +235,7 @@ class SoftwarePlasmaTab(Gtk.Box):
                 f.write("#!/bin/bash\n")
                 f.write("set -e\n")
                 f.write(script_content)
-                f.write("\necho 'Operation completed successfully'\n")
+                f.write(f"\necho '{_('Operation completed successfully')}'\n")
                 f.write("sleep 2\n")
             os.chmod(script_path, 0o755)
             
@@ -330,7 +330,7 @@ fi
                 buttons=Gtk.ButtonsType.OK,
                 text=_("System Up to Date")
             )
-            dialog.format_secondary_text(_("Your system is fully updated. No actions required."))
+            dialog.format_secondary_text(_("No packages available to update at this time."))
             dialog.run()
             dialog.destroy()
             return
@@ -426,8 +426,7 @@ fi
         """Clean system packages with KDE integration."""
         script_content = """
 # Clean APT packages
-pkexec apt autoremove -y
-pkexec apt clean
+pkexec sh -c "apt autoremove -y && apt clean"
 # Clean Flatpak if available
 if command -v flatpak >/dev/null 2>&1; then
     flatpak uninstall --unused -y

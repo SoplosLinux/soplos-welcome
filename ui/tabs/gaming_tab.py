@@ -8,6 +8,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GdkPixbuf, Pango, GLib
 
 from config.paths import ICONS_DIR
+from core.i18n_manager import _
 from utils.command_runner import CommandRunner
 import subprocess
 import os
@@ -63,29 +64,29 @@ class GamingTab(Gtk.Box):
         header_box.pack_start(icon, False, False, 0)
         
         title = Gtk.Label()
-        title.set_markup("<span size='x-large' weight='bold'>Gaming Center</span>")
+        title.set_markup(f"<span size='x-large' weight='bold'>{_('Gaming Center')}</span>")
         header_box.pack_start(title, False, False, 0)
         
         content_box.pack_start(header_box, False, False, 10)
         
         # 1. Optimizations Section
-        self._create_section(content_box, "Optimizations", [
-            ("GameMode", "Install Feral GameMode", "gaming/gamemode.png"),
-            ("Performance Mode",  "Install CPU performance script", "gaming/performance.png"),
-            ("Gaming Sysctl", "Apply kernel gaming tweaks", "preferences-system"),
-            ("Optimize GPU", "Configure GPU drivers for gaming", "display"),
-            ("Disk I/O", "Optimize disk schedulers", "drive-harddisk"),
-            ("MangoHud", "Install FPS overlay + Goverlay", "utilities-system-monitor"),
-            ("Revert All", "Undo all gaming optimizations", "edit-undo")
+        self._create_section(content_box, _("Optimizations"), [
+            (_("GameMode"), _("Install Feral GameMode"), "gaming/gamemode.png"),
+            (_("Performance Mode"), _("Install CPU performance script"), "gaming/performance.png"),
+            (_("Gaming Sysctl"), _("Apply kernel gaming tweaks"), "preferences-system"),
+            (_("Optimize GPU"), _("Configure GPU drivers for gaming"), "display"),
+            (_("Disk I/O"), _("Optimize disk schedulers"), "drive-harddisk"),
+            (_("MangoHud"), _("Install FPS overlay + Goverlay"), "utilities-system-monitor"),
+            (_("Revert All"), _("Undo all gaming optimizations"), "edit-undo")
         ])
         
         # 2. Launchers Section (dynamic from config)
         self._create_launchers_section(content_box)
         
         # 3. Wallpapers Section
-        self._create_section(content_box, "Customization", [
-            ("Gaming Wallpapers", "Install exclusive gaming wallpapers", "preferences-desktop-wallpaper"),
-            ("RGB Theme", "Enable RGB accent colors", "preferences-desktop-theme")
+        self._create_section(content_box, _("Customization"), [
+            (_("Gaming Wallpapers"), _("Install exclusive gaming wallpapers"), "preferences-desktop-wallpaper"),
+            (_("RGB Theme"), _("Enable RGB accent colors"), "preferences-desktop-theme")
         ])
         
     def _create_section(self, parent, title_text, items):
@@ -191,24 +192,41 @@ class GamingTab(Gtk.Box):
         """Handle item clicks."""
         print(f"Clicked: {name}")
         
+        # Get English name for routing (buttons use translated names)
+        # Map translated names back to English for the router
+        name_map = {
+            _("GameMode"): "GameMode",
+            _("Performance Mode"): "Performance Mode",
+            _("Gaming Sysctl"): "Gaming Sysctl",
+            _("Optimize GPU"): "Optimize GPU",
+            _("Disk I/O"): "Disk I/O",
+            _("MangoHud"): "MangoHud",
+            _("Gaming Wallpapers"): "Gaming Wallpapers",
+            _("RGB Theme"): "RGB Theme",
+            _("Revert All"): "Revert All"
+        }
+        
+        # Get English name if translated, otherwise use as-is
+        english_name = name_map.get(name, name)
+        
         # Router for different features
-        if name == "GameMode":
+        if english_name == "GameMode":
             self._install_gamemode()
-        elif name == "Performance Mode":
+        elif english_name == "Performance Mode":
             self._install_performance_mode()
-        elif name == "Gaming Sysctl":
+        elif english_name == "Gaming Sysctl":
             self._toggle_gaming_sysctl()
-        elif name == "Optimize GPU":
+        elif english_name == "Optimize GPU":
             self._optimize_gpu()
-        elif name == "Disk I/O":
+        elif english_name == "Disk I/O":
             self._optimize_disk_io()
-        elif name == "MangoHud":
+        elif english_name == "MangoHud":
             self._install_mangohud()
-        elif name == "Gaming Wallpapers":
+        elif english_name == "Gaming Wallpapers":
             self._install_gaming_wallpapers()
-        elif name == "RGB Theme":
+        elif english_name == "RGB Theme":
             self._toggle_rgb_theme()
-        elif name == "Revert All":
+        elif english_name == "Revert All":
             self._revert_all_optimizations()
         else:
             # Placeholder for other launchers
@@ -217,9 +235,9 @@ class GamingTab(Gtk.Box):
                 flags=0,
                 message_type=Gtk.MessageType.INFO,
                 buttons=Gtk.ButtonsType.OK,
-                text=f"Gaming Feature: {name}"
+                text=_(f"Gaming Feature: {name}")
             )
-            dialog.format_secondary_text("This feature is coming soon!")
+            dialog.format_secondary_text(_("This feature is coming soon!"))
             dialog.run()
             dialog.destroy()
     
@@ -235,14 +253,14 @@ class GamingTab(Gtk.Box):
             flags=0,
             message_type=Gtk.MessageType.QUESTION,
             buttons=Gtk.ButtonsType.YES_NO,
-            text="Install GameMode?"
+            text=_("Install GameMode?")
         )
         dialog.format_secondary_text(
-            "GameMode optimizes system performance when running games.\n\n"
-            "Packages to install:\n"
+            _("GameMode optimizes system performance when running games.") + "\n\n" +
+            _("Packages to install:") + "\n"
             "- gamemode\n"
-            "- libgamemode0\n\n"
-            "Continue?"
+            "- libgamemode0\n\n" +
+            _("Continue?")
         )
         
         response = dialog.run()
@@ -284,12 +302,12 @@ echo "GameMode installed successfully!"
                     flags=0,
                     message_type=Gtk.MessageType.INFO,
                     buttons=Gtk.ButtonsType.OK,
-                    text="GameMode installed successfully!"
+                    text=_("GameMode installed successfully!")
                 )
                 success_dialog.format_secondary_text(
-                    "Usage:\n"
-                    "• Steam: Add 'gamemoderun %command%' to game launch options\n"
-                    "• Lutris: Enable 'Feral GameMode' in game settings"
+                    _("Usage:") + "\n" +
+                    _("• Steam: Add 'gamemoderun %command%' to game launch options") + "\n" +
+                    _("• Lutris: Enable 'Feral GameMode' in game settings")
                 )
                 success_dialog.run()
                 success_dialog.destroy()
@@ -306,7 +324,7 @@ echo "GameMode installed successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text="Installation failed"
+                text=_("Installation failed")
             )
             error_dialog.format_secondary_text(str(e))
             error_dialog.run()
@@ -331,9 +349,9 @@ echo "GameMode installed successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.QUESTION,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text="Remove Performance Mode Script?"
+                text=_("Remove Performance Mode Script?")
             )
-            dialog.format_secondary_text("This will remove the soplos-game-performance script.")
+            dialog.format_secondary_text(_("This will remove the soplos-game-performance script."))
             
             response = dialog.run()
             dialog.destroy()
@@ -370,7 +388,7 @@ echo "Performance Mode removed successfully!"
                         flags=0,
                         message_type=Gtk.MessageType.INFO,
                         buttons=Gtk.ButtonsType.OK,
-                        text="Performance Mode removed!"
+                        text=_("Performance Mode removed!")
                     )
                     success_dialog.run()
                     success_dialog.destroy()
@@ -387,7 +405,7 @@ echo "Performance Mode removed successfully!"
                     flags=0,
                     message_type=Gtk.MessageType.ERROR,
                     buttons=Gtk.ButtonsType.OK,
-                    text="Removal failed"
+                    text=_("Removal failed")
                 )
                 error_dialog.format_secondary_text(str(e))
                 error_dialog.run()
@@ -399,14 +417,14 @@ echo "Performance Mode removed successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.QUESTION,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text="Install Performance Mode Script?"
+                text=_("Install Performance Mode Script?")
             )
             dialog.format_secondary_text(
-                "This script temporarily sets CPU to 'performance' mode when launching games.\n\n"
-                "Requirements:\n"
-                "- power-profiles-daemon\n\n"
-                "The script will be installed to /usr/local/bin/soplos-game-performance\n\n"
-                "Continue?"
+                _("This script temporarily sets CPU to 'performance' mode when launching games.") + "\n\n" +
+                _("Requirements:") + "\n"
+                "- power-profiles-daemon\n\n" +
+                _("The script will be installed to /usr/local/bin/soplos-game-performance") + "\n\n" +
+                _("Continue?")
             )
             
             response = dialog.run()
@@ -449,13 +467,13 @@ echo "Performance Mode installed successfully!"
                         flags=0,
                         message_type=Gtk.MessageType.INFO,
                         buttons=Gtk.ButtonsType.OK,
-                        text="Performance Mode script installed!"
+                        text=_("Performance Mode script installed!")
                     )
                     success_dialog.format_secondary_text(
-                        "Usage:\n"
-                        "• Steam: Add 'soplos-game-performance %command%' to game launch options\n"
-                        "• Lutris: Add 'soplos-game-performance' as a prefix in Lutris settings\n\n"
-                        "Your CPU will automatically switch to performance mode when games are running."
+                        _("Usage:") + "\n" +
+                        _("• Steam: Add 'soplos-game-performance %command%' to game launch options") + "\n" +
+                        _("• Lutris: Add 'soplos-game-performance' as a prefix in Lutris settings") + "\n\n" +
+                        _("Your CPU will automatically switch to performance mode when games are running.")
                     )
                     success_dialog.run()
                     success_dialog.destroy()
@@ -472,7 +490,7 @@ echo "Performance Mode installed successfully!"
                     flags=0,
                     message_type=Gtk.MessageType.ERROR,
                     buttons=Gtk.ButtonsType.OK,
-                    text="Installation failed"
+                    text=_("Installation failed")
                 )
                 error_dialog.format_secondary_text(str(e))
                 error_dialog.run()
@@ -497,9 +515,9 @@ echo "Performance Mode installed successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.QUESTION,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text="Revert Gaming Sysctl Tweaks?"
+                text=_("Revert Gaming Sysctl Tweaks?")
             )
-            dialog.format_secondary_text("This will remove the gaming kernel optimizations.")
+            dialog.format_secondary_text(_("This will remove the gaming kernel optimizations."))
             
             response = dialog.run()
             dialog.destroy()
@@ -537,7 +555,7 @@ echo "Sysctl tweaks reverted successfully!"
                         flags=0,
                         message_type=Gtk.MessageType.INFO,
                         buttons=Gtk.ButtonsType.OK,
-                        text="Gaming sysctl tweaks reverted!"
+                        text=_("Gaming sysctl tweaks reverted!")
                     )
                     success_dialog.run()
                     success_dialog.destroy()
@@ -554,7 +572,7 @@ echo "Sysctl tweaks reverted successfully!"
                     flags=0,
                     message_type=Gtk.MessageType.ERROR,
                     buttons=Gtk.ButtonsType.OK,
-                    text="Revert failed"
+                    text=_("Revert failed")
                 )
                 error_dialog.format_secondary_text(str(e))
                 error_dialog.run()
@@ -566,16 +584,16 @@ echo "Sysctl tweaks reverted successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.QUESTION,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text="Apply Gaming Sysctl Tweaks?"
+                text=_("Apply Gaming Sysctl Tweaks?")
             )
             dialog.format_secondary_text(
-                "This will optimize kernel parameters for gaming:\n\n"
-                "• vm.max_map_count = 2147483642 (essential for Proton/Steam)\n"
-                "• vm.swappiness = 10 (prefer RAM over swap)\n"
-                "• Network optimizations for online gaming\n"
-                "• Reduced system latency\n\n"
-                "⚠️  WARNING: Disables some security features (split_lock_mitigate)\n\n"
-                "Continue?"
+                _("This will optimize kernel parameters for gaming:") + "\n\n" +
+                "• vm.max_map_count = 2147483642 " + _("(essential for Proton/Steam)") + "\n" +
+                "• vm.swappiness = 10 " + _("(prefer RAM over swap)") + "\n" +
+                "• " + _("Network optimizations for online gaming") + "\n" +
+                "• " + _("Reduced system latency") + "\n\n" +
+                "⚠️  " + _("WARNING: Disables some security features (split_lock_mitigate)") + "\n\n" +
+                _("Continue?")
             )
             
             response = dialog.run()
@@ -614,9 +632,9 @@ echo "Sysctl tweaks applied successfully!"
                         flags=0,
                         message_type=Gtk.MessageType.INFO,
                         buttons=Gtk.ButtonsType.OK,
-                        text="Gaming sysctl tweaks applied!"
+                        text=_("Gaming sysctl tweaks applied!")
                     )
-                    success_dialog.format_secondary_text("Kernel parameters optimized for gaming.")
+                    success_dialog.format_secondary_text(_("Kernel parameters optimized for gaming."))
                     success_dialog.run()
                     success_dialog.destroy()
                 
@@ -632,7 +650,7 @@ echo "Sysctl tweaks applied successfully!"
                     flags=0,
                     message_type=Gtk.MessageType.ERROR,
                     buttons=Gtk.ButtonsType.OK,
-                    text="Apply failed"
+                    text=_("Apply failed")
                 )
                 error_dialog.format_secondary_text(str(e))
                 error_dialog.run()
@@ -653,9 +671,9 @@ echo "Sysctl tweaks applied successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text="GPU Detection Failed"
+                text=_("GPU Detection Failed")
             )
-            error_dialog.format_secondary_text("Could not detect GPU. Please install 'pciutils' package.")
+            error_dialog.format_secondary_text(_("Could not detect GPU. Please install 'pciutils' package."))
             error_dialog.run()
             error_dialog.destroy()
             return
@@ -691,11 +709,11 @@ echo "Sysctl tweaks applied successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.WARNING,
                 buttons=Gtk.ButtonsType.OK,
-                text="Unsupported GPU"
+                text=_("Unsupported GPU")
             )
             error_dialog.format_secondary_text(
-                "Could not detect a supported GPU (NVIDIA, AMD, or Intel).\n\n"
-                "GPU optimizations are only available for these vendors."
+                _("Could not detect a supported GPU (NVIDIA, AMD, or Intel).") + "\n\n" +
+                _("GPU optimizations are only available for these vendors.")
             )
             error_dialog.run()
             error_dialog.destroy()
@@ -750,13 +768,13 @@ echo "Sysctl tweaks applied successfully!"
             flags=0,
             message_type=Gtk.MessageType.QUESTION,
             buttons=Gtk.ButtonsType.YES_NO,
-            text=f"Optimize {gpu_vendor.upper()} GPU for Gaming?"
+            text=_(f"Optimize {gpu_vendor.upper()} GPU for Gaming?")
         )
         dialog.format_secondary_text(
-            f"Detected GPU: {gpu_model}\n\n"
-            f"Optimizations to apply:\n{optimizations_text[gpu_vendor]}\n\n"
-            "These settings will be applied system-wide via environment variables.\n\n"
-            "Continue?"
+            _("Detected GPU:") + f" {gpu_model}\n\n" +
+            _("Optimizations to apply:") + f"\n{optimizations_text[gpu_vendor]}\n\n" +
+            _("These settings will be applied system-wide via environment variables.") + "\n\n" +
+            _("Continue?")
         )
         
         response = dialog.run()
@@ -846,7 +864,7 @@ chmod +x '{prime_run_dest}'
                     flags=0,
                     message_type=Gtk.MessageType.INFO,
                     buttons=Gtk.ButtonsType.OK,
-                    text=f"{gpu_vendor.upper()} GPU Optimized!"
+                    text=_(f"{gpu_vendor.upper()} GPU Optimized!")
                 )
                 success_dialog.format_secondary_text(success_msg)
                 success_dialog.run()
@@ -864,7 +882,7 @@ chmod +x '{prime_run_dest}'
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text="Optimization Failed"
+                text=_("Optimization Failed")
             )
             error_dialog.format_secondary_text(str(e))
             error_dialog.run()
@@ -890,9 +908,9 @@ chmod +x '{prime_run_dest}'
                 flags=0,
                 message_type=Gtk.MessageType.QUESTION,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text="Revert Disk I/O Optimizations?"
+                text=_("Revert Disk I/O Optimizations?")
             )
-            dialog.format_secondary_text("This will remove the custom I/O scheduler rules.")
+            dialog.format_secondary_text(_("This will remove the custom I/O scheduler rules."))
             
             response = dialog.run()
             dialog.destroy()
@@ -931,7 +949,7 @@ echo "Disk I/O optimizations reverted successfully!"
                         flags=0,
                         message_type=Gtk.MessageType.INFO,
                         buttons=Gtk.ButtonsType.OK,
-                        text="Disk I/O optimizations reverted!"
+                        text=_("Disk I/O optimizations reverted!")
                     )
                     success_dialog.run()
                     success_dialog.destroy()
@@ -948,7 +966,7 @@ echo "Disk I/O optimizations reverted successfully!"
                     flags=0,
                     message_type=Gtk.MessageType.ERROR,
                     buttons=Gtk.ButtonsType.OK,
-                    text="Revert failed"
+                    text=_("Revert failed")
                 )
                 error_dialog.format_secondary_text(str(e))
                 error_dialog.run()
@@ -960,15 +978,15 @@ echo "Disk I/O optimizations reverted successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.QUESTION,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text="Optimize Disk I/O Schedulers?"
+                text=_("Optimize Disk I/O Schedulers?")
             )
             dialog.format_secondary_text(
-                "This will configure optimal I/O schedulers for gaming:\n\n"
-                "• HDD: BFQ scheduler (best latency)\n"
-                "• SSD (SATA): mq-deadline\n"
-                "• NVMe: none (maximum performance)\n\n"
-                "Changes take effect immediately without reboot.\n\n"
-                "Continue?"
+                _("This will configure optimal I/O schedulers for gaming:") + "\n\n" +
+                "• HDD: BFQ scheduler " + _("(best latency)") + "\n" +
+                "• SSD (SATA): mq-deadline\n" +
+                "• NVMe: none " + _("(maximum performance)") + "\n\n" +
+                _("Changes take effect immediately without reboot.") + "\n\n" +
+                _("Continue?")
             )
             
             response = dialog.run()
@@ -1008,12 +1026,12 @@ echo "Disk I/O optimized successfully!"
                         flags=0,
                         message_type=Gtk.MessageType.INFO,
                         buttons=Gtk.ButtonsType.OK,
-                        text="Disk I/O Optimized!"
+                        text=_("Disk I/O Optimized!")
                     )
                     success_dialog.format_secondary_text(
-                        "I/O schedulers have been optimized for gaming.\n\n"
-                        "Changes are active immediately.\n\n"
-                        f"Configuration saved to:\n{dest_file}"
+                        _("I/O schedulers have been optimized for gaming.") + "\n\n" +
+                        _("Changes are active immediately.") + "\n\n" +
+                        _("Configuration saved to:") + f"\n{dest_file}"
                     )
                     success_dialog.run()
                     success_dialog.destroy()
@@ -1030,7 +1048,7 @@ echo "Disk I/O optimized successfully!"
                     flags=0,
                     message_type=Gtk.MessageType.ERROR,
                     buttons=Gtk.ButtonsType.OK,
-                    text="Optimization failed"
+                    text=_("Optimization failed")
                 )
                 error_dialog.format_secondary_text(str(e))
                 error_dialog.run()
@@ -1047,14 +1065,14 @@ echo "Disk I/O optimized successfully!"
             flags=0,
             message_type=Gtk.MessageType.QUESTION,
             buttons=Gtk.ButtonsType.YES_NO,
-            text="Install MangoHud + Goverlay?"
+            text=_("Install MangoHud + Goverlay?")
         )
         dialog.format_secondary_text(
-            "MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more.\n\n"
-            "Packages to install:\n"
+            _("MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more.") + "\n\n" +
+            _("Packages to install:") + "\n"
             "- mangohud\n"
-            "- goverlay\n\n"
-            "Continue?"
+            "- goverlay\n\n" +
+            _("Continue?")
         )
         
         response = dialog.run()
@@ -1092,13 +1110,13 @@ echo "MangoHud + Goverlay installed successfully!"
                     flags=0,
                     message_type=Gtk.MessageType.INFO,
                     buttons=Gtk.ButtonsType.OK,
-                    text="MangoHud + Goverlay installed!"
+                    text=_("MangoHud + Goverlay installed!")
                 )
                 success_dialog.format_secondary_text(
-                    "Usage:\n"
-                    "• Steam: Add 'mangohud %command%' to game launch options\n"
-                    "• Configure via Goverlay application\n"
-                    "• Toggle in-game with Shift+F12"
+                    _("Usage:") + "\n" +
+                    _("• Steam: Add 'mangohud %command%' to game launch options") + "\n" +
+                    _("• Configure via Goverlay application") + "\n" +
+                    _("• Toggle in-game with Shift+F12")
                 )
                 success_dialog.run()
                 success_dialog.destroy()
@@ -1115,7 +1133,7 @@ echo "MangoHud + Goverlay installed successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text="Installation failed"
+                text=_("Installation failed")
             )
             error_dialog.format_secondary_text(str(e))
             error_dialog.run()
@@ -1132,16 +1150,16 @@ echo "MangoHud + Goverlay installed successfully!"
             flags=0,
             message_type=Gtk.MessageType.WARNING,
             buttons=Gtk.ButtonsType.YES_NO,
-            text="Revert ALL Gaming Optimizations?"
+            text=_("Revert ALL Gaming Optimizations?")
         )
         dialog.format_secondary_text(
-            "This will remove:\n"
+            _("This will remove:\n"
             "• Gaming sysctl tweaks\n"
             "• GPU optimizations\n"
             "• Disk I/O optimizations\n"
             "• Performance Mode script\n\n"
             "GameMode and MangoHud will remain installed.\n\n"
-            "Continue?"
+            "Continue?")
         )
         
         response = dialog.run()
@@ -1216,9 +1234,9 @@ echo "MangoHud + Goverlay installed successfully!"
                         flags=0,
                         message_type=Gtk.MessageType.INFO,
                         buttons=Gtk.ButtonsType.OK,
-                        text="Optimizations reverted!"
+                        text=_("Optimizations reverted!")
                     )
-                    success_dialog.format_secondary_text("All gaming tweaks have been removed.")
+                    success_dialog.format_secondary_text(_("All gaming tweaks have been removed."))
                     success_dialog.run()
                     success_dialog.destroy()
                 
@@ -1234,9 +1252,9 @@ echo "MangoHud + Goverlay installed successfully!"
                     flags=0,
                     message_type=Gtk.MessageType.INFO,
                     buttons=Gtk.ButtonsType.OK,
-                    text="No optimizations found"
+                    text=_("No optimizations found")
                 )
-                info_dialog.format_secondary_text("No gaming optimizations are currently applied.")
+                info_dialog.format_secondary_text(_("No gaming optimizations are currently applied."))
                 info_dialog.run()
                 info_dialog.destroy()
             
@@ -1246,7 +1264,7 @@ echo "MangoHud + Goverlay installed successfully!"
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text="Revert failed"
+                text=_("Revert failed")
             )
             error_dialog.format_secondary_text(str(e))
             error_dialog.run()
@@ -1289,12 +1307,12 @@ echo "MangoHud + Goverlay installed successfully!"
             flags=0,
             message_type=Gtk.MessageType.QUESTION,
             buttons=Gtk.ButtonsType.YES_NO,
-            text="Install Gaming Wallpapers?"
+            text=_("Install Gaming Wallpapers?")
         )
         dialog.format_secondary_text(
-            f"This will install exclusive gaming wallpapers for {de_name}.\n\n"
-            f"Destination: {dest_dir}\n\n"
-            "Continue?"
+            _("This will install exclusive gaming wallpapers for") + f" {de_name}.\n\n" +
+            _("Destination:") + f" {dest_dir}\n\n" +
+            _("Continue?")
         )
         
         response = dialog.run()
@@ -1379,17 +1397,17 @@ done
                         pass
                     
                     # Success dialog (inside callback)
-                    success_message = f"Wallpapers have been installed to:\n{dest_dir}"
+                    success_message = _("Wallpapers have been installed to:") + f"\n{dest_dir}"
                     if is_xfce:
-                        success_message += f"\n\nSymlinks created in:\n/usr/share/backgrounds/xfce/"
-                    success_message += f"\n\nYou can now select them from your {de_name} wallpaper settings."
+                        success_message += "\n\n" + _("Symlinks created in:") + "\n/usr/share/backgrounds/xfce/"
+                    success_message += "\n\n" + _("You can now select them from your wallpaper settings.")
                     
                     success_dialog = Gtk.MessageDialog(
                         transient_for=self.parent_window,
                         flags=0,
                         message_type=Gtk.MessageType.INFO,
                         buttons=Gtk.ButtonsType.OK,
-                        text="Gaming wallpapers installed successfully!"
+                        text=_("Gaming wallpapers installed successfully!")
                     )
                     success_dialog.format_secondary_text(success_message)
                     success_dialog.run()
@@ -1415,7 +1433,7 @@ done
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text="Archive not found"
+                text=_("Archive not found")
             )
             error_dialog.format_secondary_text(str(e))
             error_dialog.run()
@@ -1427,7 +1445,7 @@ done
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text="Installation failed"
+                text=_("Installation failed")
             )
             error_dialog.format_secondary_text(
                 f"Failed to install wallpapers: {str(e)}\n\n"
@@ -1442,7 +1460,7 @@ done
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text="Unexpected error"
+                text=_("Unexpected error")
             )
             error_dialog.format_secondary_text(str(e))
             error_dialog.run()
@@ -1602,7 +1620,7 @@ done
         
         # Section title
         title = Gtk.Label()
-        title.set_markup('<span size="large" weight="bold">Launchers</span>')
+        title.set_markup(f'<span size="large" weight="bold">{_("Launchers")}</span>')
         section_frame.set_label_widget(title)
         
         # Grid for launchers
@@ -1669,7 +1687,7 @@ done
         install_method = self._get_install_method(launcher)
         if install_method == 'flatpak':
             flatpak_badge = Gtk.Label()
-            flatpak_badge.set_markup('<span size="small" foreground="#888888" background="#333333"> Flatpak </span>')
+            flatpak_badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> {_("Flatpak")} </span>')
             flatpak_badge.set_valign(Gtk.Align.CENTER)
             name_box.pack_start(flatpak_badge, False, False, 0)
         
@@ -1677,7 +1695,7 @@ done
         if launcher.get('official', False):
             official_badge = Gtk.Image.new_from_icon_name("security-high-symbolic", Gtk.IconSize.MENU)
             official_badge.get_style_context().add_class('success-color')
-            official_badge.set_tooltip_text("Official Package")
+            official_badge.set_tooltip_text(_("Official Package"))
             name_box.pack_start(official_badge, False, False, 0)
         
         info_box.pack_start(name_box, False, False, 0)
@@ -1845,7 +1863,7 @@ done
             with open(script_path, "w") as f:
                 f.write("#!/bin/bash\n")
                 f.write(command + "\n")
-                f.write("echo 'Operation completed successfully'\n")
+                f.write(f"echo '{_('Operation completed successfully')}'\\n")
             os.chmod(script_path, 0o755)
             
             # Run and refresh on complete
@@ -1889,9 +1907,9 @@ done
                 flags=0,
                 message_type=Gtk.MessageType.INFO,
                 buttons=Gtk.ButtonsType.OK,
-                text="RGB Theme Deactivated"
+                text=_("RGB Theme Deactivated")
             )
-            dialog.format_secondary_text("The RGB gaming theme has been disabled.")
+            dialog.format_secondary_text(_("The RGB gaming theme has been disabled."))
             dialog.run()
             dialog.destroy()
         else:
@@ -1909,7 +1927,7 @@ done
                         flags=0,
                         message_type=Gtk.MessageType.ERROR,
                         buttons=Gtk.ButtonsType.OK,
-                        text="Error"
+                        text=_("Error")
                     )
                     dialog.format_secondary_text(f"RGB theme file not found:\n{rgb_css_path}")
                     dialog.run()
@@ -1935,12 +1953,14 @@ done
                     flags=0,
                     message_type=Gtk.MessageType.INFO,
                     buttons=Gtk.ButtonsType.OK,
-                    text="RGB Theme Activated! 🎮"
+                    text=_("RGB Theme Activated! 🎮")
                 )
                 dialog.format_secondary_text(
-                    "Gaming RGB theme applied!\n\n"
-                    "• Black background with red neon accents\n"
-                    "• Click 'RGB Theme' again to deactivate"
+                    _("Gaming RGB theme applied!") + "\n\n" +
+                    _("Features:") + "\n" +
+                    "• "+ _("Neon red accents") + "\n" +
+                    "• " + _("Dark optimized interface") + "\n" +
+                    "• " + _("Click 'RGB Theme' again to deactivate")
                 )
                 dialog.run()
                 dialog.destroy()
@@ -1951,7 +1971,7 @@ done
                     flags=0,
                     message_type=Gtk.MessageType.ERROR,
                     buttons=Gtk.ButtonsType.OK,
-                    text="Error Activating RGB Theme"
+                    text=_("Error Activating RGB Theme")
                 )
                 dialog.format_secondary_text(f"Failed to load RGB theme:\n{str(e)}")
                 dialog.run()

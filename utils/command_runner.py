@@ -136,7 +136,7 @@ class CommandRunner:
                                 if self.parent_window and hasattr(self.parent_window, 'show_progress'):
                                      GLib.idle_add(self.parent_window.show_progress, f"{_('Unpacking')} {pkg_name}...", None)
                             
-                            progress = 0.5 + (current_package / max(total_packages, 1) * 0.25)
+                            progress = min(0.5 + (current_package / max(total_packages, 1) * 0.25), 0.75)
                             
                         # 'Setting up' (En), 'Configurando' (Es), 'Paramétrage' (Fr), 'Richte' (De)
                         elif 'Setting up' in line or 'Configurando' in line or 'Paramétrage' in line or 'Richte' in line:
@@ -164,7 +164,7 @@ class CommandRunner:
                                 if self.parent_window and hasattr(self.parent_window, 'show_progress'):
                                      GLib.idle_add(self.parent_window.show_progress, f"{_('Configuring')} {pkg_name}...", None)
 
-                            progress = 0.75 + (current_package / max(total_packages, 1) * 0.25)
+                            progress = min(0.75 + (current_package / max(total_packages, 1) * 0.25), 1.0)
                     
                     elif is_flatpak:
                         # Keep existing code for flatpak
@@ -191,12 +191,12 @@ class CommandRunner:
                 
                 # Complete the progress bar and status
                 if self.parent_window and hasattr(self.parent_window, 'show_progress'):
-                    GLib.idle_add(self.parent_window.show_progress, _('Installation complete'), 1.0)
+                    GLib.idle_add(self.parent_window.show_progress, _('Operation completed successfully'), 1.0)
                 elif self.progress_bar:
                     GLib.idle_add(self.progress_bar.set_fraction, 1.0)
                 
                 if self.status_label and not self.parent_window:
-                     GLib.idle_add(self.status_label.set_text, _('Installation complete'))
+                     GLib.idle_add(self.status_label.set_text, _('Operation completed successfully'))
                 
                 # Wait a moment and clear
                 time.sleep(1)
