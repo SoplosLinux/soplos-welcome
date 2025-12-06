@@ -193,6 +193,10 @@ Contact: info@soploslinux.com
 - **Fixed Translations**: Comprehensive cleanup of Spanish dictionary and missing wallpaper messages.
 - **Fixed ClamAV**: Resolved password prompt and translation issues.
 - **Fixed Progress Bar**: Corrected percentage overflow (>100%) in batch mode.
+- **Fixed Recommended Tab Scrollbar**: Resolved vertical scrollbar overlapping content boxes.
+- **Complete French Dictionary**: Full revision and 100% translation (565 messages), fixed corrupted syntax, added 35+ new translations.
+- **Complete German Dictionary**: Full revision, fixed typo "Dunkle" (Dark theme), 100% translation (565 messages).
+- **Updated Dictionary Headers**: Corrected Last-Translator and Language-Team metadata for EN, ES, DE, FR (Sergi Perich <info@soploslinux.com>).
 
 ### v1.1.4 (08/09/2025)
 - Updated Blender icon and fixed link buttons in the welcome tab.

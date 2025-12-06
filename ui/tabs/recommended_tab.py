@@ -48,7 +48,7 @@ class RecommendedTab(Gtk.Box):
         self.search_query = ""
         
         self.set_margin_left(20)
-        self.set_margin_right(20)
+        # No right margin on main box - scrollbar should be at window edge
         self.set_margin_top(20)
         self.set_margin_bottom(20)
         
@@ -58,6 +58,7 @@ class RecommendedTab(Gtk.Box):
         """Initialize the UI."""
         # Header
         header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        header_box.set_margin_right(20)  # Right margin for header only
         
         # Left side: titles
         titles_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
@@ -95,9 +96,9 @@ class RecommendedTab(Gtk.Box):
         scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         scrolled.set_min_content_height(400)
         
-        # Main content box
+        # Main content box - right margin to leave space for scrollbar
         self.content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=15)
-        self.content_box.set_margin_right(10) # Prevent scrollbar overlap
+        self.content_box.set_margin_right(20)
         scrolled.add(self.content_box)
         
         self.pack_start(scrolled, True, True, 0)

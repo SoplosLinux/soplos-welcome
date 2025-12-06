@@ -169,6 +169,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - **Fixed Translations**: Comprehensive cleanup of Spanish dictionary (removed duplicates, fixed fuzzy entries) and added missing gaming wallpaper confirmations.
 - **Fixed ClamAV**: Resolved single password prompt issue and added missing translations for update process.
 - **Fixed Progress Bar**: Corrected calculation logic to prevent percentage overflow (>100%) during batch installations.
+- **Fixed Recommended Tab Scrollbar**: Resolved vertical scrollbar overlapping content boxes by adding right margin (20px) to FlowBox.
+- **Complete French Dictionary**: Full revision and completion of French translations (565/565 messages):
+  - Synchronized with latest .pot template using msgmerge
+  - Added 35+ new translations (GNOME/KDE Settings, Gaming, Security, Recommended sections)
+  - Fixed 23 fuzzy translations with incorrect inherited values
+  - Corrected syntax error (corrupted X11 msgstr with mixed translation text)
+  - Updated header with correct translator info (Sergi Perich)
+- **Complete German Dictionary**: Full revision of German translations (565/565 messages):
+  - Fixed typo "Dukle" → "Dunkle" (Dark theme)
+  - Updated header with correct translator info
+- **Updated English/Spanish Dictionary Headers**: Corrected Last-Translator and Language-Team metadata.
+- **Translation Quality**: All 4 main languages (EN, ES, DE, FR) now at 100% with 565 messages each.
 
 ## [1.1.4] - 2025-09-08
 

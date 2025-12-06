@@ -196,6 +196,10 @@
           <li>Fixed Translations: Comprehensive cleanup of Spanish dictionary (removed duplicates, fixed fuzzy entries) and added missing gaming wallpaper confirmations</li>
           <li>Fixed ClamAV: Resolved single password prompt issue and added missing translations for update process</li>
           <li>Fixed Progress Bar: Corrected calculation logic to prevent percentage overflow (>100%) during batch installations</li>
+          <li>Fixed Recommended Tab Scrollbar: Resolved vertical scrollbar overlapping content boxes</li>
+          <li>Complete French Dictionary: Full revision and 100% translation (565 messages)</li>
+          <li>Complete German Dictionary: Full revision, fixed typo "Dunkle", 100% translation</li>
+          <li>Updated Dictionary Headers: Corrected translator metadata for EN, ES, DE, FR</li>
         </ul>
       </description>
       <description xml:lang="es">
@@ -251,6 +255,10 @@
           <li>Limpieza de traducciones: Corregidas entradas confusas y duplicados en el diccionario español, añadidas confirmaciones de fondos</li>
           <li>Corrección actualización ClamAV: Resueltos problemas de contraseña única y traducciones faltantes</li>
           <li>Corrección Barra de Progreso: Resuelto problema de desbordamiento (>100%) en pestaña Recomendado durante instalaciones por lotes</li>
+          <li>Corrección Barra de Desplazamiento: Resuelto solapamiento en pestaña Recomendado</li>
+          <li>Diccionario Francés Completo: Revisión completa y traducción al 100% (565 mensajes)</li>
+          <li>Diccionario Alemán Completo: Revisión completa, corregido error "Dunkle", traducción 100%</li>
+          <li>Encabezados Diccionarios Actualizados: Metadatos de traductor corregidos para EN, ES, DE, FR</li>
         </ul>
       </description>
       <description xml:lang="fr">
@@ -306,6 +314,10 @@
           <li>Nettoyage des traductions : Correction des entrées floues et des doublons dans le dictionnaire espagnol</li>
           <li>Correction mise à jour ClamAV : Résolution des problèmes de mot de passe unique et de traductions manquantes</li>
           <li>Correction barre de progression : Résolution du problème de dépassement (>100%) dans l'onglet Recommandé</li>
+          <li>Correction barre de défilement : Résolution du chevauchement dans l'onglet Recommandé</li>
+          <li>Dictionnaire français complet : Révision complète et traduction à 100% (565 messages)</li>
+          <li>Dictionnaire allemand complet : Révision complète, correction "Dunkle", traduction 100%</li>
+          <li>En-têtes dictionnaires mis à jour : Métadonnées traducteur corrigées pour EN, ES, DE, FR</li>
         </ul>
       </description>
       <description xml:lang="pt">
@@ -361,6 +373,10 @@
           <li>Limpeza de traduções: Corrigidas entradas confusas e duplicatas no dicionário espanhol</li>
           <li>Correção atualização ClamAV: Resolvidos problemas de senha única e traduções ausentes</li>
           <li>Correção Barra de Progresso: Resolvido problema de estouro (>100%) na aba Recomendado durante instalações em lote</li>
+          <li>Correção Barra de Rolagem: Resolvida sobreposição na aba Recomendado</li>
+          <li>Dicionário Francês Completo: Revisão completa e tradução a 100% (565 mensagens)</li>
+          <li>Dicionário Alemão Completo: Revisão completa, corrigido erro "Dunkle", tradução 100%</li>
+          <li>Cabeçalhos Dicionários Atualizados: Metadados de tradutor corrigidos para EN, ES, DE, FR</li>
         </ul>
       </description>
       <description xml:lang="de">
@@ -416,6 +432,10 @@
           <li>Übersetzungsbereinigung: Unklare Einträge und Duplikate im spanischen Wörterbuch korrigiert</li>
           <li>ClamAV-Update korrigiert: Einzel-Passwortabfrage und fehlende Übersetzungen behoben</li>
           <li>Fortschrittsbalken korrigiert: Überlaufproblem (>100%) im Empfohlen-Tab behoben</li>
+          <li>Scrollbalken korrigiert: Überlappung im Empfohlen-Tab behoben</li>
+          <li>Französisches Wörterbuch vollständig: Komplette Überarbeitung und 100% Übersetzung (565 Nachrichten)</li>
+          <li>Deutsches Wörterbuch vollständig: Komplette Überarbeitung, Tippfehler "Dunkle" korrigiert, 100% Übersetzung</li>
+          <li>Wörterbuch-Header aktualisiert: Übersetzer-Metadaten für EN, ES, DE, FR korrigiert</li>
         </ul>
       </description>
       <description xml:lang="it">
@@ -471,6 +491,10 @@
           <li>Pulizia traduzioni: Corrette voci confuse e duplicati nel dizionario spagnolo</li>
           <li>Correzione aggiornamento ClamAV: Risolti problemi di password unica e traduzioni mancanti</li>
           <li>Correzione Barra di Avanzamento: Risolto problema di overflow (>100%) nella scheda Consigliati</li>
+          <li>Correzione Barra di Scorrimento: Risolta sovrapposizione nella scheda Consigliati</li>
+          <li>Dizionario Francese Completo: Revisione completa e traduzione al 100% (565 messaggi)</li>
+          <li>Dizionario Tedesco Completo: Revisione completa, corretto errore "Dunkle", traduzione 100%</li>
+          <li>Header Dizionari Aggiornati: Metadati traduttore corretti per EN, ES, DE, FR</li>
         </ul>
       </description>
       <description xml:lang="ru">
@@ -526,6 +550,10 @@
           <li>Очистка переводов: Исправлены нечеткие записи и дубликаты в испанском словаре</li>
           <li>Исправлено обновление ClamAV: Решены проблемы с паролем и отсутствующими переводами</li>
           <li>Исправлен прогресс-бар: Решена проблема переполнения (>100%) во вкладке Рекомендуемое</li>
+          <li>Исправлена полоса прокрутки: Решена проблема наложения во вкладке Рекомендуемое</li>
+          <li>Полный французский словарь: Полная ревизия и 100% перевод (565 сообщений)</li>
+          <li>Полный немецкий словарь: Полная ревизия, исправлена опечатка "Dunkle", 100% перевод</li>
+          <li>Обновлены заголовки словарей: Исправлены метаданные переводчика для EN, ES, DE, FR</li>
         </ul>
       </description>
       <description xml:lang="ro">
@@ -581,6 +609,10 @@
           <li>Curățare traduceri: Corectate intrările neclare și duplicatele din dicționarul spaniol</li>
           <li>Corecție actualizare ClamAV: Rezolvate problemele cu parola unică și traducerile lipsă</li>
           <li>Corecție Bară de Progres: Rezolvată problema depășirii (>100%) în tab-ul Recomandat</li>
+          <li>Corecție Bară de Derulare: Rezolvată suprapunerea în tab-ul Recomandat</li>
+          <li>Dicționar Francez Complet: Revizie completă și traducere 100% (565 mesaje)</li>
+          <li>Dicționar German Complet: Revizie completă, corectată greșeală "Dunkle", traducere 100%</li>
+          <li>Antete Dicționare Actualizate: Metadate traducător corectate pentru EN, ES, DE, FR</li>
         </ul>
       </description>
     </release>

@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: soplos-welcome 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-06 09:05+0100\n"
+"POT-Creation-Date: 2025-12-06 21:33+0100\n"
 "PO-Revision-Date: 2025-12-06 05:12+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"Last-Translator: Sergi Perich <info@soploslinux.com>\n"
+"Language-Team: Français <info@soploslinux.com>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,19 +20,19 @@ msgstr ""
 #: core/application.py:200 ui/main_window.py:40 ui/main_window.py:99
 #: ui/main_window.py:113 ui/main_window.py:653
 msgid "Soplos Welcome"
-msgstr ""
+msgstr "Soplos Welcome"
 
 #: core/application.py:227
 msgid "Preferences"
-msgstr ""
+msgstr "Préférences"
 
 #: core/application.py:233
 msgid "About"
-msgstr ""
+msgstr "À propos"
 
 #: core/application.py:239
 msgid "Quit"
-msgstr ""
+msgstr "Quitter"
 
 #: core/application.py:289
 msgid ""
@@ -56,6 +56,28 @@ msgid ""
 "\n"
 "For more information, visit: https://soplos.org\n"
 msgstr ""
+"\n"
+"Soplos Welcome 2.0 - L'application de bienvenue la plus avancée au monde\n"
+"\n"
+"Utilisation : soplos-welcome [OPTIONS]\n"
+"\n"
+"Options :\n"
+"  -h, --help              Afficher ce message d'aide\n"
+"  -v, --version           Afficher les informations de version\n"
+"  --lang=LANG             Définir la langue (es, en, fr, de, pt, it, ro, "
+"ru)\n"
+"  --theme=THEME           Définir le thème (base, light, dark, gnome, kde, "
+"xfce)\n"
+"  --debug                 Activer le mode débogage\n"
+"\n"
+"Exemples :\n"
+"  soplos-welcome                    # Démarrer avec les paramètres détectés "
+"automatiquement\n"
+"  soplos-welcome --lang=es          # Démarrer en espagnol\n"
+"  soplos-welcome --theme=dark       # Démarrer avec le thème sombre\n"
+"  soplos-welcome --debug            # Démarrer en mode débogage\n"
+"\n"
+"Pour plus d'informations, visitez : https://soplos.org\n"
 
 #: core/application.py:315
 #, python-brace-format
@@ -73,400 +95,416 @@ msgid ""
 "Theme: {theme}\n"
 "Language: {language}\n"
 msgstr ""
+"\n"
+"Soplos Welcome {version}\n"
+"\n"
+"Copyright (C) 2025 Sergi Perich\n"
+"Ceci est un logiciel libre ; consultez le code source pour les conditions de "
+"copie.\n"
+"Il n'y a AUCUNE garantie ; même pas de COMMERCIALISATION ou d'ADÉQUATION À "
+"UN USAGE PARTICULIER.\n"
+"\n"
+"Environnement de bureau : {desktop_env}\n"
+"Protocole d'affichage : {display_protocol}\n"
+"Thème : {theme}\n"
+"Langue : {language}\n"
 
 #: config/software.py:16
 msgid "Web Browsers"
-msgstr ""
+msgstr "Navigateurs Web"
 
 #: config/software.py:24
 msgid "Free and open-source web browser developed by Mozilla"
-msgstr ""
+msgstr "Navigateur web libre et open-source développé par Mozilla"
 
 #: config/software.py:31
 msgid "Web browser developed by Google"
-msgstr ""
+msgstr "Navigateur web développé par Google"
 
-#: config/software.py:40
+#: config/software.py:44
 msgid "Open-source project behind Google Chrome"
-msgstr ""
+msgstr "Projet open-source derrière Google Chrome"
 
-#: config/software.py:48
+#: config/software.py:52
 msgid "Privacy-focused browser that blocks ads"
-msgstr ""
+msgstr "Navigateur axé sur la confidentialité qui bloque les publicités"
 
-#: config/software.py:63
+#: config/software.py:67
 msgid "Firefox fork focused on privacy, security and freedom"
-msgstr ""
+msgstr "Fork de Firefox axé sur la confidentialité, la sécurité et la liberté"
 
-#: config/software.py:70
+#: config/software.py:74
 msgid "Lightweight, fast and secure web browser"
-msgstr ""
-
-#: config/software.py:78
-msgid "Communication"
-msgstr ""
+msgstr "Navigateur web léger, rapide et sécurisé"
 
 #: config/software.py:86
-msgid "Free email client developed by Mozilla"
-msgstr ""
+msgid "Communication"
+msgstr "Communication"
 
 #: config/software.py:94
-msgid "Communication app for communities and gaming"
-msgstr ""
+msgid "Free email client developed by Mozilla"
+msgstr "Client de messagerie gratuit développé par Mozilla"
 
 #: config/software.py:102
-msgid "Fast and secure messaging app"
-msgstr ""
+msgid "Communication app for communities and gaming"
+msgstr "Application de communication pour les communautés et le jeu"
 
 #: config/software.py:110
-msgid "Private messaging with end-to-end encryption"
-msgstr ""
+msgid "Fast and secure messaging app"
+msgstr "Application de messagerie rapide et sécurisée"
 
 #: config/software.py:118
-msgid "Matrix client for decentralized communication"
-msgstr ""
+msgid "Private messaging with end-to-end encryption"
+msgstr "Messagerie privée avec chiffrement de bout en bout"
 
 #: config/software.py:126
-msgid "Unofficial WhatsApp desktop client"
-msgstr ""
+msgid "Matrix client for decentralized communication"
+msgstr "Client Matrix pour la communication décentralisée"
 
-#: config/software.py:133
-msgid "Development"
-msgstr ""
+#: config/software.py:134
+msgid "Unofficial WhatsApp desktop client"
+msgstr "Client de bureau non officiel pour WhatsApp"
 
 #: config/software.py:141
+msgid "Development"
+msgstr "Développement"
+
+#: config/software.py:149
 msgid "Source code editor developed by Microsoft"
-msgstr ""
+msgstr "Éditeur de code source développé par Microsoft"
 
-#: config/software.py:156
+#: config/software.py:164
 msgid "Free version of Visual Studio Code without telemetry"
-msgstr ""
+msgstr "Version gratuite de Visual Studio Code sans télémétrie"
 
-#: config/software.py:163
-msgid "Advanced IDE with zero gravity"
-msgstr ""
+#: config/software.py:171
+msgid "Advanced Agentic AI Coding Assistant"
+msgstr "Assistant de codage IA agentique avancé"
 
-#: config/software.py:178
+#: config/software.py:186
 msgid "Sophisticated text editor for code and markup"
-msgstr ""
+msgstr "Éditeur de texte sophistiqué pour le code et le balisage"
 
-#: config/software.py:194
+#: config/software.py:206
 msgid "Code editor with integrated AI"
-msgstr ""
+msgstr "Éditeur de code avec IA intégrée"
 
-#: config/software.py:202
+#: config/software.py:214
 msgid "High-performance collaborative code editor"
-msgstr ""
+msgstr "Éditeur de code collaboratif haute performance"
 
-#: config/software.py:213
+#: config/software.py:225
 msgid "Lightweight and fast IDE with multi-language support"
-msgstr ""
+msgstr "IDE léger et rapide avec support multilingue"
 
-#: config/software.py:220
+#: config/software.py:232
 msgid "Advanced editor for web programmers"
-msgstr ""
+msgstr "Éditeur avancé pour programmeurs web"
 
-#: config/software.py:227
+#: config/software.py:239
 msgid "Fast and reliable FTP/SFTP client"
-msgstr ""
+msgstr "Client FTP/SFTP rapide et fiable"
 
-#: config/software.py:234
+#: config/software.py:246
 msgid "Graphics and Design"
-msgstr ""
+msgstr "Graphisme et Design"
 
-#: config/software.py:242
+#: config/software.py:254
 msgid "Advanced and free image editor"
-msgstr ""
+msgstr "Éditeur d'images avancé et gratuit"
 
-#: config/software.py:250
+#: config/software.py:262
 msgid "Professional vector graphics editor"
-msgstr ""
+msgstr "Éditeur de graphismes vectoriels professionnel"
 
-#: config/software.py:258
+#: config/software.py:270
 msgid "Complete and free 3D creation suite"
-msgstr ""
+msgstr "Suite de création 3D complète et gratuite"
 
-#: config/software.py:266
+#: config/software.py:278
 msgid "Professional digital painting program"
-msgstr ""
+msgstr "Programme de peinture numérique professionnel"
 
-#: config/software.py:274
+#: config/software.py:286
 msgid "Virtual lighttable for photography"
-msgstr ""
+msgstr "Chambre noire virtuelle pour la photographie"
 
-#: config/software.py:282
+#: config/software.py:298
 msgid "Fast and modern RAW photo editor"
-msgstr ""
-
-#: config/software.py:289
-msgid "Multimedia"
-msgstr ""
-
-#: config/software.py:297
-msgid "Universal media player"
-msgstr ""
+msgstr "Éditeur photo RAW rapide et moderne"
 
 #: config/software.py:305
-msgid "Software for streaming and video recording"
-msgstr ""
+msgid "Multimedia"
+msgstr "Multimédia"
 
 #: config/software.py:313
-msgid "Professional non-linear video editor"
-msgstr ""
+msgid "Universal media player"
+msgstr "Lecteur multimédia universel"
 
 #: config/software.py:321
-msgid "Free and open-source audio editor"
-msgstr ""
+msgid "Software for streaming and video recording"
+msgstr "Logiciel de streaming et d'enregistrement vidéo"
 
 #: config/software.py:329
+msgid "Professional non-linear video editor"
+msgstr "Éditeur vidéo non linéaire professionnel"
+
+#: config/software.py:337
+msgid "Free and open-source audio editor"
+msgstr "Éditeur audio libre et open-source"
+
+#: config/software.py:345
 msgid "Minimalist and powerful media player"
-msgstr ""
+msgstr "Lecteur multimédia minimaliste et puissant"
 
-#: config/software.py:336
+#: config/software.py:352
 msgid "Digital audio workstation"
-msgstr ""
-
-#: config/software.py:343
-msgid "Professional DJ software"
-msgstr ""
-
-#: config/software.py:351
-msgid "Open-source media center"
-msgstr ""
+msgstr "Station de travail audio numérique"
 
 #: config/software.py:359
-msgid "Easy to use video editor"
-msgstr ""
+msgid "Professional DJ software"
+msgstr "Logiciel DJ professionnel"
 
 #: config/software.py:367
-msgid "Professional video editing (Script by Daniel Tufvesson)"
-msgstr ""
+msgid "Open-source media center"
+msgstr "Centre multimédia open-source"
 
 #: config/software.py:375
-msgid "Office"
-msgstr ""
+msgid "Easy to use video editor"
+msgstr "Éditeur vidéo facile à utiliser"
 
 #: config/software.py:383
-msgid "Complete and free office suite"
-msgstr ""
+msgid "Professional video editing (Script by Daniel Tufvesson)"
+msgstr "Édition vidéo professionnelle (Script par Daniel Tufvesson)"
 
 #: config/software.py:391
-msgid "Office suite compatible with Microsoft Office"
-msgstr ""
+msgid "Office"
+msgstr "Bureautique"
 
 #: config/software.py:399
-msgid "Lightweight and elegant office suite"
-msgstr ""
+msgid "Complete and free office suite"
+msgstr "Suite bureautique complète et gratuite"
 
 #: config/software.py:407
+msgid "Office suite compatible with Microsoft Office"
+msgstr "Suite bureautique compatible avec Microsoft Office"
+
+#: config/software.py:415
+msgid "Lightweight and elegant office suite"
+msgstr "Suite bureautique légère et élégante"
+
+#: config/software.py:423
 msgid "Adobe PDF reader"
-msgstr ""
+msgstr "Lecteur PDF Adobe"
 
-#: config/software.py:414 ui/main_window.py:343
+#: config/software.py:430 ui/main_window.py:343
 msgid "Gaming"
-msgstr ""
-
-#: config/software.py:422
-msgid "Digital distribution platform for video games"
-msgstr ""
-
-#: config/software.py:430
-msgid "Unified platform for managing games on Linux"
-msgstr ""
+msgstr "Jeux"
 
 #: config/software.py:438
-msgid "Run Windows applications on Linux using Wine"
-msgstr ""
+msgid "Digital distribution platform for video games"
+msgstr "Plateforme de distribution numérique pour jeux vidéo"
 
 #: config/software.py:446
-msgid "Frontend for emulators and game engines"
-msgstr ""
+msgid "Unified platform for managing games on Linux"
+msgstr "Plateforme unifiée pour gérer les jeux sous Linux"
 
 #: config/software.py:454
+msgid "Run Windows applications on Linux using Wine"
+msgstr "Exécuter des applications Windows sous Linux avec Wine"
+
+#: config/software.py:462
+msgid "Frontend for emulators and game engines"
+msgstr "Frontend pour émulateurs et moteurs de jeux"
+
+#: config/software.py:470
 msgid "Launcher for Epic, GOG and Amazon Games"
-msgstr ""
+msgstr "Lanceur pour Epic, GOG et Amazon Games"
 
 #: ui/main_window.py:143
 msgid "Change Language"
-msgstr ""
+msgstr "Changer la langue"
 
 #: ui/main_window.py:154
 msgid "Toggle Theme"
-msgstr ""
+msgstr "Changer le thème"
 
 #: ui/main_window.py:162
 msgid "About Soplos Welcome"
-msgstr ""
+msgstr "À propos de Soplos Welcome"
 
-#: ui/main_window.py:220 ui/main_window.py:643 ui/tabs/recommended_tab.py:916
+#: ui/main_window.py:220 ui/main_window.py:643 ui/tabs/recommended_tab.py:941
 msgid "Ready"
-msgstr ""
+msgstr "Prêt"
 
 #: ui/main_window.py:238 ui/main_window.py:484
 msgid "Welcome"
-msgstr ""
+msgstr "Accueil"
 
 #: ui/main_window.py:239 ui/main_window.py:488
 msgid "Software"
-msgstr ""
+msgstr "Logiciels"
 
 #: ui/main_window.py:240
 msgid "Drivers"
-msgstr ""
+msgstr "Pilotes"
 
 #: ui/main_window.py:241
 msgid "Kernels"
-msgstr ""
+msgstr "Noyaux"
 
 #: ui/main_window.py:242
 msgid "Security"
-msgstr ""
+msgstr "Sécurité"
 
 #: ui/main_window.py:243 ui/tabs/kernels_tab.py:169 ui/tabs/security_tab.py:119
 #: ui/tabs/security_tab.py:249
 msgid "Recommended"
-msgstr ""
+msgstr "Recommandé"
 
 #: ui/main_window.py:244 ui/tabs/gaming_tab.py:87
 msgid "Customization"
-msgstr ""
+msgstr "Personnalisation"
 
 #: ui/main_window.py:371
 msgid "Minimize"
-msgstr ""
+msgstr "Réduire"
 
 #: ui/main_window.py:382 ui/main_window.py:891
 msgid "Restore"
-msgstr ""
+msgstr "Restaurer"
 
 #: ui/main_window.py:385 ui/main_window.py:894
 msgid "Maximize"
-msgstr ""
+msgstr "Agrandir"
 
 #: ui/main_window.py:395 ui/tabs/drivers_tab.py:572
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #: ui/main_window.py:468
 msgid "Welcome to Soplos Linux! Get started with your new system."
-msgstr ""
+msgstr "Bienvenue sur Soplos Linux ! Commencez avec votre nouveau système."
 
 #: ui/main_window.py:469
 msgid ""
 "Install and manage software packages, repositories, and software centers."
 msgstr ""
+"Installez et gérez des paquets logiciels, des dépôts et des logithèques."
 
 #: ui/main_window.py:470
 msgid "Detect and install optimal hardware drivers for your system."
 msgstr ""
+"Détectez et installez les pilotes matériels optimaux pour votre système."
 
 #: ui/main_window.py:471
 msgid "Customize your desktop environment, themes, and appearance."
 msgstr ""
+"Personnalisez votre environnement de bureau, vos thèmes et votre apparence."
 
 #: ui/main_window.py:472
 msgid "Manage system kernels and performance optimizations."
-msgstr ""
+msgstr "Gérez les noyaux système et les optimisations de performance."
 
 #: ui/main_window.py:473
 msgid "Discover recommended applications for your workflow."
-msgstr ""
+msgstr "Découvrez des applications recommandées pour votre flux de travail."
 
 #: ui/main_window.py:477
 msgid "Tab content coming soon..."
-msgstr ""
+msgstr "Contenu de l'onglet bientôt disponible..."
 
 #: ui/main_window.py:493
 msgid "Full implementation coming soon..."
-msgstr ""
+msgstr "Implémentation complète bientôt disponible..."
 
-#: ui/main_window.py:507 ui/tabs/kernels_tab.py:62 ui/tabs/drivers_tab.py:410
+#: ui/main_window.py:507 ui/tabs/drivers_tab.py:410 ui/tabs/kernels_tab.py:62
 msgid "System Information"
-msgstr ""
+msgstr "Informations système"
 
 #: ui/main_window.py:522
 msgid "Desktop Environment"
-msgstr ""
+msgstr "Environnement de bureau"
 
 #: ui/main_window.py:523
 msgid "Display Protocol"
-msgstr ""
+msgstr "Protocole d'affichage"
 
 #: ui/main_window.py:524
 msgid "Theme Type"
-msgstr ""
+msgstr "Type de thème"
 
 #: ui/main_window.py:525
 msgid "Current Language"
-msgstr ""
+msgstr "Langue actuelle"
 
 #: ui/main_window.py:526
 msgid "Current Theme"
-msgstr ""
+msgstr "Thème actuel"
 
 #: ui/main_window.py:526
 msgid "Default"
-msgstr ""
+msgstr "Défaut"
 
 #: ui/main_window.py:550
 msgid "Install Demo Package"
-msgstr ""
+msgstr "Installer le paquet de démonstration"
 
 #: ui/main_window.py:556
 msgid "Uninstall Demo Package"
-msgstr ""
+msgstr "Désinstaller le paquet de démonstration"
 
 #: ui/main_window.py:577
 #, python-brace-format
 msgid "Ready - {desktop} on {protocol}"
-msgstr ""
+msgstr "Prêt - {desktop} sur {protocol}"
 
 #: ui/main_window.py:600
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ui/main_window.py:601 ui/main_window.py:602
 msgid "KDE Plasma"
-msgstr ""
+msgstr "KDE Plasma"
 
 #: ui/main_window.py:603
 msgid "XFCE"
-msgstr ""
+msgstr "XFCE"
 
 #: ui/main_window.py:604 ui/main_window.py:606 ui/main_window.py:613
 #: ui/main_window.py:615 ui/tabs/kernels_tab.py:297 ui/tabs/kernels_tab.py:309
 #: ui/tabs/kernels_tab.py:311 utils/hardware_detector.py:70
 #: utils/hardware_detector.py:162
 msgid "Unknown"
-msgstr ""
+msgstr "Inconnu"
 
 #: ui/main_window.py:611
 msgid "X11"
-msgstr ""
+msgstr "X11"
 
 #: ui/main_window.py:612
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 #: ui/main_window.py:632
 msgid "Working..."
-msgstr ""
+msgstr "Travail en cours..."
 
 #: ui/main_window.py:655
 msgid "The world's most advanced welcome application for Linux"
-msgstr ""
+msgstr "L'application de bienvenue la plus avancée au monde pour Linux"
 
 #: ui/main_window.py:659
 msgid "Soplos Linux Website"
-msgstr ""
+msgstr "Site web de Soplos Linux"
 
 #: ui/main_window.py:733
 msgid "🎮 Gaming Mode Activated!"
-msgstr ""
+msgstr "🎮 Mode Jeu Activé !"
 
 #: ui/main_window.py:749
 msgid "Language Changed"
-msgstr ""
+msgstr "Langue changée"
 
 #: ui/main_window.py:752
 #, python-brace-format
@@ -474,1617 +512,1031 @@ msgid ""
 "Language has been changed to {language}. Please restart the application for "
 "full effect."
 msgstr ""
+"La langue a été changée en {language}. Veuillez redémarrer l'application "
+"pour un effet complet."
 
 #: ui/main_window.py:787
 msgid "Preparing installation..."
-msgstr ""
+msgstr "Préparation de l'installation..."
 
 #: ui/main_window.py:791
 msgid "Downloading package..."
-msgstr ""
+msgstr "Téléchargement du paquet..."
 
 #: ui/main_window.py:792
 msgid "Verifying dependencies..."
-msgstr ""
+msgstr "Vérification des dépendances..."
 
 #: ui/main_window.py:793
 msgid "Installing files..."
-msgstr ""
+msgstr "Installation des fichiers..."
 
 #: ui/main_window.py:794
 msgid "Configuring application..."
-msgstr ""
+msgstr "Configuration de l'application..."
 
 #: ui/main_window.py:795
 msgid "Finalizing installation..."
-msgstr ""
+msgstr "Finalisation de l'installation..."
 
 #: ui/main_window.py:796
 msgid "Installation completed!"
-msgstr ""
+msgstr "Installation terminée !"
 
 #: ui/main_window.py:824
 msgid "✅ Installation successful"
-msgstr ""
+msgstr "✅ Installation réussie"
 
 #: ui/main_window.py:833
 msgid "Uninstalling package..."
-msgstr ""
+msgstr "Désinstallation du paquet..."
 
 #: ui/main_window.py:837
 msgid "Stopping services..."
-msgstr ""
+msgstr "Arrêt des services..."
 
 #: ui/main_window.py:838
 msgid "Removing files..."
-msgstr ""
+msgstr "Suppression des fichiers..."
 
 #: ui/main_window.py:839
 msgid "Cleaning configuration..."
-msgstr ""
+msgstr "Nettoyage de la configuration..."
 
 #: ui/main_window.py:840
 msgid "Uninstallation completed!"
-msgstr ""
+msgstr "Désinstallation terminée !"
 
 #: ui/main_window.py:865
 msgid "✅ Uninstallation successful"
-msgstr ""
+msgstr "✅ Désinstallation réussie"
 
 #: ui/tabs/customization_tab.py:53
 msgid "Desktop Customization"
-msgstr ""
+msgstr "Personnalisation du bureau"
 
 #: ui/tabs/customization_tab.py:58
 msgid "Customize your desktop environment and themes"
-msgstr ""
+msgstr "Personnalisez votre environnement de bureau et vos thèmes"
 
 #: ui/tabs/customization_tab.py:84 ui/tabs/customization_tab.py:234
-#: ui/tabs/customization_tab.py:341
+#: ui/tabs/customization_tab.py:369
 msgid "Soplos Tools"
-msgstr ""
+msgstr "Outils Soplos"
 
 #: ui/tabs/customization_tab.py:104
 msgid "Theme Manager"
-msgstr ""
+msgstr "Gestionnaire de thèmes"
 
 #: ui/tabs/customization_tab.py:105
 msgid "Customize GTK themes, icons, cursors and XFCE panel"
-msgstr ""
+msgstr "Personnalisez les thèmes GTK, icônes, curseurs et le panneau XFCE"
 
 #: ui/tabs/customization_tab.py:106
 msgid "Launch Soplos Theme Manager"
-msgstr ""
+msgstr "Lancer le gestionnaire de thèmes Soplos"
 
 #: ui/tabs/customization_tab.py:111
 msgid "Docklike"
-msgstr ""
+msgstr "Docklike"
 
 #: ui/tabs/customization_tab.py:112
 msgid "Configure dock and panel plugins"
-msgstr ""
+msgstr "Configurer le dock et les plugins du panneau"
 
 #: ui/tabs/customization_tab.py:113
 msgid "Launch Soplos Docklike"
-msgstr ""
+msgstr "Lancer Soplos Docklike"
 
 #: ui/tabs/customization_tab.py:118 ui/tabs/customization_tab.py:254
-#: ui/tabs/customization_tab.py:361
+#: ui/tabs/customization_tab.py:389
 msgid "GRUB Editor"
-msgstr ""
+msgstr "Éditeur GRUB"
 
 #: ui/tabs/customization_tab.py:119 ui/tabs/customization_tab.py:255
-#: ui/tabs/customization_tab.py:362
+#: ui/tabs/customization_tab.py:390
 msgid "Edit boot menu (GRUB configuration)"
-msgstr ""
+msgstr "Éditer le menu de démarrage (configuration GRUB)"
 
 #: ui/tabs/customization_tab.py:120 ui/tabs/customization_tab.py:256
-#: ui/tabs/customization_tab.py:363
+#: ui/tabs/customization_tab.py:391
 msgid "Launch Soplos GRUB Editor"
-msgstr ""
+msgstr "Lancer l'éditeur GRUB Soplos"
 
 #: ui/tabs/customization_tab.py:125 ui/tabs/customization_tab.py:261
-#: ui/tabs/customization_tab.py:368
+#: ui/tabs/customization_tab.py:396
 msgid "Plymouth Manager"
-msgstr ""
+msgstr "Gestionnaire Plymouth"
 
 #: ui/tabs/customization_tab.py:126 ui/tabs/customization_tab.py:262
-#: ui/tabs/customization_tab.py:369
+#: ui/tabs/customization_tab.py:397
 msgid "Customize boot splash screen"
-msgstr ""
+msgstr "Personnaliser l'écran de démarrage"
 
 #: ui/tabs/customization_tab.py:127 ui/tabs/customization_tab.py:263
-#: ui/tabs/customization_tab.py:370
+#: ui/tabs/customization_tab.py:398
 msgid "Launch Soplos Plymouth Manager"
-msgstr ""
+msgstr "Lancer le gestionnaire Plymouth Soplos"
 
 #: ui/tabs/customization_tab.py:151
 msgid "XFCE Settings"
-msgstr ""
+msgstr "Paramètres XFCE"
 
 #: ui/tabs/customization_tab.py:170
 msgid "Appearance"
-msgstr ""
+msgstr "Apparence"
 
 #: ui/tabs/customization_tab.py:171
 msgid "Themes, icons, fonts"
-msgstr ""
+msgstr "Thèmes, icônes, polices"
 
 #: ui/tabs/customization_tab.py:172
 msgid "XFCE Appearance Settings"
-msgstr ""
+msgstr "Paramètres d'apparence XFCE"
 
 #: ui/tabs/customization_tab.py:177
 msgid "Desktop"
-msgstr ""
+msgstr "Bureau"
 
 #: ui/tabs/customization_tab.py:178
 msgid "Wallpapers and desktop"
-msgstr ""
+msgstr "Fonds d'écran et bureau"
 
 #: ui/tabs/customization_tab.py:179
 msgid "XFCE Desktop Settings"
-msgstr ""
+msgstr "Paramètres du bureau XFCE"
 
 #: ui/tabs/customization_tab.py:184
 msgid "Window Manager"
-msgstr ""
+msgstr "Gestionnaire de fenêtres"
 
 #: ui/tabs/customization_tab.py:185
 msgid "Window decorations"
-msgstr ""
+msgstr "Décorations de fenêtres"
 
 #: ui/tabs/customization_tab.py:186
 msgid "XFCE Window Manager Settings"
-msgstr ""
+msgstr "Paramètres du gestionnaire de fenêtres XFCE"
 
 #: ui/tabs/customization_tab.py:191
 msgid "Keyboard"
-msgstr ""
+msgstr "Clavier"
 
 #: ui/tabs/customization_tab.py:192
 msgid "Keyboard and shortcuts"
-msgstr ""
+msgstr "Clavier et raccourcis"
 
 #: ui/tabs/customization_tab.py:193
 msgid "XFCE Keyboard Settings"
-msgstr ""
+msgstr "Paramètres clavier XFCE"
 
 #: ui/tabs/customization_tab.py:198
 msgid "Mouse"
-msgstr ""
+msgstr "Souris"
 
 #: ui/tabs/customization_tab.py:199
 msgid "Mouse and touchpad"
-msgstr ""
+msgstr "Souris et pavé tactile"
 
 #: ui/tabs/customization_tab.py:200
 msgid "XFCE Mouse Settings"
-msgstr ""
+msgstr "Paramètres souris XFCE"
 
 #: ui/tabs/customization_tab.py:205
 msgid "Notifications"
-msgstr ""
+msgstr "Notifications"
 
 #: ui/tabs/customization_tab.py:206
 msgid "Notification settings"
-msgstr ""
+msgstr "Paramètres de notification"
 
 #: ui/tabs/customization_tab.py:207
 msgid "XFCE Notification Settings"
-msgstr ""
+msgstr "Paramètres de notification XFCE"
 
 #: ui/tabs/customization_tab.py:212
 msgid "Settings Editor"
-msgstr ""
+msgstr "Éditeur de paramètres"
 
 #: ui/tabs/customization_tab.py:213
 msgid "Advanced settings"
-msgstr ""
+msgstr "Paramètres avancés"
 
 #: ui/tabs/customization_tab.py:214
 msgid "XFCE Settings Editor"
-msgstr ""
+msgstr "Éditeur de paramètres XFCE"
 
 #: ui/tabs/customization_tab.py:283
 msgid "GNOME Settings"
-msgstr ""
+msgstr "Paramètres GNOME"
 
-#: ui/tabs/customization_tab.py:302
-msgid "Settings"
-msgstr ""
+#: ui/tabs/customization_tab.py:302 ui/tabs/customization_tab.py:458
+msgid "Wallpaper"
+msgstr "Fond d'écran"
 
-#: ui/tabs/customization_tab.py:303
-msgid "System settings"
-msgstr ""
+#: ui/tabs/customization_tab.py:303 ui/tabs/customization_tab.py:459
+msgid "Desktop background"
+msgstr "Arrière-plan du bureau"
 
 #: ui/tabs/customization_tab.py:304
-msgid "GNOME Control Center"
-msgstr ""
+msgid "GNOME Background Settings"
+msgstr "Paramètres d'arrière-plan GNOME"
 
 #: ui/tabs/customization_tab.py:309
-msgid "Tweaks"
-msgstr ""
+msgid "Display"
+msgstr "Affichage"
 
 #: ui/tabs/customization_tab.py:310
-msgid "Advanced tweaks"
-msgstr ""
+msgid "Monitor settings"
+msgstr "Paramètres de l'écran"
 
 #: ui/tabs/customization_tab.py:311
-msgid "GNOME Tweaks"
-msgstr ""
+msgid "GNOME Display Settings"
+msgstr "Paramètres d'affichage GNOME"
 
 #: ui/tabs/customization_tab.py:316
-msgid "Extensions"
-msgstr ""
+msgid "Power"
+msgstr "Énergie"
 
 #: ui/tabs/customization_tab.py:317
-msgid "Manage extensions"
-msgstr ""
+msgid "Power management"
+msgstr "Gestion de l'énergie"
 
 #: ui/tabs/customization_tab.py:318
-msgid "GNOME Extensions"
-msgstr ""
+msgid "GNOME Power Settings"
+msgstr "Paramètres d'énergie GNOME"
 
-#: ui/tabs/customization_tab.py:323 ui/tabs/customization_tab.py:325
-msgid "dconf Editor"
-msgstr ""
+#: ui/tabs/customization_tab.py:323
+msgid "Sound"
+msgstr "Son"
 
 #: ui/tabs/customization_tab.py:324
+msgid "Sound settings"
+msgstr "Paramètres du son"
+
+#: ui/tabs/customization_tab.py:325
+msgid "GNOME Sound Settings"
+msgstr "Paramètres du son GNOME"
+
+#: ui/tabs/customization_tab.py:330
+msgid "Settings"
+msgstr "Paramètres"
+
+#: ui/tabs/customization_tab.py:331
+msgid "System settings"
+msgstr "Paramètres système"
+
+#: ui/tabs/customization_tab.py:332
+msgid "GNOME Control Center"
+msgstr "Centre de contrôle GNOME"
+
+#: ui/tabs/customization_tab.py:337
+msgid "Tweaks"
+msgstr "Ajustements"
+
+#: ui/tabs/customization_tab.py:338
+msgid "Advanced tweaks"
+msgstr "Ajustements avancés"
+
+#: ui/tabs/customization_tab.py:339
+msgid "GNOME Tweaks"
+msgstr "Ajustements GNOME"
+
+#: ui/tabs/customization_tab.py:344
+msgid "Extensions"
+msgstr "Extensions"
+
+#: ui/tabs/customization_tab.py:345
+msgid "Manage extensions"
+msgstr "Gérer les extensions"
+
+#: ui/tabs/customization_tab.py:346
+msgid "GNOME Extensions"
+msgstr "Extensions GNOME"
+
+#: ui/tabs/customization_tab.py:351 ui/tabs/customization_tab.py:353
+msgid "dconf Editor"
+msgstr "Éditeur dconf"
+
+#: ui/tabs/customization_tab.py:352
 msgid "Advanced configuration"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:390
-msgid "KDE Settings"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:409
-msgid "Look and Feel"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:410
-msgid "Themes and appearance"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:411
-msgid "KDE Look and Feel Settings"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:416
-msgid "Login Screen"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:417
-msgid "SDDM login manager"
-msgstr ""
+msgstr "Configuration avancée"
 
 #: ui/tabs/customization_tab.py:418
+msgid "KDE Settings"
+msgstr "Paramètres KDE"
+
+#: ui/tabs/customization_tab.py:437
+msgid "Look and Feel"
+msgstr "Apparence"
+
+#: ui/tabs/customization_tab.py:438
+msgid "Themes and appearance"
+msgstr "Thèmes et apparence"
+
+#: ui/tabs/customization_tab.py:439
+msgid "KDE Look and Feel Settings"
+msgstr "Paramètres d'apparence KDE"
+
+#: ui/tabs/customization_tab.py:444
+msgid "Login Screen"
+msgstr "Écran de connexion"
+
+#: ui/tabs/customization_tab.py:445
+msgid "SDDM login manager"
+msgstr "Gestionnaire de connexion SDDM"
+
+#: ui/tabs/customization_tab.py:446
 msgid "KDE SDDM Settings"
-msgstr ""
+msgstr "Paramètres SDDM KDE"
 
-#: ui/tabs/customization_tab.py:423
+#: ui/tabs/customization_tab.py:451
 msgid "Plymouth"
-msgstr ""
+msgstr "Plymouth"
 
-#: ui/tabs/customization_tab.py:424
+#: ui/tabs/customization_tab.py:452
 msgid "Boot splash configuration"
-msgstr ""
+msgstr "Configuration de l'écran de démarrage"
 
-#: ui/tabs/customization_tab.py:425
+#: ui/tabs/customization_tab.py:453
 msgid "KDE Plymouth Settings"
-msgstr ""
+msgstr "Paramètres Plymouth KDE"
 
-#: ui/tabs/customization_tab.py:430
+#: ui/tabs/customization_tab.py:460
+msgid "KDE Wallpaper Settings"
+msgstr "Paramètres de fond d'écran KDE"
+
+#: ui/tabs/customization_tab.py:465
+msgid "Icons"
+msgstr "Icônes"
+
+#: ui/tabs/customization_tab.py:466
+msgid "Icon theme"
+msgstr "Thème d'icônes"
+
+#: ui/tabs/customization_tab.py:467
+msgid "KDE Icon Settings"
+msgstr "Paramètres d'icônes KDE"
+
+#: ui/tabs/customization_tab.py:472
+msgid "Cursor"
+msgstr "Curseur"
+
+#: ui/tabs/customization_tab.py:473
+msgid "Mouse cursor style"
+msgstr "Style du curseur de souris"
+
+#: ui/tabs/customization_tab.py:474
+msgid "KDE Cursor Settings"
+msgstr "Paramètres de curseur KDE"
+
+#: ui/tabs/customization_tab.py:479
+msgid "Fonts"
+msgstr "Polices"
+
+#: ui/tabs/customization_tab.py:480
+msgid "System fonts"
+msgstr "Polices système"
+
+#: ui/tabs/customization_tab.py:481
+msgid "KDE Font Settings"
+msgstr "Paramètres de polices KDE"
+
+#: ui/tabs/customization_tab.py:486
 msgid "System Settings"
-msgstr ""
+msgstr "Paramètres système"
 
-#: ui/tabs/customization_tab.py:431
+#: ui/tabs/customization_tab.py:487
 msgid "All system settings"
-msgstr ""
+msgstr "Tous les paramètres système"
 
-#: ui/tabs/customization_tab.py:432
+#: ui/tabs/customization_tab.py:488
 msgid "KDE System Settings"
-msgstr ""
+msgstr "Paramètres système KDE"
 
-#: ui/tabs/customization_tab.py:598
+#: ui/tabs/customization_tab.py:654
 msgid "Customization tools for"
-msgstr ""
+msgstr "Outils de personnalisation pour"
 
-#: ui/tabs/customization_tab.py:599
+#: ui/tabs/customization_tab.py:655
 msgid "coming in future versions..."
-msgstr ""
+msgstr "à venir dans les futures versions..."
 
-#: ui/tabs/customization_tab.py:611
+#: ui/tabs/customization_tab.py:667
 msgid "Note: Soplos customization tools are currently available for XFCE."
 msgstr ""
-
-#: ui/tabs/recommended_tab.py:66
-msgid "Recommended for You"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:70
-msgid "Curated applications based on your desktop environment"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:78 ui/tabs/recommended_tab.py:620
-msgid "Multiple Selection"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:85
-msgid "Search programs..."
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:110
-msgid "Select All"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:114
-msgid "Deselect All"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:119
-msgid "0 programs selected"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:124
-msgid "Install Selected"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:155
-msgid "No results found for"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:269 ui/tabs/software_plasma_tab.py:93
-#: ui/tabs/software_xfce_tab.py:93 ui/tabs/software_gnome_tab.py:93
-#: ui/tabs/gaming_tab.py:1690
-msgid "Flatpak"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:277 ui/tabs/gaming_tab.py:1698
-msgid "Official Package"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:337 ui/tabs/kernels_tab.py:453
-#: ui/tabs/kernels_tab.py:510 ui/tabs/kernels_tab.py:542
-#: ui/tabs/security_tab.py:371 ui/tabs/security_tab.py:404
-msgid "Installed"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:345 utils/command_runner.py:180
-msgid "Processing..."
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:354 ui/tabs/kernels_tab.py:514
-#: ui/tabs/kernels_tab.py:532 ui/tabs/software_plasma_tab.py:194
-#: ui/tabs/security_tab.py:366 ui/tabs/security_tab.py:399
-#: ui/tabs/software_xfce_tab.py:228 ui/tabs/software_gnome_tab.py:226
-msgid "Uninstall"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:361 ui/tabs/kernels_tab.py:524
-#: ui/tabs/kernels_tab.py:545 ui/tabs/drivers_tab.py:474
-#: ui/tabs/drivers_tab.py:523 ui/tabs/software_plasma_tab.py:198
-#: ui/tabs/security_tab.py:389 ui/tabs/security_tab.py:413
-#: ui/tabs/software_xfce_tab.py:232 ui/tabs/software_gnome_tab.py:230
-msgid "Install"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:561 ui/tabs/software_plasma_tab.py:238
-#: ui/tabs/software_xfce_tab.py:272 ui/tabs/software_gnome_tab.py:270
-#: ui/tabs/gaming_tab.py:1866
-msgid "Operation completed successfully"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:618
-msgid "Normal Mode"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:757
-msgid "{} programs selected"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:757
-msgid "1 program selected"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:775
-msgid "Install {} selected programs?"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:908
-msgid "Batch Installation Complete"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:910
-msgid "All selected programs have been installed."
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:949
-msgid "DaVinci Resolve Installation"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:952
-msgid ""
-"DaVinci Resolve requires manual download due to licensing.\n"
-"\n"
-"1. Go to blackmagicdesign.com and download the Linux version (ZIP).\n"
-"2. Click OK to select the downloaded file.\n"
-"3. We will convert it to a Debian package and install it."
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:965
-msgid "DaVinci Resolve Installer"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:970
-msgid "Select DaVinci Resolve Installer"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:975 ui/tabs/software_plasma_tab.py:341
-#: ui/tabs/software_xfce_tab.py:372 ui/tabs/software_gnome_tab.py:371
-msgid "Cancel"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:976
-msgid "Select"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:1106
-msgid "Installation Complete"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:1108
-msgid "DaVinci Resolve has been installed successfully."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:56
-msgid "Kernel Management"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:83
-msgid "CPU Microcode Updates"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:92
-msgid "Security and performance firmware updates for your CPU."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:103
-msgid ""
-"Warning: Liquorix kernel is NOT compatible with proprietary NVIDIA drivers."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:113
-msgid "Available Kernels"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:118
-msgid ""
-"Manage your system kernels. You can install optimized kernels for better "
-"performance or latency."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:126 ui/tabs/kernels_tab.py:285
-msgid "Liquorix Kernel"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:135
-msgid ""
-"Optimized for interactive systems and gaming. High responsiveness and low "
-"latency."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:146
-msgid "XanMod Kernel Variants"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:156
-msgid "High performance kernel with advanced optimizations."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:156
-msgid "Choose the variant that matches your hardware:"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:169
-msgid "x64v3 - Standard"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:174
-msgid ""
-"For CPUs from 2015+ (Intel Haswell, AMD Zen and newer). AVX2 optimizations."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:187
-msgid "x64v4 - Advanced"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:192
-msgid "For very recent CPUs (Intel 12th gen+, AMD Zen 4+). AVX-512 support."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:205
-msgid "EDGE - Experimental"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:205
-msgid "Not recommended for production"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:210
-msgid "Latest experimental features. May be unstable. For testing only."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:223
-msgid "LTS - Long Term Support"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:223
-msgid "Most stable"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:228
-msgid "Long-term support, conservative updates. Best for stability."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:241
-msgid "System Maintenance"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:250
-msgid "Tools to keep your system clean and updated."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:260
-msgid "Clean Old Kernels"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:261
-msgid "Remove old unused kernels to free up space"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:266
-msgid "Update GRUB"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:267
-msgid "Regenerate GRUB configuration file"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:283
-msgid "Standard Kernel"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:287
-msgid "XanMod Kernel"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:308 ui/tabs/kernels_tab.py:310
-#: utils/hardware_detector.py:70
-msgid "Not detected"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:327
-msgid "weeks"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:330
-msgid "days"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:333
-msgid "hours"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:336
-msgid "minutes"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:346 ui/tabs/kernels_tab.py:670
-msgid "Current Kernel"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:347
-msgid "Type"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:348
-msgid "Architecture"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:349
-msgid "Uptime"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:444
-msgid "Uninstall Liquorix"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:450 ui/tabs/kernels_tab.py:539
-msgid "In Use"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:456
-msgid "Install Liquorix"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:461
-msgid "Liquorix is not compatible with NVIDIA drivers"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:464
-msgid "Incompatible with NVIDIA"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:498
-msgid "CPU vendor not detected"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:563
-msgid "Installing Liquorix Kernel..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:565 ui/tabs/kernels_tab.py:594
-#: ui/tabs/kernels_tab.py:741 ui/tabs/security_tab.py:448
-msgid "Installation complete."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:587
-msgid "Installing XanMod"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:608
-msgid "Uninstalling Liquorix Kernel..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:610 ui/tabs/kernels_tab.py:639
-#: ui/tabs/kernels_tab.py:758 ui/tabs/security_tab.py:461
-msgid "Uninstallation complete."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:637
-msgid "Uninstalling XanMod"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:653
-msgid "Kernel in Use"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:656
-#, python-brace-format
-msgid ""
-"Cannot uninstall {0} because it is currently running. Please boot into "
-"another kernel first."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:668
-msgid "Checking for old kernels..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:679 ui/tabs/kernels_tab.py:694
-msgid "No old kernels to remove."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:698
-msgid "Removing old kernels..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:706 ui/tabs/kernels_tab.py:718
-msgid "Updating GRUB..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:708
-msgid "Cleanup complete."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:724
-msgid "GRUB update complete."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:738
-msgid "Installing"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:742
-msgid "A system reboot is recommended to apply microcode updates."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:756
-msgid "Uninstalling"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:111
-msgid "Welcome to Soplos Linux"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:119
-msgid "Your gateway to the Soplos ecosystem"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:128
-msgid ""
-"Thank you for choosing Soplos Linux! This application will help you get "
-"started with your new system."
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:143
-msgid "Use the tabs above to:"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:159
-msgid "• Install essential software"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:160
-msgid "• Configure system drivers"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:161
-msgid "• Customize your desktop"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:162
-msgid "• Manage system kernels"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:163
-msgid "• View recommended applications"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:212
-msgid "Get Started"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:226
-msgid "Web"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:240
-msgid "Forums"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:254
-msgid "Wiki"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:268
-msgid "Donate"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:289
-msgid "Show this application on startup"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:312
-msgid "Could not open website"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:313 ui/tabs/welcome_tab.py:322
-#: ui/tabs/welcome_tab.py:331 ui/tabs/welcome_tab.py:340
-msgid "Check your internet connection and try again."
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:321
-msgid "Could not open forum"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:330
-msgid "Could not open wiki"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:339
-msgid "Could not open donation page"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:418
-msgid "Error enabling autostart"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:419
-msgid "Could not create autostart file."
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:431
-msgid "Error disabling autostart"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:432
-msgid "Could not remove autostart file."
-msgstr ""
+"Note : Les outils de personnalisation Soplos sont actuellement disponibles "
+"pour XFCE."
 
 #: ui/tabs/drivers_tab.py:47
 msgid "Hardware Drivers"
-msgstr ""
+msgstr "Pilotes matériels"
 
 #: ui/tabs/drivers_tab.py:52
 msgid "Install and manage graphics drivers and hardware support"
-msgstr ""
+msgstr "Installez et gérez les pilotes graphiques et le support matériel"
 
 #: ui/tabs/drivers_tab.py:62
 msgid "Hardware Detection"
-msgstr ""
+msgstr "Détection du matériel"
 
 #: ui/tabs/drivers_tab.py:67
 msgid "Scan Hardware"
-msgstr ""
+msgstr "Analyser le matériel"
 
 #: ui/tabs/drivers_tab.py:68
 msgid "Automatically detect hardware and recommend drivers"
-msgstr ""
+msgstr "Détecter automatiquement le matériel et recommander des pilotes"
 
 #: ui/tabs/drivers_tab.py:108
 msgid "NVIDIA Graphics Drivers"
-msgstr ""
+msgstr "Pilotes graphiques NVIDIA"
 
 #: ui/tabs/drivers_tab.py:121
 msgid "NVIDIA Latest (550)"
-msgstr ""
+msgstr "NVIDIA Dernier (550)"
 
 #: ui/tabs/drivers_tab.py:122
 msgid "Latest driver from repository (RTX/GTX 16xx and newer)"
-msgstr ""
+msgstr "Dernier pilote du dépôt (RTX/GTX 16xx et plus récents)"
 
 #: ui/tabs/drivers_tab.py:128
 msgid "NVIDIA 470 (Legacy)"
-msgstr ""
+msgstr "NVIDIA 470 (Legacy)"
 
 #: ui/tabs/drivers_tab.py:129
 msgid "For Kepler GPUs (GTX 600-700 series)"
-msgstr ""
+msgstr "Pour GPU Kepler (séries GTX 600-700)"
 
 #: ui/tabs/drivers_tab.py:136
 msgid "NVIDIA 390 (Legacy)"
-msgstr ""
+msgstr "NVIDIA 390 (Legacy)"
 
 #: ui/tabs/drivers_tab.py:137
 msgid "For Fermi GPUs (GTX 400-500 series)"
-msgstr ""
+msgstr "Pour GPU Fermi (séries GTX 400-500)"
 
 #: ui/tabs/drivers_tab.py:143
 msgid "NVIDIA 340 (Legacy)"
-msgstr ""
+msgstr "NVIDIA 340 (Legacy)"
 
 #: ui/tabs/drivers_tab.py:144
 msgid "For very old GPUs (8xxx, 9xxx, 2xx, 3xx series)"
-msgstr ""
+msgstr "Pour très vieux GPU (séries 8xxx, 9xxx, 2xx, 3xx)"
 
 #: ui/tabs/drivers_tab.py:151
 msgid "Nouveau (Open Source)"
-msgstr ""
+msgstr "Nouveau (Open Source)"
 
 #: ui/tabs/drivers_tab.py:152
 msgid "Free and open source NVIDIA driver"
-msgstr ""
+msgstr "Pilote NVIDIA libre et open source"
 
 #: ui/tabs/drivers_tab.py:159
 msgid "DaVinci Resolve Extras"
-msgstr ""
+msgstr "Extras DaVinci Resolve"
 
 #: ui/tabs/drivers_tab.py:160
 msgid "OpenCL and CUDA libraries for DaVinci Resolve"
-msgstr ""
+msgstr "Bibliothèques OpenCL et CUDA pour DaVinci Resolve"
 
 #: ui/tabs/drivers_tab.py:166
 msgid "Blender CUDA Toolkit"
-msgstr ""
+msgstr "Blender CUDA Toolkit"
 
 #: ui/tabs/drivers_tab.py:167
 msgid "CUDA toolkit for Blender GPU rendering"
-msgstr ""
+msgstr "Boîte à outils CUDA pour le rendu GPU Blender"
 
 #: ui/tabs/drivers_tab.py:175
 msgid "AMD Graphics Drivers"
-msgstr ""
+msgstr "Pilotes graphiques AMD"
 
 #: ui/tabs/drivers_tab.py:180
 msgid "AMD Radeon (Open Source)"
-msgstr ""
+msgstr "AMD Radeon (Open Source)"
 
 #: ui/tabs/drivers_tab.py:181
 msgid "Free drivers for all AMD GPUs"
-msgstr ""
+msgstr "Pilotes libres pour tous les GPU AMD"
 
 #: ui/tabs/drivers_tab.py:190
 msgid "Wi-Fi Drivers"
-msgstr ""
+msgstr "Pilotes Wi-Fi"
 
 #: ui/tabs/drivers_tab.py:198
 msgid "Intel Wi-Fi"
-msgstr ""
+msgstr "Wi-Fi Intel"
 
 #: ui/tabs/drivers_tab.py:198
 msgid "Intel wireless cards"
-msgstr ""
+msgstr "Cartes sans fil Intel"
 
 #: ui/tabs/drivers_tab.py:202
 msgid "Realtek Wi-Fi"
-msgstr ""
+msgstr "Wi-Fi Realtek"
 
 #: ui/tabs/drivers_tab.py:202
 msgid "Realtek wireless cards"
-msgstr ""
+msgstr "Cartes sans fil Realtek"
 
 #: ui/tabs/drivers_tab.py:206
 msgid "Broadcom Wi-Fi"
-msgstr ""
+msgstr "Wi-Fi Broadcom"
 
 #: ui/tabs/drivers_tab.py:206
 msgid "Broadcom wireless cards"
-msgstr ""
+msgstr "Cartes sans fil Broadcom"
 
 #: ui/tabs/drivers_tab.py:213
 msgid "Other Drivers"
-msgstr ""
+msgstr "Autres pilotes"
 
 #: ui/tabs/drivers_tab.py:221
 msgid "Printers"
-msgstr ""
+msgstr "Imprimantes"
 
 #: ui/tabs/drivers_tab.py:221
 msgid "Printer drivers"
-msgstr ""
+msgstr "Pilotes d'imprimante"
 
 #: ui/tabs/drivers_tab.py:225
 msgid "Bluetooth"
-msgstr ""
+msgstr "Bluetooth"
 
 #: ui/tabs/drivers_tab.py:225
 msgid "Bluetooth support"
-msgstr ""
+msgstr "Support Bluetooth"
 
 #: ui/tabs/drivers_tab.py:232
 msgid "Virtual Machine Tools"
-msgstr ""
+msgstr "Outils machine virtuelle"
 
 #: ui/tabs/drivers_tab.py:240
 msgid "VMware Tools"
-msgstr ""
+msgstr "VMware Tools"
 
 #: ui/tabs/drivers_tab.py:240
 msgid "For VMware virtual machines"
-msgstr ""
+msgstr "Pour machines virtuelles VMware"
 
 #: ui/tabs/drivers_tab.py:244
 msgid "QEMU/KVM Tools"
-msgstr ""
+msgstr "Outils QEMU/KVM"
 
 #: ui/tabs/drivers_tab.py:244
 msgid "For QEMU/KVM virtual machines"
-msgstr ""
+msgstr "Pour machines virtuelles QEMU/KVM"
 
 #: ui/tabs/drivers_tab.py:249
 msgid "VirtualBox Guest"
-msgstr ""
+msgstr "Invité VirtualBox"
 
 #: ui/tabs/drivers_tab.py:249
 msgid "For VirtualBox virtual machines"
-msgstr ""
+msgstr "Pour machines virtuelles VirtualBox"
 
 #: ui/tabs/drivers_tab.py:432
 msgid "Processor"
-msgstr ""
+msgstr "Processeur"
 
 #: ui/tabs/drivers_tab.py:441 ui/tabs/drivers_tab.py:460
 msgid "Model:"
-msgstr ""
+msgstr "Modèle :"
 
 #: ui/tabs/drivers_tab.py:441
 msgid "Cores:"
-msgstr ""
+msgstr "Cœurs :"
 
 #: ui/tabs/drivers_tab.py:441
 msgid "Threads:"
-msgstr ""
+msgstr "Fils (Threads) :"
 
 #: ui/tabs/drivers_tab.py:451
 msgid "Graphics Card"
-msgstr ""
+msgstr "Carte graphique"
 
 #: ui/tabs/drivers_tab.py:460
 msgid "Vendor:"
-msgstr ""
+msgstr "Vendeur :"
 
 #: ui/tabs/drivers_tab.py:460 ui/tabs/drivers_tab.py:512
 msgid "Type:"
-msgstr ""
+msgstr "Type :"
 
 #: ui/tabs/drivers_tab.py:468
 msgid "Recommended driver:"
-msgstr ""
+msgstr "Pilote recommandé :"
+
+#: ui/tabs/drivers_tab.py:474 ui/tabs/drivers_tab.py:523
+#: ui/tabs/kernels_tab.py:524 ui/tabs/kernels_tab.py:545
+#: ui/tabs/recommended_tab.py:362 ui/tabs/security_tab.py:389
+#: ui/tabs/security_tab.py:413 ui/tabs/software_gnome_tab.py:230
+#: ui/tabs/software_plasma_tab.py:198 ui/tabs/software_xfce_tab.py:232
+msgid "Install"
+msgstr "Installer"
 
 #: ui/tabs/drivers_tab.py:485
 msgid "RAM Memory"
-msgstr ""
+msgstr "Mémoire RAM"
 
 #: ui/tabs/drivers_tab.py:494
 msgid "Total:"
-msgstr ""
+msgstr "Total :"
 
 #: ui/tabs/drivers_tab.py:494
 msgid "Available:"
-msgstr ""
+msgstr "Disponible :"
 
 #: ui/tabs/drivers_tab.py:503
 msgid "Virtual Machine"
-msgstr ""
+msgstr "Machine virtuelle"
 
 #: ui/tabs/drivers_tab.py:512 utils/hardware_detector.py:70
 #: utils/hardware_detector.py:74
 msgid "N/A"
-msgstr ""
+msgstr "N/D"
 
 #: ui/tabs/drivers_tab.py:518
 msgid "Recommended tools:"
-msgstr ""
+msgstr "Outils recommandés :"
 
 #: ui/tabs/drivers_tab.py:534
 msgid "Storage"
-msgstr ""
+msgstr "Stockage"
 
 #: ui/tabs/drivers_tab.py:552
 msgid "Network"
-msgstr ""
-
-#: ui/tabs/software_tab.py:111
-msgid "Software Management"
-msgstr ""
-
-#: ui/tabs/software_tab.py:118
-msgid "Loading software management for"
-msgstr ""
-
-#: ui/tabs/software_tab.py:124
-msgid "Desktop-specific software interface will be available soon."
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:67 ui/tabs/software_xfce_tab.py:67
-#: ui/tabs/software_gnome_tab.py:67
-msgid "Update"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:72 ui/tabs/software_xfce_tab.py:72
-#: ui/tabs/software_gnome_tab.py:72
-msgid "Upgrade"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:90 ui/tabs/software_xfce_tab.py:90
-#: ui/tabs/software_gnome_tab.py:90
-msgid "Synaptic"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:91 ui/tabs/software_xfce_tab.py:91
-#: ui/tabs/software_gnome_tab.py:91
-msgid "Gdebi"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:92 ui/tabs/software_xfce_tab.py:92
-#: ui/tabs/software_gnome_tab.py:92
-msgid "GNOME Software"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:94 ui/tabs/software_xfce_tab.py:94
-#: ui/tabs/software_gnome_tab.py:94
-msgid "Snap"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:95 ui/tabs/software_xfce_tab.py:95
-#: ui/tabs/software_gnome_tab.py:95
-msgid "Repo Selector"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:121 ui/tabs/software_xfce_tab.py:121
-#: ui/tabs/software_gnome_tab.py:121
-msgid "Open"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:150 ui/tabs/software_xfce_tab.py:150
-#: ui/tabs/software_gnome_tab.py:150
-msgid "Add Flathub"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:157 ui/tabs/software_xfce_tab.py:160
-#: ui/tabs/software_gnome_tab.py:158
-msgid "Clean System"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:331 ui/tabs/software_xfce_tab.py:362
-#: ui/tabs/software_gnome_tab.py:361
-msgid "System Up to Date"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:333 ui/tabs/software_xfce_tab.py:364
-#: ui/tabs/software_gnome_tab.py:363
-msgid "No packages available to update at this time."
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:339 ui/tabs/software_xfce_tab.py:370
-#: ui/tabs/software_gnome_tab.py:369
-msgid "Available Updates"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:342 ui/tabs/software_xfce_tab.py:373
-#: ui/tabs/software_gnome_tab.py:372
-msgid "Update All"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:355 ui/tabs/software_xfce_tab.py:386
-#: ui/tabs/software_gnome_tab.py:385
-msgid "updates available"
-msgstr ""
-
-#: ui/tabs/security_tab.py:65
-msgid "Security &amp; System Protection"
-msgstr ""
-
-#: ui/tabs/security_tab.py:69
-msgid "Protect your system with backups, firewall, and security tools"
-msgstr ""
-
-#: ui/tabs/security_tab.py:106
-msgid "System Backups"
-msgstr ""
-
-#: ui/tabs/security_tab.py:124
-msgid ""
-"Creates automatic system snapshots. Protects your configuration and allows "
-"easy restoration."
-msgstr ""
-
-#: ui/tabs/security_tab.py:142
-msgid "Simple backups of personal files with encryption support."
-msgstr ""
-
-#: ui/tabs/security_tab.py:153
-msgid "Firewall Protection"
-msgstr ""
-
-#: ui/tabs/security_tab.py:166
-msgid "Recommended for Desktop"
-msgstr ""
-
-#: ui/tabs/security_tab.py:171
-msgid ""
-"Simple graphical interface for UFW firewall. Control network traffic easily."
-msgstr ""
-
-#: ui/tabs/security_tab.py:184
-msgid "Firewall Status"
-msgstr ""
-
-#: ui/tabs/security_tab.py:198
-msgid "Filesystem Tools"
-msgstr ""
-
-#: ui/tabs/security_tab.py:217
-msgid "Only for BTRFS"
-msgstr ""
-
-#: ui/tabs/security_tab.py:223 ui/tabs/security_tab.py:225
-msgid "Advanced management of BTRFS subvolumes and snapshots."
-msgstr ""
-
-#: ui/tabs/security_tab.py:225
-msgid "Current system"
-msgstr ""
-
-#: ui/tabs/security_tab.py:225
-msgid "BTRFS Assistant is not compatible."
-msgstr ""
-
-#: ui/tabs/security_tab.py:236
-msgid "Antivirus & Malware"
-msgstr ""
-
-#: ui/tabs/security_tab.py:254
-msgid ""
-"Graphical interface for ClamAV. Scan your system against viruses and malware."
-msgstr ""
-
-#: ui/tabs/security_tab.py:267
-msgid "Advanced"
-msgstr ""
-
-#: ui/tabs/security_tab.py:272
-msgid "Command-line tool to detect rootkits and system threats."
-msgstr ""
-
-#: ui/tabs/security_tab.py:333
-msgid "Open GUFW"
-msgstr ""
-
-#: ui/tabs/security_tab.py:341
-msgid "Not available on"
-msgstr ""
-
-#: ui/tabs/security_tab.py:377
-msgid "Configure"
-msgstr ""
-
-#: ui/tabs/security_tab.py:385
-msgid "Scan System"
-msgstr ""
-
-#: ui/tabs/security_tab.py:409
-msgid "Update Definitions"
-msgstr ""
-
-#: ui/tabs/security_tab.py:423
-msgid "Active"
-msgstr ""
-
-#: ui/tabs/security_tab.py:424
-msgid "Deactivate"
-msgstr ""
-
-#: ui/tabs/security_tab.py:427
-msgid "Inactive"
-msgstr ""
-
-#: ui/tabs/security_tab.py:428
-msgid "Activate"
-msgstr ""
-
-#: ui/tabs/software_xfce_tab.py:155
-msgid "Snap to Whisker Menu"
-msgstr ""
-
-#: ui/tabs/software_xfce_tab.py:180 ui/tabs/software_gnome_tab.py:178
-msgid "Soplos Repository Manager"
-msgstr ""
-
-#: ui/tabs/software_xfce_tab.py:186
-msgid ""
-"Manage additional repositories and software sources for your Soplos system."
-msgstr ""
-
-#: ui/tabs/software_xfce_tab.py:192 ui/tabs/software_gnome_tab.py:190
-msgid "Launch Repository Manager"
-msgstr ""
-
-#: ui/tabs/software_gnome_tab.py:184
-msgid ""
-"Manage repositories and modern software sources integrated with GNOME "
-"Software."
-msgstr ""
+msgstr "Réseau"
 
 #: ui/tabs/gaming_tab.py:67
 msgid "Gaming Center"
-msgstr ""
+msgstr "Centre de jeux"
 
 #: ui/tabs/gaming_tab.py:73
 msgid "Optimizations"
-msgstr ""
+msgstr "Optimisations"
 
 #: ui/tabs/gaming_tab.py:74 ui/tabs/gaming_tab.py:198
 msgid "GameMode"
-msgstr ""
+msgstr "GameMode"
 
 #: ui/tabs/gaming_tab.py:74
 msgid "Install Feral GameMode"
-msgstr ""
+msgstr "Installer Feral GameMode"
 
 #: ui/tabs/gaming_tab.py:75 ui/tabs/gaming_tab.py:199
 msgid "Performance Mode"
-msgstr ""
+msgstr "Mode Performance"
 
 #: ui/tabs/gaming_tab.py:75
 msgid "Install CPU performance script"
-msgstr ""
+msgstr "Installer le script de performance CPU"
 
 #: ui/tabs/gaming_tab.py:76 ui/tabs/gaming_tab.py:200
 msgid "Gaming Sysctl"
-msgstr ""
+msgstr "Gaming Sysctl"
 
 #: ui/tabs/gaming_tab.py:76
 msgid "Apply kernel gaming tweaks"
-msgstr ""
+msgstr "Appliquer les réglages noyau pour le jeu"
 
 #: ui/tabs/gaming_tab.py:77 ui/tabs/gaming_tab.py:201
 msgid "Optimize GPU"
-msgstr ""
+msgstr "Optimiser le GPU"
 
 #: ui/tabs/gaming_tab.py:77
 msgid "Configure GPU drivers for gaming"
-msgstr ""
+msgstr "Configurer les pilotes GPU pour le jeu"
 
 #: ui/tabs/gaming_tab.py:78 ui/tabs/gaming_tab.py:202
 msgid "Disk I/O"
-msgstr ""
+msgstr "E/S Disque"
 
 #: ui/tabs/gaming_tab.py:78
 msgid "Optimize disk schedulers"
-msgstr ""
+msgstr "Optimiser les planificateurs de disque"
 
 #: ui/tabs/gaming_tab.py:79 ui/tabs/gaming_tab.py:203
 msgid "MangoHud"
-msgstr ""
+msgstr "MangoHud"
 
 #: ui/tabs/gaming_tab.py:79
 msgid "Install FPS overlay + Goverlay"
-msgstr ""
+msgstr "Installer l'overlay FPS + Goverlay"
 
 #: ui/tabs/gaming_tab.py:80 ui/tabs/gaming_tab.py:206
 msgid "Revert All"
-msgstr ""
+msgstr "Tout annuler"
 
 #: ui/tabs/gaming_tab.py:80
 msgid "Undo all gaming optimizations"
-msgstr ""
+msgstr "Annuler toutes les optimisations de jeu"
 
 #: ui/tabs/gaming_tab.py:88 ui/tabs/gaming_tab.py:204
 msgid "Gaming Wallpapers"
-msgstr ""
+msgstr "Fonds d'écran Gaming"
 
 #: ui/tabs/gaming_tab.py:88
 msgid "Install exclusive gaming wallpapers"
-msgstr ""
+msgstr "Installer des fonds d'écran de jeu exclusifs"
 
 #: ui/tabs/gaming_tab.py:89 ui/tabs/gaming_tab.py:205
 msgid "RGB Theme"
-msgstr ""
+msgstr "Thème RGB"
 
 #: ui/tabs/gaming_tab.py:89
 msgid "Enable RGB accent colors"
-msgstr ""
+msgstr "Activer les couleurs d'accentuation RGB"
 
 #: ui/tabs/gaming_tab.py:240
 msgid "This feature is coming soon!"
-msgstr ""
+msgstr "Cette fonctionnalité arrive bientôt !"
 
 #: ui/tabs/gaming_tab.py:256
 msgid "Install GameMode?"
-msgstr ""
+msgstr "Installer GameMode ?"
 
 #: ui/tabs/gaming_tab.py:259
 msgid "GameMode optimizes system performance when running games."
 msgstr ""
+"GameMode optimise les performances du système lors de l'exécution de jeux."
 
 #: ui/tabs/gaming_tab.py:260 ui/tabs/gaming_tab.py:1072
 msgid "Packages to install:"
-msgstr ""
+msgstr "Paquets à installer :"
 
 #: ui/tabs/gaming_tab.py:263 ui/tabs/gaming_tab.py:427
 #: ui/tabs/gaming_tab.py:596 ui/tabs/gaming_tab.py:777
 #: ui/tabs/gaming_tab.py:989 ui/tabs/gaming_tab.py:1075
 #: ui/tabs/gaming_tab.py:1315
 msgid "Continue?"
-msgstr ""
+msgstr "Continuer ?"
 
 #: ui/tabs/gaming_tab.py:305
 msgid "GameMode installed successfully!"
-msgstr ""
+msgstr "GameMode installé avec succès !"
 
 #: ui/tabs/gaming_tab.py:308 ui/tabs/gaming_tab.py:473
 #: ui/tabs/gaming_tab.py:1116
 msgid "Usage:"
-msgstr ""
+msgstr "Utilisation :"
 
 #: ui/tabs/gaming_tab.py:309
 msgid "• Steam: Add 'gamemoderun %command%' to game launch options"
 msgstr ""
+"• Steam : Ajoutez 'gamemoderun %command%' aux options de lancement du jeu"
 
 #: ui/tabs/gaming_tab.py:310
 msgid "• Lutris: Enable 'Feral GameMode' in game settings"
-msgstr ""
+msgstr "• Lutris : Activez 'Feral GameMode' dans les paramètres du jeu"
 
 #: ui/tabs/gaming_tab.py:327 ui/tabs/gaming_tab.py:493
 #: ui/tabs/gaming_tab.py:1136 ui/tabs/gaming_tab.py:1448
+#: ui/tabs/recommended_tab.py:859
 msgid "Installation failed"
-msgstr ""
+msgstr "Échec de l'installation"
 
 #: ui/tabs/gaming_tab.py:352
 msgid "Remove Performance Mode Script?"
-msgstr ""
+msgstr "Supprimer le script Mode Performance ?"
 
 #: ui/tabs/gaming_tab.py:354
 msgid "This will remove the soplos-game-performance script."
-msgstr ""
+msgstr "Ceci supprimera le script soplos-game-performance."
 
 #: ui/tabs/gaming_tab.py:391
 msgid "Performance Mode removed!"
-msgstr ""
+msgstr "Mode Performance supprimé !"
 
 #: ui/tabs/gaming_tab.py:408
 msgid "Removal failed"
-msgstr ""
+msgstr "Échec de la suppression"
 
 #: ui/tabs/gaming_tab.py:420
 msgid "Install Performance Mode Script?"
-msgstr ""
+msgstr "Installer le script Mode Performance ?"
 
 #: ui/tabs/gaming_tab.py:423
 msgid ""
 "This script temporarily sets CPU to 'performance' mode when launching games."
 msgstr ""
+"Ce script définit temporairement le CPU en mode 'performance' lors du "
+"lancement des jeux."
 
 #: ui/tabs/gaming_tab.py:424
 msgid "Requirements:"
-msgstr ""
+msgstr "Prérequis :"
 
 #: ui/tabs/gaming_tab.py:426
 msgid "The script will be installed to /usr/local/bin/soplos-game-performance"
-msgstr ""
+msgstr "Le script sera installé dans /usr/local/bin/soplos-game-performance"
 
 #: ui/tabs/gaming_tab.py:470
 msgid "Performance Mode script installed!"
-msgstr ""
+msgstr "Script Mode Performance installé !"
 
 #: ui/tabs/gaming_tab.py:474
 msgid "• Steam: Add 'soplos-game-performance %command%' to game launch options"
 msgstr ""
+"• Steam : Ajoutez 'soplos-game-performance %command%' aux options de "
+"lancement du jeu"
 
 #: ui/tabs/gaming_tab.py:475
 msgid "• Lutris: Add 'soplos-game-performance' as a prefix in Lutris settings"
 msgstr ""
+"• Lutris : Ajoutez 'soplos-game-performance' comme préfixe dans les "
+"paramètres Lutris"
 
 #: ui/tabs/gaming_tab.py:476
 msgid ""
 "Your CPU will automatically switch to performance mode when games are "
 "running."
 msgstr ""
+"Votre CPU passera automatiquement en mode performance lorsque les jeux sont "
+"lancés."
 
 #: ui/tabs/gaming_tab.py:518
 msgid "Revert Gaming Sysctl Tweaks?"
-msgstr ""
+msgstr "Annuler les réglages Gaming Sysctl ?"
 
 #: ui/tabs/gaming_tab.py:520
 msgid "This will remove the gaming kernel optimizations."
-msgstr ""
+msgstr "Ceci supprimera les optimisations du noyau pour le jeu."
 
 #: ui/tabs/gaming_tab.py:558
 msgid "Gaming sysctl tweaks reverted!"
-msgstr ""
+msgstr "Réglages Gaming sysctl annulés !"
 
 #: ui/tabs/gaming_tab.py:575 ui/tabs/gaming_tab.py:969
 #: ui/tabs/gaming_tab.py:1267
 msgid "Revert failed"
-msgstr ""
+msgstr "Échec de l'annulation"
 
 #: ui/tabs/gaming_tab.py:587
 msgid "Apply Gaming Sysctl Tweaks?"
-msgstr ""
+msgstr "Appliquer les réglages Gaming Sysctl ?"
 
 #: ui/tabs/gaming_tab.py:590
 msgid "This will optimize kernel parameters for gaming:"
-msgstr ""
+msgstr "Ceci optimisera les paramètres du noyau pour le jeu :"
 
 #: ui/tabs/gaming_tab.py:591
 msgid "(essential for Proton/Steam)"
-msgstr ""
+msgstr "(essentiel pour Proton/Steam)"
 
 #: ui/tabs/gaming_tab.py:592
 msgid "(prefer RAM over swap)"
-msgstr ""
+msgstr "(préférer la RAM au swap)"
 
 #: ui/tabs/gaming_tab.py:593
 msgid "Network optimizations for online gaming"
-msgstr ""
+msgstr "Optimisations réseau pour les jeux en ligne"
 
 #: ui/tabs/gaming_tab.py:594
 msgid "Reduced system latency"
-msgstr ""
+msgstr "Latence système réduite"
 
 #: ui/tabs/gaming_tab.py:595
 msgid "WARNING: Disables some security features (split_lock_mitigate)"
 msgstr ""
+"ATTENTION : Désactive certaines fonctionnalités de sécurité "
+"(split_lock_mitigate)"
 
 #: ui/tabs/gaming_tab.py:635
 msgid "Gaming sysctl tweaks applied!"
-msgstr ""
+msgstr "Réglages Gaming sysctl appliqués !"
 
 #: ui/tabs/gaming_tab.py:637
 msgid "Kernel parameters optimized for gaming."
-msgstr ""
+msgstr "Paramètres du noyau optimisés pour le jeu."
 
 #: ui/tabs/gaming_tab.py:653
 msgid "Apply failed"
-msgstr ""
+msgstr "Échec de l'application"
 
 #: ui/tabs/gaming_tab.py:674
 msgid "GPU Detection Failed"
-msgstr ""
+msgstr "Échec de la détection GPU"
 
 #: ui/tabs/gaming_tab.py:676
 msgid "Could not detect GPU. Please install 'pciutils' package."
 msgstr ""
+"Impossible de détecter le GPU. Veuillez installer le paquet 'pciutils'."
 
 #: ui/tabs/gaming_tab.py:712
 msgid "Unsupported GPU"
-msgstr ""
+msgstr "GPU non supporté"
 
 #: ui/tabs/gaming_tab.py:715
 msgid "Could not detect a supported GPU (NVIDIA, AMD, or Intel)."
-msgstr ""
+msgstr "Impossible de détecter un GPU supporté (NVIDIA, AMD ou Intel)."
 
 #: ui/tabs/gaming_tab.py:716
 msgid "GPU optimizations are only available for these vendors."
-msgstr ""
+msgstr "Les optimisations GPU ne sont disponibles que pour ces vendeurs."
 
 #: ui/tabs/gaming_tab.py:774
 msgid "Detected GPU:"
-msgstr ""
+msgstr "GPU détecté :"
 
 #: ui/tabs/gaming_tab.py:775
 msgid "Optimizations to apply:"
-msgstr ""
+msgstr "Optimisations à appliquer :"
 
 #: ui/tabs/gaming_tab.py:776
 msgid "These settings will be applied system-wide via environment variables."
 msgstr ""
+"Ces paramètres seront appliqués à l'échelle du système via des variables "
+"d'environnement."
 
 #: ui/tabs/gaming_tab.py:885
 msgid "Optimization Failed"
-msgstr ""
+msgstr "Échec de l'optimisation"
 
 #: ui/tabs/gaming_tab.py:911
 msgid "Revert Disk I/O Optimizations?"
-msgstr ""
+msgstr "Annuler les optimisations E/S Disque ?"
 
 #: ui/tabs/gaming_tab.py:913
 msgid "This will remove the custom I/O scheduler rules."
-msgstr ""
+msgstr "Ceci supprimera les règles personnalisées du planificateur E/S."
 
 #: ui/tabs/gaming_tab.py:952
 msgid "Disk I/O optimizations reverted!"
-msgstr ""
+msgstr "Optimisations E/S Disque annulées !"
 
 #: ui/tabs/gaming_tab.py:981
 msgid "Optimize Disk I/O Schedulers?"
-msgstr ""
+msgstr "Optimiser les planificateurs E/S Disque ?"
 
 #: ui/tabs/gaming_tab.py:984
 msgid "This will configure optimal I/O schedulers for gaming:"
-msgstr ""
+msgstr "Ceci configurera les planificateurs E/S optimaux pour le jeu :"
 
 #: ui/tabs/gaming_tab.py:985
 msgid "(best latency)"
-msgstr ""
+msgstr "(meilleure latence)"
 
 #: ui/tabs/gaming_tab.py:987
 msgid "(maximum performance)"
-msgstr ""
+msgstr "(performance maximale)"
 
 #: ui/tabs/gaming_tab.py:988
 msgid "Changes take effect immediately without reboot."
-msgstr ""
+msgstr "Les changements prennent effet immédiatement sans redémarrage."
 
 #: ui/tabs/gaming_tab.py:1029
 msgid "Disk I/O Optimized!"
-msgstr ""
+msgstr "E/S Disque optimisés !"
+
+#: ui/tabs/gaming_tab.py:1032
+msgid "I/O schedulers have been optimized for gaming."
+msgstr "Les planificateurs E/S ont été optimisés pour le jeu."
+
+#: ui/tabs/gaming_tab.py:1033
+msgid "Changes are active immediately."
+msgstr "Les changements sont actifs immédiatement."
+
+#: ui/tabs/gaming_tab.py:1034
+msgid "Configuration saved to:"
+msgstr "Configuration enregistrée dans :"
 
 #: ui/tabs/gaming_tab.py:1051
 msgid "Optimization failed"
-msgstr ""
+msgstr "Échec de l'optimisation"
 
 #: ui/tabs/gaming_tab.py:1068
 msgid "Install MangoHud + Goverlay?"
-msgstr ""
+msgstr "Installer MangoHud + Goverlay ?"
 
 #: ui/tabs/gaming_tab.py:1071
 msgid ""
 "MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, CPU/"
 "GPU load and more."
 msgstr ""
+"MangoHud est un overlay Vulkan/OpenGL pour surveiller les FPS, températures, "
+"charge CPU/GPU et plus."
 
 #: ui/tabs/gaming_tab.py:1113
 msgid "MangoHud + Goverlay installed!"
-msgstr ""
+msgstr "MangoHud + Goverlay installés !"
 
 #: ui/tabs/gaming_tab.py:1117
 msgid "• Steam: Add 'mangohud %command%' to game launch options"
-msgstr ""
+msgstr "• Steam : Ajoutez 'mangohud %command%' aux options de lancement du jeu"
 
 #: ui/tabs/gaming_tab.py:1118
 msgid "• Configure via Goverlay application"
-msgstr ""
+msgstr "• Configurez via l'application Goverlay"
 
 #: ui/tabs/gaming_tab.py:1119
 msgid "• Toggle in-game with Shift+F12"
-msgstr ""
+msgstr "• Basculez en jeu avec Shift+F12"
 
 #: ui/tabs/gaming_tab.py:1153
 msgid "Revert ALL Gaming Optimizations?"
-msgstr ""
+msgstr "Annuler TOUTES les optimisations de jeu ?"
 
 #: ui/tabs/gaming_tab.py:1156
 msgid ""
@@ -2098,169 +1550,970 @@ msgid ""
 "\n"
 "Continue?"
 msgstr ""
+"Ceci supprimera :\n"
+"• Réglages Gaming sysctl\n"
+"• Optimisations GPU\n"
+"• Optimisations E/S disque\n"
+"• Script Mode Performance\n"
+"\n"
+"GameMode et MangoHud resteront installés.\n"
+"\n"
+"Continuer ?"
 
 #: ui/tabs/gaming_tab.py:1237
 msgid "Optimizations reverted!"
-msgstr ""
+msgstr "Optimisations annulées !"
 
 #: ui/tabs/gaming_tab.py:1239
 msgid "All gaming tweaks have been removed."
-msgstr ""
+msgstr "Tous les réglages de jeu ont été supprimés."
 
 #: ui/tabs/gaming_tab.py:1255
 msgid "No optimizations found"
-msgstr ""
+msgstr "Aucune optimisation trouvée"
 
 #: ui/tabs/gaming_tab.py:1257
 msgid "No gaming optimizations are currently applied."
-msgstr ""
+msgstr "Aucune optimisation de jeu n'est actuellement appliquée."
 
 #: ui/tabs/gaming_tab.py:1310
 msgid "Install Gaming Wallpapers?"
-msgstr ""
+msgstr "Installer les fonds d'écran Gaming ?"
 
 #: ui/tabs/gaming_tab.py:1313
 msgid "This will install exclusive gaming wallpapers for"
-msgstr ""
+msgstr "Ceci installera des fonds d'écran de jeu exclusifs pour"
 
 #: ui/tabs/gaming_tab.py:1314
 msgid "Destination:"
-msgstr ""
+msgstr "Destination :"
+
+#: ui/tabs/gaming_tab.py:1400
+msgid "Wallpapers have been installed to:"
+msgstr "Les fonds d'écran ont été installés dans :"
+
+#: ui/tabs/gaming_tab.py:1402
+msgid "Symlinks created in:"
+msgstr "Liens symboliques créés dans :"
+
+#: ui/tabs/gaming_tab.py:1403
+msgid "You can now select them from your wallpaper settings."
+msgstr "Vous pouvez maintenant les sélectionner depuis vos paramètres de fond d'écran."
 
 #: ui/tabs/gaming_tab.py:1410
 msgid "Gaming wallpapers installed successfully!"
-msgstr ""
+msgstr "Fonds d'écran Gaming installés avec succès !"
 
 #: ui/tabs/gaming_tab.py:1436
 msgid "Archive not found"
-msgstr ""
+msgstr "Archive non trouvée"
 
 #: ui/tabs/gaming_tab.py:1463
 msgid "Unexpected error"
-msgstr ""
+msgstr "Erreur inattendue"
 
 #: ui/tabs/gaming_tab.py:1623
 msgid "Launchers"
-msgstr ""
+msgstr "Lanceurs"
+
+#: ui/tabs/gaming_tab.py:1690 ui/tabs/recommended_tab.py:270
+#: ui/tabs/software_gnome_tab.py:93 ui/tabs/software_plasma_tab.py:93
+#: ui/tabs/software_xfce_tab.py:93
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: ui/tabs/gaming_tab.py:1698 ui/tabs/recommended_tab.py:278
+msgid "Official Package"
+msgstr "Paquet officiel"
+
+#: ui/tabs/gaming_tab.py:1866 ui/tabs/recommended_tab.py:562
+#: ui/tabs/software_gnome_tab.py:270 ui/tabs/software_plasma_tab.py:238
+#: ui/tabs/software_xfce_tab.py:272 utils/command_runner.py:194
+#: utils/command_runner.py:199
+msgid "Operation completed successfully"
+msgstr "Opération terminée avec succès"
 
 #: ui/tabs/gaming_tab.py:1910
 msgid "RGB Theme Deactivated"
-msgstr ""
+msgstr "Thème RGB désactivé"
 
 #: ui/tabs/gaming_tab.py:1912
 msgid "The RGB gaming theme has been disabled."
-msgstr ""
+msgstr "Le thème de jeu RGB a été désactivé."
 
-#: ui/tabs/gaming_tab.py:1930 utils/hardware_detector.py:74
-#: utils/hardware_detector.py:177 utils/hardware_detector.py:199
-#: utils/command_runner.py:220
+#: ui/tabs/gaming_tab.py:1930 utils/command_runner.py:220
+#: utils/hardware_detector.py:74 utils/hardware_detector.py:177
+#: utils/hardware_detector.py:199
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: ui/tabs/gaming_tab.py:1956
 msgid "RGB Theme Activated! 🎮"
-msgstr ""
+msgstr "Thème RGB activé ! 🎮"
 
 #: ui/tabs/gaming_tab.py:1959
 msgid "Gaming RGB theme applied!"
-msgstr ""
+msgstr "Thème de jeu RGB appliqué !"
 
 #: ui/tabs/gaming_tab.py:1960
 msgid "Features:"
-msgstr ""
+msgstr "Fonctionnalités :"
 
 #: ui/tabs/gaming_tab.py:1961
 msgid "Neon red accents"
-msgstr ""
+msgstr "Accents rouge néon"
 
 #: ui/tabs/gaming_tab.py:1962
 msgid "Dark optimized interface"
-msgstr ""
+msgstr "Interface sombre optimisée"
 
 #: ui/tabs/gaming_tab.py:1963
 msgid "Click 'RGB Theme' again to deactivate"
-msgstr ""
+msgstr "Cliquez nouveau sur 'Thème RGB' pour désactiver"
 
 #: ui/tabs/gaming_tab.py:1974
 msgid "Error Activating RGB Theme"
-msgstr ""
+msgstr "Erreur lors de l'activation du thème RGB"
 
-#: utils/hardware_detector.py:38
-msgid "Dedicated"
-msgstr ""
+#: ui/tabs/kernels_tab.py:56
+msgid "Kernel Management"
+msgstr "Gestion du noyau"
 
-#: utils/hardware_detector.py:48
-msgid "Dedicated/Integrated"
-msgstr ""
+#: ui/tabs/kernels_tab.py:83
+msgid "CPU Microcode Updates"
+msgstr "Mises à jour du microcode CPU"
 
-#: utils/hardware_detector.py:58
-msgid "Integrated"
-msgstr ""
+#: ui/tabs/kernels_tab.py:92
+msgid "Security and performance firmware updates for your CPU."
+msgstr "Mises à jour de sécurité et de performance pour votre CPU."
 
-#: utils/hardware_detector.py:266
-msgid "Disk"
+#: ui/tabs/kernels_tab.py:103
+msgid ""
+"Warning: Liquorix kernel is NOT compatible with proprietary NVIDIA drivers."
 msgstr ""
+"Avertissement : Le noyau Liquorix n'est PAS compatible avec les pilotes "
+"propriétaires NVIDIA."
 
-#: utils/hardware_detector.py:287
-msgid "Wi-Fi"
-msgstr ""
+#: ui/tabs/kernels_tab.py:113
+msgid "Available Kernels"
+msgstr "Noyaux disponibles"
 
-#: utils/hardware_detector.py:289
-msgid "Ethernet"
+#: ui/tabs/kernels_tab.py:118
+msgid ""
+"Manage your system kernels. You can install optimized kernels for better "
+"performance or latency."
 msgstr ""
+"Gérez les noyaux de votre système. Vous pouvez installer des noyaux "
+"optimisés pour de meilleures performances ou une meilleure latence."
 
-#: utils/hardware_detector.py:291
-msgid "Other"
-msgstr ""
+#: ui/tabs/kernels_tab.py:126 ui/tabs/kernels_tab.py:285
+msgid "Liquorix Kernel"
+msgstr "Noyau Liquorix"
 
-#: utils/hardware_detector.py:304
-msgid "Connected"
+#: ui/tabs/kernels_tab.py:135
+msgid ""
+"Optimized for interactive systems and gaming. High responsiveness and low "
+"latency."
 msgstr ""
+"Optimisé pour les systèmes interactifs et le jeu. Haute réactivité et faible "
+"latence."
 
-#: utils/hardware_detector.py:304
-msgid "Disconnected"
-msgstr ""
+#: ui/tabs/kernels_tab.py:146
+msgid "XanMod Kernel Variants"
+msgstr "Variantes du noyau XanMod"
 
-#: utils/hardware_detector.py:328
-msgid "Detecting CPU..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:156
+msgid "High performance kernel with advanced optimizations."
+msgstr "Noyau haute performance avec optimisations avancées."
 
-#: utils/hardware_detector.py:333
-msgid "Detecting memory..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:156
+msgid "Choose the variant that matches your hardware:"
+msgstr "Choisissez la variante correspondant à votre matériel :"
 
-#: utils/hardware_detector.py:338
-msgid "Detecting GPU..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:169
+msgid "x64v3 - Standard"
+msgstr "x64v3 - Standard"
 
-#: utils/hardware_detector.py:343
-msgid "Detecting virtual machine..."
+#: ui/tabs/kernels_tab.py:174
+msgid ""
+"For CPUs from 2015+ (Intel Haswell, AMD Zen and newer). AVX2 optimizations."
 msgstr ""
+"Pour les CPU de 2015+ (Intel Haswell, AMD Zen et plus récents). "
+"Optimisations AVX2."
 
-#: utils/hardware_detector.py:348
-msgid "Detecting storage..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:187
+msgid "x64v4 - Advanced"
+msgstr "x64v4 - Avancé"
 
-#: utils/hardware_detector.py:353
-msgid "Detecting network..."
+#: ui/tabs/kernels_tab.py:192
+msgid "For very recent CPUs (Intel 12th gen+, AMD Zen 4+). AVX-512 support."
 msgstr ""
+"Pour les CPU très récents (Intel 12e gén+, AMD Zen 4+). Support AVX-512."
 
-#: utils/hardware_detector.py:358
-msgid "Scan completed"
+#: ui/tabs/kernels_tab.py:205
+msgid "EDGE - Experimental"
+msgstr "EDGE - Expérimental"
+
+#: ui/tabs/kernels_tab.py:205
+msgid "Not recommended for production"
+msgstr "Non recommandé pour la production"
+
+#: ui/tabs/kernels_tab.py:210
+msgid "Latest experimental features. May be unstable. For testing only."
 msgstr ""
+"Dernières fonctionnalités expérimentales. Peut être instable. Pour tests "
+"uniquement."
+
+#: ui/tabs/kernels_tab.py:223
+msgid "LTS - Long Term Support"
+msgstr "LTS - Support à long terme"
+
+#: ui/tabs/kernels_tab.py:223
+msgid "Most stable"
+msgstr "Le plus stable"
+
+#: ui/tabs/kernels_tab.py:228
+msgid "Long-term support, conservative updates. Best for stability."
+msgstr ""
+"Support à long terme, mises à jour conservatrices. Le mieux pour la "
+"stabilité."
+
+#: ui/tabs/kernels_tab.py:241
+msgid "System Maintenance"
+msgstr "Maintenance système"
+
+#: ui/tabs/kernels_tab.py:250
+msgid "Tools to keep your system clean and updated."
+msgstr "Outils pour garder votre système propre et à jour."
+
+#: ui/tabs/kernels_tab.py:260
+msgid "Clean Old Kernels"
+msgstr "Nettoyer les anciens noyaux"
+
+#: ui/tabs/kernels_tab.py:261
+msgid "Remove old unused kernels to free up space"
+msgstr "Supprimer les anciens noyaux inutilisés pour libérer de l'espace"
+
+#: ui/tabs/kernels_tab.py:266
+msgid "Update GRUB"
+msgstr "Mettre à jour GRUB"
+
+#: ui/tabs/kernels_tab.py:267
+msgid "Regenerate GRUB configuration file"
+msgstr "Régénérer le fichier de configuration GRUB"
+
+#: ui/tabs/kernels_tab.py:283
+msgid "Standard Kernel"
+msgstr "Noyau standard"
+
+#: ui/tabs/kernels_tab.py:287
+msgid "XanMod Kernel"
+msgstr "Noyau XanMod"
+
+#: ui/tabs/kernels_tab.py:308 ui/tabs/kernels_tab.py:310
+#: utils/hardware_detector.py:70
+msgid "Not detected"
+msgstr "Non détecté"
+
+#: ui/tabs/kernels_tab.py:327
+msgid "weeks"
+msgstr "semaines"
+
+#: ui/tabs/kernels_tab.py:330
+msgid "days"
+msgstr "jours"
+
+#: ui/tabs/kernels_tab.py:333
+msgid "hours"
+msgstr "heures"
+
+#: ui/tabs/kernels_tab.py:336
+msgid "minutes"
+msgstr "minutes"
+
+#: ui/tabs/kernels_tab.py:346 ui/tabs/kernels_tab.py:670
+msgid "Current Kernel"
+msgstr "Noyau actuel"
+
+#: ui/tabs/kernels_tab.py:347
+msgid "Type"
+msgstr "Type"
+
+#: ui/tabs/kernels_tab.py:348
+msgid "Architecture"
+msgstr "Architecture"
+
+#: ui/tabs/kernels_tab.py:349
+msgid "Uptime"
+msgstr "Temps d'activité"
+
+#: ui/tabs/kernels_tab.py:444
+msgid "Uninstall Liquorix"
+msgstr "Désinstaller Liquorix"
+
+#: ui/tabs/kernels_tab.py:450 ui/tabs/kernels_tab.py:539
+msgid "In Use"
+msgstr "En cours d'utilisation"
+
+#: ui/tabs/kernels_tab.py:453 ui/tabs/kernels_tab.py:510
+#: ui/tabs/kernels_tab.py:542 ui/tabs/recommended_tab.py:338
+#: ui/tabs/security_tab.py:371 ui/tabs/security_tab.py:404
+msgid "Installed"
+msgstr "Installé"
+
+#: ui/tabs/kernels_tab.py:456
+msgid "Install Liquorix"
+msgstr "Installer Liquorix"
+
+#: ui/tabs/kernels_tab.py:461
+msgid "Liquorix is not compatible with NVIDIA drivers"
+msgstr "Liquorix n'est pas compatible avec les pilotes NVIDIA"
+
+#: ui/tabs/kernels_tab.py:464
+msgid "Incompatible with NVIDIA"
+msgstr "Incompatible avec NVIDIA"
+
+#: ui/tabs/kernels_tab.py:498
+msgid "CPU vendor not detected"
+msgstr "Vendeur CPU non détecté"
+
+#: ui/tabs/kernels_tab.py:514 ui/tabs/kernels_tab.py:532
+#: ui/tabs/recommended_tab.py:355 ui/tabs/security_tab.py:366
+#: ui/tabs/security_tab.py:399 ui/tabs/software_gnome_tab.py:226
+#: ui/tabs/software_plasma_tab.py:194 ui/tabs/software_xfce_tab.py:228
+msgid "Uninstall"
+msgstr "Désinstaller"
+
+#: ui/tabs/kernels_tab.py:563
+msgid "Installing Liquorix Kernel..."
+msgstr "Installation du noyau Liquorix..."
+
+#: ui/tabs/kernels_tab.py:565 ui/tabs/kernels_tab.py:594
+#: ui/tabs/kernels_tab.py:741 ui/tabs/security_tab.py:448
+msgid "Installation complete."
+msgstr "Installation terminée."
+
+#: ui/tabs/kernels_tab.py:587
+msgid "Installing XanMod"
+msgstr "Installation de XanMod"
+
+#: ui/tabs/kernels_tab.py:608
+msgid "Uninstalling Liquorix Kernel..."
+msgstr "Désinstallation du noyau Liquorix..."
+
+#: ui/tabs/kernels_tab.py:610 ui/tabs/kernels_tab.py:639
+#: ui/tabs/kernels_tab.py:758 ui/tabs/security_tab.py:461
+msgid "Uninstallation complete."
+msgstr "Désinstallation terminée."
+
+#: ui/tabs/kernels_tab.py:637
+msgid "Uninstalling XanMod"
+msgstr "Désinstallation de XanMod"
+
+#: ui/tabs/kernels_tab.py:653
+msgid "Kernel in Use"
+msgstr "Noyau en cours d'utilisation"
+
+#: ui/tabs/kernels_tab.py:656
+#, python-brace-format
+msgid ""
+"Cannot uninstall {0} because it is currently running. Please boot into "
+"another kernel first."
+msgstr ""
+"Impossible de désinstaller {0} car il est en cours d'exécution. Veuillez "
+"redémarrer sur un autre noyau d'abord."
+
+#: ui/tabs/kernels_tab.py:668
+msgid "Checking for old kernels..."
+msgstr "Recherche des anciens noyaux..."
+
+#: ui/tabs/kernels_tab.py:679 ui/tabs/kernels_tab.py:694
+msgid "No old kernels to remove."
+msgstr "Aucun ancien noyau à supprimer."
+
+#: ui/tabs/kernels_tab.py:698
+msgid "Removing old kernels..."
+msgstr "Suppression des anciens noyaux..."
+
+#: ui/tabs/kernels_tab.py:706 ui/tabs/kernels_tab.py:718
+msgid "Updating GRUB..."
+msgstr "Mise à jour de GRUB..."
+
+#: ui/tabs/kernels_tab.py:708
+msgid "Cleanup complete."
+msgstr "Nettoyage terminé."
+
+#: ui/tabs/kernels_tab.py:724
+msgid "GRUB update complete."
+msgstr "Mise à jour de GRUB terminée."
+
+#: ui/tabs/kernels_tab.py:738
+msgid "Installing"
+msgstr "Installation"
+
+#: ui/tabs/kernels_tab.py:742
+msgid "A system reboot is recommended to apply microcode updates."
+msgstr ""
+"Un redémarrage est recommandé pour appliquer les mises à jour de microcode."
+
+#: ui/tabs/kernels_tab.py:756
+msgid "Uninstalling"
+msgstr "Désinstallation"
+
+#: ui/tabs/recommended_tab.py:66
+msgid "Recommended for You"
+msgstr "Recommandé pour vous"
+
+#: ui/tabs/recommended_tab.py:70
+msgid "Curated applications based on your desktop environment"
+msgstr "Applications sélectionnées selon votre environnement de bureau"
+
+#: ui/tabs/recommended_tab.py:78 ui/tabs/recommended_tab.py:621
+msgid "Multiple Selection"
+msgstr "Sélection multiple"
+
+#: ui/tabs/recommended_tab.py:85
+msgid "Search programs..."
+msgstr "Rechercher des programmes..."
+
+#: ui/tabs/recommended_tab.py:111
+msgid "Select All"
+msgstr "Tout sélectionner"
+
+#: ui/tabs/recommended_tab.py:115
+msgid "Deselect All"
+msgstr "Tout désélectionner"
+
+#: ui/tabs/recommended_tab.py:120
+msgid "0 programs selected"
+msgstr "0 programmes sélectionnés"
+
+#: ui/tabs/recommended_tab.py:125
+msgid "Install Selected"
+msgstr "Installer la sélection"
+
+#: ui/tabs/recommended_tab.py:156
+msgid "No results found for"
+msgstr "Aucun résultat trouvé pour"
+
+#: ui/tabs/recommended_tab.py:346 utils/command_runner.py:180
+msgid "Processing..."
+msgstr "Traitement..."
+
+#: ui/tabs/recommended_tab.py:619
+msgid "Normal Mode"
+msgstr "Mode normal"
+
+#: ui/tabs/recommended_tab.py:758
+msgid "{} programs selected"
+msgstr "{} programmes sélectionnés"
+
+#: ui/tabs/recommended_tab.py:758
+msgid "1 program selected"
+msgstr "1 programme sélectionné"
+
+#: ui/tabs/recommended_tab.py:776
+msgid "Install {} selected programs?"
+msgstr "Installer les {} programmes sélectionnés ?"
+
+#: ui/tabs/recommended_tab.py:851
+msgid "Downloading"
+msgstr "Téléchargement"
+
+#: ui/tabs/recommended_tab.py:852
+msgid "Download failed for"
+msgstr "Échec du téléchargement pour"
+
+#: ui/tabs/recommended_tab.py:855
+msgid "Installing all .deb packages..."
+msgstr "Installation de tous les paquets .deb..."
+
+#: ui/tabs/recommended_tab.py:865
+msgid "All .deb packages installed successfully"
+msgstr "Tous les paquets .deb installés avec succès"
+
+#: ui/tabs/recommended_tab.py:933
+msgid "Batch Installation Complete"
+msgstr "Installation par lot terminée"
+
+#: ui/tabs/recommended_tab.py:935
+msgid "All selected programs have been installed."
+msgstr "Tous les programmes sélectionnés ont été installés."
+
+#: ui/tabs/recommended_tab.py:974
+msgid "DaVinci Resolve Installation"
+msgstr "Installation de DaVinci Resolve"
+
+#: ui/tabs/recommended_tab.py:977
+msgid ""
+"DaVinci Resolve requires manual download due to licensing.\n"
+"\n"
+"1. Go to blackmagicdesign.com and download the Linux version (ZIP).\n"
+"2. Click OK to select the downloaded file.\n"
+"3. We will convert it to a Debian package and install it."
+msgstr ""
+"DaVinci Resolve nécessite un téléchargement manuel en raison de la licence.\n"
+"\n"
+"1. Allez sur blackmagicdesign.com et téléchargez la version Linux (ZIP).\n"
+"2. Cliquez sur OK pour sélectionner le fichier téléchargé.\n"
+"3. Nous le convertirons en paquet Debian et l'installerons."
+
+#: ui/tabs/recommended_tab.py:990
+msgid "DaVinci Resolve Installer"
+msgstr "Installateur DaVinci Resolve"
+
+#: ui/tabs/recommended_tab.py:995
+msgid "Select DaVinci Resolve Installer"
+msgstr "Sélectionner l'installateur DaVinci Resolve"
+
+#: ui/tabs/recommended_tab.py:1000 ui/tabs/software_gnome_tab.py:371
+#: ui/tabs/software_plasma_tab.py:341 ui/tabs/software_xfce_tab.py:372
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ui/tabs/recommended_tab.py:1001
+msgid "Select"
+msgstr "Sélectionner"
+
+#: ui/tabs/recommended_tab.py:1131
+msgid "Installation Complete"
+msgstr "Installation terminée"
+
+#: ui/tabs/recommended_tab.py:1133
+msgid "DaVinci Resolve has been installed successfully."
+msgstr "DaVinci Resolve a été installé avec succès."
+
+#: ui/tabs/security_tab.py:65
+msgid "Security &amp; System Protection"
+msgstr "Sécurité et protection système"
+
+#: ui/tabs/security_tab.py:69
+msgid "Protect your system with backups, firewall, and security tools"
+msgstr ""
+"Protégez votre système avec des sauvegardes, un pare-feu et des outils de "
+"sécurité"
+
+#: ui/tabs/security_tab.py:106
+msgid "System Backups"
+msgstr "Sauvegardes système"
+
+#: ui/tabs/security_tab.py:124
+msgid ""
+"Creates automatic system snapshots. Protects your configuration and allows "
+"easy restoration."
+msgstr ""
+"Crée des instantanés système automatiques. Protège votre configuration et "
+"permet une restauration facile."
+
+#: ui/tabs/security_tab.py:142
+msgid "Simple backups of personal files with encryption support."
+msgstr ""
+"Sauvegardes simples de fichiers personnels avec support du chiffrement."
+
+#: ui/tabs/security_tab.py:153
+msgid "Firewall Protection"
+msgstr "Protection pare-feu"
+
+#: ui/tabs/security_tab.py:166
+msgid "Recommended for Desktop"
+msgstr "Recommandé pour le bureau"
+
+#: ui/tabs/security_tab.py:171
+msgid ""
+"Simple graphical interface for UFW firewall. Control network traffic easily."
+msgstr ""
+"Interface graphique simple pour le pare-feu UFW. Contrôlez facilement le "
+"trafic réseau."
+
+#: ui/tabs/security_tab.py:184
+msgid "Firewall Status"
+msgstr "État du pare-feu"
+
+#: ui/tabs/security_tab.py:198
+msgid "Filesystem Tools"
+msgstr "Outils de système de fichiers"
+
+#: ui/tabs/security_tab.py:217
+msgid "Only for BTRFS"
+msgstr "Uniquement pour BTRFS"
+
+#: ui/tabs/security_tab.py:223 ui/tabs/security_tab.py:225
+msgid "Advanced management of BTRFS subvolumes and snapshots."
+msgstr "Gestion avancée des sous-volumes et instantanés BTRFS."
+
+#: ui/tabs/security_tab.py:225
+msgid "Current system"
+msgstr "Système actuel"
+
+#: ui/tabs/security_tab.py:225
+msgid "BTRFS Assistant is not compatible."
+msgstr "BTRFS Assistant n'est pas compatible."
+
+#: ui/tabs/security_tab.py:236
+msgid "Antivirus & Malware"
+msgstr "Antivirus et logiciels malveillants"
+
+#: ui/tabs/security_tab.py:254
+msgid ""
+"Graphical interface for ClamAV. Scan your system against viruses and malware."
+msgstr ""
+"Interface graphique pour ClamAV. Analysez votre système contre les virus et "
+"logiciels malveillants."
+
+#: ui/tabs/security_tab.py:267
+msgid "Advanced"
+msgstr "Avancé"
+
+#: ui/tabs/security_tab.py:272
+msgid "Command-line tool to detect rootkits and system threats."
+msgstr ""
+"Outil en ligne de commande pour détecter les rootkits et menaces système."
+
+#: ui/tabs/security_tab.py:333
+msgid "Open GUFW"
+msgstr "Ouvrir GUFW"
+
+#: ui/tabs/security_tab.py:341
+msgid "Not available on"
+msgstr "Non disponible sur"
+
+#: ui/tabs/security_tab.py:377
+msgid "Configure"
+msgstr "Configurer"
+
+#: ui/tabs/security_tab.py:385
+msgid "Scan System"
+msgstr "Analyser le système"
+
+#: ui/tabs/security_tab.py:409
+msgid "Update Definitions"
+msgstr "Mettre à jour les définitions"
+
+#: ui/tabs/security_tab.py:423
+msgid "Active"
+msgstr "Actif"
+
+#: ui/tabs/security_tab.py:424
+msgid "Deactivate"
+msgstr "Désactiver"
+
+#: ui/tabs/security_tab.py:427
+msgid "Inactive"
+msgstr "Inactif"
+
+#: ui/tabs/security_tab.py:428
+msgid "Activate"
+msgstr "Activer"
+
+#: ui/tabs/security_tab.py:509
+msgid "Updating virus definitions..."
+msgstr "Mise à jour des définitions de virus..."
+
+#: ui/tabs/security_tab.py:511
+msgid "Definitions updated successfully!"
+msgstr "Définitions mises à jour avec succès !"
+
+#: ui/tabs/security_tab.py:521
+msgid "Scanning system for rootkits..."
+msgstr "Analyse du système pour les rootkits..."
+
+#: ui/tabs/security_tab.py:523
+msgid "Scan complete."
+msgstr "Analyse terminée."
+
+#: ui/tabs/software_gnome_tab.py:67 ui/tabs/software_plasma_tab.py:67
+#: ui/tabs/software_xfce_tab.py:67
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: ui/tabs/software_gnome_tab.py:72 ui/tabs/software_plasma_tab.py:72
+#: ui/tabs/software_xfce_tab.py:72
+msgid "Upgrade"
+msgstr "Mise à niveau"
+
+#: ui/tabs/software_gnome_tab.py:90 ui/tabs/software_plasma_tab.py:90
+#: ui/tabs/software_xfce_tab.py:90
+msgid "Synaptic"
+msgstr "Synaptic"
+
+#: ui/tabs/software_gnome_tab.py:91 ui/tabs/software_plasma_tab.py:91
+#: ui/tabs/software_xfce_tab.py:91
+msgid "Gdebi"
+msgstr "Gdebi"
+
+#: ui/tabs/software_gnome_tab.py:92 ui/tabs/software_plasma_tab.py:92
+#: ui/tabs/software_xfce_tab.py:92
+msgid "GNOME Software"
+msgstr "Logiciels GNOME"
+
+#: ui/tabs/software_gnome_tab.py:94 ui/tabs/software_plasma_tab.py:94
+#: ui/tabs/software_xfce_tab.py:94
+msgid "Snap"
+msgstr "Snap"
+
+#: ui/tabs/software_gnome_tab.py:95 ui/tabs/software_plasma_tab.py:95
+#: ui/tabs/software_xfce_tab.py:95
+msgid "Repo Selector"
+msgstr "Sélecteur de dépôts"
+
+#: ui/tabs/software_gnome_tab.py:121 ui/tabs/software_plasma_tab.py:121
+#: ui/tabs/software_xfce_tab.py:121
+msgid "Open"
+msgstr "Ouvrir"
+
+#: ui/tabs/software_gnome_tab.py:150 ui/tabs/software_plasma_tab.py:150
+#: ui/tabs/software_xfce_tab.py:150
+msgid "Add Flathub"
+msgstr "Ajouter Flathub"
+
+#: ui/tabs/software_gnome_tab.py:158 ui/tabs/software_plasma_tab.py:157
+#: ui/tabs/software_xfce_tab.py:160
+msgid "Clean System"
+msgstr "Nettoyer le système"
+
+#: ui/tabs/software_gnome_tab.py:178 ui/tabs/software_xfce_tab.py:180
+msgid "Soplos Repository Manager"
+msgstr "Gestionnaire de dépôts Soplos"
+
+#: ui/tabs/software_gnome_tab.py:184
+msgid ""
+"Manage repositories and modern software sources integrated with GNOME "
+"Software."
+msgstr ""
+"Gérez les dépôts et les sources logicielles modernes intégrées à Logiciels "
+"GNOME."
+
+#: ui/tabs/software_gnome_tab.py:190 ui/tabs/software_xfce_tab.py:192
+msgid "Launch Repository Manager"
+msgstr "Lancer le gestionnaire de dépôts"
+
+#: ui/tabs/software_gnome_tab.py:361 ui/tabs/software_plasma_tab.py:331
+#: ui/tabs/software_xfce_tab.py:362
+msgid "System Up to Date"
+msgstr "Système à jour"
+
+#: ui/tabs/software_gnome_tab.py:363 ui/tabs/software_plasma_tab.py:333
+#: ui/tabs/software_xfce_tab.py:364
+msgid "No packages available to update at this time."
+msgstr "Aucun paquet disponible pour la mise à jour pour le moment."
+
+#: ui/tabs/software_gnome_tab.py:369 ui/tabs/software_plasma_tab.py:339
+#: ui/tabs/software_xfce_tab.py:370
+msgid "Available Updates"
+msgstr "Mises à jour disponibles"
+
+#: ui/tabs/software_gnome_tab.py:372 ui/tabs/software_plasma_tab.py:342
+#: ui/tabs/software_xfce_tab.py:373
+msgid "Update All"
+msgstr "Tout mettre à jour"
+
+#: ui/tabs/software_gnome_tab.py:385 ui/tabs/software_plasma_tab.py:355
+#: ui/tabs/software_xfce_tab.py:386
+msgid "updates available"
+msgstr "mises à jour disponibles"
+
+#: ui/tabs/software_tab.py:111
+msgid "Software Management"
+msgstr "Gestion des logiciels"
+
+#: ui/tabs/software_tab.py:118
+msgid "Loading software management for"
+msgstr "Chargement du gestionnaire software pour"
+
+#: ui/tabs/software_tab.py:124
+msgid "Desktop-specific software interface will be available soon."
+msgstr "L'interface logicielle spécifique au bureau sera bientôt disponible."
+
+#: ui/tabs/software_xfce_tab.py:155
+msgid "Snap to Whisker Menu"
+msgstr "Snap vers le menu Whisker"
+
+#: ui/tabs/software_xfce_tab.py:186
+msgid ""
+"Manage additional repositories and software sources for your Soplos system."
+msgstr ""
+"Gérez des dépôts supplémentaires et des sources logicielles pour votre "
+"système Soplos."
+
+#: ui/tabs/welcome_tab.py:111
+msgid "Welcome to Soplos Linux"
+msgstr "Bienvenue sur Soplos Linux"
+
+#: ui/tabs/welcome_tab.py:119
+msgid "Your gateway to the Soplos ecosystem"
+msgstr "Votre porte d'entrée vers l'écosystème Soplos"
+
+#: ui/tabs/welcome_tab.py:128
+msgid ""
+"Thank you for choosing Soplos Linux! This application will help you get "
+"started with your new system."
+msgstr ""
+"Merci d'avoir choisi Soplos Linux ! Cette application vous aidera à démarrer "
+"avec votre nouveau système."
+
+#: ui/tabs/welcome_tab.py:143
+msgid "Use the tabs above to:"
+msgstr "Utilisez les onglets ci-dessus pour :"
+
+#: ui/tabs/welcome_tab.py:159
+msgid "• Install essential software"
+msgstr "• Installer les logiciels essentiels"
+
+#: ui/tabs/welcome_tab.py:160
+msgid "• Configure system drivers"
+msgstr "• Configurer les pilotes système"
+
+#: ui/tabs/welcome_tab.py:161
+msgid "• Customize your desktop"
+msgstr "• Personnaliser votre bureau"
+
+#: ui/tabs/welcome_tab.py:162
+msgid "• Manage system kernels"
+msgstr "• Gérer les noyaux système"
+
+#: ui/tabs/welcome_tab.py:163
+msgid "• View recommended applications"
+msgstr "• Voir les applications recommandées"
+
+#: ui/tabs/welcome_tab.py:212
+msgid "Get Started"
+msgstr "Commencer"
+
+#: ui/tabs/welcome_tab.py:226
+msgid "Web"
+msgstr "Web"
+
+#: ui/tabs/welcome_tab.py:240
+msgid "Forums"
+msgstr "Forums"
+
+#: ui/tabs/welcome_tab.py:254
+msgid "Wiki"
+msgstr "Wiki"
+
+#: ui/tabs/welcome_tab.py:268
+msgid "Donate"
+msgstr "Faire un don"
+
+#: ui/tabs/welcome_tab.py:289
+msgid "Show this application on startup"
+msgstr "Afficher cette application au démarrage"
+
+#: ui/tabs/welcome_tab.py:312
+msgid "Could not open website"
+msgstr "Impossible d'ouvrir le site web"
+
+#: ui/tabs/welcome_tab.py:313 ui/tabs/welcome_tab.py:322
+#: ui/tabs/welcome_tab.py:331 ui/tabs/welcome_tab.py:340
+msgid "Check your internet connection and try again."
+msgstr "Vérifiez votre connexion Internet et réessayez."
+
+#: ui/tabs/welcome_tab.py:321
+msgid "Could not open forum"
+msgstr "Impossible d'ouvrir le forum"
+
+#: ui/tabs/welcome_tab.py:330
+msgid "Could not open wiki"
+msgstr "Impossible d'ouvrir le wiki"
+
+#: ui/tabs/welcome_tab.py:339
+msgid "Could not open donation page"
+msgstr "Impossible d'ouvrir la page de don"
+
+#: ui/tabs/welcome_tab.py:418
+msgid "Error enabling autostart"
+msgstr "Erreur lors de l'activation du démarrage automatique"
+
+#: ui/tabs/welcome_tab.py:419
+msgid "Could not create autostart file."
+msgstr "Impossible de créer le fichier de démarrage automatique."
+
+#: ui/tabs/welcome_tab.py:431
+msgid "Error disabling autostart"
+msgstr "Erreur lors de la désactivation du démarrage automatique"
+
+#: ui/tabs/welcome_tab.py:432
+msgid "Could not remove autostart file."
+msgstr "Impossible de supprimer le fichier de démarrage automatique."
 
 #: utils/command_runner.py:51
 msgid "Starting..."
-msgstr ""
+msgstr "Démarrage..."
 
 #: utils/command_runner.py:137
 msgid "Unpacking"
-msgstr ""
+msgstr "Dépaquetage"
 
 #: utils/command_runner.py:165
 msgid "Configuring"
-msgstr ""
+msgstr "Configuration"
 
-#: utils/command_runner.py:194 utils/command_runner.py:199
-msgid "Installation complete"
-msgstr ""
+#: utils/hardware_detector.py:38
+msgid "Dedicated"
+msgstr "Dédié"
+
+#: utils/hardware_detector.py:48
+msgid "Dedicated/Integrated"
+msgstr "Dédié/Intégré"
+
+#: utils/hardware_detector.py:58
+msgid "Integrated"
+msgstr "Intégré"
+
+#: utils/hardware_detector.py:266
+msgid "Disk"
+msgstr "Disque"
+
+#: utils/hardware_detector.py:287
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: utils/hardware_detector.py:289
+msgid "Ethernet"
+msgstr "Ethernet"
+
+#: utils/hardware_detector.py:291
+msgid "Other"
+msgstr "Autre"
+
+#: utils/hardware_detector.py:304
+msgid "Connected"
+msgstr "Connecté"
+
+#: utils/hardware_detector.py:304
+msgid "Disconnected"
+msgstr "Déconnecté"
+
+#: utils/hardware_detector.py:328
+msgid "Detecting CPU..."
+msgstr "Détection du CPU..."
+
+#: utils/hardware_detector.py:333
+msgid "Detecting memory..."
+msgstr "Détection de la mémoire..."
+
+#: utils/hardware_detector.py:338
+msgid "Detecting GPU..."
+msgstr "Détection du GPU..."
+
+#: utils/hardware_detector.py:343
+msgid "Detecting virtual machine..."
+msgstr "Détection de la machine virtuelle..."
+
+#: utils/hardware_detector.py:348
+msgid "Detecting storage..."
+msgstr "Détection du stockage..."
+
+#: utils/hardware_detector.py:353
+msgid "Detecting network..."
+msgstr "Détection du réseau..."
+
+#: utils/hardware_detector.py:358
+msgid "Scan completed"
+msgstr "Analyse terminée"
+
+#~ msgid "Advanced IDE with zero gravity"
+#~ msgstr "IDE avancé avec gravité zéro"
+
+#~ msgid "Installation complete"
+#~ msgstr "Installation terminée"
