@@ -48,10 +48,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - NVIDIA compatibility warnings and safety checks
 
 ### ✨ Recommended Tab Complete Overhaul
+- **Search and Filter**: Real-time search functionality to quickly find applications
+  - Search bar positioned in header for instant access
+  - Filters applications by name and description as you type
+  - Displays "No results found" message when search yields no matches
+  - Search state persists across mode switches (normal ↔ batch)
 - **Batch Installation Mode**: New "Selección Múltiple" mode allows selecting and installing multiple packages simultaneously
   - Toggle between normal (individual buttons) and batch (checkboxes) modes
+  - "Seleccionar Todos" button selects all visible uninstalled packages (respects search filter)
+  - "Deseleccionar Todos" button clears all selections instantly
   - Smart grouping: APT packages installed in single command, Flatpak/deb/custom scripts sequential
   - Bottom action bar with selection counter and batch install button
+  - Selection state persists during UI refresh operations
   - Full support for custom scripts (Google Antigravity, Brave, Zed, Sublime Text, etc.)
   - Only DaVinci Resolve excluded due to complex multi-step installation
 - **Custom Script Support**: Complex installation workflows with repository setup, GPG keys, and multi-step installations
@@ -81,15 +89,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
   - **GPU Optimization**: Automatic GPU vendor detection (NVIDIA/AMD/Intel) with environment configuration files for optimal gaming drivers
   - **Disk I/O Optimization**: Udev rules implementation for optimal disk schedulers (mq-deadline for SSD, none for NVMe, BFQ for HDD)
   - **Performance Monitoring**: MangoHud + Goverlay integration for FPS overlay
-  - **Game Launchers**: Full installation/uninstallation support for 9 gaming platforms:
+  - **Game Launchers**: Full installation/uninstallation support for 13 gaming platforms:
     - **Steam (Flatpak)**: Digital game distribution platform
     - **Lutris (APT/Flatpak)**: Unified game manager for Linux with official repository package badge
     - **Heroic Games Launcher (Flatpak)**: Launcher for Epic Games, GOG, and Amazon Games
     - **Bottles (Flatpak)**: Run Windows applications using Wine with intuitive prefix management
+    - **Vinegar (Flatpak)**: Modern Roblox launcher for Linux
+    - **R2ModMan (Flatpak)**: Mod manager for games like Lethal Company, Valheim, Risk of Rain 2
     - **Prism Launcher (Flatpak)**: Custom Minecraft launcher with mod support
     - **Itch.io (Flatpak)**: Indie game marketplace and distribution platform
     - **Minigalaxy (APT/Flatpak)**: Simple GOG.com client with official repository package badge
     - **RetroArch (APT/Flatpak)**: Multi-system emulator frontend with official repository package badge
+    - **Moonlight (Flatpak)**: NVIDIA GameStream and Sunshine streaming client
+    - **Chiaki (Flatpak)**: PlayStation Remote Play client with PS4/PS5 HDR support
     - **Discord (Flatpak)**: Gaming community communication platform
   - **Installation Method Badges**: Visual indicators (Flatpak badge) to show package installation source
   - **Official Package Badges**: Security shield icon for packages from official Debian repositories

@@ -126,7 +126,9 @@ Contact: info@soploslinux.com
 - **CPU Microcode**: Intel and AMD firmware security updates.
 - **System Maintenance**: Tools to clean old kernels and update GRUB.
 - **Recommended Tab Enhancements**:
+  - **Search and Filter**: Real-time search to quickly find applications by name or description, with persistent state across mode switches
   - **Batch Installation Mode**: "Selección Múltiple" mode for installing multiple packages at once (APT consolidated, Flatpak/deb/custom scripts sequential, only DaVinci excluded)
+  - **Batch Selection Controls**: "Seleccionar Todos" and "Deseleccionar Todos" buttons that respect active search filter
   - **Custom Script Support**: Complex installation workflows (repository setup, GPG keys, multi-step installations).
   - **Global Progress Bar Integration**: All operations now use the unified progress bar system.
   - **Improved Error Handling**: Better feedback and UI recovery on installation failures.

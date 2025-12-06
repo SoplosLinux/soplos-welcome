@@ -44,6 +44,9 @@ class RecommendedTab(Gtk.Box):
         self.selected_deb_urls = []  # List of (url, package_name) tuples
         self.selected_custom = []  # List of (commands_list, package_name) tuples
         
+        # Search state
+        self.search_query = ""
+        
         self.set_margin_left(20)
         self.set_margin_right(20)
         self.set_margin_top(20)
@@ -77,6 +80,14 @@ class RecommendedTab(Gtk.Box):
         self.batch_toggle_button.connect('clicked', self._on_toggle_batch_mode)
         header_box.pack_end(self.batch_toggle_button, False, False, 0)
         
+        # Search entry (to the left of batch button)
+        self.search_entry = Gtk.SearchEntry()
+        self.search_entry.set_placeholder_text("Buscar programas...")
+        self.search_entry.set_max_width_chars(30)
+        self.search_entry.set_valign(Gtk.Align.CENTER)
+        self.search_entry.connect('search-changed', self._on_search_changed)
+        header_box.pack_end(self.search_entry, False, False, 0)
+        
         self.pack_start(header_box, False, False, 0)
         
         # Scrolled window for content
@@ -95,10 +106,21 @@ class RecommendedTab(Gtk.Box):
         
         batch_bar_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         
+        # Left side: Select/Deselect all buttons
+        select_all_button = Gtk.Button.new_with_label("Seleccionar Todos")
+        select_all_button.connect('clicked', self._on_select_all)
+        batch_bar_box.pack_start(select_all_button, False, False, 0)
+        
+        deselect_all_button = Gtk.Button.new_with_label("Deseleccionar Todos")
+        deselect_all_button.connect('clicked', self._on_deselect_all)
+        batch_bar_box.pack_start(deselect_all_button, False, False, 0)
+        
+        # Center: Counter
         self.batch_label = Gtk.Label("0 programas seleccionados")
         self.batch_label.get_style_context().add_class('dim-label')
-        batch_bar_box.pack_start(self.batch_label, False, False, 0)
+        batch_bar_box.pack_start(self.batch_label, True, True, 0)
         
+        # Right side: Install button
         batch_install_button = Gtk.Button.new_with_label("Instalar Seleccionados")
         batch_install_button.get_style_context().add_class('suggested-action')
         batch_install_button.connect('clicked', self._on_install_batch)
@@ -120,13 +142,40 @@ class RecommendedTab(Gtk.Box):
         # Show only selected categories with featured apps
         recommended_categories = ['browsers', 'comunications', 'office', 'multimedia', 'graphics', 'developer', 'gaming']
         
+        has_results = False
         for category_id in recommended_categories:
             if category_id in categories:
                 category_data = categories[category_id]
-                self._create_category_section(category_id, category_data, featured_only=False)
+                if self._create_category_section(category_id, category_data, featured_only=False):
+                    has_results = True
+        
+        # Show "no results" message if search query is active but nothing matches
+        if self.search_query and not has_results:
+            no_results_label = Gtk.Label()
+            no_results_label.set_markup(f'<span size="12000">No se encontraron resultados para "{self.search_query}"</span>')
+            no_results_label.get_style_context().add_class('dim-label')
+            no_results_label.set_margin_top(50)
+            self.content_box.pack_start(no_results_label, True, True, 0)
     
-    def _create_category_section(self, category_id: str, category_data: dict, featured_only: bool = False):
-        """Create a section for a recommended software category."""
+    def _create_category_section(self, category_id: str, category_data: dict, featured_only: bool = False) -> bool:
+        """Create a section for a recommended software category.
+        
+        Returns:
+            bool: True if any packages were shown, False otherwise
+        """
+        # Filter packages based on search query
+        packages = category_data.get('packages', [])
+        if self.search_query:
+            query_lower = self.search_query.lower()
+            packages = [
+                pkg for pkg in packages
+                if query_lower in pkg['name'].lower() or query_lower in pkg.get('description', '').lower()
+            ]
+        
+        # Skip category if no packages match
+        if not packages:
+            return False
+        
         # Category frame
         frame = Gtk.Frame()
         frame.set_label_align(0.0, 0.5)
@@ -168,9 +217,7 @@ class RecommendedTab(Gtk.Box):
         grid.set_margin_top(10)
         grid.set_margin_bottom(15)
         
-        # Add packages to grid
-        packages = category_data.get('packages', [])
-        
+        # Add packages to grid (already filtered)
         row = 0
         col = 0
         max_cols = 2
@@ -187,6 +234,7 @@ class RecommendedTab(Gtk.Box):
         frame.add(grid)
         frame.show_all()
         self.content_box.pack_start(frame, False, False, 0)
+        return True
     
     def _create_package_widget(self, category_id: str, package: dict) -> Gtk.Widget:
         """Create a widget for a single recommended package."""
@@ -277,6 +325,11 @@ class RecommendedTab(Gtk.Box):
                 # Show checkbox
                 checkbox = Gtk.CheckButton()
                 checkbox.set_valign(Gtk.Align.CENTER)
+                
+                # Pre-check if already selected
+                if self._is_package_selected(package):
+                    checkbox.set_active(True)
+                
                 checkbox.connect('toggled', self._on_checkbox_toggled, package, category_id)
                 button_box.pack_start(checkbox, False, False, 0)
             else:
@@ -616,6 +669,85 @@ rm -f /tmp/{pkg_name}.deb"""
                     self.selected_custom.remove(custom_to_remove)
         
         self._update_batch_bar()
+    
+    def _is_package_selected(self, package: dict) -> bool:
+        """Check if a package is currently selected in batch mode."""
+        install_method = self._get_install_method(package)
+        
+        if install_method == 'apt' and package.get('package'):
+            return package['package'] in self.selected_apt
+        elif install_method == 'flatpak' and package.get('flatpak'):
+            return package['flatpak'] in self.selected_flatpak
+        elif install_method == 'deb' and package.get('deb_url'):
+            deb_info = (package['deb_url'], package['package'])
+            return deb_info in self.selected_deb_urls
+        elif install_method == 'custom' and package.get('install_commands'):
+            for custom_info in self.selected_custom:
+                if custom_info[1] == package['package']:
+                    return True
+        return False
+    
+    def _on_search_changed(self, search_entry):
+        """Handle search query changes."""
+        self.search_query = search_entry.get_text().strip()
+        self._refresh_content()
+    
+    def _on_select_all(self, button):
+        """Select all visible uninstalled packages."""
+        categories = get_all_categories()
+        recommended_categories = ['browsers', 'comunications', 'office', 'multimedia', 'graphics', 'developer', 'gaming']
+        
+        for category_id in recommended_categories:
+            if category_id not in categories:
+                continue
+                
+            category_data = categories[category_id]
+            packages = category_data.get('packages', [])
+            
+            # Apply search filter
+            if self.search_query:
+                query_lower = self.search_query.lower()
+                packages = [
+                    pkg for pkg in packages
+                    if query_lower in pkg['name'].lower() or query_lower in pkg.get('description', '').lower()
+                ]
+            
+            # Select each uninstalled package
+            for package in packages:
+                install_method = self._get_install_method(package)
+                
+                # Skip if excluded from batch or already installed
+                if install_method == 'davinci_resolve' or self._is_package_installed(package):
+                    continue
+                
+                # Add to appropriate list if not already selected
+                if install_method == 'apt' and package.get('package'):
+                    if package['package'] not in self.selected_apt:
+                        self.selected_apt.append(package['package'])
+                elif install_method == 'flatpak' and package.get('flatpak'):
+                    if package['flatpak'] not in self.selected_flatpak:
+                        self.selected_flatpak.append(package['flatpak'])
+                elif install_method == 'deb' and package.get('deb_url'):
+                    deb_info = (package['deb_url'], package['package'])
+                    if deb_info not in self.selected_deb_urls:
+                        self.selected_deb_urls.append(deb_info)
+                elif install_method == 'custom' and package.get('install_commands'):
+                    custom_info = (package['install_commands'], package['package'])
+                    if custom_info not in self.selected_custom:
+                        self.selected_custom.append(custom_info)
+        
+        self._update_batch_bar()
+        self._refresh_content()
+    
+    def _on_deselect_all(self, button):
+        """Deselect all packages."""
+        self.selected_apt.clear()
+        self.selected_flatpak.clear()
+        self.selected_deb_urls.clear()
+        self.selected_custom.clear()
+        
+        self._update_batch_bar()
+        self._refresh_content()
     
     def _update_batch_bar(self):
         """Update the batch action bar with selection count."""
