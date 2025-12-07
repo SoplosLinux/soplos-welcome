@@ -2113,7 +2113,7 @@ msgstr "Рекомендуется для десктопа"
 msgid ""
 "Simple graphical interface for UFW firewall. Control network traffic easily."
 msgstr ""
-"Простой графический интерфейфейс для брандмауэра UFW. Легко управляйте "
+"Простой графический интерфейс для брандмауэра UFW. Легко управляйте "
 "сетевым трафиком."
 
 #: ui/tabs/security_tab.py:184

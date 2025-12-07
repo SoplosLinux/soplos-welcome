@@ -179,8 +179,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - **Complete German Dictionary**: Full revision of German translations (565/565 messages):
   - Fixed typo "Dukle" → "Dunkle" (Dark theme)
   - Updated header with correct translator info
+- **Complete Italian Dictionary**: Full revision of Italian translations (565/565 messages):
+  - Synchronized with latest .pot template using msgmerge
+  - Added 35 missing translations (GNOME/KDE Settings, Gaming, Security sections)
+  - Removed 23 fuzzy flags with corrected translations
+  - Updated header with translator info (Sergi Perich)
+- **Complete Portuguese Dictionary**: Full revision of Portuguese translations (565/565 messages):
+  - Fixed missing translation ("Symlinks created in:")
+  - Fixed typo "PROPÓSITIO" → "PROPÓSITO"
+  - Changed "Upgrade" to "Atualizar Sistema" for better localization
+  - Updated header with translator info
+- **Complete Romanian Dictionary**: Full revision of Romanian translations (565/565 messages):
+  - Added 2 missing help text translations
+  - Changed "Upgrade" to "Actualizare Sistem"
+  - Updated header with translator info
+- **Complete Russian Dictionary**: Full revision of Russian translations (565/565 messages):
+  - Added 14 missing translations (AI Assistant, GNOME/KDE settings, Gaming messages)
+  - Fixed 23 fuzzy translations with correct Russian text
+  - Fixed typo "интерфейфейс" → "интерфейс"
+  - Changed "Модернизировать" to "Обновить систему" for better localization
+  - Updated header with translator info
 - **Updated English/Spanish Dictionary Headers**: Corrected Last-Translator and Language-Team metadata.
-- **Translation Quality**: All 4 main languages (EN, ES, DE, FR) now at 100% with 565 messages each.
+- **Translation Quality**: All 8 languages (EN, ES, DE, FR, IT, PT, RO, RU) now at 100% with 565 messages each.
 
 ## [1.1.4] - 2025-09-08
 

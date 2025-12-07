@@ -76,16 +76,16 @@ Soplos Welcome is a welcome application that guides new users through the initia
 sudo apt install soplos-welcome
 ```
 
-## 🌐 Supported Languages
+## 🌐 Supported Languages (100% Complete)
 
-- Spanish
-- English
-- French
-- Portuguese
-- German
-- Italian
-- Russian
-- Romanian
+- 🇪🇸 Spanish (Español)
+- 🇬🇧 English
+- 🇫🇷 French (Français)
+- 🇵🇹 Portuguese (Português)
+- 🇩🇪 German (Deutsch)
+- 🇮🇹 Italian (Italiano)
+- 🇷🇺 Russian (Русский)
+- 🇷🇴 Romanian (Română)
 
 ## 📄 License
 
@@ -196,7 +196,11 @@ Contact: info@soploslinux.com
 - **Fixed Recommended Tab Scrollbar**: Resolved vertical scrollbar overlapping content boxes.
 - **Complete French Dictionary**: Full revision and 100% translation (565 messages), fixed corrupted syntax, added 35+ new translations.
 - **Complete German Dictionary**: Full revision, fixed typo "Dunkle" (Dark theme), 100% translation (565 messages).
-- **Updated Dictionary Headers**: Corrected Last-Translator and Language-Team metadata for EN, ES, DE, FR (Sergi Perich <info@soploslinux.com>).
+- **Complete Italian Dictionary**: Full revision and 100% translation (565 messages), 35 missing translations added, 23 fuzzy flags corrected.
+- **Complete Portuguese Dictionary**: Full revision and 100% translation (565 messages), fixed typo "PROPÓSITIO", improved "Upgrade" localization.
+- **Complete Romanian Dictionary**: Full revision and 100% translation (565 messages), added missing help texts.
+- **Complete Russian Dictionary**: Full revision and 100% translation (565 messages), 14 missing translations added, 23 fuzzy fixed, typo "интерфейфейс" corrected.
+- **Translation Quality**: All 8 languages (EN, ES, DE, FR, IT, PT, RO, RU) now at 100% with 565 messages each.
 
 ### v1.1.4 (08/09/2025)
 - Updated Blender icon and fixed link buttons in the welcome tab.
