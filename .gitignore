@@ -39,8 +39,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# Translations
-*.mo
+# Translations (backup files only)
 *.pot
 *~
 *.po~
