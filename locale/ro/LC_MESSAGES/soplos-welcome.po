@@ -1,16 +1,15 @@
 # Romanian translations for soplos-welcome package.
 # Copyright (C) 2025 Sergi Perich
 # This file is distributed under the same license as the soplos-welcome package.
-# Automatically generated, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: soplos-welcome 2.0.0\n"
+"Project-Id-Version: soplos-welcome 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-06 09:05+0100\n"
-"PO-Revision-Date: 2025-12-06 05:12+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2025-12-06 21:33+0100\n"
+"PO-Revision-Date: 2025-12-07 18:00+0100\n"
+"Last-Translator: Sergi Perich <info@soploslinux.com>\n"
+"Language-Team: Romanian <info@soploslinux.com>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,19 +20,19 @@ msgstr ""
 #: core/application.py:200 ui/main_window.py:40 ui/main_window.py:99
 #: ui/main_window.py:113 ui/main_window.py:653
 msgid "Soplos Welcome"
-msgstr ""
+msgstr "Bun venit în Soplos"
 
 #: core/application.py:227
 msgid "Preferences"
-msgstr ""
+msgstr "Preferințe"
 
 #: core/application.py:233
 msgid "About"
-msgstr ""
+msgstr "Despre"
 
 #: core/application.py:239
 msgid "Quit"
-msgstr ""
+msgstr "Ieșire"
 
 #: core/application.py:289
 msgid ""
@@ -57,6 +56,25 @@ msgid ""
 "\n"
 "For more information, visit: https://soplos.org\n"
 msgstr ""
+"\n"
+"Soplos Welcome 2.0 - Cea mai avansată aplicație de bun venit din lume\n"
+"\n"
+"Utilizare: soplos-welcome [OPȚIUNI]\n"
+"\n"
+"Opțiuni:\n"
+"  -h, --help              Afișează acest mesaj de ajutor\n"
+"  -v, --version           Afișează informații despre versiune\n"
+"  --lang=LANG             Setează limba (es, en, fr, de, pt, it, ro, ru)\n"
+"  --theme=THEME           Setează tema (base, light, dark, gnome, kde, xfce)\n"
+"  --debug                 Activează modul de depanare\n"
+"\n"
+"Exemple:\n"
+"  soplos-welcome                    # Pornește cu setări detectate automat\n"
+"  soplos-welcome --lang=ro          # Pornește în Română\n"
+"  soplos-welcome --theme=dark       # Pornește cu tema întunecată\n"
+"  soplos-welcome --debug            # Pornește în modul de depanare\n"
+"\n"
+"Pentru mai multe informații, vizitează: https://soplos.org\n"
 
 #: core/application.py:315
 #, python-brace-format
@@ -74,2018 +92,1423 @@ msgid ""
 "Theme: {theme}\n"
 "Language: {language}\n"
 msgstr ""
+"\n"
+"Soplos Welcome {version}\n"
+"\n"
+"Copyright (C) 2025 Sergi Perich\n"
+"Acesta este software liber; vezi sursa pentru condițiile de copiere.\n"
+"NU există garanție; nici măcar pentru COMERCIALIZARE sau ADECVARE PENTRU UN "
+"SCOP PARTICULAR.\n"
+"\n"
+"Mediu Desktop: {desktop_env}\n"
+"Protocol Afișare: {display_protocol}\n"
+"Temă: {theme}\n"
+"Limbă: {language}\n"
 
 #: config/software.py:16
 msgid "Web Browsers"
-msgstr ""
+msgstr "Navigatoare Web"
 
 #: config/software.py:24
 msgid "Free and open-source web browser developed by Mozilla"
-msgstr ""
+msgstr "Navigator web gratuit și open-source dezvoltat de Mozilla"
 
 #: config/software.py:31
 msgid "Web browser developed by Google"
-msgstr ""
+msgstr "Navigator web dezvoltat de Google"
 
-#: config/software.py:40
+#: config/software.py:44
 msgid "Open-source project behind Google Chrome"
-msgstr ""
+msgstr "Proiectul open-source din spatele Google Chrome"
 
-#: config/software.py:48
+#: config/software.py:52
 msgid "Privacy-focused browser that blocks ads"
-msgstr ""
+msgstr "Navigator axat pe confidențialitate care blochează reclamele"
 
-#: config/software.py:63
+#: config/software.py:67
 msgid "Firefox fork focused on privacy, security and freedom"
-msgstr ""
+msgstr "Fork Firefox axat pe confidențialitate, securitate și libertate"
 
-#: config/software.py:70
+#: config/software.py:74
 msgid "Lightweight, fast and secure web browser"
-msgstr ""
-
-#: config/software.py:78
-msgid "Communication"
-msgstr ""
+msgstr "Navigator web ușor, rapid și sigur"
 
 #: config/software.py:86
-msgid "Free email client developed by Mozilla"
-msgstr ""
+msgid "Communication"
+msgstr "Comunicare"
 
 #: config/software.py:94
-msgid "Communication app for communities and gaming"
-msgstr ""
+msgid "Free email client developed by Mozilla"
+msgstr "Client de email gratuit dezvoltat de Mozilla"
 
 #: config/software.py:102
-msgid "Fast and secure messaging app"
-msgstr ""
+msgid "Communication app for communities and gaming"
+msgstr "Aplicație de comunicare pentru comunități și jocuri"
 
 #: config/software.py:110
-msgid "Private messaging with end-to-end encryption"
-msgstr ""
+msgid "Fast and secure messaging app"
+msgstr "Aplicație de mesagerie rapidă și sigură"
 
 #: config/software.py:118
-msgid "Matrix client for decentralized communication"
-msgstr ""
+msgid "Private messaging with end-to-end encryption"
+msgstr "Mesagerie privată cu criptare end-to-end"
 
 #: config/software.py:126
-msgid "Unofficial WhatsApp desktop client"
-msgstr ""
+msgid "Matrix client for decentralized communication"
+msgstr "Client Matrix pentru comunicare descentralizată"
 
-#: config/software.py:133
-msgid "Development"
-msgstr ""
+#: config/software.py:134
+msgid "Unofficial WhatsApp desktop client"
+msgstr "Client desktop neoficial pentru WhatsApp"
 
 #: config/software.py:141
+msgid "Development"
+msgstr "Dezvoltare"
+
+#: config/software.py:149
 msgid "Source code editor developed by Microsoft"
-msgstr ""
+msgstr "Editor de cod sursă dezvoltat de Microsoft"
 
-#: config/software.py:156
+#: config/software.py:164
 msgid "Free version of Visual Studio Code without telemetry"
-msgstr ""
+msgstr "Versiune gratuită a Visual Studio Code fără telemetrie"
 
-#: config/software.py:163
-msgid "Advanced IDE with zero gravity"
-msgstr ""
+#: config/software.py:171
+msgid "Advanced Agentic AI Coding Assistant"
+msgstr "Asistent avansat de codare AI"
 
-#: config/software.py:178
+#: config/software.py:186
 msgid "Sophisticated text editor for code and markup"
-msgstr ""
+msgstr "Editor de text sofisticat pentru cod și marcare"
 
-#: config/software.py:194
+#: config/software.py:206
 msgid "Code editor with integrated AI"
-msgstr ""
+msgstr "Editor de cod cu AI integrat"
 
-#: config/software.py:202
+#: config/software.py:214
 msgid "High-performance collaborative code editor"
-msgstr ""
+msgstr "Editor de cod colaborativ de înaltă performanță"
 
-#: config/software.py:213
+#: config/software.py:225
 msgid "Lightweight and fast IDE with multi-language support"
-msgstr ""
+msgstr "IDE ușor și rapid cu suport pentru mai multe limbi"
 
-#: config/software.py:220
+#: config/software.py:232
 msgid "Advanced editor for web programmers"
-msgstr ""
+msgstr "Editor avansat pentru programatori web"
 
-#: config/software.py:227
+#: config/software.py:239
 msgid "Fast and reliable FTP/SFTP client"
-msgstr ""
+msgstr "Client FTP/SFTP rapid și fiabil"
 
-#: config/software.py:234
+#: config/software.py:246
 msgid "Graphics and Design"
-msgstr ""
+msgstr "Grafică și Design"
 
-#: config/software.py:242
+#: config/software.py:254
 msgid "Advanced and free image editor"
-msgstr ""
+msgstr "Editor de imagini avansat și gratuit"
 
-#: config/software.py:250
+#: config/software.py:262
 msgid "Professional vector graphics editor"
-msgstr ""
+msgstr "Editor grafic vectorial profesional"
 
-#: config/software.py:258
+#: config/software.py:270
 msgid "Complete and free 3D creation suite"
-msgstr ""
+msgstr "Suită completă și gratuită de creație 3D"
 
-#: config/software.py:266
+#: config/software.py:278
 msgid "Professional digital painting program"
-msgstr ""
+msgstr "Program profesional de pictură digitală"
 
-#: config/software.py:274
+#: config/software.py:286
 msgid "Virtual lighttable for photography"
-msgstr ""
+msgstr "Masă luminoasă virtuală pentru fotografie"
 
-#: config/software.py:282
+#: config/software.py:298
 msgid "Fast and modern RAW photo editor"
-msgstr ""
-
-#: config/software.py:289
-msgid "Multimedia"
-msgstr ""
-
-#: config/software.py:297
-msgid "Universal media player"
-msgstr ""
+msgstr "Editor foto RAW rapid și modern"
 
 #: config/software.py:305
-msgid "Software for streaming and video recording"
-msgstr ""
+msgid "Multimedia"
+msgstr "Multimedia"
 
 #: config/software.py:313
-msgid "Professional non-linear video editor"
-msgstr ""
+msgid "Universal media player"
+msgstr "Player media universal"
 
 #: config/software.py:321
-msgid "Free and open-source audio editor"
-msgstr ""
+msgid "Software for streaming and video recording"
+msgstr "Software pentru streaming și înregistrare video"
 
 #: config/software.py:329
+msgid "Professional non-linear video editor"
+msgstr "Editor video neliniar profesional"
+
+#: config/software.py:337
+msgid "Free and open-source audio editor"
+msgstr "Editor audio gratuit și open-source"
+
+#: config/software.py:345
 msgid "Minimalist and powerful media player"
-msgstr ""
+msgstr "Player media minimalist și puternic"
 
-#: config/software.py:336
+#: config/software.py:352
 msgid "Digital audio workstation"
-msgstr ""
-
-#: config/software.py:343
-msgid "Professional DJ software"
-msgstr ""
-
-#: config/software.py:351
-msgid "Open-source media center"
-msgstr ""
+msgstr "Stație de lucru audio digitală"
 
 #: config/software.py:359
-msgid "Easy to use video editor"
-msgstr ""
+msgid "Professional DJ software"
+msgstr "Software DJ profesional"
 
 #: config/software.py:367
-msgid "Professional video editing (Script by Daniel Tufvesson)"
-msgstr ""
+msgid "Open-source media center"
+msgstr "Centru media open-source"
 
 #: config/software.py:375
-msgid "Office"
-msgstr ""
+msgid "Easy to use video editor"
+msgstr "Editor video ușor de utilizat"
 
 #: config/software.py:383
-msgid "Complete and free office suite"
-msgstr ""
+msgid "Professional video editing (Script by Daniel Tufvesson)"
+msgstr "Editare video profesională (Script de Daniel Tufvesson)"
 
 #: config/software.py:391
-msgid "Office suite compatible with Microsoft Office"
-msgstr ""
+msgid "Office"
+msgstr "Birotică"
 
 #: config/software.py:399
-msgid "Lightweight and elegant office suite"
-msgstr ""
+msgid "Complete and free office suite"
+msgstr "Suită de birou completă și gratuită"
 
 #: config/software.py:407
+msgid "Office suite compatible with Microsoft Office"
+msgstr "Suită de birou compatibilă cu Microsoft Office"
+
+#: config/software.py:415
+msgid "Lightweight and elegant office suite"
+msgstr "Suită de birou ușoară și elegantă"
+
+#: config/software.py:423
 msgid "Adobe PDF reader"
-msgstr ""
+msgstr "Cititor PDF Adobe"
 
-#: config/software.py:414 ui/main_window.py:343
+#: config/software.py:430 ui/main_window.py:343
 msgid "Gaming"
-msgstr ""
-
-#: config/software.py:422
-msgid "Digital distribution platform for video games"
-msgstr ""
-
-#: config/software.py:430
-msgid "Unified platform for managing games on Linux"
-msgstr ""
+msgstr "Jocuri"
 
 #: config/software.py:438
-msgid "Run Windows applications on Linux using Wine"
-msgstr ""
+msgid "Digital distribution platform for video games"
+msgstr "Platformă digitală de distribuție pentru jocuri video"
 
 #: config/software.py:446
-msgid "Frontend for emulators and game engines"
-msgstr ""
+msgid "Unified platform for managing games on Linux"
+msgstr "Platformă unificată pentru gestionarea jocurilor pe Linux"
 
 #: config/software.py:454
+msgid "Run Windows applications on Linux using Wine"
+msgstr "Rulează aplicații Windows pe Linux folosind Wine"
+
+#: config/software.py:462
+msgid "Frontend for emulators and game engines"
+msgstr "Interfață pentru emulatoare și motoare de joc"
+
+#: config/software.py:470
 msgid "Launcher for Epic, GOG and Amazon Games"
-msgstr ""
+msgstr "Lansator pentru Epic, GOG și Amazon Games"
 
 #: ui/main_window.py:143
 msgid "Change Language"
-msgstr ""
+msgstr "Schimbă Limba"
 
 #: ui/main_window.py:154
 msgid "Toggle Theme"
-msgstr ""
+msgstr "Comută Tema"
 
 #: ui/main_window.py:162
 msgid "About Soplos Welcome"
-msgstr ""
+msgstr "Despre Soplos Welcome"
 
-#: ui/main_window.py:220 ui/main_window.py:643 ui/tabs/recommended_tab.py:916
+#: ui/main_window.py:220 ui/main_window.py:643 ui/tabs/recommended_tab.py:941
 msgid "Ready"
-msgstr ""
+msgstr "Pregătit"
 
 #: ui/main_window.py:238 ui/main_window.py:484
 msgid "Welcome"
-msgstr ""
+msgstr "Bun venit"
 
 #: ui/main_window.py:239 ui/main_window.py:488
 msgid "Software"
-msgstr ""
+msgstr "Software"
 
 #: ui/main_window.py:240
 msgid "Drivers"
-msgstr ""
+msgstr "Drivere"
 
 #: ui/main_window.py:241
 msgid "Kernels"
-msgstr ""
+msgstr "Nuclee"
 
 #: ui/main_window.py:242
 msgid "Security"
-msgstr ""
+msgstr "Securitate"
 
 #: ui/main_window.py:243 ui/tabs/kernels_tab.py:169 ui/tabs/security_tab.py:119
 #: ui/tabs/security_tab.py:249
 msgid "Recommended"
-msgstr ""
+msgstr "Recomandate"
 
 #: ui/main_window.py:244 ui/tabs/gaming_tab.py:87
 msgid "Customization"
-msgstr ""
+msgstr "Personalizare"
 
 #: ui/main_window.py:371
 msgid "Minimize"
-msgstr ""
+msgstr "Minimizează"
 
 #: ui/main_window.py:382 ui/main_window.py:891
 msgid "Restore"
-msgstr ""
+msgstr "Restaurează"
 
 #: ui/main_window.py:385 ui/main_window.py:894
 msgid "Maximize"
-msgstr ""
+msgstr "Maximizează"
 
 #: ui/main_window.py:395 ui/tabs/drivers_tab.py:572
 msgid "Close"
-msgstr ""
+msgstr "Închide"
 
 #: ui/main_window.py:468
 msgid "Welcome to Soplos Linux! Get started with your new system."
-msgstr ""
+msgstr "Bine ai venit în Soplos Linux! Începe cu noul tău sistem."
 
 #: ui/main_window.py:469
 msgid ""
 "Install and manage software packages, repositories, and software centers."
-msgstr ""
+msgstr "Instalează și gestionează pachete software, depozite și centre software."
 
 #: ui/main_window.py:470
 msgid "Detect and install optimal hardware drivers for your system."
-msgstr ""
+msgstr "Detectează și instalează drivere hardware optime pentru sistemul tău."
 
 #: ui/main_window.py:471
 msgid "Customize your desktop environment, themes, and appearance."
-msgstr ""
+msgstr "Personalizează mediul desktop, temele și aspectul."
 
 #: ui/main_window.py:472
 msgid "Manage system kernels and performance optimizations."
-msgstr ""
+msgstr "Gestionează nucleele de sistem și optimizările de performanță."
 
 #: ui/main_window.py:473
 msgid "Discover recommended applications for your workflow."
-msgstr ""
+msgstr "Descoperă aplicații recomandate pentru fluxul tău de lucru."
 
 #: ui/main_window.py:477
 msgid "Tab content coming soon..."
-msgstr ""
+msgstr "Conținutul filei va veni în curând..."
 
 #: ui/main_window.py:493
 msgid "Full implementation coming soon..."
-msgstr ""
+msgstr "Implementarea completă va veni în curând..."
 
-#: ui/main_window.py:507 ui/tabs/kernels_tab.py:62 ui/tabs/drivers_tab.py:410
+#: ui/main_window.py:507 ui/tabs/drivers_tab.py:410 ui/tabs/kernels_tab.py:62
 msgid "System Information"
-msgstr ""
+msgstr "Informații Sistem"
 
 #: ui/main_window.py:522
 msgid "Desktop Environment"
-msgstr ""
+msgstr "Mediu Desktop"
 
 #: ui/main_window.py:523
 msgid "Display Protocol"
-msgstr ""
+msgstr "Protocol Afișare"
 
 #: ui/main_window.py:524
 msgid "Theme Type"
-msgstr ""
+msgstr "Tip Temă"
 
 #: ui/main_window.py:525
 msgid "Current Language"
-msgstr ""
+msgstr "Limbă Curentă"
 
 #: ui/main_window.py:526
 msgid "Current Theme"
-msgstr ""
+msgstr "Temă Curentă"
 
 #: ui/main_window.py:526
 msgid "Default"
-msgstr ""
+msgstr "Implicit"
 
 #: ui/main_window.py:550
 msgid "Install Demo Package"
-msgstr ""
+msgstr "Instalează Pachet Demo"
 
 #: ui/main_window.py:556
 msgid "Uninstall Demo Package"
-msgstr ""
+msgstr "Dezinstalează Pachet Demo"
 
 #: ui/main_window.py:577
 #, python-brace-format
 msgid "Ready - {desktop} on {protocol}"
-msgstr ""
+msgstr "Pregătit - {desktop} pe {protocol}"
 
 #: ui/main_window.py:600
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ui/main_window.py:601 ui/main_window.py:602
 msgid "KDE Plasma"
-msgstr ""
+msgstr "KDE Plasma"
 
 #: ui/main_window.py:603
 msgid "XFCE"
-msgstr ""
+msgstr "XFCE"
 
 #: ui/main_window.py:604 ui/main_window.py:606 ui/main_window.py:613
 #: ui/main_window.py:615 ui/tabs/kernels_tab.py:297 ui/tabs/kernels_tab.py:309
 #: ui/tabs/kernels_tab.py:311 utils/hardware_detector.py:70
 #: utils/hardware_detector.py:162
 msgid "Unknown"
-msgstr ""
+msgstr "Necunoscut"
 
 #: ui/main_window.py:611
 msgid "X11"
-msgstr ""
+msgstr "X11"
 
 #: ui/main_window.py:612
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 #: ui/main_window.py:632
 msgid "Working..."
-msgstr ""
+msgstr "Se lucrează..."
 
 #: ui/main_window.py:655
 msgid "The world's most advanced welcome application for Linux"
-msgstr ""
+msgstr "Cea mai avansată aplicație de bun venit pentru Linux din lume"
 
 #: ui/main_window.py:659
 msgid "Soplos Linux Website"
-msgstr ""
+msgstr "Site-ul Soplos Linux"
 
 #: ui/main_window.py:733
 msgid "🎮 Gaming Mode Activated!"
-msgstr ""
+msgstr "🎮 Modul Gaming Activat!"
 
 #: ui/main_window.py:749
 msgid "Language Changed"
-msgstr ""
+msgstr "Limbă Schimbată"
 
 #: ui/main_window.py:752
 #, python-brace-format
 msgid ""
 "Language has been changed to {language}. Please restart the application for "
 "full effect."
-msgstr ""
+msgstr "Limba a fost schimbată în {language}. Vă rugăm să reporniți aplicația pentru efect complet."
 
 #: ui/main_window.py:787
 msgid "Preparing installation..."
-msgstr ""
+msgstr "Se pregătește instalarea..."
 
 #: ui/main_window.py:791
 msgid "Downloading package..."
-msgstr ""
+msgstr "Se descarcă pachetul..."
 
 #: ui/main_window.py:792
 msgid "Verifying dependencies..."
-msgstr ""
+msgstr "Se verifică dependențele..."
 
 #: ui/main_window.py:793
 msgid "Installing files..."
-msgstr ""
+msgstr "Se instalează fișierele..."
 
 #: ui/main_window.py:794
 msgid "Configuring application..."
-msgstr ""
+msgstr "Se configurează aplicația..."
 
 #: ui/main_window.py:795
 msgid "Finalizing installation..."
-msgstr ""
+msgstr "Se finalizează instalarea..."
 
 #: ui/main_window.py:796
 msgid "Installation completed!"
-msgstr ""
+msgstr "Instalare finalizată!"
 
 #: ui/main_window.py:824
 msgid "✅ Installation successful"
-msgstr ""
+msgstr "✅ Instalare reușită"
 
 #: ui/main_window.py:833
 msgid "Uninstalling package..."
-msgstr ""
+msgstr "Se dezinstalează pachetul..."
 
 #: ui/main_window.py:837
 msgid "Stopping services..."
-msgstr ""
+msgstr "Se opresc serviciile..."
 
 #: ui/main_window.py:838
 msgid "Removing files..."
-msgstr ""
+msgstr "Se elimină fișierele..."
 
 #: ui/main_window.py:839
 msgid "Cleaning configuration..."
-msgstr ""
+msgstr "Se curăță configurația..."
 
 #: ui/main_window.py:840
 msgid "Uninstallation completed!"
-msgstr ""
+msgstr "Dezinstalare finalizată!"
 
 #: ui/main_window.py:865
 msgid "✅ Uninstallation successful"
-msgstr ""
+msgstr "✅ Dezinstalare reușită"
 
 #: ui/tabs/customization_tab.py:53
 msgid "Desktop Customization"
-msgstr ""
+msgstr "Personalizare Desktop"
 
 #: ui/tabs/customization_tab.py:58
 msgid "Customize your desktop environment and themes"
-msgstr ""
+msgstr "Personalizează mediul desktop și temele"
 
 #: ui/tabs/customization_tab.py:84 ui/tabs/customization_tab.py:234
-#: ui/tabs/customization_tab.py:341
+#: ui/tabs/customization_tab.py:369
 msgid "Soplos Tools"
-msgstr ""
+msgstr "Instrumente Soplos"
 
 #: ui/tabs/customization_tab.py:104
 msgid "Theme Manager"
-msgstr ""
+msgstr "Manager de Teme"
 
 #: ui/tabs/customization_tab.py:105
 msgid "Customize GTK themes, icons, cursors and XFCE panel"
-msgstr ""
+msgstr "Personalizează teme GTK, pictograme, cursoare și panoul XFCE"
 
 #: ui/tabs/customization_tab.py:106
 msgid "Launch Soplos Theme Manager"
-msgstr ""
+msgstr "Lansează Soplos Theme Manager"
 
 #: ui/tabs/customization_tab.py:111
 msgid "Docklike"
-msgstr ""
+msgstr "Tip Dock"
 
 #: ui/tabs/customization_tab.py:112
 msgid "Configure dock and panel plugins"
-msgstr ""
+msgstr "Configurează dock-ul și plugin-urile panoului"
 
 #: ui/tabs/customization_tab.py:113
 msgid "Launch Soplos Docklike"
-msgstr ""
+msgstr "Lansează Soplos Docklike"
 
 #: ui/tabs/customization_tab.py:118 ui/tabs/customization_tab.py:254
-#: ui/tabs/customization_tab.py:361
+#: ui/tabs/customization_tab.py:389
 msgid "GRUB Editor"
-msgstr ""
+msgstr "Editor GRUB"
 
 #: ui/tabs/customization_tab.py:119 ui/tabs/customization_tab.py:255
-#: ui/tabs/customization_tab.py:362
+#: ui/tabs/customization_tab.py:390
 msgid "Edit boot menu (GRUB configuration)"
-msgstr ""
+msgstr "Editează meniul de pornire (configurare GRUB)"
 
 #: ui/tabs/customization_tab.py:120 ui/tabs/customization_tab.py:256
-#: ui/tabs/customization_tab.py:363
+#: ui/tabs/customization_tab.py:391
 msgid "Launch Soplos GRUB Editor"
-msgstr ""
+msgstr "Lansează Soplos GRUB Editor"
 
 #: ui/tabs/customization_tab.py:125 ui/tabs/customization_tab.py:261
-#: ui/tabs/customization_tab.py:368
+#: ui/tabs/customization_tab.py:396
 msgid "Plymouth Manager"
-msgstr ""
+msgstr "Manager Plymouth"
 
 #: ui/tabs/customization_tab.py:126 ui/tabs/customization_tab.py:262
-#: ui/tabs/customization_tab.py:369
+#: ui/tabs/customization_tab.py:397
 msgid "Customize boot splash screen"
-msgstr ""
+msgstr "Personalizează ecranul de pornire"
 
 #: ui/tabs/customization_tab.py:127 ui/tabs/customization_tab.py:263
-#: ui/tabs/customization_tab.py:370
+#: ui/tabs/customization_tab.py:398
 msgid "Launch Soplos Plymouth Manager"
-msgstr ""
+msgstr "Lansează Soplos Plymouth Manager"
 
 #: ui/tabs/customization_tab.py:151
 msgid "XFCE Settings"
-msgstr ""
+msgstr "Setări XFCE"
 
 #: ui/tabs/customization_tab.py:170
 msgid "Appearance"
-msgstr ""
+msgstr "Aspect"
 
 #: ui/tabs/customization_tab.py:171
 msgid "Themes, icons, fonts"
-msgstr ""
+msgstr "Teme, pictograme, fonturi"
 
 #: ui/tabs/customization_tab.py:172
 msgid "XFCE Appearance Settings"
-msgstr ""
+msgstr "Setări Aspect XFCE"
 
 #: ui/tabs/customization_tab.py:177
 msgid "Desktop"
-msgstr ""
+msgstr "Desktop"
 
 #: ui/tabs/customization_tab.py:178
 msgid "Wallpapers and desktop"
-msgstr ""
+msgstr "Imagini de fundal și desktop"
 
 #: ui/tabs/customization_tab.py:179
 msgid "XFCE Desktop Settings"
-msgstr ""
+msgstr "Setări Desktop XFCE"
 
 #: ui/tabs/customization_tab.py:184
 msgid "Window Manager"
-msgstr ""
+msgstr "Manager Ferestre"
 
 #: ui/tabs/customization_tab.py:185
 msgid "Window decorations"
-msgstr ""
+msgstr "Decorațiuni ferestre"
 
 #: ui/tabs/customization_tab.py:186
 msgid "XFCE Window Manager Settings"
-msgstr ""
+msgstr "Setări Manager Ferestre XFCE"
 
 #: ui/tabs/customization_tab.py:191
 msgid "Keyboard"
-msgstr ""
+msgstr "Tastatură"
 
 #: ui/tabs/customization_tab.py:192
 msgid "Keyboard and shortcuts"
-msgstr ""
+msgstr "Tastatură și scurtături"
 
 #: ui/tabs/customization_tab.py:193
 msgid "XFCE Keyboard Settings"
-msgstr ""
+msgstr "Setări Tastatură XFCE"
 
 #: ui/tabs/customization_tab.py:198
 msgid "Mouse"
-msgstr ""
+msgstr "Mouse"
 
 #: ui/tabs/customization_tab.py:199
 msgid "Mouse and touchpad"
-msgstr ""
+msgstr "Mouse și touchpad"
 
 #: ui/tabs/customization_tab.py:200
 msgid "XFCE Mouse Settings"
-msgstr ""
+msgstr "Setări Mouse XFCE"
 
 #: ui/tabs/customization_tab.py:205
 msgid "Notifications"
-msgstr ""
+msgstr "Notificări"
 
 #: ui/tabs/customization_tab.py:206
 msgid "Notification settings"
-msgstr ""
+msgstr "Setări notificări"
 
 #: ui/tabs/customization_tab.py:207
 msgid "XFCE Notification Settings"
-msgstr ""
+msgstr "Setări Notificări XFCE"
 
 #: ui/tabs/customization_tab.py:212
 msgid "Settings Editor"
-msgstr ""
+msgstr "Editor Setări"
 
 #: ui/tabs/customization_tab.py:213
 msgid "Advanced settings"
-msgstr ""
+msgstr "Setări avansate"
 
 #: ui/tabs/customization_tab.py:214
 msgid "XFCE Settings Editor"
-msgstr ""
+msgstr "Editor Setări XFCE"
 
 #: ui/tabs/customization_tab.py:283
 msgid "GNOME Settings"
-msgstr ""
+msgstr "Setări GNOME"
 
-#: ui/tabs/customization_tab.py:302
-msgid "Settings"
-msgstr ""
+#: ui/tabs/customization_tab.py:302 ui/tabs/customization_tab.py:458
+msgid "Wallpaper"
+msgstr "Imagine de fundal"
 
-#: ui/tabs/customization_tab.py:303
-msgid "System settings"
-msgstr ""
+#: ui/tabs/customization_tab.py:303 ui/tabs/customization_tab.py:459
+msgid "Desktop background"
+msgstr "Fundal desktop"
 
 #: ui/tabs/customization_tab.py:304
-msgid "GNOME Control Center"
-msgstr ""
+msgid "GNOME Background Settings"
+msgstr "Setări Fundal GNOME"
 
 #: ui/tabs/customization_tab.py:309
-msgid "Tweaks"
-msgstr ""
+msgid "Display"
+msgstr "Afișaj"
 
 #: ui/tabs/customization_tab.py:310
-msgid "Advanced tweaks"
-msgstr ""
+msgid "Monitor settings"
+msgstr "Setări monitor"
 
 #: ui/tabs/customization_tab.py:311
-msgid "GNOME Tweaks"
-msgstr ""
+msgid "GNOME Display Settings"
+msgstr "Setări Afișaj GNOME"
 
 #: ui/tabs/customization_tab.py:316
-msgid "Extensions"
-msgstr ""
+msgid "Power"
+msgstr "Energie"
 
 #: ui/tabs/customization_tab.py:317
-msgid "Manage extensions"
-msgstr ""
+msgid "Power management"
+msgstr "Gestionare energie"
 
 #: ui/tabs/customization_tab.py:318
-msgid "GNOME Extensions"
-msgstr ""
+msgid "GNOME Power Settings"
+msgstr "Setări Energie GNOME"
 
-#: ui/tabs/customization_tab.py:323 ui/tabs/customization_tab.py:325
-msgid "dconf Editor"
-msgstr ""
+#: ui/tabs/customization_tab.py:323
+msgid "Sound"
+msgstr "Sunet"
 
 #: ui/tabs/customization_tab.py:324
+msgid "Sound settings"
+msgstr "Setări sunet"
+
+#: ui/tabs/customization_tab.py:325
+msgid "GNOME Sound Settings"
+msgstr "Setări Sunet GNOME"
+
+#: ui/tabs/customization_tab.py:330
+msgid "Settings"
+msgstr "Setări"
+
+#: ui/tabs/customization_tab.py:331
+msgid "System settings"
+msgstr "Setări sistem"
+
+#: ui/tabs/customization_tab.py:332
+msgid "GNOME Control Center"
+msgstr "Centru de Control GNOME"
+
+#: ui/tabs/customization_tab.py:337
+msgid "Tweaks"
+msgstr "Ajustări"
+
+#: ui/tabs/customization_tab.py:338
+msgid "Advanced tweaks"
+msgstr "Ajustări avansate"
+
+#: ui/tabs/customization_tab.py:339
+msgid "GNOME Tweaks"
+msgstr "Ajustări GNOME"
+
+#: ui/tabs/customization_tab.py:344
+msgid "Extensions"
+msgstr "Extensii"
+
+#: ui/tabs/customization_tab.py:345
+msgid "Manage extensions"
+msgstr "Gestionare extensii"
+
+#: ui/tabs/customization_tab.py:346
+msgid "GNOME Extensions"
+msgstr "Extensii GNOME"
+
+#: ui/tabs/customization_tab.py:351 ui/tabs/customization_tab.py:353
+msgid "dconf Editor"
+msgstr "Editor dconf"
+
+#: ui/tabs/customization_tab.py:352
 msgid "Advanced configuration"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:390
-msgid "KDE Settings"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:409
-msgid "Look and Feel"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:410
-msgid "Themes and appearance"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:411
-msgid "KDE Look and Feel Settings"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:416
-msgid "Login Screen"
-msgstr ""
-
-#: ui/tabs/customization_tab.py:417
-msgid "SDDM login manager"
-msgstr ""
+msgstr "Configurare avansată"
 
 #: ui/tabs/customization_tab.py:418
+msgid "KDE Settings"
+msgstr "Setări KDE"
+
+#: ui/tabs/customization_tab.py:437
+msgid "Look and Feel"
+msgstr "Aspect și Simțire"
+
+#: ui/tabs/customization_tab.py:438
+msgid "Themes and appearance"
+msgstr "Teme și aspect"
+
+#: ui/tabs/customization_tab.py:439
+msgid "KDE Look and Feel Settings"
+msgstr "Setări Aspect și Simțire KDE"
+
+#: ui/tabs/customization_tab.py:444
+msgid "Login Screen"
+msgstr "Ecran Conectare"
+
+#: ui/tabs/customization_tab.py:445
+msgid "SDDM login manager"
+msgstr "Manager conectare SDDM"
+
+#: ui/tabs/customization_tab.py:446
 msgid "KDE SDDM Settings"
-msgstr ""
+msgstr "Setări SDDM KDE"
 
-#: ui/tabs/customization_tab.py:423
+#: ui/tabs/customization_tab.py:451
 msgid "Plymouth"
-msgstr ""
+msgstr "Plymouth"
 
-#: ui/tabs/customization_tab.py:424
+#: ui/tabs/customization_tab.py:452
 msgid "Boot splash configuration"
-msgstr ""
+msgstr "Configurare ecran pornire"
 
-#: ui/tabs/customization_tab.py:425
+#: ui/tabs/customization_tab.py:453
 msgid "KDE Plymouth Settings"
-msgstr ""
+msgstr "Setări Plymouth KDE"
 
-#: ui/tabs/customization_tab.py:430
+#: ui/tabs/customization_tab.py:460
+msgid "KDE Wallpaper Settings"
+msgstr "Setări Imagine Fundal KDE"
+
+#: ui/tabs/customization_tab.py:465
+msgid "Icons"
+msgstr "Pictograme"
+
+#: ui/tabs/customization_tab.py:466
+msgid "Icon theme"
+msgstr "Temă pictograme"
+
+#: ui/tabs/customization_tab.py:467
+msgid "KDE Icon Settings"
+msgstr "Setări Pictograme KDE"
+
+#: ui/tabs/customization_tab.py:472
+msgid "Cursor"
+msgstr "Cursor"
+
+#: ui/tabs/customization_tab.py:473
+msgid "Mouse cursor style"
+msgstr "Stil cursor mouse"
+
+#: ui/tabs/customization_tab.py:474
+msgid "KDE Cursor Settings"
+msgstr "Setări Cursor KDE"
+
+#: ui/tabs/customization_tab.py:479
+msgid "Fonts"
+msgstr "Fonturi"
+
+#: ui/tabs/customization_tab.py:480
+msgid "System fonts"
+msgstr "Fonturi sistem"
+
+#: ui/tabs/customization_tab.py:481
+msgid "KDE Font Settings"
+msgstr "Setări Fonturi KDE"
+
+#: ui/tabs/customization_tab.py:486
 msgid "System Settings"
-msgstr ""
+msgstr "Setări Sistem"
 
-#: ui/tabs/customization_tab.py:431
+#: ui/tabs/customization_tab.py:487
 msgid "All system settings"
-msgstr ""
+msgstr "Toate setările de sistem"
 
-#: ui/tabs/customization_tab.py:432
+#: ui/tabs/customization_tab.py:488
 msgid "KDE System Settings"
-msgstr ""
+msgstr "Setări Sistem KDE"
 
-#: ui/tabs/customization_tab.py:598
+#: ui/tabs/customization_tab.py:654
 msgid "Customization tools for"
-msgstr ""
+msgstr "Instrumente de personalizare pentru"
 
-#: ui/tabs/customization_tab.py:599
+#: ui/tabs/customization_tab.py:655
 msgid "coming in future versions..."
-msgstr ""
+msgstr "vin în versiunile viitoare..."
 
-#: ui/tabs/customization_tab.py:611
+#: ui/tabs/customization_tab.py:667
 msgid "Note: Soplos customization tools are currently available for XFCE."
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:66
-msgid "Recommended for You"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:70
-msgid "Curated applications based on your desktop environment"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:78 ui/tabs/recommended_tab.py:620
-msgid "Multiple Selection"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:85
-msgid "Search programs..."
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:110
-msgid "Select All"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:114
-msgid "Deselect All"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:119
-msgid "0 programs selected"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:124
-msgid "Install Selected"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:155
-msgid "No results found for"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:269 ui/tabs/software_plasma_tab.py:93
-#: ui/tabs/software_xfce_tab.py:93 ui/tabs/software_gnome_tab.py:93
-#: ui/tabs/gaming_tab.py:1690
-msgid "Flatpak"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:277 ui/tabs/gaming_tab.py:1698
-msgid "Official Package"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:337 ui/tabs/kernels_tab.py:453
-#: ui/tabs/kernels_tab.py:510 ui/tabs/kernels_tab.py:542
-#: ui/tabs/security_tab.py:371 ui/tabs/security_tab.py:404
-msgid "Installed"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:345 utils/command_runner.py:180
-msgid "Processing..."
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:354 ui/tabs/kernels_tab.py:514
-#: ui/tabs/kernels_tab.py:532 ui/tabs/software_plasma_tab.py:194
-#: ui/tabs/security_tab.py:366 ui/tabs/security_tab.py:399
-#: ui/tabs/software_xfce_tab.py:228 ui/tabs/software_gnome_tab.py:226
-msgid "Uninstall"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:361 ui/tabs/kernels_tab.py:524
-#: ui/tabs/kernels_tab.py:545 ui/tabs/drivers_tab.py:474
-#: ui/tabs/drivers_tab.py:523 ui/tabs/software_plasma_tab.py:198
-#: ui/tabs/security_tab.py:389 ui/tabs/security_tab.py:413
-#: ui/tabs/software_xfce_tab.py:232 ui/tabs/software_gnome_tab.py:230
-msgid "Install"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:561 ui/tabs/software_plasma_tab.py:238
-#: ui/tabs/software_xfce_tab.py:272 ui/tabs/software_gnome_tab.py:270
-#: ui/tabs/gaming_tab.py:1866
-msgid "Operation completed successfully"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:618
-msgid "Normal Mode"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:757
-msgid "{} programs selected"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:757
-msgid "1 program selected"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:775
-msgid "Install {} selected programs?"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:908
-msgid "Batch Installation Complete"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:910
-msgid "All selected programs have been installed."
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:949
-msgid "DaVinci Resolve Installation"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:952
-msgid ""
-"DaVinci Resolve requires manual download due to licensing.\n"
-"\n"
-"1. Go to blackmagicdesign.com and download the Linux version (ZIP).\n"
-"2. Click OK to select the downloaded file.\n"
-"3. We will convert it to a Debian package and install it."
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:965
-msgid "DaVinci Resolve Installer"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:970
-msgid "Select DaVinci Resolve Installer"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:975 ui/tabs/software_plasma_tab.py:341
-#: ui/tabs/software_xfce_tab.py:372 ui/tabs/software_gnome_tab.py:371
-msgid "Cancel"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:976
-msgid "Select"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:1106
-msgid "Installation Complete"
-msgstr ""
-
-#: ui/tabs/recommended_tab.py:1108
-msgid "DaVinci Resolve has been installed successfully."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:56
-msgid "Kernel Management"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:83
-msgid "CPU Microcode Updates"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:92
-msgid "Security and performance firmware updates for your CPU."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:103
-msgid ""
-"Warning: Liquorix kernel is NOT compatible with proprietary NVIDIA drivers."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:113
-msgid "Available Kernels"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:118
-msgid ""
-"Manage your system kernels. You can install optimized kernels for better "
-"performance or latency."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:126 ui/tabs/kernels_tab.py:285
-msgid "Liquorix Kernel"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:135
-msgid ""
-"Optimized for interactive systems and gaming. High responsiveness and low "
-"latency."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:146
-msgid "XanMod Kernel Variants"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:156
-msgid "High performance kernel with advanced optimizations."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:156
-msgid "Choose the variant that matches your hardware:"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:169
-msgid "x64v3 - Standard"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:174
-msgid ""
-"For CPUs from 2015+ (Intel Haswell, AMD Zen and newer). AVX2 optimizations."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:187
-msgid "x64v4 - Advanced"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:192
-msgid "For very recent CPUs (Intel 12th gen+, AMD Zen 4+). AVX-512 support."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:205
-msgid "EDGE - Experimental"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:205
-msgid "Not recommended for production"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:210
-msgid "Latest experimental features. May be unstable. For testing only."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:223
-msgid "LTS - Long Term Support"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:223
-msgid "Most stable"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:228
-msgid "Long-term support, conservative updates. Best for stability."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:241
-msgid "System Maintenance"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:250
-msgid "Tools to keep your system clean and updated."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:260
-msgid "Clean Old Kernels"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:261
-msgid "Remove old unused kernels to free up space"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:266
-msgid "Update GRUB"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:267
-msgid "Regenerate GRUB configuration file"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:283
-msgid "Standard Kernel"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:287
-msgid "XanMod Kernel"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:308 ui/tabs/kernels_tab.py:310
-#: utils/hardware_detector.py:70
-msgid "Not detected"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:327
-msgid "weeks"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:330
-msgid "days"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:333
-msgid "hours"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:336
-msgid "minutes"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:346 ui/tabs/kernels_tab.py:670
-msgid "Current Kernel"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:347
-msgid "Type"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:348
-msgid "Architecture"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:349
-msgid "Uptime"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:444
-msgid "Uninstall Liquorix"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:450 ui/tabs/kernels_tab.py:539
-msgid "In Use"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:456
-msgid "Install Liquorix"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:461
-msgid "Liquorix is not compatible with NVIDIA drivers"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:464
-msgid "Incompatible with NVIDIA"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:498
-msgid "CPU vendor not detected"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:563
-msgid "Installing Liquorix Kernel..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:565 ui/tabs/kernels_tab.py:594
-#: ui/tabs/kernels_tab.py:741 ui/tabs/security_tab.py:448
-msgid "Installation complete."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:587
-msgid "Installing XanMod"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:608
-msgid "Uninstalling Liquorix Kernel..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:610 ui/tabs/kernels_tab.py:639
-#: ui/tabs/kernels_tab.py:758 ui/tabs/security_tab.py:461
-msgid "Uninstallation complete."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:637
-msgid "Uninstalling XanMod"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:653
-msgid "Kernel in Use"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:656
-#, python-brace-format
-msgid ""
-"Cannot uninstall {0} because it is currently running. Please boot into "
-"another kernel first."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:668
-msgid "Checking for old kernels..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:679 ui/tabs/kernels_tab.py:694
-msgid "No old kernels to remove."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:698
-msgid "Removing old kernels..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:706 ui/tabs/kernels_tab.py:718
-msgid "Updating GRUB..."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:708
-msgid "Cleanup complete."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:724
-msgid "GRUB update complete."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:738
-msgid "Installing"
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:742
-msgid "A system reboot is recommended to apply microcode updates."
-msgstr ""
-
-#: ui/tabs/kernels_tab.py:756
-msgid "Uninstalling"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:111
-msgid "Welcome to Soplos Linux"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:119
-msgid "Your gateway to the Soplos ecosystem"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:128
-msgid ""
-"Thank you for choosing Soplos Linux! This application will help you get "
-"started with your new system."
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:143
-msgid "Use the tabs above to:"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:159
-msgid "• Install essential software"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:160
-msgid "• Configure system drivers"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:161
-msgid "• Customize your desktop"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:162
-msgid "• Manage system kernels"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:163
-msgid "• View recommended applications"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:212
-msgid "Get Started"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:226
-msgid "Web"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:240
-msgid "Forums"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:254
-msgid "Wiki"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:268
-msgid "Donate"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:289
-msgid "Show this application on startup"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:312
-msgid "Could not open website"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:313 ui/tabs/welcome_tab.py:322
-#: ui/tabs/welcome_tab.py:331 ui/tabs/welcome_tab.py:340
-msgid "Check your internet connection and try again."
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:321
-msgid "Could not open forum"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:330
-msgid "Could not open wiki"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:339
-msgid "Could not open donation page"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:418
-msgid "Error enabling autostart"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:419
-msgid "Could not create autostart file."
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:431
-msgid "Error disabling autostart"
-msgstr ""
-
-#: ui/tabs/welcome_tab.py:432
-msgid "Could not remove autostart file."
-msgstr ""
+msgstr "Notă: Instrumentele de personalizare Soplos sunt disponibile momentan pentru XFCE."
 
 #: ui/tabs/drivers_tab.py:47
 msgid "Hardware Drivers"
-msgstr ""
+msgstr "Drivere Hardware"
 
 #: ui/tabs/drivers_tab.py:52
 msgid "Install and manage graphics drivers and hardware support"
-msgstr ""
+msgstr "Instalează și gestionează driverele grafice și suportul hardware"
 
 #: ui/tabs/drivers_tab.py:62
 msgid "Hardware Detection"
-msgstr ""
+msgstr "Detectare Hardware"
 
 #: ui/tabs/drivers_tab.py:67
 msgid "Scan Hardware"
-msgstr ""
+msgstr "Scanează Hardware"
 
 #: ui/tabs/drivers_tab.py:68
 msgid "Automatically detect hardware and recommend drivers"
-msgstr ""
+msgstr "Detectează automat hardware-ul și recomandă drivere"
 
 #: ui/tabs/drivers_tab.py:108
 msgid "NVIDIA Graphics Drivers"
-msgstr ""
+msgstr "Drivere Grafice NVIDIA"
 
 #: ui/tabs/drivers_tab.py:121
 msgid "NVIDIA Latest (550)"
-msgstr ""
+msgstr "NVIDIA Recent (550)"
 
 #: ui/tabs/drivers_tab.py:122
 msgid "Latest driver from repository (RTX/GTX 16xx and newer)"
-msgstr ""
+msgstr "Cel mai recent driver din depozit (RTX/GTX 16xx și mai noi)"
 
 #: ui/tabs/drivers_tab.py:128
 msgid "NVIDIA 470 (Legacy)"
-msgstr ""
+msgstr "NVIDIA 470 (Vechi)"
 
 #: ui/tabs/drivers_tab.py:129
 msgid "For Kepler GPUs (GTX 600-700 series)"
-msgstr ""
+msgstr "Pentru GPU-uri Kepler (seria GTX 600-700)"
 
 #: ui/tabs/drivers_tab.py:136
 msgid "NVIDIA 390 (Legacy)"
-msgstr ""
+msgstr "NVIDIA 390 (Vechi)"
 
 #: ui/tabs/drivers_tab.py:137
 msgid "For Fermi GPUs (GTX 400-500 series)"
-msgstr ""
+msgstr "Pentru GPU-uri Fermi (seria GTX 400-500)"
 
 #: ui/tabs/drivers_tab.py:143
 msgid "NVIDIA 340 (Legacy)"
-msgstr ""
+msgstr "NVIDIA 340 (Vechi)"
 
 #: ui/tabs/drivers_tab.py:144
 msgid "For very old GPUs (8xxx, 9xxx, 2xx, 3xx series)"
-msgstr ""
+msgstr "Pentru GPU-uri foarte vechi (seriile 8xxx, 9xxx, 2xx, 3xx)"
 
 #: ui/tabs/drivers_tab.py:151
 msgid "Nouveau (Open Source)"
-msgstr ""
+msgstr "Nouveau (Open Source)"
 
 #: ui/tabs/drivers_tab.py:152
 msgid "Free and open source NVIDIA driver"
-msgstr ""
+msgstr "Driver NVIDIA gratuit și open source"
 
 #: ui/tabs/drivers_tab.py:159
 msgid "DaVinci Resolve Extras"
-msgstr ""
+msgstr "Extra DaVinci Resolve"
 
 #: ui/tabs/drivers_tab.py:160
 msgid "OpenCL and CUDA libraries for DaVinci Resolve"
-msgstr ""
+msgstr "Biblioteci OpenCL și CUDA pentru DaVinci Resolve"
 
 #: ui/tabs/drivers_tab.py:166
 msgid "Blender CUDA Toolkit"
-msgstr ""
+msgstr "Set instrumente CUDA Blender"
 
 #: ui/tabs/drivers_tab.py:167
 msgid "CUDA toolkit for Blender GPU rendering"
-msgstr ""
+msgstr "Set instrumente CUDA pentru randare GPU Blender"
 
 #: ui/tabs/drivers_tab.py:175
 msgid "AMD Graphics Drivers"
-msgstr ""
+msgstr "Drivere Grafice AMD"
 
 #: ui/tabs/drivers_tab.py:180
 msgid "AMD Radeon (Open Source)"
-msgstr ""
+msgstr "AMD Radeon (Open Source)"
 
 #: ui/tabs/drivers_tab.py:181
 msgid "Free drivers for all AMD GPUs"
-msgstr ""
+msgstr "Drivere gratuite pentru toate GPU-urile AMD"
 
 #: ui/tabs/drivers_tab.py:190
 msgid "Wi-Fi Drivers"
-msgstr ""
+msgstr "Drivere Wi-Fi"
 
 #: ui/tabs/drivers_tab.py:198
 msgid "Intel Wi-Fi"
-msgstr ""
+msgstr "Intel Wi-Fi"
 
 #: ui/tabs/drivers_tab.py:198
 msgid "Intel wireless cards"
-msgstr ""
+msgstr "Plăci wireless Intel"
 
 #: ui/tabs/drivers_tab.py:202
 msgid "Realtek Wi-Fi"
-msgstr ""
+msgstr "Realtek Wi-Fi"
 
 #: ui/tabs/drivers_tab.py:202
 msgid "Realtek wireless cards"
-msgstr ""
+msgstr "Plăci wireless Realtek"
 
 #: ui/tabs/drivers_tab.py:206
 msgid "Broadcom Wi-Fi"
-msgstr ""
+msgstr "Broadcom Wi-Fi"
 
 #: ui/tabs/drivers_tab.py:206
 msgid "Broadcom wireless cards"
-msgstr ""
+msgstr "Plăci wireless Broadcom"
 
 #: ui/tabs/drivers_tab.py:213
 msgid "Other Drivers"
-msgstr ""
+msgstr "Alte Drivere"
 
 #: ui/tabs/drivers_tab.py:221
 msgid "Printers"
-msgstr ""
+msgstr "Imprimante"
 
 #: ui/tabs/drivers_tab.py:221
 msgid "Printer drivers"
-msgstr ""
+msgstr "Drivere imprimantă"
 
 #: ui/tabs/drivers_tab.py:225
 msgid "Bluetooth"
-msgstr ""
+msgstr "Bluetooth"
 
 #: ui/tabs/drivers_tab.py:225
 msgid "Bluetooth support"
-msgstr ""
+msgstr "Suport Bluetooth"
 
 #: ui/tabs/drivers_tab.py:232
 msgid "Virtual Machine Tools"
-msgstr ""
+msgstr "Instrumente Mașină Virtuală"
 
 #: ui/tabs/drivers_tab.py:240
 msgid "VMware Tools"
-msgstr ""
+msgstr "Instrumente VMware"
 
 #: ui/tabs/drivers_tab.py:240
 msgid "For VMware virtual machines"
-msgstr ""
+msgstr "Pentru mașini virtuale VMware"
 
 #: ui/tabs/drivers_tab.py:244
 msgid "QEMU/KVM Tools"
-msgstr ""
+msgstr "Instrumente QEMU/KVM"
 
 #: ui/tabs/drivers_tab.py:244
 msgid "For QEMU/KVM virtual machines"
-msgstr ""
+msgstr "Pentru mașini virtuale QEMU/KVM"
 
 #: ui/tabs/drivers_tab.py:249
 msgid "VirtualBox Guest"
-msgstr ""
+msgstr "VirtualBox Guest"
 
 #: ui/tabs/drivers_tab.py:249
 msgid "For VirtualBox virtual machines"
-msgstr ""
+msgstr "Pentru mașini virtuale VirtualBox"
 
 #: ui/tabs/drivers_tab.py:432
 msgid "Processor"
-msgstr ""
+msgstr "Procesor"
 
 #: ui/tabs/drivers_tab.py:441 ui/tabs/drivers_tab.py:460
 msgid "Model:"
-msgstr ""
+msgstr "Model:"
 
 #: ui/tabs/drivers_tab.py:441
 msgid "Cores:"
-msgstr ""
+msgstr "Nuclee:"
 
 #: ui/tabs/drivers_tab.py:441
 msgid "Threads:"
-msgstr ""
+msgstr "Fire de execuție:"
 
 #: ui/tabs/drivers_tab.py:451
 msgid "Graphics Card"
-msgstr ""
+msgstr "Placă Grafică"
 
 #: ui/tabs/drivers_tab.py:460
 msgid "Vendor:"
-msgstr ""
+msgstr "Producător:"
 
 #: ui/tabs/drivers_tab.py:460 ui/tabs/drivers_tab.py:512
 msgid "Type:"
-msgstr ""
+msgstr "Tip:"
 
 #: ui/tabs/drivers_tab.py:468
 msgid "Recommended driver:"
-msgstr ""
+msgstr "Driver recomandat:"
+
+#: ui/tabs/drivers_tab.py:474 ui/tabs/drivers_tab.py:523
+#: ui/tabs/kernels_tab.py:524 ui/tabs/kernels_tab.py:545
+#: ui/tabs/recommended_tab.py:362 ui/tabs/security_tab.py:389
+#: ui/tabs/security_tab.py:413 ui/tabs/software_gnome_tab.py:230
+#: ui/tabs/software_plasma_tab.py:198 ui/tabs/software_xfce_tab.py:232
+msgid "Install"
+msgstr "Instalează"
 
 #: ui/tabs/drivers_tab.py:485
 msgid "RAM Memory"
-msgstr ""
+msgstr "Memorie RAM"
 
 #: ui/tabs/drivers_tab.py:494
 msgid "Total:"
-msgstr ""
+msgstr "Total:"
 
 #: ui/tabs/drivers_tab.py:494
 msgid "Available:"
-msgstr ""
+msgstr "Disponibil:"
 
 #: ui/tabs/drivers_tab.py:503
 msgid "Virtual Machine"
-msgstr ""
+msgstr "Mașină Virtuală"
 
 #: ui/tabs/drivers_tab.py:512 utils/hardware_detector.py:70
 #: utils/hardware_detector.py:74
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: ui/tabs/drivers_tab.py:518
 msgid "Recommended tools:"
-msgstr ""
+msgstr "Instrumente recomandate:"
 
 #: ui/tabs/drivers_tab.py:534
 msgid "Storage"
-msgstr ""
+msgstr "Stocare"
 
 #: ui/tabs/drivers_tab.py:552
 msgid "Network"
-msgstr ""
-
-#: ui/tabs/software_tab.py:111
-msgid "Software Management"
-msgstr ""
-
-#: ui/tabs/software_tab.py:118
-msgid "Loading software management for"
-msgstr ""
-
-#: ui/tabs/software_tab.py:124
-msgid "Desktop-specific software interface will be available soon."
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:67 ui/tabs/software_xfce_tab.py:67
-#: ui/tabs/software_gnome_tab.py:67
-msgid "Update"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:72 ui/tabs/software_xfce_tab.py:72
-#: ui/tabs/software_gnome_tab.py:72
-msgid "Upgrade"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:90 ui/tabs/software_xfce_tab.py:90
-#: ui/tabs/software_gnome_tab.py:90
-msgid "Synaptic"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:91 ui/tabs/software_xfce_tab.py:91
-#: ui/tabs/software_gnome_tab.py:91
-msgid "Gdebi"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:92 ui/tabs/software_xfce_tab.py:92
-#: ui/tabs/software_gnome_tab.py:92
-msgid "GNOME Software"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:94 ui/tabs/software_xfce_tab.py:94
-#: ui/tabs/software_gnome_tab.py:94
-msgid "Snap"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:95 ui/tabs/software_xfce_tab.py:95
-#: ui/tabs/software_gnome_tab.py:95
-msgid "Repo Selector"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:121 ui/tabs/software_xfce_tab.py:121
-#: ui/tabs/software_gnome_tab.py:121
-msgid "Open"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:150 ui/tabs/software_xfce_tab.py:150
-#: ui/tabs/software_gnome_tab.py:150
-msgid "Add Flathub"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:157 ui/tabs/software_xfce_tab.py:160
-#: ui/tabs/software_gnome_tab.py:158
-msgid "Clean System"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:331 ui/tabs/software_xfce_tab.py:362
-#: ui/tabs/software_gnome_tab.py:361
-msgid "System Up to Date"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:333 ui/tabs/software_xfce_tab.py:364
-#: ui/tabs/software_gnome_tab.py:363
-msgid "No packages available to update at this time."
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:339 ui/tabs/software_xfce_tab.py:370
-#: ui/tabs/software_gnome_tab.py:369
-msgid "Available Updates"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:342 ui/tabs/software_xfce_tab.py:373
-#: ui/tabs/software_gnome_tab.py:372
-msgid "Update All"
-msgstr ""
-
-#: ui/tabs/software_plasma_tab.py:355 ui/tabs/software_xfce_tab.py:386
-#: ui/tabs/software_gnome_tab.py:385
-msgid "updates available"
-msgstr ""
-
-#: ui/tabs/security_tab.py:65
-msgid "Security &amp; System Protection"
-msgstr ""
-
-#: ui/tabs/security_tab.py:69
-msgid "Protect your system with backups, firewall, and security tools"
-msgstr ""
-
-#: ui/tabs/security_tab.py:106
-msgid "System Backups"
-msgstr ""
-
-#: ui/tabs/security_tab.py:124
-msgid ""
-"Creates automatic system snapshots. Protects your configuration and allows "
-"easy restoration."
-msgstr ""
-
-#: ui/tabs/security_tab.py:142
-msgid "Simple backups of personal files with encryption support."
-msgstr ""
-
-#: ui/tabs/security_tab.py:153
-msgid "Firewall Protection"
-msgstr ""
-
-#: ui/tabs/security_tab.py:166
-msgid "Recommended for Desktop"
-msgstr ""
-
-#: ui/tabs/security_tab.py:171
-msgid ""
-"Simple graphical interface for UFW firewall. Control network traffic easily."
-msgstr ""
-
-#: ui/tabs/security_tab.py:184
-msgid "Firewall Status"
-msgstr ""
-
-#: ui/tabs/security_tab.py:198
-msgid "Filesystem Tools"
-msgstr ""
-
-#: ui/tabs/security_tab.py:217
-msgid "Only for BTRFS"
-msgstr ""
-
-#: ui/tabs/security_tab.py:223 ui/tabs/security_tab.py:225
-msgid "Advanced management of BTRFS subvolumes and snapshots."
-msgstr ""
-
-#: ui/tabs/security_tab.py:225
-msgid "Current system"
-msgstr ""
-
-#: ui/tabs/security_tab.py:225
-msgid "BTRFS Assistant is not compatible."
-msgstr ""
-
-#: ui/tabs/security_tab.py:236
-msgid "Antivirus & Malware"
-msgstr ""
-
-#: ui/tabs/security_tab.py:254
-msgid ""
-"Graphical interface for ClamAV. Scan your system against viruses and malware."
-msgstr ""
-
-#: ui/tabs/security_tab.py:267
-msgid "Advanced"
-msgstr ""
-
-#: ui/tabs/security_tab.py:272
-msgid "Command-line tool to detect rootkits and system threats."
-msgstr ""
-
-#: ui/tabs/security_tab.py:333
-msgid "Open GUFW"
-msgstr ""
-
-#: ui/tabs/security_tab.py:341
-msgid "Not available on"
-msgstr ""
-
-#: ui/tabs/security_tab.py:377
-msgid "Configure"
-msgstr ""
-
-#: ui/tabs/security_tab.py:385
-msgid "Scan System"
-msgstr ""
-
-#: ui/tabs/security_tab.py:409
-msgid "Update Definitions"
-msgstr ""
-
-#: ui/tabs/security_tab.py:423
-msgid "Active"
-msgstr ""
-
-#: ui/tabs/security_tab.py:424
-msgid "Deactivate"
-msgstr ""
-
-#: ui/tabs/security_tab.py:427
-msgid "Inactive"
-msgstr ""
-
-#: ui/tabs/security_tab.py:428
-msgid "Activate"
-msgstr ""
-
-#: ui/tabs/software_xfce_tab.py:155
-msgid "Snap to Whisker Menu"
-msgstr ""
-
-#: ui/tabs/software_xfce_tab.py:180 ui/tabs/software_gnome_tab.py:178
-msgid "Soplos Repository Manager"
-msgstr ""
-
-#: ui/tabs/software_xfce_tab.py:186
-msgid ""
-"Manage additional repositories and software sources for your Soplos system."
-msgstr ""
-
-#: ui/tabs/software_xfce_tab.py:192 ui/tabs/software_gnome_tab.py:190
-msgid "Launch Repository Manager"
-msgstr ""
-
-#: ui/tabs/software_gnome_tab.py:184
-msgid ""
-"Manage repositories and modern software sources integrated with GNOME "
-"Software."
-msgstr ""
+msgstr "Rețea"
 
 #: ui/tabs/gaming_tab.py:67
 msgid "Gaming Center"
-msgstr ""
+msgstr "Centru Gaming"
 
 #: ui/tabs/gaming_tab.py:73
 msgid "Optimizations"
-msgstr ""
+msgstr "Optimizări"
 
 #: ui/tabs/gaming_tab.py:74 ui/tabs/gaming_tab.py:198
 msgid "GameMode"
-msgstr ""
+msgstr "GameMode"
 
 #: ui/tabs/gaming_tab.py:74
 msgid "Install Feral GameMode"
-msgstr ""
+msgstr "Instalează Feral GameMode"
 
 #: ui/tabs/gaming_tab.py:75 ui/tabs/gaming_tab.py:199
 msgid "Performance Mode"
-msgstr ""
+msgstr "Mod Performanță"
 
 #: ui/tabs/gaming_tab.py:75
 msgid "Install CPU performance script"
-msgstr ""
+msgstr "Instalează script performanță CPU"
 
 #: ui/tabs/gaming_tab.py:76 ui/tabs/gaming_tab.py:200
 msgid "Gaming Sysctl"
-msgstr ""
+msgstr "Sysctl Gaming"
 
 #: ui/tabs/gaming_tab.py:76
 msgid "Apply kernel gaming tweaks"
-msgstr ""
+msgstr "Aplică ajustări kernel gaming"
 
 #: ui/tabs/gaming_tab.py:77 ui/tabs/gaming_tab.py:201
 msgid "Optimize GPU"
-msgstr ""
+msgstr "Optimizează GPU"
 
 #: ui/tabs/gaming_tab.py:77
 msgid "Configure GPU drivers for gaming"
-msgstr ""
+msgstr "Configurează drivere GPU pentru gaming"
 
 #: ui/tabs/gaming_tab.py:78 ui/tabs/gaming_tab.py:202
 msgid "Disk I/O"
-msgstr ""
+msgstr "I/O Disc"
 
 #: ui/tabs/gaming_tab.py:78
 msgid "Optimize disk schedulers"
-msgstr ""
+msgstr "Optimizează planificatoare disc"
 
 #: ui/tabs/gaming_tab.py:79 ui/tabs/gaming_tab.py:203
 msgid "MangoHud"
-msgstr ""
+msgstr "MangoHud"
 
 #: ui/tabs/gaming_tab.py:79
 msgid "Install FPS overlay + Goverlay"
-msgstr ""
+msgstr "Instalează overlay FPS + Goverlay"
 
 #: ui/tabs/gaming_tab.py:80 ui/tabs/gaming_tab.py:206
 msgid "Revert All"
-msgstr ""
+msgstr "Revenire Totală"
 
 #: ui/tabs/gaming_tab.py:80
 msgid "Undo all gaming optimizations"
-msgstr ""
+msgstr "Anulează toate optimizările gaming"
 
 #: ui/tabs/gaming_tab.py:88 ui/tabs/gaming_tab.py:204
 msgid "Gaming Wallpapers"
-msgstr ""
+msgstr "Imagini Gaming"
 
 #: ui/tabs/gaming_tab.py:88
 msgid "Install exclusive gaming wallpapers"
-msgstr ""
+msgstr "Instalează imagini fundal gaming exclusive"
 
 #: ui/tabs/gaming_tab.py:89 ui/tabs/gaming_tab.py:205
 msgid "RGB Theme"
-msgstr ""
+msgstr "Temă RGB"
 
 #: ui/tabs/gaming_tab.py:89
 msgid "Enable RGB accent colors"
-msgstr ""
+msgstr "Activează culori accent RGB"
 
 #: ui/tabs/gaming_tab.py:240
 msgid "This feature is coming soon!"
-msgstr ""
+msgstr "Această funcție va fi disponibilă în curând!"
 
 #: ui/tabs/gaming_tab.py:256
 msgid "Install GameMode?"
-msgstr ""
+msgstr "Instalează GameMode?"
 
 #: ui/tabs/gaming_tab.py:259
 msgid "GameMode optimizes system performance when running games."
-msgstr ""
+msgstr "GameMode optimizează performanța sistemului la rularea jocurilor."
 
 #: ui/tabs/gaming_tab.py:260 ui/tabs/gaming_tab.py:1072
 msgid "Packages to install:"
-msgstr ""
+msgstr "Pachete de instalat:"
 
 #: ui/tabs/gaming_tab.py:263 ui/tabs/gaming_tab.py:427
 #: ui/tabs/gaming_tab.py:596 ui/tabs/gaming_tab.py:777
 #: ui/tabs/gaming_tab.py:989 ui/tabs/gaming_tab.py:1075
 #: ui/tabs/gaming_tab.py:1315
 msgid "Continue?"
-msgstr ""
+msgstr "Continuați?"
 
 #: ui/tabs/gaming_tab.py:305
 msgid "GameMode installed successfully!"
-msgstr ""
+msgstr "GameMode instalat cu succes!"
 
 #: ui/tabs/gaming_tab.py:308 ui/tabs/gaming_tab.py:473
 #: ui/tabs/gaming_tab.py:1116
 msgid "Usage:"
-msgstr ""
+msgstr "Utilizare:"
 
 #: ui/tabs/gaming_tab.py:309
 msgid "• Steam: Add 'gamemoderun %command%' to game launch options"
-msgstr ""
+msgstr "• Steam: Adaugă 'gamemoderun %command%' la opțiunile de lansare"
 
 #: ui/tabs/gaming_tab.py:310
 msgid "• Lutris: Enable 'Feral GameMode' in game settings"
-msgstr ""
+msgstr "• Lutris: Activează 'Feral GameMode' în setările jocului"
 
 #: ui/tabs/gaming_tab.py:327 ui/tabs/gaming_tab.py:493
 #: ui/tabs/gaming_tab.py:1136 ui/tabs/gaming_tab.py:1448
+#: ui/tabs/recommended_tab.py:859
 msgid "Installation failed"
-msgstr ""
+msgstr "Instalare eșuată"
 
 #: ui/tabs/gaming_tab.py:352
 msgid "Remove Performance Mode Script?"
-msgstr ""
+msgstr "Elimină Script Mod Performanță?"
 
 #: ui/tabs/gaming_tab.py:354
 msgid "This will remove the soplos-game-performance script."
-msgstr ""
+msgstr "Aceasta va elimina scriptul soplos-game-performance."
 
 #: ui/tabs/gaming_tab.py:391
 msgid "Performance Mode removed!"
-msgstr ""
+msgstr "Mod Performanță eliminat!"
 
 #: ui/tabs/gaming_tab.py:408
 msgid "Removal failed"
-msgstr ""
+msgstr "Eliminare eșuată"
 
 #: ui/tabs/gaming_tab.py:420
 msgid "Install Performance Mode Script?"
-msgstr ""
+msgstr "Instalează Script Mod Performanță?"
 
 #: ui/tabs/gaming_tab.py:423
 msgid ""
 "This script temporarily sets CPU to 'performance' mode when launching games."
-msgstr ""
+msgstr "Acest script setează temporar CPU pe modul 'performanță' la lansarea jocurilor."
 
 #: ui/tabs/gaming_tab.py:424
 msgid "Requirements:"
-msgstr ""
+msgstr "Cerințe:"
 
 #: ui/tabs/gaming_tab.py:426
 msgid "The script will be installed to /usr/local/bin/soplos-game-performance"
-msgstr ""
+msgstr "Scriptul va fi instalat în /usr/local/bin/soplos-game-performance"
 
 #: ui/tabs/gaming_tab.py:470
 msgid "Performance Mode script installed!"
-msgstr ""
+msgstr "Script Mod Performanță instalat!"
 
 #: ui/tabs/gaming_tab.py:474
 msgid "• Steam: Add 'soplos-game-performance %command%' to game launch options"
-msgstr ""
+msgstr "• Steam: Adaugă 'soplos-game-performance %command%' la opțiunile lansare"
 
 #: ui/tabs/gaming_tab.py:475
 msgid "• Lutris: Add 'soplos-game-performance' as a prefix in Lutris settings"
-msgstr ""
+msgstr "• Lutris: Adaugă 'soplos-game-performance' ca prefix în setările Lutris"
 
 #: ui/tabs/gaming_tab.py:476
 msgid ""
 "Your CPU will automatically switch to performance mode when games are "
 "running."
-msgstr ""
+msgstr "CPU-ul va trece automat în modul performanță când rulează jocuri."
 
 #: ui/tabs/gaming_tab.py:518
 msgid "Revert Gaming Sysctl Tweaks?"
-msgstr ""
+msgstr "Revenire Ajustări Sysctl Gaming?"
 
 #: ui/tabs/gaming_tab.py:520
 msgid "This will remove the gaming kernel optimizations."
-msgstr ""
+msgstr "Aceasta va elimina optimizările de kernel pentru gaming."
 
 #: ui/tabs/gaming_tab.py:558
 msgid "Gaming sysctl tweaks reverted!"
-msgstr ""
+msgstr "Ajustările sysctl gaming au fost anulate!"
 
 #: ui/tabs/gaming_tab.py:575 ui/tabs/gaming_tab.py:969
 #: ui/tabs/gaming_tab.py:1267
 msgid "Revert failed"
-msgstr ""
+msgstr "Revenire eșuată"
 
 #: ui/tabs/gaming_tab.py:587
 msgid "Apply Gaming Sysctl Tweaks?"
-msgstr ""
+msgstr "Aplică Ajustări Sysctl Gaming?"
 
 #: ui/tabs/gaming_tab.py:590
 msgid "This will optimize kernel parameters for gaming:"
-msgstr ""
+msgstr "Aceasta va optimiza parametrii kernel pentru gaming:"
 
 #: ui/tabs/gaming_tab.py:591
 msgid "(essential for Proton/Steam)"
-msgstr ""
+msgstr "(esențial pentru Proton/Steam)"
 
 #: ui/tabs/gaming_tab.py:592
 msgid "(prefer RAM over swap)"
-msgstr ""
+msgstr "(preferă RAM față de swap)"
 
 #: ui/tabs/gaming_tab.py:593
 msgid "Network optimizations for online gaming"
-msgstr ""
+msgstr "Optimizări rețea pentru gaming online"
 
 #: ui/tabs/gaming_tab.py:594
 msgid "Reduced system latency"
-msgstr ""
+msgstr "Latență sistem redusă"
 
 #: ui/tabs/gaming_tab.py:595
 msgid "WARNING: Disables some security features (split_lock_mitigate)"
-msgstr ""
+msgstr "AVERTISMENT: Dezactivează unele funcții de securitate (split_lock_mitigate)"
 
 #: ui/tabs/gaming_tab.py:635
 msgid "Gaming sysctl tweaks applied!"
-msgstr ""
+msgstr "Ajustări sysctl gaming aplicate!"
 
 #: ui/tabs/gaming_tab.py:637
 msgid "Kernel parameters optimized for gaming."
-msgstr ""
+msgstr "Parametrii kernel optimizați pentru gaming."
 
 #: ui/tabs/gaming_tab.py:653
 msgid "Apply failed"
-msgstr ""
+msgstr "Aplicare eșuată"
 
 #: ui/tabs/gaming_tab.py:674
 msgid "GPU Detection Failed"
-msgstr ""
+msgstr "Detectare GPU Eșuată"
 
 #: ui/tabs/gaming_tab.py:676
 msgid "Could not detect GPU. Please install 'pciutils' package."
-msgstr ""
+msgstr "Nu s-a putut detecta GPU. Vă rugăm instalați pachetul 'pciutils'."
 
 #: ui/tabs/gaming_tab.py:712
 msgid "Unsupported GPU"
-msgstr ""
+msgstr "GPU Neacceptat"
 
 #: ui/tabs/gaming_tab.py:715
 msgid "Could not detect a supported GPU (NVIDIA, AMD, or Intel)."
-msgstr ""
+msgstr "Nu s-a putut detecta un GPU suportat (NVIDIA, AMD sau Intel)."
 
 #: ui/tabs/gaming_tab.py:716
 msgid "GPU optimizations are only available for these vendors."
-msgstr ""
+msgstr "Optimizările GPU sunt disponibile doar pentru acești producători."
 
 #: ui/tabs/gaming_tab.py:774
 msgid "Detected GPU:"
-msgstr ""
+msgstr "GPU Detectat:"
 
 #: ui/tabs/gaming_tab.py:775
 msgid "Optimizations to apply:"
-msgstr ""
+msgstr "Optimizări de aplicat:"
 
 #: ui/tabs/gaming_tab.py:776
 msgid "These settings will be applied system-wide via environment variables."
-msgstr ""
+msgstr "Aceste setări vor fi aplicate la nivel de sistem prin variabile de mediu."
 
 #: ui/tabs/gaming_tab.py:885
 msgid "Optimization Failed"
-msgstr ""
+msgstr "Optimizare Eșuată"
 
 #: ui/tabs/gaming_tab.py:911
 msgid "Revert Disk I/O Optimizations?"
-msgstr ""
+msgstr "Revenire Optimizări I/O Disc?"
 
 #: ui/tabs/gaming_tab.py:913
 msgid "This will remove the custom I/O scheduler rules."
-msgstr ""
+msgstr "Aceasta va elimina regulile personalizate planificator I/O."
 
 #: ui/tabs/gaming_tab.py:952
 msgid "Disk I/O optimizations reverted!"
-msgstr ""
+msgstr "Optimizări I/O disc anulate!"
 
 #: ui/tabs/gaming_tab.py:981
 msgid "Optimize Disk I/O Schedulers?"
-msgstr ""
+msgstr "Optimizează Planificatoare I/O Disc?"
 
 #: ui/tabs/gaming_tab.py:984
 msgid "This will configure optimal I/O schedulers for gaming:"
-msgstr ""
+msgstr "Aceasta va configura planificatoare I/O optime pentru gaming:"
 
 #: ui/tabs/gaming_tab.py:985
 msgid "(best latency)"
-msgstr ""
+msgstr "(cea mai bună latență)"
 
 #: ui/tabs/gaming_tab.py:987
 msgid "(maximum performance)"
-msgstr ""
+msgstr "(performanță maximă)"
 
 #: ui/tabs/gaming_tab.py:988
 msgid "Changes take effect immediately without reboot."
-msgstr ""
+msgstr "Schimbările au efect imediat, fără restart."
 
 #: ui/tabs/gaming_tab.py:1029
 msgid "Disk I/O Optimized!"
-msgstr ""
+msgstr "I/O Disc Optimizat!"
+
+#: ui/tabs/gaming_tab.py:1032
+msgid "I/O schedulers have been optimized for gaming."
+msgstr "Planificatoarele I/O au fost optimizate pentru gaming."
+
+#: ui/tabs/gaming_tab.py:1033
+msgid "Changes are active immediately."
+msgstr "Schimbările sunt active imediat."
+
+#: ui/tabs/gaming_tab.py:1034
+msgid "Configuration saved to:"
+msgstr "Configurație salvată în:"
 
 #: ui/tabs/gaming_tab.py:1051
 msgid "Optimization failed"
-msgstr ""
+msgstr "Optimizare eșuată"
 
 #: ui/tabs/gaming_tab.py:1068
 msgid "Install MangoHud + Goverlay?"
-msgstr ""
+msgstr "Instalează MangoHud + Goverlay?"
 
 #: ui/tabs/gaming_tab.py:1071
 msgid ""
 "MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, CPU/"
 "GPU load and more."
-msgstr ""
+msgstr "MangoHud este un overlay Vulkan/OpenGL pentru monitorizare FPS, temperaturi, încărcare CPU/GPU și altele."
 
 #: ui/tabs/gaming_tab.py:1113
 msgid "MangoHud + Goverlay installed!"
-msgstr ""
+msgstr "MangoHud + Goverlay instalate!"
 
 #: ui/tabs/gaming_tab.py:1117
 msgid "• Steam: Add 'mangohud %command%' to game launch options"
-msgstr ""
+msgstr "• Steam: Adaugă 'mangohud %command%' la opțiunile de lansare"
 
 #: ui/tabs/gaming_tab.py:1118
 msgid "• Configure via Goverlay application"
-msgstr ""
+msgstr "• Configurează prin aplicația Goverlay"
 
 #: ui/tabs/gaming_tab.py:1119
 msgid "• Toggle in-game with Shift+F12"
-msgstr ""
+msgstr "• Comută în joc cu Shift+F12"
 
 #: ui/tabs/gaming_tab.py:1153
 msgid "Revert ALL Gaming Optimizations?"
-msgstr ""
+msgstr "Revenire TOATE Optimizările Gaming?"
 
 #: ui/tabs/gaming_tab.py:1156
 msgid ""
@@ -2099,169 +1522,932 @@ msgid ""
 "\n"
 "Continue?"
 msgstr ""
+"Aceasta va elimina:\n"
+"• Ajustări sysctl gaming\n"
+"• Optimizări GPU\n"
+"• Optimizări I/O Disc\n"
+"• Script Mod Performanță\n"
+"\n"
+"GameMode și MangoHud vor rămâne instalate.\n"
+"\n"
+"Continuați?"
 
 #: ui/tabs/gaming_tab.py:1237
 msgid "Optimizations reverted!"
-msgstr ""
+msgstr "Optimizări anulate!"
 
 #: ui/tabs/gaming_tab.py:1239
 msgid "All gaming tweaks have been removed."
-msgstr ""
+msgstr "Toate ajustările gaming au fost eliminate."
 
 #: ui/tabs/gaming_tab.py:1255
 msgid "No optimizations found"
-msgstr ""
+msgstr "Nicio optimizare găsită"
 
 #: ui/tabs/gaming_tab.py:1257
 msgid "No gaming optimizations are currently applied."
-msgstr ""
+msgstr "Nicio optimizare gaming nu este aplicată momentan."
 
 #: ui/tabs/gaming_tab.py:1310
 msgid "Install Gaming Wallpapers?"
-msgstr ""
+msgstr "Instalează Imagini Fundal Gaming?"
 
 #: ui/tabs/gaming_tab.py:1313
 msgid "This will install exclusive gaming wallpapers for"
-msgstr ""
+msgstr "Aceasta va instala imagini de fundal gaming exclusive pentru"
 
 #: ui/tabs/gaming_tab.py:1314
 msgid "Destination:"
-msgstr ""
+msgstr "Destinație:"
+
+#: ui/tabs/gaming_tab.py:1400
+msgid "Wallpapers have been installed to:"
+msgstr "Imaginile au fost instalate în:"
+
+#: ui/tabs/gaming_tab.py:1402
+msgid "Symlinks created in:"
+msgstr "Legături simbolice create în:"
+
+#: ui/tabs/gaming_tab.py:1403
+msgid "You can now select them from your wallpaper settings."
+msgstr "Le puteți selecta acum din setările de fundal."
 
 #: ui/tabs/gaming_tab.py:1410
 msgid "Gaming wallpapers installed successfully!"
-msgstr ""
+msgstr "Imagini fundal gaming instalate cu succes!"
 
 #: ui/tabs/gaming_tab.py:1436
 msgid "Archive not found"
-msgstr ""
+msgstr "Arhivă negăsită"
 
 #: ui/tabs/gaming_tab.py:1463
 msgid "Unexpected error"
-msgstr ""
+msgstr "Eroare neașteptată"
 
 #: ui/tabs/gaming_tab.py:1623
 msgid "Launchers"
-msgstr ""
+msgstr "Lansatoare"
+
+#: ui/tabs/gaming_tab.py:1690 ui/tabs/recommended_tab.py:270
+#: ui/tabs/software_gnome_tab.py:93 ui/tabs/software_plasma_tab.py:93
+#: ui/tabs/software_xfce_tab.py:93
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: ui/tabs/gaming_tab.py:1698 ui/tabs/recommended_tab.py:278
+msgid "Official Package"
+msgstr "Pachet Oficial"
+
+#: ui/tabs/gaming_tab.py:1866 ui/tabs/recommended_tab.py:562
+#: ui/tabs/software_gnome_tab.py:270 ui/tabs/software_plasma_tab.py:238
+#: ui/tabs/software_xfce_tab.py:272 utils/command_runner.py:194
+#: utils/command_runner.py:199
+msgid "Operation completed successfully"
+msgstr "Operațiune finalizată cu succes"
 
 #: ui/tabs/gaming_tab.py:1910
 msgid "RGB Theme Deactivated"
-msgstr ""
+msgstr "Temă RGB Dezactivată"
 
 #: ui/tabs/gaming_tab.py:1912
 msgid "The RGB gaming theme has been disabled."
-msgstr ""
+msgstr "Tema gaming RGB a fost dezactivată."
 
-#: ui/tabs/gaming_tab.py:1930 utils/hardware_detector.py:74
-#: utils/hardware_detector.py:177 utils/hardware_detector.py:199
-#: utils/command_runner.py:220
+#: ui/tabs/gaming_tab.py:1930 utils/command_runner.py:220
+#: utils/hardware_detector.py:74 utils/hardware_detector.py:177
+#: utils/hardware_detector.py:199
 msgid "Error"
-msgstr ""
+msgstr "Eroare"
 
 #: ui/tabs/gaming_tab.py:1956
 msgid "RGB Theme Activated! 🎮"
-msgstr ""
+msgstr "Temă RGB Activată! 🎮"
 
 #: ui/tabs/gaming_tab.py:1959
 msgid "Gaming RGB theme applied!"
-msgstr ""
+msgstr "Temă RGB gaming aplicată!"
 
 #: ui/tabs/gaming_tab.py:1960
 msgid "Features:"
-msgstr ""
+msgstr "Caracteristici:"
 
 #: ui/tabs/gaming_tab.py:1961
 msgid "Neon red accents"
-msgstr ""
+msgstr "Accente roșii neon"
 
 #: ui/tabs/gaming_tab.py:1962
 msgid "Dark optimized interface"
-msgstr ""
+msgstr "Interfață întunecată optimizată"
 
 #: ui/tabs/gaming_tab.py:1963
 msgid "Click 'RGB Theme' again to deactivate"
-msgstr ""
+msgstr "Faceți clic pe 'Temă RGB' din nou pentru a dezactiva"
 
 #: ui/tabs/gaming_tab.py:1974
 msgid "Error Activating RGB Theme"
-msgstr ""
+msgstr "Eroare Activare Temă RGB"
 
-#: utils/hardware_detector.py:38
-msgid "Dedicated"
-msgstr ""
+#: ui/tabs/kernels_tab.py:56
+msgid "Kernel Management"
+msgstr "Gestionare Kernel"
 
-#: utils/hardware_detector.py:48
-msgid "Dedicated/Integrated"
-msgstr ""
+#: ui/tabs/kernels_tab.py:83
+msgid "CPU Microcode Updates"
+msgstr "Actualizări Microcod CPU"
 
-#: utils/hardware_detector.py:58
-msgid "Integrated"
-msgstr ""
+#: ui/tabs/kernels_tab.py:92
+msgid "Security and performance firmware updates for your CPU."
+msgstr "Actualizări firmware de securitate și performanță pentru CPU."
 
-#: utils/hardware_detector.py:266
-msgid "Disk"
-msgstr ""
+#: ui/tabs/kernels_tab.py:103
+msgid ""
+"Warning: Liquorix kernel is NOT compatible with proprietary NVIDIA drivers."
+msgstr "Avertisment: Kernel-ul Liquorix NU este compatibil cu driverele proprietare NVIDIA."
 
-#: utils/hardware_detector.py:287
-msgid "Wi-Fi"
-msgstr ""
+#: ui/tabs/kernels_tab.py:113
+msgid "Available Kernels"
+msgstr "Kernel-uri Disponibile"
 
-#: utils/hardware_detector.py:289
-msgid "Ethernet"
-msgstr ""
+#: ui/tabs/kernels_tab.py:118
+msgid ""
+"Manage your system kernels. You can install optimized kernels for better "
+"performance or latency."
+msgstr "Gestionează kernel-urile sistemului. Poți instala kernel-uri optimizate pentru performanță sau latență."
 
-#: utils/hardware_detector.py:291
-msgid "Other"
-msgstr ""
+#: ui/tabs/kernels_tab.py:126 ui/tabs/kernels_tab.py:285
+msgid "Liquorix Kernel"
+msgstr "Kernel Liquorix"
 
-#: utils/hardware_detector.py:304
-msgid "Connected"
-msgstr ""
+#: ui/tabs/kernels_tab.py:135
+msgid ""
+"Optimized for interactive systems and gaming. High responsiveness and low "
+"latency."
+msgstr "Optimizat pentru sisteme interactive și gaming. Răspuns rapid și latență scăzută."
 
-#: utils/hardware_detector.py:304
-msgid "Disconnected"
-msgstr ""
+#: ui/tabs/kernels_tab.py:146
+msgid "XanMod Kernel Variants"
+msgstr "Variante Kernel XanMod"
 
-#: utils/hardware_detector.py:328
-msgid "Detecting CPU..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:156
+msgid "High performance kernel with advanced optimizations."
+msgstr "Kernel de înaltă performanță cu optimizări avansate."
 
-#: utils/hardware_detector.py:333
-msgid "Detecting memory..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:156
+msgid "Choose the variant that matches your hardware:"
+msgstr "Alege varianta potrivită hardware-ului tău:"
 
-#: utils/hardware_detector.py:338
-msgid "Detecting GPU..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:169
+msgid "x64v3 - Standard"
+msgstr "x64v3 - Standard"
 
-#: utils/hardware_detector.py:343
-msgid "Detecting virtual machine..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:174
+msgid ""
+"For CPUs from 2015+ (Intel Haswell, AMD Zen and newer). AVX2 optimizations."
+msgstr "Pentru CPU-uri din 2015+ (Intel Haswell, AMD Zen și mai noi). Optimizări AVX2."
 
-#: utils/hardware_detector.py:348
-msgid "Detecting storage..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:187
+msgid "x64v4 - Advanced"
+msgstr "x64v4 - Avansat"
 
-#: utils/hardware_detector.py:353
-msgid "Detecting network..."
-msgstr ""
+#: ui/tabs/kernels_tab.py:192
+msgid "For very recent CPUs (Intel 12th gen+, AMD Zen 4+). AVX-512 support."
+msgstr "Pentru CPU-uri foarte recente (Intel 12th gen+, AMD Zen 4+). Suport AVX-512."
 
-#: utils/hardware_detector.py:358
-msgid "Scan completed"
+#: ui/tabs/kernels_tab.py:205
+msgid "EDGE - Experimental"
+msgstr "EDGE - Experimental"
+
+#: ui/tabs/kernels_tab.py:205
+msgid "Not recommended for production"
+msgstr "Nerecomandat pentru producție"
+
+#: ui/tabs/kernels_tab.py:210
+msgid "Latest experimental features. May be unstable. For testing only."
+msgstr "Ultimele funcții experimentale. Poate fi instabil. Doar pentru testare."
+
+#: ui/tabs/kernels_tab.py:223
+msgid "LTS - Long Term Support"
+msgstr "LTS - Suport pe Termen Lung"
+
+#: ui/tabs/kernels_tab.py:223
+msgid "Most stable"
+msgstr "Cel mai stabil"
+
+#: ui/tabs/kernels_tab.py:228
+msgid "Long-term support, conservative updates. Best for stability."
+msgstr "Suport pe termen lung, actualizări conservative. Cel mai bun pentru stabilitate."
+
+#: ui/tabs/kernels_tab.py:241
+msgid "System Maintenance"
+msgstr "Întreținere Sistem"
+
+#: ui/tabs/kernels_tab.py:250
+msgid "Tools to keep your system clean and updated."
+msgstr "Instrumente pentru a menține sistemul curat și actualizat."
+
+#: ui/tabs/kernels_tab.py:260
+msgid "Clean Old Kernels"
+msgstr "Curăță Kernel-uri Vechi"
+
+#: ui/tabs/kernels_tab.py:261
+msgid "Remove old unused kernels to free up space"
+msgstr "Elimină kernel-uri vechi nefolosite pentru a elibera spațiu"
+
+#: ui/tabs/kernels_tab.py:266
+msgid "Update GRUB"
+msgstr "Actualizează GRUB"
+
+#: ui/tabs/kernels_tab.py:267
+msgid "Regenerate GRUB configuration file"
+msgstr "Regenerează fișierul configurare GRUB"
+
+#: ui/tabs/kernels_tab.py:283
+msgid "Standard Kernel"
+msgstr "Kernel Standard"
+
+#: ui/tabs/kernels_tab.py:287
+msgid "XanMod Kernel"
+msgstr "Kernel XanMod"
+
+#: ui/tabs/kernels_tab.py:308 ui/tabs/kernels_tab.py:310
+#: utils/hardware_detector.py:70
+msgid "Not detected"
+msgstr "Nedetectat"
+
+#: ui/tabs/kernels_tab.py:327
+msgid "weeks"
+msgstr "săptămâni"
+
+#: ui/tabs/kernels_tab.py:330
+msgid "days"
+msgstr "zile"
+
+#: ui/tabs/kernels_tab.py:333
+msgid "hours"
+msgstr "ore"
+
+#: ui/tabs/kernels_tab.py:336
+msgid "minutes"
+msgstr "minute"
+
+#: ui/tabs/kernels_tab.py:346 ui/tabs/kernels_tab.py:670
+msgid "Current Kernel"
+msgstr "Kernel Curent"
+
+#: ui/tabs/kernels_tab.py:347
+msgid "Type"
+msgstr "Tip"
+
+#: ui/tabs/kernels_tab.py:348
+msgid "Architecture"
+msgstr "Arhitectură"
+
+#: ui/tabs/kernels_tab.py:349
+msgid "Uptime"
+msgstr "Timp funcționare"
+
+#: ui/tabs/kernels_tab.py:444
+msgid "Uninstall Liquorix"
+msgstr "Dezinstalează Liquorix"
+
+#: ui/tabs/kernels_tab.py:450 ui/tabs/kernels_tab.py:539
+msgid "In Use"
+msgstr "În Uz"
+
+#: ui/tabs/kernels_tab.py:453 ui/tabs/kernels_tab.py:510
+#: ui/tabs/kernels_tab.py:542 ui/tabs/recommended_tab.py:338
+#: ui/tabs/security_tab.py:371 ui/tabs/security_tab.py:404
+msgid "Installed"
+msgstr "Instalat"
+
+#: ui/tabs/kernels_tab.py:456
+msgid "Install Liquorix"
+msgstr "Instalează Liquorix"
+
+#: ui/tabs/kernels_tab.py:461
+msgid "Liquorix is not compatible with NVIDIA drivers"
+msgstr "Liquorix nu este compatibil cu driverele NVIDIA"
+
+#: ui/tabs/kernels_tab.py:464
+msgid "Incompatible with NVIDIA"
+msgstr "Incompatibil cu NVIDIA"
+
+#: ui/tabs/kernels_tab.py:498
+msgid "CPU vendor not detected"
+msgstr "Producător CPU nedetectat"
+
+#: ui/tabs/kernels_tab.py:514 ui/tabs/kernels_tab.py:532
+#: ui/tabs/recommended_tab.py:355 ui/tabs/security_tab.py:366
+#: ui/tabs/security_tab.py:399 ui/tabs/software_gnome_tab.py:226
+#: ui/tabs/software_plasma_tab.py:194 ui/tabs/software_xfce_tab.py:228
+msgid "Uninstall"
+msgstr "Dezinstalează"
+
+#: ui/tabs/kernels_tab.py:563
+msgid "Installing Liquorix Kernel..."
+msgstr "Se instalează Kernel Liquorix..."
+
+#: ui/tabs/kernels_tab.py:565 ui/tabs/kernels_tab.py:594
+#: ui/tabs/kernels_tab.py:741 ui/tabs/security_tab.py:448
+msgid "Installation complete."
+msgstr "Instalare finalizată."
+
+#: ui/tabs/kernels_tab.py:587
+msgid "Installing XanMod"
+msgstr "Se instalează XanMod"
+
+#: ui/tabs/kernels_tab.py:608
+msgid "Uninstalling Liquorix Kernel..."
+msgstr "Se dezinstalează Kernel Liquorix..."
+
+#: ui/tabs/kernels_tab.py:610 ui/tabs/kernels_tab.py:639
+#: ui/tabs/kernels_tab.py:758 ui/tabs/security_tab.py:461
+msgid "Uninstallation complete."
+msgstr "Dezinstalare finalizată."
+
+#: ui/tabs/kernels_tab.py:637
+msgid "Uninstalling XanMod"
+msgstr "Se dezinstalează XanMod"
+
+#: ui/tabs/kernels_tab.py:653
+msgid "Kernel in Use"
+msgstr "Kernel în Uz"
+
+#: ui/tabs/kernels_tab.py:656
+#, python-brace-format
+msgid ""
+"Cannot uninstall {0} because it is currently running. Please boot into "
+"another kernel first."
+msgstr "Nu se poate dezinstala {0} deoarece rulează. Vă rugăm să bootați în alt kernel mai întâi."
+
+#: ui/tabs/kernels_tab.py:668
+msgid "Checking for old kernels..."
+msgstr "Se verifică kernel-uri vechi..."
+
+#: ui/tabs/kernels_tab.py:679 ui/tabs/kernels_tab.py:694
+msgid "No old kernels to remove."
+msgstr "Niciun kernel vechi de eliminat."
+
+#: ui/tabs/kernels_tab.py:698
+msgid "Removing old kernels..."
+msgstr "Se elimină kernel-uri vechi..."
+
+#: ui/tabs/kernels_tab.py:706 ui/tabs/kernels_tab.py:718
+msgid "Updating GRUB..."
+msgstr "Se actualizează GRUB..."
+
+#: ui/tabs/kernels_tab.py:708
+msgid "Cleanup complete."
+msgstr "Curățare finalizată."
+
+#: ui/tabs/kernels_tab.py:724
+msgid "GRUB update complete."
+msgstr "Actualizare GRUB finalizată."
+
+#: ui/tabs/kernels_tab.py:738
+msgid "Installing"
+msgstr "Se instalează"
+
+#: ui/tabs/kernels_tab.py:742
+msgid "A system reboot is recommended to apply microcode updates."
+msgstr "Un restart de sistem este recomandat pentru a aplica actualizările microcode."
+
+#: ui/tabs/kernels_tab.py:756
+msgid "Uninstalling"
+msgstr "Se dezinstalează"
+
+#: ui/tabs/recommended_tab.py:66
+msgid "Recommended for You"
+msgstr "Recomandate pentru Tine"
+
+#: ui/tabs/recommended_tab.py:70
+msgid "Curated applications based on your desktop environment"
+msgstr "Aplicații selectate pe baza mediului tău desktop"
+
+#: ui/tabs/recommended_tab.py:78 ui/tabs/recommended_tab.py:621
+msgid "Multiple Selection"
+msgstr "Selecție Multiplă"
+
+#: ui/tabs/recommended_tab.py:85
+msgid "Search programs..."
+msgstr "Caută programe..."
+
+#: ui/tabs/recommended_tab.py:111
+msgid "Select All"
+msgstr "Selectează Tot"
+
+#: ui/tabs/recommended_tab.py:115
+msgid "Deselect All"
+msgstr "Deselectează Tot"
+
+#: ui/tabs/recommended_tab.py:120
+msgid "0 programs selected"
+msgstr "0 programe selectate"
+
+#: ui/tabs/recommended_tab.py:125
+msgid "Install Selected"
+msgstr "Instalează Selectate"
+
+#: ui/tabs/recommended_tab.py:156
+msgid "No results found for"
+msgstr "Niciun rezultat găsit pentru"
+
+#: ui/tabs/recommended_tab.py:346 utils/command_runner.py:180
+msgid "Processing..."
+msgstr "Se procesează..."
+
+#: ui/tabs/recommended_tab.py:619
+msgid "Normal Mode"
+msgstr "Mod Normal"
+
+#: ui/tabs/recommended_tab.py:758
+msgid "{} programs selected"
+msgstr "{} programe selectate"
+
+#: ui/tabs/recommended_tab.py:758
+msgid "1 program selected"
+msgstr "1 program selectat"
+
+#: ui/tabs/recommended_tab.py:776
+msgid "Install {} selected programs?"
+msgstr "Instalați {} programe selectate?"
+
+#: ui/tabs/recommended_tab.py:851
+msgid "Downloading"
+msgstr "Se descarcă"
+
+#: ui/tabs/recommended_tab.py:852
+msgid "Download failed for"
+msgstr "Descărcare eșuată pentru"
+
+#: ui/tabs/recommended_tab.py:855
+msgid "Installing all .deb packages..."
+msgstr "Se instalează toate pachetele .deb..."
+
+#: ui/tabs/recommended_tab.py:865
+msgid "All .deb packages installed successfully"
+msgstr "Toate pachetele .deb instalate cu succes"
+
+#: ui/tabs/recommended_tab.py:933
+msgid "Batch Installation Complete"
+msgstr "Instalare în Lot Finalizată"
+
+#: ui/tabs/recommended_tab.py:935
+msgid "All selected programs have been installed."
+msgstr "Toate programele selectate au fost instalate."
+
+#: ui/tabs/recommended_tab.py:974
+msgid "DaVinci Resolve Installation"
+msgstr "Instalare DaVinci Resolve"
+
+#: ui/tabs/recommended_tab.py:977
+msgid ""
+"DaVinci Resolve requires manual download due to licensing.\n"
+"\n"
+"1. Go to blackmagicdesign.com and download the Linux version (ZIP).\n"
+"2. Click OK to select the downloaded file.\n"
+"3. We will convert it to a Debian package and install it."
 msgstr ""
+"DaVinci Resolve necesită descărcare manuală din cauza licenței.\n"
+"\n"
+"1. Mergi la blackmagicdesign.com și descarcă versiunea Linux (ZIP).\n"
+"2. Clic OK pentru a selecta fișierul descărcat.\n"
+"3. Îl vom converti în pachet Debian și îl vom instala."
+
+#: ui/tabs/recommended_tab.py:990
+msgid "DaVinci Resolve Installer"
+msgstr "Instalator DaVinci Resolve"
+
+#: ui/tabs/recommended_tab.py:995
+msgid "Select DaVinci Resolve Installer"
+msgstr "Selectează Instalator DaVinci Resolve"
+
+#: ui/tabs/recommended_tab.py:1000 ui/tabs/software_gnome_tab.py:371
+#: ui/tabs/software_plasma_tab.py:341 ui/tabs/software_xfce_tab.py:372
+msgid "Cancel"
+msgstr "Anulează"
+
+#: ui/tabs/recommended_tab.py:1001
+msgid "Select"
+msgstr "Selectează"
+
+#: ui/tabs/recommended_tab.py:1131
+msgid "Installation Complete"
+msgstr "Instalare Completă"
+
+#: ui/tabs/recommended_tab.py:1133
+msgid "DaVinci Resolve has been installed successfully."
+msgstr "DaVinci Resolve a fost instalat cu succes."
+
+#: ui/tabs/security_tab.py:65
+msgid "Security &amp; System Protection"
+msgstr "Securitate &amp; Protecție Sistem"
+
+#: ui/tabs/security_tab.py:69
+msgid "Protect your system with backups, firewall, and security tools"
+msgstr "Protejează-ți sistemul cu copii de rezervă, firewall și instrumente de securitate"
+
+#: ui/tabs/security_tab.py:106
+msgid "System Backups"
+msgstr "Copii de Rezervă Sistem"
+
+#: ui/tabs/security_tab.py:124
+msgid ""
+"Creates automatic system snapshots. Protects your configuration and allows "
+"easy restoration."
+msgstr "Creează instantanee automate ale sistemului. Protejează configurația și permite restaurarea ușoară."
+
+#: ui/tabs/security_tab.py:142
+msgid "Simple backups of personal files with encryption support."
+msgstr "Copii de rezervă simple pentru fișiere personale cu suport criptare."
+
+#: ui/tabs/security_tab.py:153
+msgid "Firewall Protection"
+msgstr "Protecție Firewall"
+
+#: ui/tabs/security_tab.py:166
+msgid "Recommended for Desktop"
+msgstr "Recomandat pentru Desktop"
+
+#: ui/tabs/security_tab.py:171
+msgid ""
+"Simple graphical interface for UFW firewall. Control network traffic easily."
+msgstr "Interfață grafică simplă pentru firewall UFW. Controlează traficul de rețea ușor."
+
+#: ui/tabs/security_tab.py:184
+msgid "Firewall Status"
+msgstr "Status Firewall"
+
+#: ui/tabs/security_tab.py:198
+msgid "Filesystem Tools"
+msgstr "Instrumente Sistem de Fișiere"
+
+#: ui/tabs/security_tab.py:217
+msgid "Only for BTRFS"
+msgstr "Doar pentru BTRFS"
+
+#: ui/tabs/security_tab.py:223 ui/tabs/security_tab.py:225
+msgid "Advanced management of BTRFS subvolumes and snapshots."
+msgstr "Gestionare avansată a subvolumelor și instantaneelor BTRFS."
+
+#: ui/tabs/security_tab.py:225
+msgid "Current system"
+msgstr "Sistem curent"
+
+#: ui/tabs/security_tab.py:225
+msgid "BTRFS Assistant is not compatible."
+msgstr "BTRFS Assistant nu este compatibil."
+
+#: ui/tabs/security_tab.py:236
+msgid "Antivirus & Malware"
+msgstr "Antivirus & Malware"
+
+#: ui/tabs/security_tab.py:254
+msgid ""
+"Graphical interface for ClamAV. Scan your system against viruses and malware."
+msgstr "Interfață grafică pentru ClamAV. Scanează sistemul împotriva virușilor și malware-ului."
+
+#: ui/tabs/security_tab.py:267
+msgid "Advanced"
+msgstr "Avansat"
+
+#: ui/tabs/security_tab.py:272
+msgid "Command-line tool to detect rootkits and system threats."
+msgstr "Instrument linie de comandă pentru detectare rootkit-uri și amenințări de sistem."
+
+#: ui/tabs/security_tab.py:333
+msgid "Open GUFW"
+msgstr "Deschide GUFW"
+
+#: ui/tabs/security_tab.py:341
+msgid "Not available on"
+msgstr "Indisponibil pe"
+
+#: ui/tabs/security_tab.py:377
+msgid "Configure"
+msgstr "Configurează"
+
+#: ui/tabs/security_tab.py:385
+msgid "Scan System"
+msgstr "Scanează Sistem"
+
+#: ui/tabs/security_tab.py:409
+msgid "Update Definitions"
+msgstr "Actualizează Definiții"
+
+#: ui/tabs/security_tab.py:423
+msgid "Active"
+msgstr "Activ"
+
+#: ui/tabs/security_tab.py:424
+msgid "Deactivate"
+msgstr "Dezactivează"
+
+#: ui/tabs/security_tab.py:427
+msgid "Inactive"
+msgstr "Inactiv"
+
+#: ui/tabs/security_tab.py:428
+msgid "Activate"
+msgstr "Activează"
+
+#: ui/tabs/security_tab.py:509
+msgid "Updating virus definitions..."
+msgstr "Se actualizează definițiile de viruși..."
+
+#: ui/tabs/security_tab.py:511
+msgid "Definitions updated successfully!"
+msgstr "Definiții actualizate cu succes!"
+
+#: ui/tabs/security_tab.py:521
+msgid "Scanning system for rootkits..."
+msgstr "Se scanează sistemul pentru rootkit-uri..."
+
+#: ui/tabs/security_tab.py:523
+msgid "Scan complete."
+msgstr "Scanare finalizată."
+
+#: ui/tabs/software_gnome_tab.py:67 ui/tabs/software_plasma_tab.py:67
+#: ui/tabs/software_xfce_tab.py:67
+msgid "Update"
+msgstr "Actualizează"
+
+#: ui/tabs/software_gnome_tab.py:72 ui/tabs/software_plasma_tab.py:72
+#: ui/tabs/software_xfce_tab.py:72
+msgid "Upgrade"
+msgstr "Actualizare Sistem"
+
+#: ui/tabs/software_gnome_tab.py:90 ui/tabs/software_plasma_tab.py:90
+#: ui/tabs/software_xfce_tab.py:90
+msgid "Synaptic"
+msgstr "Synaptic"
+
+#: ui/tabs/software_gnome_tab.py:91 ui/tabs/software_plasma_tab.py:91
+#: ui/tabs/software_xfce_tab.py:91
+msgid "Gdebi"
+msgstr "Gdebi"
+
+#: ui/tabs/software_gnome_tab.py:92 ui/tabs/software_plasma_tab.py:92
+#: ui/tabs/software_xfce_tab.py:92
+msgid "GNOME Software"
+msgstr "Software GNOME"
+
+#: ui/tabs/software_gnome_tab.py:94 ui/tabs/software_plasma_tab.py:94
+#: ui/tabs/software_xfce_tab.py:94
+msgid "Snap"
+msgstr "Snap"
+
+#: ui/tabs/software_gnome_tab.py:95 ui/tabs/software_plasma_tab.py:95
+#: ui/tabs/software_xfce_tab.py:95
+msgid "Repo Selector"
+msgstr "Selector Repo"
+
+#: ui/tabs/software_gnome_tab.py:121 ui/tabs/software_plasma_tab.py:121
+#: ui/tabs/software_xfce_tab.py:121
+msgid "Open"
+msgstr "Deschide"
+
+#: ui/tabs/software_gnome_tab.py:150 ui/tabs/software_plasma_tab.py:150
+#: ui/tabs/software_xfce_tab.py:150
+msgid "Add Flathub"
+msgstr "Adaugă Flathub"
+
+#: ui/tabs/software_gnome_tab.py:158 ui/tabs/software_plasma_tab.py:157
+#: ui/tabs/software_xfce_tab.py:160
+msgid "Clean System"
+msgstr "Curăță Sistem"
+
+#: ui/tabs/software_gnome_tab.py:178 ui/tabs/software_xfce_tab.py:180
+msgid "Soplos Repository Manager"
+msgstr "Manager Depozite Soplos"
+
+#: ui/tabs/software_gnome_tab.py:184
+msgid ""
+"Manage repositories and modern software sources integrated with GNOME "
+"Software."
+msgstr "Gestionează depozite și surse software moderne integrate cu Software GNOME."
+
+#: ui/tabs/software_gnome_tab.py:190 ui/tabs/software_xfce_tab.py:192
+msgid "Launch Repository Manager"
+msgstr "Lansează Manager Depozite"
+
+#: ui/tabs/software_gnome_tab.py:361 ui/tabs/software_plasma_tab.py:331
+#: ui/tabs/software_xfce_tab.py:362
+msgid "System Up to Date"
+msgstr "Sistem Actualizat"
+
+#: ui/tabs/software_gnome_tab.py:363 ui/tabs/software_plasma_tab.py:333
+#: ui/tabs/software_xfce_tab.py:364
+msgid "No packages available to update at this time."
+msgstr "Niciun pachet disponibil pentru actualizare în acest moment."
+
+#: ui/tabs/software_gnome_tab.py:369 ui/tabs/software_plasma_tab.py:339
+#: ui/tabs/software_xfce_tab.py:370
+msgid "Available Updates"
+msgstr "Actualizări Disponibile"
+
+#: ui/tabs/software_gnome_tab.py:372 ui/tabs/software_plasma_tab.py:342
+#: ui/tabs/software_xfce_tab.py:373
+msgid "Update All"
+msgstr "Actualizează Tot"
+
+#: ui/tabs/software_gnome_tab.py:385 ui/tabs/software_plasma_tab.py:355
+#: ui/tabs/software_xfce_tab.py:386
+msgid "updates available"
+msgstr "actualizări disponibile"
+
+#: ui/tabs/software_tab.py:111
+msgid "Software Management"
+msgstr "Gestionare Software"
+
+#: ui/tabs/software_tab.py:118
+msgid "Loading software management for"
+msgstr "Se încarcă gestionarea software pentru"
+
+#: ui/tabs/software_tab.py:124
+msgid "Desktop-specific software interface will be available soon."
+msgstr "Interfața software specifică desktop-ului va fi disponibilă în curând."
+
+#: ui/tabs/software_xfce_tab.py:155
+msgid "Snap to Whisker Menu"
+msgstr "Snap în Meniul Whisker"
+
+#: ui/tabs/software_xfce_tab.py:186
+msgid ""
+"Manage additional repositories and software sources for your Soplos system."
+msgstr "Gestionează depozite suplimentare și surse software pentru sistemul Soplos."
+
+#: ui/tabs/welcome_tab.py:111
+msgid "Welcome to Soplos Linux"
+msgstr "Bun venit în Soplos Linux"
+
+#: ui/tabs/welcome_tab.py:119
+msgid "Your gateway to the Soplos ecosystem"
+msgstr "Poarta ta către ecosistemul Soplos"
+
+#: ui/tabs/welcome_tab.py:128
+msgid ""
+"Thank you for choosing Soplos Linux! This application will help you get "
+"started with your new system."
+msgstr "Vă mulțumim că ați ales Soplos Linux! Această aplicație vă va ajuta să începeți cu noul sistem."
+
+#: ui/tabs/welcome_tab.py:143
+msgid "Use the tabs above to:"
+msgstr "Folosiți filele de mai sus pentru:"
+
+#: ui/tabs/welcome_tab.py:159
+msgid "• Install essential software"
+msgstr "• Instalează software esențial"
+
+#: ui/tabs/welcome_tab.py:160
+msgid "• Configure system drivers"
+msgstr "• Configurează drivere de sistem"
+
+#: ui/tabs/welcome_tab.py:161
+msgid "• Customize your desktop"
+msgstr "• Personalizează desktop-ul"
+
+#: ui/tabs/welcome_tab.py:162
+msgid "• Manage system kernels"
+msgstr "• Gestionează kernel-uri de sistem"
+
+#: ui/tabs/welcome_tab.py:163
+msgid "• View recommended applications"
+msgstr "• Vezi aplicații recomandate"
+
+#: ui/tabs/welcome_tab.py:212
+msgid "Get Started"
+msgstr "Începe"
+
+#: ui/tabs/welcome_tab.py:226
+msgid "Web"
+msgstr "Web"
+
+#: ui/tabs/welcome_tab.py:240
+msgid "Forums"
+msgstr "Forumuri"
+
+#: ui/tabs/welcome_tab.py:254
+msgid "Wiki"
+msgstr "Wiki"
+
+#: ui/tabs/welcome_tab.py:268
+msgid "Donate"
+msgstr "Donează"
+
+#: ui/tabs/welcome_tab.py:289
+msgid "Show this application on startup"
+msgstr "Arată această aplicație la pornire"
+
+#: ui/tabs/welcome_tab.py:312
+msgid "Could not open website"
+msgstr "Nu s-a putut deschide site-ul web"
+
+#: ui/tabs/welcome_tab.py:313 ui/tabs/welcome_tab.py:322
+#: ui/tabs/welcome_tab.py:331 ui/tabs/welcome_tab.py:340
+msgid "Check your internet connection and try again."
+msgstr "Verificați conexiunea la internet și încercați din nou."
+
+#: ui/tabs/welcome_tab.py:321
+msgid "Could not open forum"
+msgstr "Nu s-a putut deschide forumul"
+
+#: ui/tabs/welcome_tab.py:330
+msgid "Could not open wiki"
+msgstr "Nu s-a putut deschide wiki-ul"
+
+#: ui/tabs/welcome_tab.py:339
+msgid "Could not open donation page"
+msgstr "Nu s-a putut deschide pagina de donații"
+
+#: ui/tabs/welcome_tab.py:418
+msgid "Error enabling autostart"
+msgstr "Eroare la activarea autostart"
+
+#: ui/tabs/welcome_tab.py:419
+msgid "Could not create autostart file."
+msgstr "Nu s-a putut crea fișierul autostart."
+
+#: ui/tabs/welcome_tab.py:431
+msgid "Error disabling autostart"
+msgstr "Eroare la dezactivarea autostart"
+
+#: ui/tabs/welcome_tab.py:432
+msgid "Could not remove autostart file."
+msgstr "Nu s-a putut elimina fișierul autostart."
 
 #: utils/command_runner.py:51
 msgid "Starting..."
-msgstr ""
+msgstr "Se pornește..."
 
 #: utils/command_runner.py:137
 msgid "Unpacking"
-msgstr ""
+msgstr "Se despachetează"
 
 #: utils/command_runner.py:165
 msgid "Configuring"
-msgstr ""
+msgstr "Se configurează"
 
-#: utils/command_runner.py:194 utils/command_runner.py:199
-msgid "Installation complete"
-msgstr ""
+#: utils/hardware_detector.py:38
+msgid "Dedicated"
+msgstr "Dedicat"
+
+#: utils/hardware_detector.py:48
+msgid "Dedicated/Integrated"
+msgstr "Dedicat/Integrat"
+
+#: utils/hardware_detector.py:58
+msgid "Integrated"
+msgstr "Integrat"
+
+#: utils/hardware_detector.py:266
+msgid "Disk"
+msgstr "Disc"
+
+#: utils/hardware_detector.py:287
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: utils/hardware_detector.py:289
+msgid "Ethernet"
+msgstr "Ethernet"
+
+#: utils/hardware_detector.py:291
+msgid "Other"
+msgstr "Altele"
+
+#: utils/hardware_detector.py:304
+msgid "Connected"
+msgstr "Conectat"
+
+#: utils/hardware_detector.py:304
+msgid "Disconnected"
+msgstr "Deconectat"
+
+#: utils/hardware_detector.py:328
+msgid "Detecting CPU..."
+msgstr "Se detectează CPU..."
+
+#: utils/hardware_detector.py:333
+msgid "Detecting memory..."
+msgstr "Se detectează memoria..."
+
+#: utils/hardware_detector.py:338
+msgid "Detecting GPU..."
+msgstr "Se detectează GPU..."
+
+#: utils/hardware_detector.py:343
+msgid "Detecting virtual machine..."
+msgstr "Se detectează mașina virtuală..."
+
+#: utils/hardware_detector.py:348
+msgid "Detecting storage..."
+msgstr "Se detectează stocarea..."
+
+#: utils/hardware_detector.py:353
+msgid "Detecting network..."
+msgstr "Se detectează rețeaua..."
+
+#: utils/hardware_detector.py:358
+msgid "Scan completed"
+msgstr "Scanare finalizată"
