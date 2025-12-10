@@ -100,6 +100,10 @@ class MainWindow(Gtk.ApplicationWindow):
         header.set_has_subtitle(True)
         header.set_subtitle(f"v{__version__}")
         
+        # Force layout to fix "giant square buttons" issue and match Welcome Live style
+        header.set_decoration_layout("menu:minimize,maximize,close")
+        header.get_style_context().add_class('titlebar')
+        
         self._add_header_buttons(header)
         self.set_titlebar(header)
         self.header = header
