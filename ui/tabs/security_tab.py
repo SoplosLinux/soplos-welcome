@@ -49,6 +49,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.btrfs_row = None
         self.clamtk_row = None
         self.rkhunter_row = None
+        self.bleachbit_row = None
         
         # Timer for periodic UFW status updates
         self.ufw_timer_id = None
@@ -88,6 +89,12 @@ class SecurityTab(Gtk.ScrolledWindow):
         
         # Filesystem tools section
         self._create_filesystem_section()
+        
+        # Separator
+        self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
+        
+        # System Cleaning section
+        self._create_cleaning_section()
         
         # Separator
         self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
@@ -230,6 +237,35 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.btrfs_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         btrfs_box.pack_start(self.btrfs_row, False, False, 2)
     
+    def _create_cleaning_section(self):
+        """Create system cleaning section."""
+        clean_frame = Gtk.Frame()
+        clean_frame.set_label(_("System Cleaning"))
+        clean_frame.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
+        self.main_box.pack_start(clean_frame, False, False, 5)
+        
+        clean_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        clean_container.set_border_width(10)
+        clean_frame.add(clean_container)
+        
+        # BleachBit
+        bleachbit_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        clean_container.pack_start(bleachbit_box, False, False, 5)
+        
+        bleachbit_header = Gtk.Label()
+        bleachbit_header.set_markup(f"<b>BleachBit</b> <span color='#50fa7b'>({_('Recommended')})</span>")
+        bleachbit_header.set_xalign(0)
+        bleachbit_box.pack_start(bleachbit_header, False, False, 0)
+        
+        bleachbit_desc = Gtk.Label()
+        bleachbit_desc.set_markup(f"<small>{_('Free disk space and maintain privacy. Cleans cache, cookies, and temporary files.')}</small>")
+        bleachbit_desc.set_line_wrap(True)
+        bleachbit_desc.set_xalign(0)
+        bleachbit_box.pack_start(bleachbit_desc, False, False, 0)
+        
+        self.bleachbit_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        bleachbit_box.pack_start(self.bleachbit_row, False, False, 2)
+    
     def _create_antivirus_section(self):
         """Create antivirus and malware section."""
         av_frame = Gtk.Frame()
@@ -322,6 +358,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self._clear_container(self.btrfs_row)
         self._clear_container(self.clamtk_row)
         self._clear_container(self.rkhunter_row)
+        self._clear_container(self.bleachbit_row)
         
         # Timeshift
         self._update_package_button('timeshift', self.timeshift_row, with_configure=True)
@@ -341,6 +378,9 @@ class SecurityTab(Gtk.ScrolledWindow):
             not_available.set_markup(f"<i>{_('Not available on')} {current_fs.upper()}</i>")
             self.btrfs_row.pack_start(not_available, False, False, 0)
         
+        # BleachBit
+        self._update_package_button('bleachbit', self.bleachbit_row, with_configure=True, configure_label=_("Open BleachBit"))
+        
         # ClamTk (install both clamav and clamtk)
         self._update_clamtk_button()
         
@@ -357,6 +397,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.btrfs_row.show_all()
         self.clamtk_row.show_all()
         self.rkhunter_row.show_all()
+        self.bleachbit_row.show_all()
     
     def _update_package_button(self, package, row, with_configure=False, configure_label=None, with_scan=False):
         """Update button for a package."""
@@ -475,6 +516,8 @@ echo "{_('Uninstallation complete.')}"
                 subprocess.Popen(['gufw'])
             elif package == 'btrfs-assistant':
                 subprocess.Popen(['pkexec', 'btrfs-assistant'])
+            elif package == 'bleachbit':
+                subprocess.Popen(['bleachbit'])
         except Exception as e:
             print(f"Error launching {package}: {e}")
     
