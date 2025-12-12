@@ -1,0 +1,42 @@
+#!/bin/bash
+# Wrapper for Soplos Welcome: configure desktop environment and launch the app
+export WMCLASS="org.soplos.welcome"
+export GDK_STARTUP_NOTIFICATION_ID="${STARTUP_ID:-0}"
+
+# Ensure we run from the installed tree
+cd /usr/share/soplos-welcome || exit 1
+
+exec python3 -c "
+import sys, os
+sys.path.insert(0, '/usr/share/soplos-welcome')
+os.environ['GDK_STARTUP_ID'] = '${GDK_STARTUP_NOTIFICATION_ID}'
+os.environ['WMCLASS'] = 'org.soplos.welcome'
+
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, GLib, Gdk
+
+GLib.set_prgname('org.soplos.welcome')
+GLib.set_application_name('soplos-welcome')
+Gtk.Window.set_default_icon_name('org.soplos.welcome')
+if hasattr(Gdk, 'set_program_class'):
+    Gdk.set_program_class('org.soplos.welcome')
+
+import main
+try:
+    if hasattr(main, 'main'):
+        sys.exit(main.main())
+    else:
+        for attr_name in dir(main):
+            if attr_name.lower() in ['main','run','start']:
+                attr = getattr(main, attr_name)
+                if callable(attr):
+                    sys.exit(attr())
+                    break
+        else:
+            # If there is no explicit entry function, importing may be enough
+            pass
+except Exception as e:
+    print(f'Error executing main.py: {e}')
+    sys.exit(1)
+"
