@@ -8,7 +8,7 @@ Build-Depends: debhelper-compat (= 13),
                python3-setuptools
 
 Package: soplos-welcome
-Version: 2.0.0
+Version: 2.0.1
 Architecture: all
 Depends: ${python3:Depends},
          ${misc:Depends},

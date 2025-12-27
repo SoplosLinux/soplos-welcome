@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.0-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.1-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -115,6 +115,12 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.1 (27/12/2025)
+- **NVIDIA Driver Improvements**: Added NVIDIA 580 Production driver (580.119.02) for RTX 40/50 series
+- **RTX 50/40 Detection**: Proper GPU detection for Blackwell and Ada Lovelace architectures
+- **GTX 10xx Fix**: Pascal GPUs now correctly use latest driver instead of legacy 470
+- **UI Updates**: Clearer driver version labels ("NVIDIA 550 Repo" and "NVIDIA 580 Production")
 
 ### v2.0.0 (06/12/2025)
 - **Complete Rewrite**: New modular architecture for better maintainability.

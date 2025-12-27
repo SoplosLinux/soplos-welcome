@@ -116,45 +116,52 @@ class DriversTab(Gtk.ScrolledWindow):
         grid.set_column_homogeneous(True)
         self.drivers_box.pack_start(grid, False, False, 5)
         
-        # Row 1: Current drivers
+        # Row 0: Modern drivers (RTX 40/50, RTX 30, RTX 20, GTX 16xx, GTX 10xx)
         nvidia_latest = self._create_button(
-            _("NVIDIA Latest (550)"),
-            _("Latest driver from repository (RTX/GTX 16xx and newer)")
+            _("NVIDIA 550 (Repo)"),
+            _("For RTX 50/40/30/20, GTX 16xx/10xx series")
         )
         nvidia_latest.connect("clicked", self._on_nvidia_repo_clicked, "nvidia-driver")
         grid.attach(nvidia_latest, 0, 0, 1, 1)
         
+        nvidia_580 = self._create_button(
+            _("NVIDIA 580 (Production)"),
+            _("Latest stable production driver for modern GPUs")
+        )
+        nvidia_580.connect("clicked", self._on_nvidia_run_clicked, "580.119.02")
+        grid.attach(nvidia_580, 1, 0, 1, 1)
+        
+        # Row 1: Legacy drivers
         nvidia_470 = self._create_button(
             _("NVIDIA 470 (Legacy)"),
-            _("For Kepler GPUs (GTX 600-700 series)")
+            _("For Kepler/Maxwell GPUs (GTX 600-900 series)")
         )
         nvidia_470.connect("clicked", self._on_nvidia_run_clicked, "470.256.02")
-        grid.attach(nvidia_470, 1, 0, 1, 1)
+        grid.attach(nvidia_470, 0, 1, 1, 1)
         
-        # Row 2: Legacy drivers
         nvidia_390 = self._create_button(
             _("NVIDIA 390 (Legacy)"),
             _("For Fermi GPUs (GTX 400-500 series)")
         )
         nvidia_390.connect("clicked", self._on_nvidia_run_clicked, "390.157")
-        grid.attach(nvidia_390, 0, 1, 1, 1)
+        grid.attach(nvidia_390, 1, 1, 1, 1)
         
+        # Row 2: Very old legacy + Open source
         nvidia_340 = self._create_button(
             _("NVIDIA 340 (Legacy)"),
             _("For very old GPUs (8xxx, 9xxx, 2xx, 3xx series)")
         )
         nvidia_340.connect("clicked", self._on_nvidia_run_clicked, "340.108")
-        grid.attach(nvidia_340, 1, 1, 1, 1)
+        grid.attach(nvidia_340, 0, 2, 1, 1)
         
-        # Row 3: Open source
         nouveau = self._create_button(
             _("Nouveau (Open Source)"),
             _("Free and open source NVIDIA driver")
         )
         nouveau.connect("clicked", self._on_driver_clicked, "xserver-xorg-video-nouveau")
-        grid.attach(nouveau, 0, 2, 2, 1)
+        grid.attach(nouveau, 1, 2, 1, 1)
         
-        # Row 4: DaVinci/Blender extras
+        # Row 3: DaVinci/Blender extras
         davinci_btn = self._create_button(
             _("DaVinci Resolve Extras"),
             _("OpenCL and CUDA libraries for DaVinci Resolve")
@@ -584,8 +591,9 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
         
         # Check if it's NVIDIA driver from .run or from repo
         if driver.startswith('nvidia-driver-') and driver != 'nvidia-driver':
-            # Legacy driver, install from .run
+            # Driver from .run file
             version_map = {
+                'nvidia-driver-580': '580.119.02',
                 'nvidia-driver-470': '470.256.02',
                 'nvidia-driver-390': '390.157',
                 'nvidia-driver-340': '340.108'

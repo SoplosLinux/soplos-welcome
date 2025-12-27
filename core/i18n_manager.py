@@ -300,7 +300,7 @@ class I18nManager:
                 '--add-comments=TRANSLATORS',
                 '--copyright-holder=Sergi Perich',
                 '--package-name=soplos-welcome',
-                '--package-version=2.0.0',
+                '--package-version=2.0.1',
                 '--msgid-bugs-address=info@soploslinux.com'
             ] + source_files
             

@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 
+## [2.0.1] - 2025-12-27
+
+### 🎮 NVIDIA Driver Improvements
+- Added **NVIDIA 580 Production driver** (580.119.02) for RTX 40/50 series
+- **RTX 50 series (Blackwell)** now properly detected and recommended driver 580
+- **RTX 40 series (Ada Lovelace)** now properly detected and recommended driver 580
+- **GTX 10xx series (Pascal)** moved to latest driver support (was incorrectly recommending legacy 470)
+- Updated driver version labels in UI: "NVIDIA 550 (Repo)" and "NVIDIA 580 (Production)"
+- Improved hardware detection logic for modern NVIDIA GPUs
+
+### 🛠️ Fixed
+- Corrected driver recommendation mapping for RTX 40/50 to use nvidia-driver-580
+- Updated driver installation version map for automated driver selection
+- Default unknown GPUs now recommend driver 580 for maximum compatibility
+
 ## [2.0.0] - 2025-12-06
 
 ### 🏗️ Architecture Rewrite

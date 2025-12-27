@@ -142,6 +142,80 @@
   <developer_name>Sergi Perich</developer_name>
 
   <releases>
+    <release version="2.0.1" date="2025-12-27">
+      <description>
+        <p>NVIDIA Driver Improvements for RTX 40/50 series:</p>
+        <ul>
+          <li>Added NVIDIA 580 Production driver (580.119.02) for RTX 40/50 series</li>
+          <li>RTX 50 (Blackwell) and RTX 40 (Ada Lovelace) now properly detected</li>
+          <li>GTX 10xx (Pascal) moved to latest driver support</li>
+          <li>Updated UI with clearer driver version labels</li>
+        </ul>
+      </description>
+      <description xml:lang="es">
+        <p>Mejoras en controladores NVIDIA para series RTX 40/50:</p>
+        <ul>
+          <li>Añadido controlador NVIDIA 580 Production (580.119.02) para RTX 40/50</li>
+          <li>RTX 50 (Blackwell) y RTX 40 (Ada Lovelace) ahora detectadas correctamente</li>
+          <li>GTX 10xx (Pascal) movido a soporte de controlador más reciente</li>
+          <li>Interfaz actualizada con etiquetas de versión más claras</li>
+        </ul>
+      </description>
+      <description xml:lang="fr">
+        <p>Améliorations des pilotes NVIDIA pour les séries RTX 40/50 :</p>
+        <ul>
+          <li>Ajout du pilote NVIDIA 580 Production (580.119.02) pour RTX 40/50</li>
+          <li>RTX 50 (Blackwell) et RTX 40 (Ada Lovelace) maintenant correctement détectées</li>
+          <li>GTX 10xx (Pascal) passé au support du dernier pilote</li>
+          <li>Interface mise à jour avec des étiquettes de version plus claires</li>
+        </ul>
+      </description>
+      <description xml:lang="de">
+        <p>NVIDIA-Treiberverbesserungen für RTX 40/50 Serien:</p>
+        <ul>
+          <li>NVIDIA 580 Production Treiber (580.119.02) für RTX 40/50 hinzugefügt</li>
+          <li>RTX 50 (Blackwell) und RTX 40 (Ada Lovelace) jetzt korrekt erkannt</li>
+          <li>GTX 10xx (Pascal) auf neuesten Treiber-Support umgestellt</li>
+          <li>Benutzeroberfläche mit klareren Versionsbeschriftungen aktualisiert</li>
+        </ul>
+      </description>
+      <description xml:lang="pt">
+        <p>Melhorias nos drivers NVIDIA para séries RTX 40/50:</p>
+        <ul>
+          <li>Adicionado driver NVIDIA 580 Production (580.119.02) para RTX 40/50</li>
+          <li>RTX 50 (Blackwell) e RTX 40 (Ada Lovelace) agora detectadas corretamente</li>
+          <li>GTX 10xx (Pascal) movido para suporte do driver mais recente</li>
+          <li>Interface atualizada com rótulos de versão mais claros</li>
+        </ul>
+      </description>
+      <description xml:lang="it">
+        <p>Miglioramenti dei driver NVIDIA per le serie RTX 40/50:</p>
+        <ul>
+          <li>Aggiunto driver NVIDIA 580 Production (580.119.02) per RTX 40/50</li>
+          <li>RTX 50 (Blackwell) e RTX 40 (Ada Lovelace) ora rilevate correttamente</li>
+          <li>GTX 10xx (Pascal) spostato al supporto del driver più recente</li>
+          <li>Interfaccia aggiornata con etichette di versione più chiare</li>
+        </ul>
+      </description>
+      <description xml:lang="ru">
+        <p>Улучшения драйверов NVIDIA для серий RTX 40/50:</p>
+        <ul>
+          <li>Добавлен драйвер NVIDIA 580 Production (580.119.02) для RTX 40/50</li>
+          <li>RTX 50 (Blackwell) и RTX 40 (Ada Lovelace) теперь правильно определяются</li>
+          <li>GTX 10xx (Pascal) переведён на поддержку последнего драйвера</li>
+          <li>Интерфейс обновлён с более понятными метками версий</li>
+        </ul>
+      </description>
+      <description xml:lang="ro">
+        <p>Îmbunătățiri drivere NVIDIA pentru seriile RTX 40/50:</p>
+        <ul>
+          <li>Adăugat driver NVIDIA 580 Production (580.119.02) pentru RTX 40/50</li>
+          <li>RTX 50 (Blackwell) și RTX 40 (Ada Lovelace) acum detectate corect</li>
+          <li>GTX 10xx (Pascal) mutat la suportul driverului cel mai recent</li>
+          <li>Interfață actualizată cu etichete de versiune mai clare</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.0.0" date="2025-12-06">
       <description>
         <p>Major rewrite with modern architecture and enhanced capabilities:</p>

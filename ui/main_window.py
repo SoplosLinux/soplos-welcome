@@ -655,7 +655,7 @@ class MainWindow(Gtk.ApplicationWindow):
         dialog.set_modal(True)
         
         dialog.set_program_name(_("Soplos Welcome"))
-        dialog.set_version("2.0.0")
+        dialog.set_version("2.0.1")
         dialog.set_comments(_("The world's most advanced welcome application for Linux"))
         dialog.set_copyright("Copyright © 2025 Sergi Perich")
         dialog.set_license_type(Gtk.License.GPL_3_0)
