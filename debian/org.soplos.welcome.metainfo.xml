@@ -150,6 +150,10 @@
           <li>RTX 50 (Blackwell) and RTX 40 (Ada Lovelace) now properly detected</li>
           <li>GTX 10xx (Pascal) moved to latest driver support</li>
           <li>Updated UI with clearer driver version labels</li>
+          <li>Fixed GPU detection always recommending driver 580 for all GPUs</li>
+          <li>Legacy GPUs (GeForce 8000/9000, MacBook) now recommend nouveau</li>
+          <li>Quadro/Tesla professional cards now properly detected</li>
+          <li>Safer fallback: unknown GPUs default to nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="es">
@@ -159,6 +163,10 @@
           <li>RTX 50 (Blackwell) y RTX 40 (Ada Lovelace) ahora detectadas correctamente</li>
           <li>GTX 10xx (Pascal) movido a soporte de controlador más reciente</li>
           <li>Interfaz actualizada con etiquetas de versión más claras</li>
+          <li>Corregida detección de GPU que siempre recomendaba driver 580</li>
+          <li>GPUs legacy (GeForce 8000/9000, MacBook) ahora recomiendan nouveau</li>
+          <li>Tarjetas profesionales Quadro/Tesla detectadas correctamente</li>
+          <li>Fallback más seguro: GPUs desconocidas usan nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="fr">
@@ -168,6 +176,10 @@
           <li>RTX 50 (Blackwell) et RTX 40 (Ada Lovelace) maintenant correctement détectées</li>
           <li>GTX 10xx (Pascal) passé au support du dernier pilote</li>
           <li>Interface mise à jour avec des étiquettes de version plus claires</li>
+          <li>Correction de la détection GPU recommandant toujours le pilote 580</li>
+          <li>GPU legacy (GeForce 8000/9000, MacBook) recommandent maintenant nouveau</li>
+          <li>Cartes professionnelles Quadro/Tesla correctement détectées</li>
+          <li>Fallback plus sûr : GPU inconnus utilisent nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="de">
@@ -177,6 +189,10 @@
           <li>RTX 50 (Blackwell) und RTX 40 (Ada Lovelace) jetzt korrekt erkannt</li>
           <li>GTX 10xx (Pascal) auf neuesten Treiber-Support umgestellt</li>
           <li>Benutzeroberfläche mit klareren Versionsbeschriftungen aktualisiert</li>
+          <li>GPU-Erkennung behoben, die immer Treiber 580 empfahl</li>
+          <li>Legacy-GPUs (GeForce 8000/9000, MacBook) empfehlen jetzt nouveau</li>
+          <li>Quadro/Tesla Profikarten korrekt erkannt</li>
+          <li>Sichererer Fallback: unbekannte GPUs verwenden nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="pt">
@@ -186,6 +202,10 @@
           <li>RTX 50 (Blackwell) e RTX 40 (Ada Lovelace) agora detectadas corretamente</li>
           <li>GTX 10xx (Pascal) movido para suporte do driver mais recente</li>
           <li>Interface atualizada com rótulos de versão mais claros</li>
+          <li>Corrigida detecção de GPU que sempre recomendava driver 580</li>
+          <li>GPUs legacy (GeForce 8000/9000, MacBook) agora recomendam nouveau</li>
+          <li>Placas profissionais Quadro/Tesla detectadas corretamente</li>
+          <li>Fallback mais seguro: GPUs desconhecidas usam nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="it">
@@ -195,6 +215,10 @@
           <li>RTX 50 (Blackwell) e RTX 40 (Ada Lovelace) ora rilevate correttamente</li>
           <li>GTX 10xx (Pascal) spostato al supporto del driver più recente</li>
           <li>Interfaccia aggiornata con etichette di versione più chiare</li>
+          <li>Corretta rilevazione GPU che raccomandava sempre driver 580</li>
+          <li>GPU legacy (GeForce 8000/9000, MacBook) ora raccomandano nouveau</li>
+          <li>Schede professionali Quadro/Tesla rilevate correttamente</li>
+          <li>Fallback più sicuro: GPU sconosciute usano nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="ru">
@@ -204,6 +228,10 @@
           <li>RTX 50 (Blackwell) и RTX 40 (Ada Lovelace) теперь правильно определяются</li>
           <li>GTX 10xx (Pascal) переведён на поддержку последнего драйвера</li>
           <li>Интерфейс обновлён с более понятными метками версий</li>
+          <li>Исправлено определение GPU, которое всегда рекомендовало драйвер 580</li>
+          <li>Устаревшие GPU (GeForce 8000/9000, MacBook) теперь рекомендуют nouveau</li>
+          <li>Профессиональные карты Quadro/Tesla правильно определяются</li>
+          <li>Более безопасный fallback: неизвестные GPU используют nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="ro">
@@ -213,6 +241,10 @@
           <li>RTX 50 (Blackwell) și RTX 40 (Ada Lovelace) acum detectate corect</li>
           <li>GTX 10xx (Pascal) mutat la suportul driverului cel mai recent</li>
           <li>Interfață actualizată cu etichete de versiune mai clare</li>
+          <li>Corectată detectarea GPU care recomanda mereu driverul 580</li>
+          <li>GPU-uri legacy (GeForce 8000/9000, MacBook) acum recomandă nouveau</li>
+          <li>Plăci profesionale Quadro/Tesla detectate corect</li>
+          <li>Fallback mai sigur: GPU-uri necunoscute folosesc nvidia-driver (repo)</li>
         </ul>
       </description>
     </release>

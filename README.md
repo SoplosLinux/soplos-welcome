@@ -121,6 +121,10 @@ Contact: info@soploslinux.com
 - **RTX 50/40 Detection**: Proper GPU detection for Blackwell and Ada Lovelace architectures
 - **GTX 10xx Fix**: Pascal GPUs now correctly use latest driver instead of legacy 470
 - **UI Updates**: Clearer driver version labels ("NVIDIA 550 Repo" and "NVIDIA 580 Production")
+- **Fixed GPU detection bug**: No longer always recommends driver 580 for all GPUs
+- **Legacy GPU support**: GeForce 8000/9000 and MacBook GPUs (GT 320M, 330M, 650M, 750M) now recommend `nouveau`
+- **Quadro/Tesla cards**: Professional GPUs now properly detected and recommended repo driver
+- **Safer fallback**: Unknown GPUs now default to `nvidia-driver` (repo) instead of 580
 
 ### v2.0.0 (06/12/2025)
 - **Complete Rewrite**: New modular architecture for better maintainability.

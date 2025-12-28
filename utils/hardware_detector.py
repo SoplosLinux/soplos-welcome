@@ -96,36 +96,51 @@ def _recommend_nvidia_driver(model):
     model_lower = model.lower()
     
     # RTX 50 series (Blackwell) - Requires driver 580+
-    if any(s in model_lower for s in ['rtx 50', 'rtx50']):
+    if any(s in model_lower for s in ['rtx 50', 'rtx50', 'rtx 5090', 'rtx 5080', 'rtx 5070']):
         return 'nvidia-driver-580'
     
     # RTX 40 series (Ada Lovelace) - Requires driver 580+
-    elif any(s in model_lower for s in ['rtx 40', 'rtx40']):
+    if any(s in model_lower for s in ['rtx 40', 'rtx40', 'rtx 4090', 'rtx 4080', 'rtx 4070', 'rtx 4060']):
         return 'nvidia-driver-580'
     
-    # RTX 30/20 series, GTX 16xx (Ampere, Turing) - Repo driver works
-    elif any(s in model_lower for s in ['rtx 30', 'rtx 20', 'gtx 16']):
+    # RTX 30 series (Ampere) - Repo driver works
+    if any(s in model_lower for s in ['rtx 30', 'rtx30', 'rtx 3090', 'rtx 3080', 'rtx 3070', 'rtx 3060', 'rtx 3050']):
+        return 'nvidia-driver'
+    
+    # RTX 20 series, GTX 16xx (Turing) - Repo driver works
+    if any(s in model_lower for s in ['rtx 20', 'rtx20', 'gtx 16', 'gtx16']):
         return 'nvidia-driver'
     
     # GTX 10xx series (Pascal) - Repo driver works
-    elif 'gtx 10' in model_lower:
+    if any(s in model_lower for s in ['gtx 10', 'gtx10', 'gtx 1080', 'gtx 1070', 'gtx 1060', 'gtx 1050', 'gt 1030']):
         return 'nvidia-driver'
     
-    # Legacy 470 (GTX 900/700/600, Kepler/Maxwell)
-    elif any(s in model_lower for s in ['gtx 9', 'gtx 7', 'gtx 6']):
+    # Legacy 470 (GTX 900/700/600 series, Maxwell/Kepler)
+    if any(s in model_lower for s in ['gtx 9', 'gtx 7', 'gtx 6', 'gtx 980', 'gtx 970', 'gtx 960', 
+                                       'gtx 780', 'gtx 770', 'gtx 760', 'gtx 750',
+                                       'gtx 680', 'gtx 670', 'gtx 660', 'gtx 650']):
         return 'nvidia-driver-470'
     
     # Legacy 390 (GTX 400/500, Fermi)
-    elif any(s in model_lower for s in ['gtx 5', 'gtx 4']):
+    if any(s in model_lower for s in ['gtx 5', 'gtx 4', 'gtx 580', 'gtx 570', 'gtx 560', 'gtx 550',
+                                       'gtx 480', 'gtx 470', 'gtx 460']):
         return 'nvidia-driver-390'
     
-    # Legacy 340 (Very old: 8xxx, 9xxx, 2xx, 3xx)
-    elif any(s in model_lower for s in ['gt ', 'gts', 'geforce 8', 'geforce 9']):
-        return 'nvidia-driver-340'
+    # Very old GPUs (8000/9000 series, 200/300 series, MacBook GPUs) - Use nouveau
+    # These are typically pre-2010 GPUs that don't have modern driver support
+    if any(s in model_lower for s in ['geforce 8', 'geforce 9', 'geforce 2', 'geforce 3',
+                                       '8400', '8600', '8800', '9400', '9500', '9600', '9800',
+                                       'gt 2', 'gt 3', 'gt 1', 'gts ', '320m', '330m', '650m', '750m',
+                                       'quadro fx', 'quadro nvs', 'nforce']):
+        return 'nouveau'
     
-    # Default - latest from NVIDIA (safer for unknown models)
-    else:
-        return 'nvidia-driver-580'
+    # Modern Quadro/Professional cards - Use repo driver
+    if any(s in model_lower for s in ['quadro', 'tesla', 'a100', 'a40', 'a30', 'a10', 'rtx a']):
+        return 'nvidia-driver'
+    
+    # Default: Use repo driver (nvidia-driver) - safer than 580 for unknown cards
+    # The repo driver (550) has broader compatibility than 580
+    return 'nvidia-driver'
 
 
 def _extract_amd_model(line):

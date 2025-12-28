@@ -18,7 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 ### 🛠️ Fixed
 - Corrected driver recommendation mapping for RTX 40/50 to use nvidia-driver-580
 - Updated driver installation version map for automated driver selection
-- Default unknown GPUs now recommend driver 580 for maximum compatibility
+- **Fixed GPU detection always recommending driver 580** - Now correctly maps GPU series to appropriate drivers
+- **Legacy GPU detection** (GeForce 8000/9000, MacBook GPUs) now recommends `nouveau` instead of proprietary drivers
+- **Quadro/Tesla professional cards** now properly detected and recommended `nvidia-driver` (repo)
+- **Changed default fallback** from `nvidia-driver-580` to `nvidia-driver` (repo) for safer unknown GPU handling
 
 ## [2.0.0] - 2025-12-06
 
