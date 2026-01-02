@@ -2518,3 +2518,6 @@ msgstr "A descompactar"
 #: utils/command_runner.py:165
 msgid "Configuring"
 msgstr "A configurar"
+
+msgid "NVIDIA Extras"
+msgstr "Extras NVIDIA"

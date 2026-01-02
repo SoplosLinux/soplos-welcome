@@ -2530,6 +2530,9 @@ msgstr "Unpacking"
 msgid "Configuring"
 msgstr "Configuring"
 
+msgid "NVIDIA Extras"
+msgstr "NVIDIA Extras"
+
 #~ msgid "Advanced IDE with zero gravity"
 #~ msgstr "Advanced IDE with zero gravity"
 

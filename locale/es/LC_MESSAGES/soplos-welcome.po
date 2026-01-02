@@ -2564,6 +2564,9 @@ msgstr "Desempaquetando"
 msgid "Configuring"
 msgstr "Configurando"
 
+msgid "NVIDIA Extras"
+msgstr "Extras de NVIDIA"
+
 #~ msgid "Advanced IDE with zero gravity"
 #~ msgstr "IDE avanzado con gravedad cero"
 

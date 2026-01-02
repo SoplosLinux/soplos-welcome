@@ -2512,3 +2512,6 @@ msgstr "Entpacke"
 #: utils/command_runner.py:165
 msgid "Configuring"
 msgstr "Konfiguriere"
+
+msgid "NVIDIA Extras"
+msgstr "NVIDIA Extras"

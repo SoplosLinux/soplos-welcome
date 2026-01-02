@@ -15,7 +15,8 @@ Soplos Welcome is a welcome application that guides new users through the initia
 
 - Initial system setup
 - **Complete Hardware Detection**: Automatic CPU, GPU, RAM, storage, network, and VM detection
-- **Advanced Driver Management**: NVIDIA (Latest + Legacy), AMD, Wi-Fi, VM Tools with one-click installation
+- **Advanced Driver Management**: NVIDIA (590/580/550/470/390/340), AMD, Wi-Fi, VM Tools with one-click installation
+- **NVIDIA Extras**: DaVinci Resolve OpenCL/CUDA libraries, Blender CUDA Toolkit
 - **Kernel Management**: Liquorix, XanMod (x64v3, x64v4, EDGE, LTS) with NVIDIA compatibility checks
 - **CPU Microcode Updates**: Intel and AMD firmware security updates
 - **System Maintenance**: Clean old kernels, Update GRUB

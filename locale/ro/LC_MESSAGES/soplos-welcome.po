@@ -2510,3 +2510,6 @@ msgstr "Se despachetează"
 #: utils/command_runner.py:165
 msgid "Configuring"
 msgstr "Se configurează"
+
+msgid "NVIDIA Extras"
+msgstr "Suplimente NVIDIA"

@@ -2515,3 +2515,6 @@ msgstr "Estrazione"
 #: utils/command_runner.py:165
 msgid "Configuring"
 msgstr "Configurazione"
+
+msgid "NVIDIA Extras"
+msgstr "Extra NVIDIA"

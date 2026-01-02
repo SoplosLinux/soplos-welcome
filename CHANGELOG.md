@@ -8,15 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 ## [2.0.1] - 2025-12-27
 
 ### 🎮 NVIDIA Driver Improvements
+- Added **NVIDIA 590 driver** (590.48.01) - Latest driver for RTX 50/40/30 series
 - Added **NVIDIA 580 Production driver** (580.119.02) for RTX 40/50 series
-- **RTX 50 series (Blackwell)** now properly detected and recommended driver 580
+- **RTX 50 series (Blackwell)** now properly detected and recommended driver 590
 - **RTX 40 series (Ada Lovelace)** now properly detected and recommended driver 580
 - **GTX 10xx series (Pascal)** moved to latest driver support (was incorrectly recommending legacy 470)
-- Updated driver version labels in UI: "NVIDIA 550 (Repo)" and "NVIDIA 580 (Production)"
+- Drivers now ordered by version (590 → 580 → 550 → 470 → 390 → 340)
+- **New "NVIDIA Extras" section** - Separated DaVinci Resolve and Blender CUDA tools from drivers
+- Updated driver version labels in UI: "NVIDIA 590 (Latest)", "NVIDIA 580 (Production)", "NVIDIA 550 (Repo)"
 - Improved hardware detection logic for modern NVIDIA GPUs
 
 ### 🛠️ Fixed
-- Corrected driver recommendation mapping for RTX 40/50 to use nvidia-driver-580
+- **Single pkexec authentication** - All driver installation scripts now use single `pkexec bash` call instead of multiple `pkexec` commands (one password prompt instead of many)
+- **Fixed `echo | pkexec tee` pattern** - Replaced with direct file writes since scripts run as root
+- Corrected driver recommendation mapping for RTX 40/50 to use nvidia-driver-580/590
 - Updated driver installation version map for automated driver selection
 - **Fixed GPU detection always recommending driver 580** - Now correctly maps GPU series to appropriate drivers
 - **Legacy GPU detection** (GeForce 8000/9000, MacBook GPUs) now recommends `nouveau` instead of proprietary drivers

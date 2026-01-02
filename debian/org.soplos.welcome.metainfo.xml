@@ -146,92 +146,99 @@
       <description>
         <p>NVIDIA Driver Improvements for RTX 40/50 series:</p>
         <ul>
+          <li>Added NVIDIA 590 driver (590.48.01) - Latest for RTX 50/40/30 series</li>
           <li>Added NVIDIA 580 Production driver (580.119.02) for RTX 40/50 series</li>
-          <li>RTX 50 (Blackwell) and RTX 40 (Ada Lovelace) now properly detected</li>
-          <li>GTX 10xx (Pascal) moved to latest driver support</li>
-          <li>Updated UI with clearer driver version labels</li>
-          <li>Fixed GPU detection always recommending driver 580 for all GPUs</li>
+          <li>RTX 50 (Blackwell) now recommends driver 590, RTX 40 (Ada Lovelace) recommends 580</li>
+          <li>Drivers ordered by version: 590 → 580 → 550 → 470 → 390 → 340</li>
+          <li>New "NVIDIA Extras" section for DaVinci Resolve and Blender CUDA tools</li>
+          <li>Single pkexec authentication - one password prompt for entire installation</li>
+          <li>Fixed GPU detection for proper driver recommendations per GPU series</li>
           <li>Legacy GPUs (GeForce 8000/9000, MacBook) now recommend nouveau</li>
           <li>Quadro/Tesla professional cards now properly detected</li>
-          <li>Safer fallback: unknown GPUs default to nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="es">
         <p>Mejoras en controladores NVIDIA para series RTX 40/50:</p>
         <ul>
+          <li>Añadido controlador NVIDIA 590 (590.48.01) - Último para RTX 50/40/30</li>
           <li>Añadido controlador NVIDIA 580 Production (580.119.02) para RTX 40/50</li>
-          <li>RTX 50 (Blackwell) y RTX 40 (Ada Lovelace) ahora detectadas correctamente</li>
-          <li>GTX 10xx (Pascal) movido a soporte de controlador más reciente</li>
-          <li>Interfaz actualizada con etiquetas de versión más claras</li>
-          <li>Corregida detección de GPU que siempre recomendaba driver 580</li>
+          <li>RTX 50 (Blackwell) recomienda driver 590, RTX 40 (Ada Lovelace) recomienda 580</li>
+          <li>Drivers ordenados por versión: 590 → 580 → 550 → 470 → 390 → 340</li>
+          <li>Nueva sección "Extras de NVIDIA" para DaVinci Resolve y Blender CUDA</li>
+          <li>Autenticación pkexec única - una sola solicitud de contraseña</li>
+          <li>Corregida detección de GPU para recomendaciones apropiadas</li>
           <li>GPUs legacy (GeForce 8000/9000, MacBook) ahora recomiendan nouveau</li>
           <li>Tarjetas profesionales Quadro/Tesla detectadas correctamente</li>
-          <li>Fallback más seguro: GPUs desconocidas usan nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="fr">
         <p>Améliorations des pilotes NVIDIA pour les séries RTX 40/50 :</p>
         <ul>
+          <li>Ajout du pilote NVIDIA 590 (590.48.01) - Dernier pour RTX 50/40/30</li>
           <li>Ajout du pilote NVIDIA 580 Production (580.119.02) pour RTX 40/50</li>
-          <li>RTX 50 (Blackwell) et RTX 40 (Ada Lovelace) maintenant correctement détectées</li>
-          <li>GTX 10xx (Pascal) passé au support du dernier pilote</li>
-          <li>Interface mise à jour avec des étiquettes de version plus claires</li>
-          <li>Correction de la détection GPU recommandant toujours le pilote 580</li>
-          <li>GPU legacy (GeForce 8000/9000, MacBook) recommandent maintenant nouveau</li>
+          <li>RTX 50 (Blackwell) recommande 590, RTX 40 (Ada Lovelace) recommande 580</li>
+          <li>Pilotes ordonnés par version : 590 → 580 → 550 → 470 → 390 → 340</li>
+          <li>Nouvelle section "Extras NVIDIA" pour DaVinci Resolve et Blender CUDA</li>
+          <li>Authentification pkexec unique - une seule demande de mot de passe</li>
+          <li>Correction de la détection GPU pour des recommandations appropriées</li>
+          <li>GPU legacy (GeForce 8000/9000, MacBook) recommandent nouveau</li>
           <li>Cartes professionnelles Quadro/Tesla correctement détectées</li>
-          <li>Fallback plus sûr : GPU inconnus utilisent nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="de">
         <p>NVIDIA-Treiberverbesserungen für RTX 40/50 Serien:</p>
         <ul>
+          <li>NVIDIA 590 Treiber (590.48.01) hinzugefügt - Neuester für RTX 50/40/30</li>
           <li>NVIDIA 580 Production Treiber (580.119.02) für RTX 40/50 hinzugefügt</li>
-          <li>RTX 50 (Blackwell) und RTX 40 (Ada Lovelace) jetzt korrekt erkannt</li>
-          <li>GTX 10xx (Pascal) auf neuesten Treiber-Support umgestellt</li>
-          <li>Benutzeroberfläche mit klareren Versionsbeschriftungen aktualisiert</li>
-          <li>GPU-Erkennung behoben, die immer Treiber 580 empfahl</li>
-          <li>Legacy-GPUs (GeForce 8000/9000, MacBook) empfehlen jetzt nouveau</li>
+          <li>RTX 50 (Blackwell) empfiehlt 590, RTX 40 (Ada Lovelace) empfiehlt 580</li>
+          <li>Treiber nach Version geordnet: 590 → 580 → 550 → 470 → 390 → 340</li>
+          <li>Neue "NVIDIA Extras" Sektion für DaVinci Resolve und Blender CUDA</li>
+          <li>Einmalige pkexec-Authentifizierung - nur eine Passwortabfrage</li>
+          <li>GPU-Erkennung für passende Empfehlungen korrigiert</li>
+          <li>Legacy-GPUs (GeForce 8000/9000, MacBook) empfehlen nouveau</li>
           <li>Quadro/Tesla Profikarten korrekt erkannt</li>
-          <li>Sichererer Fallback: unbekannte GPUs verwenden nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="pt">
         <p>Melhorias nos drivers NVIDIA para séries RTX 40/50:</p>
         <ul>
+          <li>Adicionado driver NVIDIA 590 (590.48.01) - Mais recente para RTX 50/40/30</li>
           <li>Adicionado driver NVIDIA 580 Production (580.119.02) para RTX 40/50</li>
-          <li>RTX 50 (Blackwell) e RTX 40 (Ada Lovelace) agora detectadas corretamente</li>
-          <li>GTX 10xx (Pascal) movido para suporte do driver mais recente</li>
-          <li>Interface atualizada com rótulos de versão mais claros</li>
-          <li>Corrigida detecção de GPU que sempre recomendava driver 580</li>
-          <li>GPUs legacy (GeForce 8000/9000, MacBook) agora recomendam nouveau</li>
+          <li>RTX 50 (Blackwell) recomenda 590, RTX 40 (Ada Lovelace) recomenda 580</li>
+          <li>Drivers ordenados por versão: 590 → 580 → 550 → 470 → 390 → 340</li>
+          <li>Nova seção "Extras NVIDIA" para DaVinci Resolve e Blender CUDA</li>
+          <li>Autenticação pkexec única - apenas uma solicitação de senha</li>
+          <li>Corrigida deteção de GPU para recomendações apropriadas</li>
+          <li>GPUs legacy (GeForce 8000/9000, MacBook) recomendam nouveau</li>
           <li>Placas profissionais Quadro/Tesla detectadas corretamente</li>
-          <li>Fallback mais seguro: GPUs desconhecidas usam nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="it">
         <p>Miglioramenti dei driver NVIDIA per le serie RTX 40/50:</p>
         <ul>
+          <li>Aggiunto driver NVIDIA 590 (590.48.01) - Ultimo per RTX 50/40/30</li>
           <li>Aggiunto driver NVIDIA 580 Production (580.119.02) per RTX 40/50</li>
-          <li>RTX 50 (Blackwell) e RTX 40 (Ada Lovelace) ora rilevate correttamente</li>
-          <li>GTX 10xx (Pascal) spostato al supporto del driver più recente</li>
-          <li>Interfaccia aggiornata con etichette di versione più chiare</li>
-          <li>Corretta rilevazione GPU che raccomandava sempre driver 580</li>
-          <li>GPU legacy (GeForce 8000/9000, MacBook) ora raccomandano nouveau</li>
+          <li>RTX 50 (Blackwell) raccomanda 590, RTX 40 (Ada Lovelace) raccomanda 580</li>
+          <li>Driver ordinati per versione: 590 → 580 → 550 → 470 → 390 → 340</li>
+          <li>Nuova sezione "Extra NVIDIA" per DaVinci Resolve e Blender CUDA</li>
+          <li>Autenticazione pkexec singola - solo una richiesta di password</li>
+          <li>Corretta rilevazione GPU per raccomandazioni appropriate</li>
+          <li>GPU legacy (GeForce 8000/9000, MacBook) raccomandano nouveau</li>
           <li>Schede professionali Quadro/Tesla rilevate correttamente</li>
-          <li>Fallback più sicuro: GPU sconosciute usano nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="ru">
         <p>Улучшения драйверов NVIDIA для серий RTX 40/50:</p>
         <ul>
+          <li>Добавлен драйвер NVIDIA 590 (590.48.01) - Новейший для RTX 50/40/30</li>
           <li>Добавлен драйвер NVIDIA 580 Production (580.119.02) для RTX 40/50</li>
-          <li>RTX 50 (Blackwell) и RTX 40 (Ada Lovelace) теперь правильно определяются</li>
-          <li>GTX 10xx (Pascal) переведён на поддержку последнего драйвера</li>
-          <li>Интерфейс обновлён с более понятными метками версий</li>
-          <li>Исправлено определение GPU, которое всегда рекомендовало драйвер 580</li>
-          <li>Устаревшие GPU (GeForce 8000/9000, MacBook) теперь рекомендуют nouveau</li>
+          <li>RTX 50 (Blackwell) рекомендует 590, RTX 40 (Ada Lovelace) рекомендует 580</li>
+          <li>Драйверы упорядочены по версии: 590 → 580 → 550 → 470 → 390 → 340</li>
+          <li>Новый раздел "Дополнения NVIDIA" для DaVinci Resolve и Blender CUDA</li>
+          <li>Единая аутентификация pkexec - только один запрос пароля</li>
+          <li>Исправлено определение GPU для правильных рекомендаций</li>
+          <li>Устаревшие GPU (GeForce 8000/9000, MacBook) рекомендуют nouveau</li>
           <li>Профессиональные карты Quadro/Tesla правильно определяются</li>
-          <li>Более безопасный fallback: неизвестные GPU используют nvidia-driver (repo)</li>
         </ul>
       </description>
       <description xml:lang="ro">

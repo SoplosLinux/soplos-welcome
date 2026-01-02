@@ -79,6 +79,12 @@ class DriversTab(Gtk.ScrolledWindow):
         # Separator
         self.drivers_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
         
+        # --- NVIDIA Extras Section ---
+        self._create_nvidia_extras_section()
+        
+        # Separator
+        self.drivers_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
+        
         # --- AMD Section ---
         self._create_amd_section()
         
@@ -116,65 +122,83 @@ class DriversTab(Gtk.ScrolledWindow):
         grid.set_column_homogeneous(True)
         self.drivers_box.pack_start(grid, False, False, 5)
         
-        # Row 0: Modern drivers (RTX 40/50, RTX 30, RTX 20, GTX 16xx, GTX 10xx)
-        nvidia_latest = self._create_button(
-            _("NVIDIA 550 (Repo)"),
-            _("For RTX 50/40/30/20, GTX 16xx/10xx series")
+        # Row 0: Latest drivers (590, 580)
+        nvidia_590 = self._create_button(
+            _("NVIDIA 590 (Latest)"),
+            _("Latest driver for RTX 50/40/30 series")
         )
-        nvidia_latest.connect("clicked", self._on_nvidia_repo_clicked, "nvidia-driver")
-        grid.attach(nvidia_latest, 0, 0, 1, 1)
+        nvidia_590.connect("clicked", self._on_nvidia_run_clicked, "590.48.01")
+        grid.attach(nvidia_590, 0, 0, 1, 1)
         
         nvidia_580 = self._create_button(
             _("NVIDIA 580 (Production)"),
-            _("Latest stable production driver for modern GPUs")
+            _("Stable production driver for modern GPUs")
         )
         nvidia_580.connect("clicked", self._on_nvidia_run_clicked, "580.119.02")
         grid.attach(nvidia_580, 1, 0, 1, 1)
         
-        # Row 1: Legacy drivers
+        # Row 1: Repository driver + Legacy 470
+        nvidia_550 = self._create_button(
+            _("NVIDIA 550 (Repo)"),
+            _("For RTX 50/40/30/20, GTX 16xx/10xx series")
+        )
+        nvidia_550.connect("clicked", self._on_nvidia_repo_clicked, "nvidia-driver")
+        grid.attach(nvidia_550, 0, 1, 1, 1)
+        
         nvidia_470 = self._create_button(
             _("NVIDIA 470 (Legacy)"),
             _("For Kepler/Maxwell GPUs (GTX 600-900 series)")
         )
         nvidia_470.connect("clicked", self._on_nvidia_run_clicked, "470.256.02")
-        grid.attach(nvidia_470, 0, 1, 1, 1)
+        grid.attach(nvidia_470, 1, 1, 1, 1)
         
+        # Row 2: Older legacy drivers (390, 340)
         nvidia_390 = self._create_button(
             _("NVIDIA 390 (Legacy)"),
             _("For Fermi GPUs (GTX 400-500 series)")
         )
         nvidia_390.connect("clicked", self._on_nvidia_run_clicked, "390.157")
-        grid.attach(nvidia_390, 1, 1, 1, 1)
+        grid.attach(nvidia_390, 0, 2, 1, 1)
         
-        # Row 2: Very old legacy + Open source
         nvidia_340 = self._create_button(
             _("NVIDIA 340 (Legacy)"),
             _("For very old GPUs (8xxx, 9xxx, 2xx, 3xx series)")
         )
         nvidia_340.connect("clicked", self._on_nvidia_run_clicked, "340.108")
-        grid.attach(nvidia_340, 0, 2, 1, 1)
+        grid.attach(nvidia_340, 1, 2, 1, 1)
         
+        # Row 3: Open source driver
         nouveau = self._create_button(
             _("Nouveau (Open Source)"),
             _("Free and open source NVIDIA driver")
         )
         nouveau.connect("clicked", self._on_driver_clicked, "xserver-xorg-video-nouveau")
-        grid.attach(nouveau, 1, 2, 1, 1)
+        grid.attach(nouveau, 0, 3, 1, 1)
+    
+    def _create_nvidia_extras_section(self):
+        """Create NVIDIA extras section (CUDA, OpenCL tools)."""
+        label = Gtk.Label()
+        label.set_markup(f'<span weight="bold" size="14000">{_("NVIDIA Extras")}</span>')
+        label.set_halign(Gtk.Align.START)
+        self.drivers_box.pack_start(label, False, False, 5)
         
-        # Row 3: DaVinci/Blender extras
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        box.set_homogeneous(True)
+        self.drivers_box.pack_start(box, False, False, 5)
+        
         davinci_btn = self._create_button(
             _("DaVinci Resolve Extras"),
             _("OpenCL and CUDA libraries for DaVinci Resolve")
         )
         davinci_btn.connect("clicked", self._on_nvidia_extras_clicked, "davinci")
-        grid.attach(davinci_btn, 0, 3, 1, 1)
+        box.pack_start(davinci_btn, True, True, 0)
         
         blender_btn = self._create_button(
             _("Blender CUDA Toolkit"),
             _("CUDA toolkit for Blender GPU rendering")
         )
         blender_btn.connect("clicked", self._on_nvidia_extras_clicked, "blender")
-        grid.attach(blender_btn, 1, 3, 1, 1)
+        box.pack_start(blender_btn, True, True, 0)
     
     def _create_amd_section(self):
         """Create AMD drivers section."""
@@ -266,8 +290,13 @@ class DriversTab(Gtk.ScrolledWindow):
     
     def _on_driver_clicked(self, button, packages):
         """Install driver from repository."""
-        script = f"pkexec apt install -y {packages}"
-        self._run_script(script, f"install-{packages.split()[0]}.sh")
+        script = f"""#!/bin/bash
+set -e
+apt update
+apt install -y {packages}
+echo "Installation completed successfully."
+"""
+        self._run_script_as_root(script, f"install-{packages.split()[0]}.sh")
     
     def _on_nvidia_repo_clicked(self, button, package):
         """Install NVIDIA driver from repository with proper configuration."""
@@ -277,23 +306,26 @@ set -e
 echo "Installing NVIDIA driver from repository..."
 
 # Install kernel headers
-pkexec apt update
-pkexec apt install -y linux-headers-$(uname -r)
+apt update
+apt install -y linux-headers-$(uname -r)
 
 # Install NVIDIA driver
-pkexec apt install -y {package}
+apt install -y {package}
 
-# Configure for Dracut
-pkexec mkdir -p /etc/dracut.conf.d
-echo 'omit_drivers+=" nouveau "' | pkexec tee /etc/dracut.conf.d/blacklist-nouveau.conf
-echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' | pkexec tee /etc/dracut.conf.d/nvidia.conf
+# Configure for Dracut - Blacklist nouveau
+mkdir -p /etc/dracut.conf.d
+echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
+echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
 
 # Regenerate initramfs
-pkexec dracut --force
+dracut --force
 
-echo "NVIDIA driver installed. Please reboot to apply changes."
+echo ""
+echo "=== Installation completed ==="
+echo "NVIDIA driver installed successfully."
+echo "IMPORTANT: Restart the system to apply the changes."
 """
-        self._run_script(script, f"install-{package}.sh")
+        self._run_script_as_root(script, f"install-{package}.sh")
     
     def _on_nvidia_run_clicked(self, button, version):
         """Download and install NVIDIA driver from .run file."""
@@ -303,8 +335,8 @@ set -e
 echo "Installing NVIDIA {version} driver..."
 
 # Install dependencies
-pkexec apt update
-pkexec apt install -y build-essential dkms linux-headers-$(uname -r)
+apt update
+apt install -y build-essential dkms linux-headers-$(uname -r)
 
 # Download driver
 cd /tmp
@@ -314,31 +346,31 @@ wget -O nvidia.run https://us.download.nvidia.com/XFree86/Linux-x86_64/{version}
 chmod +x nvidia.run
 
 # Install driver
-pkexec ./nvidia.run --silent --dkms --no-questions
+./nvidia.run --silent --dkms --no-questions
 
 # Configure Dracut - Blacklist nouveau
 echo "Configuring Dracut to blacklist nouveau..."
-pkexec mkdir -p /etc/dracut.conf.d
-echo 'omit_drivers+=" nouveau "' | pkexec tee /etc/dracut.conf.d/blacklist-nouveau.conf
+mkdir -p /etc/dracut.conf.d
+echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
 
 # Configure Dracut - Include NVIDIA modules
 echo "Configuring NVIDIA modules in Dracut..."
-echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' | pkexec tee /etc/dracut.conf.d/nvidia.conf
+echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
 
 # Regenerate initramfs with Dracut
 echo "Regenerating initramfs..."
-pkexec dracut --force
+dracut --force
 
 # Cleanup
 rm -f nvidia.run
 
 echo ""
-echo "===  Installation completed ==="
+echo "=== Installation completed ==="
 echo "NVIDIA {version} driver installed successfully."
 echo "IMPORTANT: Restart the system to apply the changes."
 echo "After restart, verify with: nvidia-smi"
 """
-        self._run_script(script, f"install-nvidia-{version}.sh")
+        self._run_script_as_root(script, f"install-nvidia-{version}.sh")
     
     def _on_nvidia_extras_clicked(self, button, mode):
         """Install additional NVIDIA support for DaVinci Resolve or Blender."""
@@ -351,8 +383,13 @@ echo "After restart, verify with: nvidia-smi"
         else:
             return
         
-        script = f"pkexec apt install -y {packages}"
-        self._run_script(script, script_name)
+        script = f"""#!/bin/bash
+set -e
+apt update
+apt install -y {packages}
+echo "Installation completed successfully."
+"""
+        self._run_script_as_root(script, script_name)
     
     def _on_vbox_clicked(self, button):
         """Install VirtualBox Guest Additions."""
@@ -362,8 +399,8 @@ set -e
 echo "Installing VirtualBox Guest Additions..."
 
 # Install dependencies
-pkexec apt update
-pkexec apt install -y build-essential dkms linux-headers-$(uname -r)
+apt update
+apt install -y build-essential dkms linux-headers-$(uname -r)
 
 # Create temp directory
 TEMP_DIR=$(mktemp -d)
@@ -374,27 +411,42 @@ wget -O VBoxGuestAdditions.iso "https://download.virtualbox.org/virtualbox/7.0.2
 
 # Mount ISO
 mkdir -p /tmp/vbox-mount
-pkexec mount -o loop VBoxGuestAdditions.iso /tmp/vbox-mount
+mount -o loop VBoxGuestAdditions.iso /tmp/vbox-mount
 
 # Run installer
-pkexec /tmp/vbox-mount/VBoxLinuxAdditions.run --nox11
+/tmp/vbox-mount/VBoxLinuxAdditions.run --nox11 || true
 
 # Cleanup
-pkexec umount /tmp/vbox-mount || true
+umount /tmp/vbox-mount || true
 rm -rf "$TEMP_DIR"
 
-echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
+echo ""
+echo "=== Installation completed ==="
+echo "VirtualBox Guest Additions installed."
+echo "IMPORTANT: Restart the system to apply the changes."
 """
-        self._run_script(script, "install-vbox-guest.sh")
+        self._run_script_as_root(script, "install-vbox-guest.sh")
     
     def _run_script(self, script_content, script_name):
-        """Create and run installation script."""
+        """Create and run installation script (no root)."""
         script_path = f"/tmp/{script_name}"
         try:
             with open(script_path, "w") as f:
                 f.write(script_content)
             os.chmod(script_path, 0o755)
             self.command_runner.run_command(script_path)
+        except Exception as e:
+            print(f"Error creating script {script_name}: {e}")
+    
+    def _run_script_as_root(self, script_content, script_name):
+        """Create and run installation script with root privileges (single pkexec)."""
+        script_path = f"/tmp/{script_name}"
+        try:
+            with open(script_path, "w") as f:
+                f.write(script_content)
+            os.chmod(script_path, 0o755)
+            # Single pkexec authentication for entire script
+            self.command_runner.run_command(f"pkexec bash {script_path}")
         except Exception as e:
             print(f"Error creating script {script_name}: {e}")
     
@@ -593,6 +645,7 @@ echo "VirtualBox Guest Additions installed. Please reboot to apply changes."
         if driver.startswith('nvidia-driver-') and driver != 'nvidia-driver':
             # Driver from .run file
             version_map = {
+                'nvidia-driver-590': '590.48.01',
                 'nvidia-driver-580': '580.119.02',
                 'nvidia-driver-470': '470.256.02',
                 'nvidia-driver-390': '390.157',

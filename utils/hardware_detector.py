@@ -95,9 +95,9 @@ def _recommend_nvidia_driver(model):
     """Recommend NVIDIA driver based on model."""
     model_lower = model.lower()
     
-    # RTX 50 series (Blackwell) - Requires driver 580+
+    # RTX 50 series (Blackwell) - Requires driver 590+
     if any(s in model_lower for s in ['rtx 50', 'rtx50', 'rtx 5090', 'rtx 5080', 'rtx 5070']):
-        return 'nvidia-driver-580'
+        return 'nvidia-driver-590'
     
     # RTX 40 series (Ada Lovelace) - Requires driver 580+
     if any(s in model_lower for s in ['rtx 40', 'rtx40', 'rtx 4090', 'rtx 4080', 'rtx 4070', 'rtx 4060']):

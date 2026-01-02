@@ -2519,6 +2519,9 @@ msgstr "Распаковка"
 msgid "Configuring"
 msgstr "Конфигурация"
 
+msgid "NVIDIA Extras"
+msgstr "Дополнения NVIDIA"
+
 #~ msgid "Advanced IDE with zero gravity"
 #~ msgstr "Продвинутая IDE с 'нулевой гравитацией'"
 
