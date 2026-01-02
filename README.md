@@ -14,8 +14,10 @@ Soplos Welcome is a welcome application that guides new users through the initia
 ## ✨ Features
 
 - Initial system setup
-- **Complete Hardware Detection**: Automatic CPU, GPU, RAM, storage, network, and VM detection
+- **Complete Hardware Detection**: Automatic CPU, GPU, RAM, storage, network, VM, and hybrid graphics detection
 - **Advanced Driver Management**: NVIDIA (590/580/550/470/390/340), AMD, Wi-Fi, VM Tools with one-click installation
+- **Hybrid Graphics Support**: PRIME Render Offload (battery saving) and NVIDIA Primary (max performance) for laptops
+- **Two-Phase NVIDIA Installation**: Systemd-based installation for .run files prevents black screen issues
 - **NVIDIA Extras**: DaVinci Resolve OpenCL/CUDA libraries, Blender CUDA Toolkit
 - **Kernel Management**: Liquorix, XanMod (x64v3, x64v4, EDGE, LTS) with NVIDIA compatibility checks
 - **CPU Microcode Updates**: Intel and AMD firmware security updates
@@ -26,7 +28,9 @@ Soplos Welcome is a welcome application that guides new users through the initia
 - Access to help and support resources
 - Intuitive and user-friendly interface
 - Support for multiple languages
-- **Universal Desktop Support**: GNOME, KDE Plasma, XFCE
+- **Universal Desktop Support**: GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)
+- **Display Protocol Support**: Full X11 and Wayland compatibility with automatic detection
+- **Environment Detection**: Automatic DE, display manager, and display protocol detection
 - **Advanced Architecture**: Modular design with Python and GTK3
 
 ## 📸 Screenshots

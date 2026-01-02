@@ -977,35 +977,35 @@ msgstr "Pilotes graphiques NVIDIA"
 
 #: ui/tabs/drivers_tab.py:127
 msgid "NVIDIA 590 (Latest)"
-msgstr ""
+msgstr "NVIDIA 590 (Dernier)"
 
 #: ui/tabs/drivers_tab.py:128
 msgid "Latest driver for RTX 50/40/30 series"
-msgstr ""
+msgstr "Dernier pilote pour les séries RTX 50/40/30"
 
 #: ui/tabs/drivers_tab.py:134
 msgid "NVIDIA 580 (Production)"
-msgstr ""
+msgstr "NVIDIA 580 (Production)"
 
 #: ui/tabs/drivers_tab.py:135
 msgid "Stable production driver for modern GPUs"
-msgstr ""
+msgstr "Pilote de production stable pour GPUs modernes"
 
 #: ui/tabs/drivers_tab.py:142
 msgid "NVIDIA 550 (Repo)"
-msgstr ""
+msgstr "NVIDIA 550 (Dépôt)"
 
 #: ui/tabs/drivers_tab.py:143
 msgid "For RTX 50/40/30/20, GTX 16xx/10xx series"
-msgstr ""
+msgstr "Pour séries RTX 50/40/30/20, GTX 16xx/10xx"
 
 #: ui/tabs/drivers_tab.py:149
 msgid "NVIDIA 470 (Legacy)"
-msgstr "NVIDIA 470 (Legacy)"
+msgstr "NVIDIA 470 (Ancien)"
 
 #: ui/tabs/drivers_tab.py:150
 msgid "For Kepler/Maxwell GPUs (GTX 600-900 series)"
-msgstr ""
+msgstr "Pour GPUs Kepler/Maxwell (séries GTX 600-900)"
 
 #: ui/tabs/drivers_tab.py:157
 msgid "NVIDIA 390 (Legacy)"
@@ -2607,6 +2607,86 @@ msgstr "Détection du réseau..."
 #: utils/hardware_detector.py:385
 msgid "Scan completed"
 msgstr "Analyse terminée"
+
+#: utils/hardware_detector.py:369
+msgid "Detecting hybrid graphics..."
+msgstr "Détection des graphiques hybrides..."
+
+#: ui/tabs/drivers_tab.py:188
+msgid "Hybrid Graphics (Laptops)"
+msgstr "Graphiques hybrides (Ordinateurs portables)"
+
+#: ui/tabs/drivers_tab.py:193
+msgid "For laptops with Intel/AMD + NVIDIA graphics"
+msgstr "Pour ordinateurs portables avec graphiques Intel/AMD + NVIDIA"
+
+#: ui/tabs/drivers_tab.py:204
+msgid "PRIME Render Offload"
+msgstr "PRIME Render Offload"
+
+#: ui/tabs/drivers_tab.py:205
+msgid "Use NVIDIA on demand (recommended, saves battery)"
+msgstr "Utiliser NVIDIA à la demande (recommandé, économise la batterie)"
+
+#: ui/tabs/drivers_tab.py:213
+msgid "NVIDIA Primary"
+msgstr "NVIDIA Primaire"
+
+#: ui/tabs/drivers_tab.py:214
+msgid "Always use NVIDIA GPU (maximum performance)"
+msgstr "Toujours utiliser le GPU NVIDIA (performances maximales)"
+
+#: ui/tabs/drivers_tab.py:220
+msgid "Detect Hybrid Setup"
+msgstr "Détecter la configuration hybride"
+
+#: ui/tabs/drivers_tab.py:221
+msgid "Check if you have a hybrid graphics laptop"
+msgstr "Vérifiez si vous avez un ordinateur portable avec graphiques hybrides"
+
+#: ui/tabs/drivers_tab.py:776
+msgid "Hybrid Graphics Detected"
+msgstr "Graphiques hybrides détectés"
+
+#: ui/tabs/drivers_tab.py:787
+msgid "Integrated:"
+msgstr "Intégré :"
+
+#: ui/tabs/drivers_tab.py:788
+msgid "Dedicated:"
+msgstr "Dédié :"
+
+#: ui/tabs/drivers_tab.py:793
+msgid "Configure how your GPUs work together:"
+msgstr "Configurez comment vos GPU fonctionnent ensemble :"
+
+#: ui/tabs/drivers_tab.py:802
+msgid "Use NVIDIA on demand (saves battery)"
+msgstr "Utiliser NVIDIA à la demande (économise la batterie)"
+
+#: ui/tabs/drivers_tab.py:809
+msgid "Always use NVIDIA (max performance)"
+msgstr "Toujours utiliser NVIDIA (performances max)"
+
+#: ui/tabs/drivers_tab.py:950
+msgid "Hybrid Graphics Detection"
+msgstr "Détection des graphiques hybrides"
+
+#: ui/tabs/drivers_tab.py:955
+msgid "Hybrid graphics detected!\n\nIntegrated GPU: {integrated}\nDedicated GPU: {dedicated}\n\nYou can configure PRIME Render Offload (saves battery) or NVIDIA Primary (maximum performance)."
+msgstr "Graphiques hybrides détectés !\n\nGPU intégré : {integrated}\nGPU dédié : {dedicated}\n\nVous pouvez configurer PRIME Render Offload (économise la batterie) ou NVIDIA Primaire (performances maximales)."
+
+#: ui/tabs/drivers_tab.py:966
+msgid "No hybrid graphics detected.\n\nYour system has: {gpu}\n\nHybrid configuration is not needed."
+msgstr "Aucun graphique hybride détecté.\n\nVotre système dispose de : {gpu}\n\nLa configuration hybride n'est pas nécessaire."
+
+#: ui/tabs/drivers_tab.py:400
+msgid "NVIDIA Driver Installation"
+msgstr "Installation du pilote NVIDIA"
+
+#: ui/tabs/drivers_tab.py:404
+msgid "This installation requires TWO automatic reboots:\n\n1. First reboot: System prepares for installation\n2. Second reboot: Driver is installed in text mode\n\nThe process is fully automatic. Do not turn off your computer.\n\nDo you want to continue?"
+msgstr "Cette installation nécessite DEUX redémarrages automatiques :\n\n1. Premier redémarrage : Le système se prépare pour l'installation\n2. Deuxième redémarrage : Le pilote est installé en mode texte\n\nLe processus est entièrement automatique. N'éteignez pas votre ordinateur.\n\nVoulez-vous continuer ?"
 
 #~ msgid "NVIDIA Latest (550)"
 #~ msgstr "NVIDIA Dernier (550)"

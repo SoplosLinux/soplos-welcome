@@ -278,6 +278,7 @@ class MainWindow(Gtk.ApplicationWindow):
                     tab_content = DriversTab(
                         self.i18n_manager,
                         self.theme_manager,
+                        self.environment_detector,
                         self,  # parent_window
                         self.progress_bar,
                         self.progress_label

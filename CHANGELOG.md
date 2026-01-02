@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 
 ## [2.0.1] - 2025-12-27
 
+### 🚀 Hybrid Graphics Support (NEW)
+- **Hybrid GPU Detection**: Automatic detection of Intel/AMD + NVIDIA configurations on laptops
+- **PRIME Render Offload**: On-demand NVIDIA usage for battery saving (recommended for most users)
+- **NVIDIA Primary Mode**: Always use dedicated GPU for maximum performance
+- **Multi-DE Configuration**: Automatic configuration for GNOME (GDM3), KDE Plasma (SDDM), and XFCE (LightDM)
+- **X11 and Wayland Support**: Proper configuration for both display protocols
+- **Environment Detection Integration**: Uses `EnvironmentDetector` for smart DE/DM/protocol detection
+
+### 🔧 Two-Phase NVIDIA Installation (NEW)
+- **Systemd-based .run Installation**: Prevents black screen issues after driver installation
+- **Phase 1 - Preparation**: Creates systemd service, blacklists nouveau, configures GRUB, reboots to multi-user.target
+- **Phase 2 - Installation**: Installs driver without X running, regenerates initramfs, restores graphical boot
+- **Fully Automatic**: User only needs to wait for two automatic reboots
+- **Display Manager Support**: Automatic detection and restart of GDM3, SDDM, or LightDM
+
 ### 🎮 NVIDIA Driver Improvements
 - Added **NVIDIA 590 driver** (590.48.01) - Latest driver for RTX 50/40/30 series
 - Added **NVIDIA 580 Production driver** (580.119.02) for RTX 40/50 series

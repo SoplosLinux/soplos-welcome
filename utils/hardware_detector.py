@@ -74,6 +74,81 @@ def detect_gpu():
         return {'vendor': _('Error'), 'model': str(e), 'recommended_driver': None, 'type': _('N/A')}
 
 
+def detect_hybrid_gpu():
+    """Detect if the system has hybrid graphics (integrated + dedicated)."""
+    try:
+        lspci_output = subprocess.check_output(['lspci'], stderr=subprocess.DEVNULL).decode('utf-8')
+        
+        nvidia_gpu = None
+        intel_gpu = None
+        amd_igpu = None
+        
+        for line in lspci_output.split('\n'):
+            line_lower = line.lower()
+            
+            # Skip if not a display device
+            if not any(k in line_lower for k in ['vga', '3d', 'display']):
+                continue
+            
+            # NVIDIA GPU (dedicated)
+            if re.search(r'\bnvidia\b', line_lower):
+                model = _extract_nvidia_model(line)
+                nvidia_gpu = f"NVIDIA {model}"
+            
+            # Intel GPU (integrated)
+            elif re.search(r'\bintel\b', line_lower):
+                model = _extract_intel_model(line)
+                intel_gpu = f"Intel {model}"
+            
+            # AMD GPU - need to determine if integrated or dedicated
+            elif re.search(r'\b(amd|ati|radeon)\b', line_lower):
+                model = _extract_amd_model(line)
+                # Ryzen APUs typically have "Radeon" in integrated graphics
+                # Dedicated cards have RX, Vega, VII in name
+                model_lower = model.lower()
+                if any(s in model_lower for s in ['rx ', 'vega', 'vii', 'radeon pro']):
+                    # Dedicated AMD
+                    pass
+                else:
+                    # Likely integrated (Ryzen APU)
+                    amd_igpu = f"AMD {model}"
+        
+        # Determine hybrid configuration
+        is_hybrid = False
+        integrated = None
+        dedicated = None
+        
+        # Intel + NVIDIA (most common laptop hybrid)
+        if intel_gpu and nvidia_gpu:
+            is_hybrid = True
+            integrated = intel_gpu
+            dedicated = nvidia_gpu
+        
+        # AMD iGPU + NVIDIA
+        elif amd_igpu and nvidia_gpu:
+            is_hybrid = True
+            integrated = amd_igpu
+            dedicated = nvidia_gpu
+        
+        if is_hybrid:
+            return {
+                'is_hybrid': True,
+                'integrated': integrated,
+                'dedicated': dedicated
+            }
+        else:
+            # Not hybrid, return primary GPU
+            primary = nvidia_gpu or intel_gpu or amd_igpu or _('Unknown')
+            return {
+                'is_hybrid': False,
+                'primary': primary
+            }
+    
+    except Exception as e:
+        print(f"Error detecting hybrid GPU: {e}")
+        return {'is_hybrid': False, 'primary': _('Detection error')}
+
+
 def _extract_nvidia_model(line):
     """Extract NVIDIA GPU model from lspci line."""
     patterns = [
@@ -363,8 +438,13 @@ def scan_hardware(update_status_cb, update_progress_cb, show_results_cb):
         
         # GPU
         GLib.idle_add(update_status_cb, _('Detecting GPU...'))
-        GLib.idle_add(update_progress_cb, 0.4)
+        GLib.idle_add(update_progress_cb, 0.35)
         results['gpu'] = detect_gpu()
+        
+        # Hybrid GPU Detection
+        GLib.idle_add(update_status_cb, _('Detecting hybrid graphics...'))
+        GLib.idle_add(update_progress_cb, 0.5)
+        results['hybrid_gpu'] = detect_hybrid_gpu()
         
         # VM Detection
         GLib.idle_add(update_status_cb, _('Detecting virtual machine...'))

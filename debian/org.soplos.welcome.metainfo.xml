@@ -144,8 +144,14 @@
   <releases>
     <release version="2.0.1" date="2025-12-27">
       <description>
-        <p>NVIDIA Driver Improvements for RTX 40/50 series:</p>
+        <p>Hybrid Graphics Support and NVIDIA Installation Improvements:</p>
         <ul>
+          <li>NEW: Hybrid GPU detection for Intel/AMD + NVIDIA laptops</li>
+          <li>NEW: PRIME Render Offload mode (battery saving)</li>
+          <li>NEW: NVIDIA Primary mode (maximum performance)</li>
+          <li>NEW: Two-phase systemd installation for .run files (prevents black screen)</li>
+          <li>NEW: Full X11 and Wayland support with automatic detection</li>
+          <li>NEW: Multi-DE support: GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)</li>
           <li>Added NVIDIA 590 driver (590.48.01) - Latest for RTX 50/40/30 series</li>
           <li>Added NVIDIA 580 Production driver (580.119.02) for RTX 40/50 series</li>
           <li>RTX 50 (Blackwell) now recommends driver 590, RTX 40 (Ada Lovelace) recommends 580</li>
@@ -158,8 +164,14 @@
         </ul>
       </description>
       <description xml:lang="es">
-        <p>Mejoras en controladores NVIDIA para series RTX 40/50:</p>
+        <p>Soporte de Gráficos Híbridos y Mejoras en Instalación NVIDIA:</p>
         <ul>
+          <li>NUEVO: Detección de GPU híbrida para portátiles Intel/AMD + NVIDIA</li>
+          <li>NUEVO: Modo PRIME Render Offload (ahorro de batería)</li>
+          <li>NUEVO: Modo NVIDIA Primary (máximo rendimiento)</li>
+          <li>NUEVO: Instalación en dos fases con systemd para archivos .run (evita pantalla negra)</li>
+          <li>NUEVO: Soporte completo X11 y Wayland con detección automática</li>
+          <li>NUEVO: Soporte multi-DE: GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)</li>
           <li>Añadido controlador NVIDIA 590 (590.48.01) - Último para RTX 50/40/30</li>
           <li>Añadido controlador NVIDIA 580 Production (580.119.02) para RTX 40/50</li>
           <li>RTX 50 (Blackwell) recomienda driver 590, RTX 40 (Ada Lovelace) recomienda 580</li>
@@ -172,8 +184,14 @@
         </ul>
       </description>
       <description xml:lang="fr">
-        <p>Améliorations des pilotes NVIDIA pour les séries RTX 40/50 :</p>
+        <p>Support graphiques hybrides et améliorations installation NVIDIA :</p>
         <ul>
+          <li>NOUVEAU : Détection GPU hybride pour portables Intel/AMD + NVIDIA</li>
+          <li>NOUVEAU : Mode PRIME Render Offload (économie de batterie)</li>
+          <li>NOUVEAU : Mode NVIDIA Primary (performances maximales)</li>
+          <li>NOUVEAU : Installation en deux phases systemd pour fichiers .run (évite écran noir)</li>
+          <li>NOUVEAU : Support X11 et Wayland avec détection automatique</li>
+          <li>NOUVEAU : Support multi-DE : GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)</li>
           <li>Ajout du pilote NVIDIA 590 (590.48.01) - Dernier pour RTX 50/40/30</li>
           <li>Ajout du pilote NVIDIA 580 Production (580.119.02) pour RTX 40/50</li>
           <li>RTX 50 (Blackwell) recommande 590, RTX 40 (Ada Lovelace) recommande 580</li>
@@ -186,8 +204,14 @@
         </ul>
       </description>
       <description xml:lang="de">
-        <p>NVIDIA-Treiberverbesserungen für RTX 40/50 Serien:</p>
+        <p>Hybrid-Grafik-Unterstützung und NVIDIA-Installationsverbesserungen:</p>
         <ul>
+          <li>NEU: Hybrid-GPU-Erkennung für Intel/AMD + NVIDIA Laptops</li>
+          <li>NEU: PRIME Render Offload Modus (Akkusparmodus)</li>
+          <li>NEU: NVIDIA Primary Modus (maximale Leistung)</li>
+          <li>NEU: Zweiphasen-systemd-Installation für .run-Dateien (verhindert schwarzen Bildschirm)</li>
+          <li>NEU: Volle X11- und Wayland-Unterstützung mit automatischer Erkennung</li>
+          <li>NEU: Multi-DE-Unterstützung: GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)</li>
           <li>NVIDIA 590 Treiber (590.48.01) hinzugefügt - Neuester für RTX 50/40/30</li>
           <li>NVIDIA 580 Production Treiber (580.119.02) für RTX 40/50 hinzugefügt</li>
           <li>RTX 50 (Blackwell) empfiehlt 590, RTX 40 (Ada Lovelace) empfiehlt 580</li>
@@ -200,8 +224,14 @@
         </ul>
       </description>
       <description xml:lang="pt">
-        <p>Melhorias nos drivers NVIDIA para séries RTX 40/50:</p>
+        <p>Suporte a gráficos híbridos e melhorias na instalação NVIDIA:</p>
         <ul>
+          <li>NOVO: Deteção de GPU híbrida para portáteis Intel/AMD + NVIDIA</li>
+          <li>NOVO: Modo PRIME Render Offload (economia de bateria)</li>
+          <li>NOVO: Modo NVIDIA Primary (desempenho máximo)</li>
+          <li>NOVO: Instalação em duas fases com systemd para ficheiros .run (evita ecrã preto)</li>
+          <li>NOVO: Suporte completo X11 e Wayland com deteção automática</li>
+          <li>NOVO: Suporte multi-DE: GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)</li>
           <li>Adicionado driver NVIDIA 590 (590.48.01) - Mais recente para RTX 50/40/30</li>
           <li>Adicionado driver NVIDIA 580 Production (580.119.02) para RTX 40/50</li>
           <li>RTX 50 (Blackwell) recomenda 590, RTX 40 (Ada Lovelace) recomenda 580</li>
@@ -214,8 +244,14 @@
         </ul>
       </description>
       <description xml:lang="it">
-        <p>Miglioramenti dei driver NVIDIA per le serie RTX 40/50:</p>
+        <p>Supporto grafica ibrida e miglioramenti installazione NVIDIA:</p>
         <ul>
+          <li>NUOVO: Rilevamento GPU ibrida per laptop Intel/AMD + NVIDIA</li>
+          <li>NUOVO: Modalità PRIME Render Offload (risparmio batteria)</li>
+          <li>NUOVO: Modalità NVIDIA Primary (prestazioni massime)</li>
+          <li>NUOVO: Installazione in due fasi systemd per file .run (evita schermo nero)</li>
+          <li>NUOVO: Supporto completo X11 e Wayland con rilevamento automatico</li>
+          <li>NUOVO: Supporto multi-DE: GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)</li>
           <li>Aggiunto driver NVIDIA 590 (590.48.01) - Ultimo per RTX 50/40/30</li>
           <li>Aggiunto driver NVIDIA 580 Production (580.119.02) per RTX 40/50</li>
           <li>RTX 50 (Blackwell) raccomanda 590, RTX 40 (Ada Lovelace) raccomanda 580</li>
@@ -228,8 +264,14 @@
         </ul>
       </description>
       <description xml:lang="ru">
-        <p>Улучшения драйверов NVIDIA для серий RTX 40/50:</p>
+        <p>Поддержка гибридной графики и улучшения установки NVIDIA:</p>
         <ul>
+          <li>НОВОЕ: Обнаружение гибридных GPU для ноутбуков Intel/AMD + NVIDIA</li>
+          <li>НОВОЕ: Режим PRIME Render Offload (экономия батареи)</li>
+          <li>НОВОЕ: Режим NVIDIA Primary (максимальная производительность)</li>
+          <li>НОВОЕ: Двухфазная установка systemd для файлов .run (предотвращает чёрный экран)</li>
+          <li>НОВОЕ: Полная поддержка X11 и Wayland с автоопределением</li>
+          <li>НОВОЕ: Поддержка нескольких DE: GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)</li>
           <li>Добавлен драйвер NVIDIA 590 (590.48.01) - Новейший для RTX 50/40/30</li>
           <li>Добавлен драйвер NVIDIA 580 Production (580.119.02) для RTX 40/50</li>
           <li>RTX 50 (Blackwell) рекомендует 590, RTX 40 (Ada Lovelace) рекомендует 580</li>
@@ -242,8 +284,15 @@
         </ul>
       </description>
       <description xml:lang="ro">
-        <p>Îmbunătățiri drivere NVIDIA pentru seriile RTX 40/50:</p>
+        <p>Suport grafică hibridă și îmbunătățiri instalare NVIDIA:</p>
         <ul>
+          <li>NOU: Detectare GPU hibrid pentru laptopuri Intel/AMD + NVIDIA</li>
+          <li>NOU: Mod PRIME Render Offload (economie baterie)</li>
+          <li>NOU: Mod NVIDIA Primary (performanță maximă)</li>
+          <li>NOU: Instalare în două faze systemd pentru fișiere .run (previne ecran negru)</li>
+          <li>NOU: Suport complet X11 și Wayland cu detectare automată</li>
+          <li>NOU: Suport multi-DE: GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)</li>
+          <li>Adăugat driver NVIDIA 590 (590.48.01) - Cel mai recent pentru RTX 50/40/30</li>
           <li>Adăugat driver NVIDIA 580 Production (580.119.02) pentru RTX 40/50</li>
           <li>RTX 50 (Blackwell) și RTX 40 (Ada Lovelace) acum detectate corect</li>
           <li>GTX 10xx (Pascal) mutat la suportul driverului cel mai recent</li>

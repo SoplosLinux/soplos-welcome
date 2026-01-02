@@ -974,27 +974,27 @@ msgstr "Drivere Grafice NVIDIA"
 
 #: ui/tabs/drivers_tab.py:127
 msgid "NVIDIA 590 (Latest)"
-msgstr ""
+msgstr "NVIDIA 590 (Cel mai recent)"
 
 #: ui/tabs/drivers_tab.py:128
 msgid "Latest driver for RTX 50/40/30 series"
-msgstr ""
+msgstr "Cel mai recent driver pentru seriile RTX 50/40/30"
 
 #: ui/tabs/drivers_tab.py:134
 msgid "NVIDIA 580 (Production)"
-msgstr ""
+msgstr "NVIDIA 580 (Producție)"
 
 #: ui/tabs/drivers_tab.py:135
 msgid "Stable production driver for modern GPUs"
-msgstr ""
+msgstr "Driver de producție stabil pentru GPU-uri moderne"
 
 #: ui/tabs/drivers_tab.py:142
 msgid "NVIDIA 550 (Repo)"
-msgstr ""
+msgstr "NVIDIA 550 (Depozit)"
 
 #: ui/tabs/drivers_tab.py:143
 msgid "For RTX 50/40/30/20, GTX 16xx/10xx series"
-msgstr ""
+msgstr "Pentru seriile RTX 50/40/30/20, GTX 16xx/10xx"
 
 #: ui/tabs/drivers_tab.py:149
 msgid "NVIDIA 470 (Legacy)"
@@ -1002,7 +1002,7 @@ msgstr "NVIDIA 470 (Vechi)"
 
 #: ui/tabs/drivers_tab.py:150
 msgid "For Kepler/Maxwell GPUs (GTX 600-900 series)"
-msgstr ""
+msgstr "Pentru GPU-uri Kepler/Maxwell (seriile GTX 600-900)"
 
 #: ui/tabs/drivers_tab.py:157
 msgid "NVIDIA 390 (Legacy)"
@@ -2591,6 +2591,86 @@ msgstr "Se detectează rețeaua..."
 #: utils/hardware_detector.py:385
 msgid "Scan completed"
 msgstr "Scanare finalizată"
+
+#: utils/hardware_detector.py:369
+msgid "Detecting hybrid graphics..."
+msgstr "Se detectează grafica hibridă..."
+
+#: ui/tabs/drivers_tab.py:188
+msgid "Hybrid Graphics (Laptops)"
+msgstr "Grafică Hibridă (Laptopuri)"
+
+#: ui/tabs/drivers_tab.py:193
+msgid "For laptops with Intel/AMD + NVIDIA graphics"
+msgstr "Pentru laptopuri cu grafică Intel/AMD + NVIDIA"
+
+#: ui/tabs/drivers_tab.py:204
+msgid "PRIME Render Offload"
+msgstr "PRIME Render Offload"
+
+#: ui/tabs/drivers_tab.py:205
+msgid "Use NVIDIA on demand (recommended, saves battery)"
+msgstr "Folosește NVIDIA la cerere (recomandat, economisește bateria)"
+
+#: ui/tabs/drivers_tab.py:213
+msgid "NVIDIA Primary"
+msgstr "NVIDIA Primar"
+
+#: ui/tabs/drivers_tab.py:214
+msgid "Always use NVIDIA GPU (maximum performance)"
+msgstr "Folosește întotdeauna GPU NVIDIA (performanță maximă)"
+
+#: ui/tabs/drivers_tab.py:220
+msgid "Detect Hybrid Setup"
+msgstr "Detectează Configurația Hibridă"
+
+#: ui/tabs/drivers_tab.py:221
+msgid "Check if you have a hybrid graphics laptop"
+msgstr "Verifică dacă ai un laptop cu grafică hibridă"
+
+#: ui/tabs/drivers_tab.py:776
+msgid "Hybrid Graphics Detected"
+msgstr "Grafică Hibridă Detectată"
+
+#: ui/tabs/drivers_tab.py:787
+msgid "Integrated:"
+msgstr "Integrată:"
+
+#: ui/tabs/drivers_tab.py:788
+msgid "Dedicated:"
+msgstr "Dedicată:"
+
+#: ui/tabs/drivers_tab.py:793
+msgid "Configure how your GPUs work together:"
+msgstr "Configurează cum lucrează GPU-urile tale împreună:"
+
+#: ui/tabs/drivers_tab.py:802
+msgid "Use NVIDIA on demand (saves battery)"
+msgstr "Folosește NVIDIA la cerere (economisește bateria)"
+
+#: ui/tabs/drivers_tab.py:809
+msgid "Always use NVIDIA (max performance)"
+msgstr "Folosește întotdeauna NVIDIA (performanță max)"
+
+#: ui/tabs/drivers_tab.py:950
+msgid "Hybrid Graphics Detection"
+msgstr "Detectare Grafică Hibridă"
+
+#: ui/tabs/drivers_tab.py:955
+msgid "Hybrid graphics detected!\n\nIntegrated GPU: {integrated}\nDedicated GPU: {dedicated}\n\nYou can configure PRIME Render Offload (saves battery) or NVIDIA Primary (maximum performance)."
+msgstr "Grafică hibridă detectată!\n\nGPU Integrată: {integrated}\nGPU Dedicată: {dedicated}\n\nPoți configura PRIME Render Offload (economisește bateria) sau NVIDIA Primar (performanță maximă)."
+
+#: ui/tabs/drivers_tab.py:966
+msgid "No hybrid graphics detected.\n\nYour system has: {gpu}\n\nHybrid configuration is not needed."
+msgstr "Nu s-a detectat grafică hibridă.\n\nSistemul tău are: {gpu}\n\nConfigurația hibridă nu este necesară."
+
+#: ui/tabs/drivers_tab.py:400
+msgid "NVIDIA Driver Installation"
+msgstr "Instalare Driver NVIDIA"
+
+#: ui/tabs/drivers_tab.py:404
+msgid "This installation requires TWO automatic reboots:\n\n1. First reboot: System prepares for installation\n2. Second reboot: Driver is installed in text mode\n\nThe process is fully automatic. Do not turn off your computer.\n\nDo you want to continue?"
+msgstr "Această instalare necesită DOUĂ reporniri automate:\n\n1. Prima repornire: Sistemul se pregătește pentru instalare\n2. A doua repornire: Driverul este instalat în modul text\n\nProcesul este complet automat. Nu opri computerul.\n\nDorești să continui?"
 
 #~ msgid "NVIDIA Latest (550)"
 #~ msgstr "NVIDIA Recent (550)"

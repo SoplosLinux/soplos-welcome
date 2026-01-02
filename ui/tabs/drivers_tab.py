@@ -17,12 +17,13 @@ class DriversTab(Gtk.ScrolledWindow):
     Hardware drivers management tab.
     """
     
-    def __init__(self, i18n_manager, theme_manager, parent_window, progress_bar, progress_label):
+    def __init__(self, i18n_manager, theme_manager, environment_detector, parent_window, progress_bar, progress_label):
         super().__init__()
         self.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         
         self.i18n_manager = i18n_manager
         self.theme_manager = theme_manager
+        self.environment_detector = environment_detector
         self.parent_window = parent_window
         self.progress_bar = progress_bar
         self.progress_label = progress_label
@@ -75,6 +76,12 @@ class DriversTab(Gtk.ScrolledWindow):
         
         # --- NVIDIA Section ---
         self._create_nvidia_section()
+        
+        # Separator
+        self.drivers_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
+        
+        # --- NVIDIA Hybrid Section ---
+        self._create_nvidia_hybrid_section()
         
         # Separator
         self.drivers_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
@@ -174,6 +181,47 @@ class DriversTab(Gtk.ScrolledWindow):
         )
         nouveau.connect("clicked", self._on_driver_clicked, "xserver-xorg-video-nouveau")
         grid.attach(nouveau, 0, 3, 1, 1)
+    
+    def _create_nvidia_hybrid_section(self):
+        """Create NVIDIA hybrid graphics section for laptops."""
+        label = Gtk.Label()
+        label.set_markup(f'<span weight="bold" size="14000">{_("Hybrid Graphics (Laptops)")}</span>')
+        label.set_halign(Gtk.Align.START)
+        self.drivers_box.pack_start(label, False, False, 5)
+        
+        desc_label = Gtk.Label()
+        desc_label.set_markup(f'<span size="10000">{_("For laptops with Intel/AMD + NVIDIA graphics")}</span>')
+        desc_label.set_halign(Gtk.Align.START)
+        desc_label.get_style_context().add_class('dim-label')
+        self.drivers_box.pack_start(desc_label, False, False, 0)
+        
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        box.set_homogeneous(True)
+        self.drivers_box.pack_start(box, False, False, 5)
+        
+        # PRIME Render Offload (battery saving)
+        prime_offload_btn = self._create_button(
+            _("PRIME Render Offload"),
+            _("Use NVIDIA on demand (recommended, saves battery)")
+        )
+        prime_offload_btn.connect("clicked", self._on_hybrid_clicked, "offload")
+        box.pack_start(prime_offload_btn, True, True, 0)
+        
+        # NVIDIA as primary (performance)
+        nvidia_primary_btn = self._create_button(
+            _("NVIDIA Primary"),
+            _("Always use NVIDIA GPU (maximum performance)")
+        )
+        nvidia_primary_btn.connect("clicked", self._on_hybrid_clicked, "nvidia")
+        box.pack_start(nvidia_primary_btn, True, True, 0)
+        
+        # Detect hybrid
+        detect_hybrid_btn = self._create_button(
+            _("Detect Hybrid Setup"),
+            _("Check if you have a hybrid graphics laptop")
+        )
+        detect_hybrid_btn.connect("clicked", self._on_detect_hybrid_clicked)
+        box.pack_start(detect_hybrid_btn, True, True, 0)
     
     def _create_nvidia_extras_section(self):
         """Create NVIDIA extras section (CUDA, OpenCL tools)."""
@@ -312,12 +360,27 @@ apt install -y linux-headers-$(uname -r)
 # Install NVIDIA driver
 apt install -y {package}
 
-# Configure for Dracut - Blacklist nouveau
+# === BLACKLIST NOUVEAU IN MODPROBE ===
+echo "Blacklisting nouveau in modprobe..."
+mkdir -p /etc/modprobe.d
+echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nouveau.conf
+echo "options nouveau modeset=0" >> /etc/modprobe.d/blacklist-nouveau.conf
+
+# === CONFIGURE GRUB ===
+echo "Configuring GRUB with nvidia-drm.modeset=1..."
+if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
+    sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\\([^"]*\\)"/GRUB_CMDLINE_LINUX_DEFAULT="\\1 nvidia-drm.modeset=1"/' /etc/default/grub
+    update-grub
+fi
+
+# === CONFIGURE DRACUT ===
+echo "Configuring Dracut..."
 mkdir -p /etc/dracut.conf.d
 echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
 echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
 
 # Regenerate initramfs
+echo "Regenerating initramfs..."
 dracut --force
 
 echo ""
@@ -328,49 +391,218 @@ echo "IMPORTANT: Restart the system to apply the changes."
         self._run_script_as_root(script, f"install-{package}.sh")
     
     def _on_nvidia_run_clicked(self, button, version):
-        """Download and install NVIDIA driver from .run file."""
+        """Download and install NVIDIA driver from .run file using two-phase installation."""
+        # Show confirmation dialog
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("NVIDIA Driver Installation")
+        )
+        dialog.format_secondary_text(
+            _("This installation requires TWO automatic reboots:\n\n"
+              "1. First reboot: System prepares for installation\n"
+              "2. Second reboot: Driver is installed in text mode\n\n"
+              "The process is fully automatic. Do not turn off your computer.\n\n"
+              "Do you want to continue?")
+        )
+        response = dialog.run()
+        dialog.destroy()
+        
+        if response != Gtk.ResponseType.YES:
+            return
+        
+        # Phase 1: Prepare everything and setup systemd service
         script = f"""#!/bin/bash
 set -e
 
-echo "Installing NVIDIA {version} driver..."
+NVIDIA_VERSION="{version}"
+INSTALLER_DIR="/opt/nvidia-installer"
+
+echo "=== NVIDIA $NVIDIA_VERSION Installation - Phase 1 ==="
+echo ""
 
 # Install dependencies
+echo "[1/8] Installing dependencies..."
 apt update
-apt install -y build-essential dkms linux-headers-$(uname -r)
+apt install -y build-essential dkms linux-headers-$(uname -r) wget
+
+# Create installer directory
+echo "[2/8] Creating installer directory..."
+mkdir -p "$INSTALLER_DIR"
 
 # Download driver
-cd /tmp
-wget -O nvidia.run https://us.download.nvidia.com/XFree86/Linux-x86_64/{version}/NVIDIA-Linux-x86_64-{version}.run
+echo "[3/8] Downloading NVIDIA driver $NVIDIA_VERSION..."
+wget -q --show-progress -O "$INSTALLER_DIR/nvidia.run" \\
+    "https://us.download.nvidia.com/XFree86/Linux-x86_64/$NVIDIA_VERSION/NVIDIA-Linux-x86_64-$NVIDIA_VERSION.run"
+chmod +x "$INSTALLER_DIR/nvidia.run"
 
-# Make executable
-chmod +x nvidia.run
+# Blacklist nouveau in modprobe
+echo "[4/8] Blacklisting nouveau..."
+mkdir -p /etc/modprobe.d
+cat > /etc/modprobe.d/blacklist-nouveau.conf << 'MODPROBE'
+blacklist nouveau
+options nouveau modeset=0
+MODPROBE
 
-# Install driver
-./nvidia.run --silent --dkms --no-questions
+# Configure GRUB
+echo "[5/8] Configuring GRUB..."
+if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
+    sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\\([^"]*\\)"/GRUB_CMDLINE_LINUX_DEFAULT="\\1 nvidia-drm.modeset=1 rd.driver.blacklist=nouveau"/' /etc/default/grub
+    update-grub
+fi
 
-# Configure Dracut - Blacklist nouveau
-echo "Configuring Dracut to blacklist nouveau..."
+# Configure Dracut
+echo "[6/8] Configuring Dracut..."
 mkdir -p /etc/dracut.conf.d
 echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
-
-# Configure Dracut - Include NVIDIA modules
-echo "Configuring NVIDIA modules in Dracut..."
 echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
 
-# Regenerate initramfs with Dracut
-echo "Regenerating initramfs..."
+# Create Phase 2 installation script
+echo "[7/8] Creating installation script..."
+cat > "$INSTALLER_DIR/install.sh" << 'INSTALLSCRIPT'
+#!/bin/bash
+LOG_FILE="/var/log/nvidia-installer.log"
+exec > >(tee -a "$LOG_FILE") 2>&1
+
+echo "=== NVIDIA Installation - Phase 2 ==="
+echo "Started at: $(date)"
+
+INSTALLER_DIR="/opt/nvidia-installer"
+
+# Run the NVIDIA installer
+echo "Running NVIDIA installer..."
+if "$INSTALLER_DIR/nvidia.run" --silent --dkms --no-x-check --no-questions; then
+    echo "NVIDIA installer completed successfully."
+    
+    # Verify installation
+    if command -v nvidia-smi &>/dev/null; then
+        echo "nvidia-smi found. Installation successful!"
+        
+        # Cleanup
+        systemctl disable nvidia-installer.service
+        rm -f /etc/systemd/system/nvidia-installer.service
+        rm -rf "$INSTALLER_DIR"
+        
+        # Restore graphical target
+        systemctl set-default graphical.target
+        
+        # Create success notification for user
+        mkdir -p /etc/profile.d
+        cat > /etc/profile.d/nvidia-install-notify.sh << 'NOTIFY'
+#!/bin/bash
+if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+    notify-send -i nvidia "NVIDIA Driver" "Installation completed successfully. Run 'nvidia-smi' to verify." 2>/dev/null || true
+    rm -f /etc/profile.d/nvidia-install-notify.sh
+fi
+NOTIFY
+        chmod +x /etc/profile.d/nvidia-install-notify.sh
+        
+        echo "Rebooting to graphical mode..."
+        sleep 2
+        reboot
+    else
+        echo "ERROR: nvidia-smi not found after installation!"
+        # Trigger rollback
+        exit 1
+    fi
+else
+    echo "ERROR: NVIDIA installer failed!"
+    exit 1
+fi
+INSTALLSCRIPT
+chmod +x "$INSTALLER_DIR/install.sh"
+
+# Create rollback script
+cat > "$INSTALLER_DIR/rollback.sh" << 'ROLLBACK'
+#!/bin/bash
+echo "=== NVIDIA Installation Rollback ==="
+echo "Restoring nouveau driver..."
+
+# Remove nouveau blacklist
+rm -f /etc/modprobe.d/blacklist-nouveau.conf
+
+# Remove NVIDIA dracut config
+rm -f /etc/dracut.conf.d/blacklist-nouveau.conf
+rm -f /etc/dracut.conf.d/nvidia.conf
+
+# Remove nvidia-drm.modeset from GRUB
+sed -i 's/ nvidia-drm.modeset=1//g' /etc/default/grub
+sed -i 's/ rd.driver.blacklist=nouveau//g' /etc/default/grub
+update-grub
+
+# Regenerate initramfs
 dracut --force
 
 # Cleanup
-rm -f nvidia.run
+systemctl disable nvidia-installer.service 2>/dev/null || true
+rm -f /etc/systemd/system/nvidia-installer.service
+
+# Create failure notification
+mkdir -p /etc/profile.d
+cat > /etc/profile.d/nvidia-install-notify.sh << 'NOTIFY'
+#!/bin/bash
+if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+    notify-send -u critical -i dialog-error "NVIDIA Driver" "Installation failed. System restored to nouveau driver. Check /var/log/nvidia-installer.log for details." 2>/dev/null || true
+    rm -f /etc/profile.d/nvidia-install-notify.sh
+fi
+NOTIFY
+chmod +x /etc/profile.d/nvidia-install-notify.sh
+
+# Restore graphical target
+systemctl set-default graphical.target
+
+rm -rf /opt/nvidia-installer
+
+echo "Rollback complete. Rebooting..."
+sleep 2
+reboot
+ROLLBACK
+chmod +x "$INSTALLER_DIR/rollback.sh"
+
+# Create systemd service
+cat > /etc/systemd/system/nvidia-installer.service << 'SERVICE'
+[Unit]
+Description=NVIDIA Driver Installer (Phase 2)
+Before=display-manager.service
+After=local-fs.target network.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/nvidia-installer/install.sh
+ExecStopPost=/bin/bash -c 'if [ "$EXIT_STATUS" != "0" ]; then /opt/nvidia-installer/rollback.sh; fi'
+RemainAfterExit=yes
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+WantedBy=multi-user.target
+SERVICE
+
+# Enable service and set target
+echo "[8/8] Enabling installer service..."
+systemctl daemon-reload
+systemctl enable nvidia-installer.service
+
+# Regenerate initramfs
+echo "Regenerating initramfs..."
+dracut --force
+
+# Change to multi-user target for next boot
+systemctl set-default multi-user.target
 
 echo ""
-echo "=== Installation completed ==="
-echo "NVIDIA {version} driver installed successfully."
-echo "IMPORTANT: Restart the system to apply the changes."
-echo "After restart, verify with: nvidia-smi"
+echo "=== Phase 1 Complete ==="
+echo "The system will now reboot to complete the installation."
+echo "DO NOT turn off your computer during this process."
+echo ""
+
+# Notify before reboot
+sleep 3
+reboot
 """
-        self._run_script_as_root(script, f"install-nvidia-{version}.sh")
+        self._run_script_as_root(script, f"nvidia-phase1-{version}.sh")
     
     def _on_nvidia_extras_clicked(self, button, mode):
         """Install additional NVIDIA support for DaVinci Resolve or Blender."""
@@ -539,6 +771,50 @@ echo "IMPORTANT: Restart the system to apply the changes."
                 gpu_frame.add(gpu_box)
                 main_box.pack_start(gpu_frame, False, False, 5)
             
+            # Hybrid GPU Section
+            if results.get('hybrid_gpu', {}).get('is_hybrid'):
+                hybrid_frame = Gtk.Frame(label=f"🔀 {_('Hybrid Graphics Detected')}")
+                hybrid_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+                hybrid_box.set_margin_left(15)
+                hybrid_box.set_margin_right(15)
+                hybrid_box.set_margin_top(10)
+                hybrid_box.set_margin_bottom(10)
+                
+                hybrid = results['hybrid_gpu']
+                hybrid_label = Gtk.Label()
+                hybrid_label.set_markup(
+                    f"<b>{_('Integrated:')}</b> {hybrid.get('integrated', 'N/A')}\n"
+                    f"<b>{_('Dedicated:')}</b> {hybrid.get('dedicated', 'N/A')}"
+                )
+                hybrid_label.set_xalign(0)
+                hybrid_box.pack_start(hybrid_label, False, False, 0)
+                
+                hybrid_info = Gtk.Label()
+                hybrid_info.set_markup(f"<i>{_('Configure how your GPUs work together:')}</i>")
+                hybrid_info.set_xalign(0)
+                hybrid_box.pack_start(hybrid_info, False, False, 5)
+                
+                # Buttons box
+                hybrid_btn_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+                
+                # PRIME Offload button
+                offload_btn = Gtk.Button(label=_("PRIME Render Offload"))
+                offload_btn.set_tooltip_text(_("Use NVIDIA on demand (saves battery)"))
+                offload_btn.connect("clicked", self._on_hybrid_clicked, "offload")
+                offload_btn.connect("clicked", lambda x: dialog.destroy())
+                hybrid_btn_box.pack_start(offload_btn, True, True, 0)
+                
+                # NVIDIA Primary button
+                nvidia_btn = Gtk.Button(label=_("NVIDIA Primary"))
+                nvidia_btn.set_tooltip_text(_("Always use NVIDIA (max performance)"))
+                nvidia_btn.connect("clicked", self._on_hybrid_clicked, "nvidia")
+                nvidia_btn.connect("clicked", lambda x: dialog.destroy())
+                hybrid_btn_box.pack_start(nvidia_btn, True, True, 0)
+                
+                hybrid_box.pack_start(hybrid_btn_box, False, False, 5)
+                hybrid_frame.add(hybrid_box)
+                main_box.pack_start(hybrid_frame, False, False, 5)
+            
             # Memory Section
             if results.get('memory'):
                 mem_frame = Gtk.Frame(label=f"💾 {_('RAM Memory')}")
@@ -659,3 +935,233 @@ echo "IMPORTANT: Restart the system to apply the changes."
         else:
             # AMD, Intel, or other drivers
             self._on_driver_clicked(button, driver)
+    
+    def _on_detect_hybrid_clicked(self, button):
+        """Detect if the system has hybrid graphics."""
+        from utils.hardware_detector import detect_hybrid_gpu
+        
+        result = detect_hybrid_gpu()
+        
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK,
+            text=_("Hybrid Graphics Detection")
+        )
+        
+        if result['is_hybrid']:
+            dialog.format_secondary_text(
+                _("Hybrid graphics detected!\n\n"
+                  "Integrated GPU: {integrated}\n"
+                  "Dedicated GPU: {dedicated}\n\n"
+                  "You can configure PRIME Render Offload (saves battery) "
+                  "or NVIDIA Primary (maximum performance).").format(
+                    integrated=result.get('integrated', 'Unknown'),
+                    dedicated=result.get('dedicated', 'Unknown')
+                )
+            )
+        else:
+            dialog.format_secondary_text(
+                _("No hybrid graphics detected.\n\n"
+                  "Your system has: {gpu}\n\n"
+                  "Hybrid configuration is not needed.").format(
+                    gpu=result.get('primary', 'Unknown GPU')
+                )
+            )
+        
+        dialog.run()
+        dialog.destroy()
+    
+    def _on_hybrid_clicked(self, button, mode):
+        """Configure hybrid graphics."""
+        if mode == "offload":
+            # PRIME Render Offload - Use NVIDIA on demand (works on Xorg and Wayland)
+            script = """#!/bin/bash
+set -e
+
+echo "Configuring PRIME Render Offload..."
+
+# Check if NVIDIA driver is installed
+if ! command -v nvidia-smi &>/dev/null; then
+    echo "ERROR: NVIDIA driver is not installed."
+    echo "Please install the NVIDIA driver first."
+    exit 1
+fi
+
+# Remove any existing NVIDIA primary configuration
+echo "Removing NVIDIA primary configuration..."
+rm -f /etc/X11/xorg.conf.d/10-nvidia-prime.conf
+rm -f /etc/X11/xorg.conf
+rm -f /etc/environment.d/10-nvidia-primary.conf
+rm -f /etc/udev/rules.d/61-nvidia-prime.rules
+rm -f /etc/udev/rules.d/61-gdm-nvidia.rules
+
+# Restore default SDDM config if exists
+if [ -f /etc/sddm.conf.d/10-wayland.conf ]; then
+    rm -f /etc/sddm.conf.d/10-wayland.conf
+fi
+
+# Create script for running apps with NVIDIA (works on Xorg AND Wayland)
+cat > /usr/local/bin/prime-run << 'PRIMERUN'
+#!/bin/bash
+# PRIME Render Offload - Run application with NVIDIA GPU
+# Works on both Xorg and Wayland
+
+export __NV_PRIME_RENDER_OFFLOAD=1
+export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export __VK_LAYER_NV_optimus=NVIDIA_only
+
+# For Wayland/EGL
+export __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/10_nvidia.json
+export GBM_BACKEND=nvidia-drm
+
+exec "$@"
+PRIMERUN
+chmod +x /usr/local/bin/prime-run
+
+# Create desktop entry for running apps with NVIDIA
+mkdir -p /usr/share/applications
+cat > /usr/share/applications/prime-run.desktop << 'DESKTOP'
+[Desktop Entry]
+Name=Run with NVIDIA GPU
+Comment=Run application using the NVIDIA GPU
+Exec=prime-run %f
+Icon=nvidia
+Terminal=false
+Type=Application
+NoDisplay=true
+DESKTOP
+
+echo ""
+echo "=== Configuration complete ==="
+echo "PRIME Render Offload configured."
+echo ""
+echo "Works on both Xorg and Wayland."
+echo ""
+echo "To run an application with NVIDIA GPU, use:"
+echo "  prime-run <application>"
+echo ""
+echo "Examples:"
+echo "  prime-run glxgears"
+echo "  prime-run steam"
+echo "  prime-run blender"
+echo ""
+echo "No reboot required. You can use prime-run immediately."
+"""
+            self._run_script_as_root(script, "configure-prime-offload.sh")
+        
+        elif mode == "nvidia":
+            # Get current desktop environment and display protocol
+            de = self.environment_detector.desktop_environment.value
+            protocol = self.environment_detector.display_protocol.value
+            
+            # NVIDIA as primary GPU - Adapts to detected environment
+            script = f"""#!/bin/bash
+set -e
+
+# Detected environment: {de} on {protocol}
+DESKTOP_ENV="{de}"
+
+echo "Configuring NVIDIA as primary GPU..."
+echo "Detected desktop: $DESKTOP_ENV"
+
+# Check if NVIDIA driver is installed
+if ! command -v nvidia-smi &>/dev/null; then
+    echo "ERROR: NVIDIA driver is not installed."
+    echo "Please install the NVIDIA driver first."
+    exit 1
+fi
+
+# Check driver version for Wayland GBM support (495+)
+DRIVER_VERSION=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null | head -1 | cut -d. -f1)
+echo "Detected NVIDIA driver version: $DRIVER_VERSION"
+
+# Ensure nvidia-drm.modeset=1 is set (required for Wayland and proper X11)
+if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
+    echo "Adding nvidia-drm.modeset=1 to GRUB..."
+    sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\\([^"]*\\)"/GRUB_CMDLINE_LINUX_DEFAULT="\\1 nvidia-drm.modeset=1"/' /etc/default/grub
+    update-grub
+fi
+
+# Create environment file for NVIDIA as primary (works for all DEs)
+echo "Setting up environment variables..."
+mkdir -p /etc/environment.d
+cat > /etc/environment.d/10-nvidia-primary.conf << 'ENVCONF'
+# NVIDIA as primary GPU - Works on X11 and Wayland
+__EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/10_nvidia.json
+GBM_BACKEND=nvidia-drm
+__GLX_VENDOR_LIBRARY_NAME=nvidia
+ENVCONF
+
+# Configure based on detected desktop environment
+case "$DESKTOP_ENV" in
+    "gnome")
+        echo "Configuring for GNOME (GDM3)..."
+        if [ -f /etc/gdm3/custom.conf ]; then
+            # Enable Wayland with NVIDIA (driver 495+ required)
+            sed -i '/WaylandEnable=false/d' /etc/gdm3/custom.conf
+            # Udev rule for Wayland with NVIDIA
+            mkdir -p /etc/udev/rules.d
+            echo 'ENV{{DRIVER}}=="nvidia", RUN+="/usr/bin/gdm-runtime-config set daemon WaylandEnable true"' > /etc/udev/rules.d/61-gdm-nvidia.rules
+        fi
+        ;;
+    "kde")
+        echo "Configuring for KDE Plasma (SDDM)..."
+        # SDDM supports both X11 and Wayland sessions
+        # User can choose at login screen, no forced config needed
+        # But we ensure Wayland is available
+        if [ -d /etc/sddm.conf.d ]; then
+            mkdir -p /etc/sddm.conf.d
+            # Don't force Wayland, let user choose at login
+            cat > /etc/sddm.conf.d/10-nvidia.conf << 'SDDMCONF'
+[General]
+# Both X11 and Wayland sessions available at login
+SDDMCONF
+        fi
+        ;;
+    "xfce")
+        echo "Configuring for Xfce (LightDM)..."
+        # Xfce only supports X11, configure Xorg properly
+        if [ -f /etc/lightdm/lightdm.conf ]; then
+            echo "LightDM detected - X11 only, no additional configuration needed."
+        fi
+        ;;
+    *)
+        echo "Unknown desktop environment, applying generic configuration..."
+        ;;
+esac
+
+# Xorg configuration (needed for X11 sessions in all DEs)
+echo "Creating Xorg configuration..."
+mkdir -p /etc/X11/xorg.conf.d
+cat > /etc/X11/xorg.conf.d/10-nvidia-prime.conf << 'XORGCONF'
+Section "OutputClass"
+    Identifier "nvidia"
+    MatchDriver "nvidia-drm"
+    Driver "nvidia"
+    Option "AllowEmptyInitialConfiguration"
+    Option "PrimaryGPU" "yes"
+    ModulePath "/usr/lib/x86_64-linux-gnu/nvidia/xorg"
+EndSection
+XORGCONF
+
+# Regenerate initramfs
+echo "Regenerating initramfs..."
+dracut --force 2>/dev/null || update-initramfs -u 2>/dev/null || true
+
+echo ""
+echo "=== Configuration complete ==="
+echo "NVIDIA configured as primary GPU for $DESKTOP_ENV."
+echo ""
+if [ "$DESKTOP_ENV" = "xfce" ]; then
+    echo "Xfce uses X11 only."
+else
+    echo "Both X11 and Wayland sessions are available."
+    echo "Wayland requires driver version 495+ (yours: $DRIVER_VERSION)"
+fi
+echo ""
+echo "IMPORTANT: Restart the system to apply changes."
+"""
+            self._run_script_as_root(script, "configure-nvidia-primary.sh")
