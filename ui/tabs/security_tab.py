@@ -421,8 +421,8 @@ class SecurityTab(Gtk.ScrolledWindow):
         # BleachBit
         self._update_package_button('bleachbit', self.bleachbit_row, with_configure=True, configure_label=_("Open BleachBit"))
         
-        # Stacer
-        self._update_package_button('stacer', self.stacer_row, with_configure=True, configure_label=_("Open Stacer"))
+        # Stacer (requires .deb from GitHub)
+        self._update_stacer_button()
         
         # Sweeper
         self._update_package_button('sweeper', self.sweeper_row, with_configure=True, configure_label=_("Open Sweeper"))
@@ -479,6 +479,46 @@ class SecurityTab(Gtk.ScrolledWindow):
             install_btn.get_style_context().add_class("suggested-action")
             install_btn.connect('clicked', lambda w: self._on_install_package(package))
             row.pack_start(install_btn, False, False, 0)
+    
+    def _update_stacer_button(self):
+        """Update Stacer button (requires .deb from GitHub)."""
+        is_installed = self._is_package_installed('stacer')
+        
+        if is_installed:
+            uninstall_btn = Gtk.Button(label=_("Uninstall"))
+            uninstall_btn.get_style_context().add_class("destructive-action")
+            uninstall_btn.connect('clicked', lambda w: self._on_uninstall_package('stacer'))
+            self.stacer_row.pack_start(uninstall_btn, False, False, 0)
+            
+            installed_label = Gtk.Label(label=_("Installed"))
+            installed_label.get_style_context().add_class("success")
+            self.stacer_row.pack_start(installed_label, False, False, 10)
+            
+            configure_btn = Gtk.Button(label=_("Open Stacer"))
+            configure_btn.get_style_context().add_class("suggested-action")
+            configure_btn.connect('clicked', lambda w: self._on_configure_package('stacer'))
+            self.stacer_row.pack_start(configure_btn, False, False, 0)
+        else:
+            install_btn = Gtk.Button(label=_("Install"))
+            install_btn.get_style_context().add_class("suggested-action")
+            install_btn.connect('clicked', lambda w: self._on_install_stacer())
+            self.stacer_row.pack_start(install_btn, False, False, 0)
+    
+    def _on_install_stacer(self):
+        """Install Stacer from GitHub .deb release."""
+        script_content = f"""#!/bin/bash
+echo "Downloading Stacer..."
+wget -q -O /tmp/stacer.deb https://github.com/oguzhaninan/Stacer/releases/download/v1.1.0/stacer_1.1.0_amd64.deb
+echo "Installing Stacer..."
+pkexec apt install -y /tmp/stacer.deb
+rm -f /tmp/stacer.deb
+echo "{_('Installation complete.')}"
+"""
+        script_path = "/tmp/install-stacer.sh"
+        with open(script_path, "w") as f:
+            f.write(script_content)
+        os.chmod(script_path, 0o755)
+        self.command_runner.run_command(script_path, self._on_operation_complete)
     
     def _update_clamtk_button(self):
         """Update ClamTk button (installs both clamav and clamtk)."""
@@ -566,6 +606,10 @@ echo "{_('Uninstallation complete.')}"
                 subprocess.Popen(['pkexec', 'btrfs-assistant'])
             elif package == 'bleachbit':
                 subprocess.Popen(['bleachbit'])
+            elif package == 'stacer':
+                subprocess.Popen(['stacer'])
+            elif package == 'sweeper':
+                subprocess.Popen(['sweeper'])
         except Exception as e:
             print(f"Error launching {package}: {e}")
     
