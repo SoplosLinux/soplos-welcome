@@ -18,7 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - Updated driver version labels in UI: "NVIDIA 590 (Latest)", "NVIDIA 580 (Production)", "NVIDIA 550 (Repo)"
 - Improved hardware detection logic for modern NVIDIA GPUs
 
-### 🛠️ Fixed
+### � New Recommended Software
+- **Multimedia**: Spotify (streaming service), HandBrake (video transcoder)
+- **Communications**: Slack (team collaboration), Zoom (video conferencing)
+- **Developer**: Postman (API testing)
+- **Graphics**: RawTherapee (RAW processing), Hugin (panorama stitcher)
+
+### �🛠️ Fixed
 - **Single pkexec authentication** - All driver installation scripts now use single `pkexec bash` call instead of multiple `pkexec` commands (one password prompt instead of many)
 - **Fixed `echo | pkexec tee` pattern** - Replaced with direct file writes since scripts run as root
 - Corrected driver recommendation mapping for RTX 40/50 to use nvidia-driver-580/590

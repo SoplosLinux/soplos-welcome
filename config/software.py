@@ -133,6 +133,22 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'whatsapp.png',
                 'description': _('Unofficial WhatsApp desktop client'),
                 'official': False
+            },
+            {
+                'name': 'Slack',
+                'package': None,
+                'flatpak': 'com.slack.Slack',
+                'icon': 'slack.png',
+                'description': _('Team collaboration and communication platform'),
+                'official': False
+            },
+            {
+                'name': 'Zoom',
+                'package': None,
+                'flatpak': 'us.zoom.Zoom',
+                'icon': 'zoom.png',
+                'description': _('Video conferencing and meetings'),
+                'official': False
             }
         ]
     },
@@ -238,6 +254,14 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'filezilla.png',
                 'description': _('Fast and reliable FTP/SFTP client'),
                 'official': True
+            },
+            {
+                'name': 'Postman',
+                'package': None,
+                'flatpak': 'com.getpostman.Postman',
+                'icon': 'postman.png',
+                'description': _('API development and testing platform'),
+                'official': False
             }
         ]
     },
@@ -297,6 +321,21 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'rapidraw.png',
                 'description': _('Fast and modern RAW photo editor'),
                 'official': False
+            },
+            {
+                'name': 'RawTherapee',
+                'package': 'rawtherapee',
+                'flatpak': 'com.rawtherapee.RawTherapee',
+                'icon': 'rawtherapee.png',
+                'description': _('Advanced RAW photo processing program'),
+                'official': True
+            },
+            {
+                'name': 'Hugin',
+                'package': 'hugin',
+                'icon': 'hugin.png',
+                'description': _('Panorama photo stitcher'),
+                'official': True
             }
         ]
     },
@@ -383,6 +422,22 @@ SOFTWARE_CATEGORIES = {
                 'description': _('Professional video editing (Script by Daniel Tufvesson)'),
                 'official': False,
                 'custom_install': True
+            },
+            {
+                'name': 'Spotify',
+                'package': None,
+                'flatpak': 'com.spotify.Client',
+                'icon': 'spotify.png',
+                'description': _('Digital music streaming service'),
+                'official': False
+            },
+            {
+                'name': 'HandBrake',
+                'package': 'handbrake',
+                'flatpak': 'fr.handbrake.ghb',
+                'icon': 'handbrake.png',
+                'description': _('Open source video transcoder'),
+                'official': True
             }
         ]
     },
