@@ -50,6 +50,8 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.clamtk_row = None
         self.rkhunter_row = None
         self.bleachbit_row = None
+        self.stacer_row = None
+        self.sweeper_row = None
         
         # Timer for periodic UFW status updates
         self.ufw_timer_id = None
@@ -265,6 +267,42 @@ class SecurityTab(Gtk.ScrolledWindow):
         
         self.bleachbit_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         bleachbit_box.pack_start(self.bleachbit_row, False, False, 2)
+        
+        # Stacer
+        stacer_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        clean_container.pack_start(stacer_box, False, False, 5)
+        
+        stacer_header = Gtk.Label()
+        stacer_header.set_markup(f"<b>Stacer</b> <span color='#8be9fd'>({_('Alternative')})</span>")
+        stacer_header.set_xalign(0)
+        stacer_box.pack_start(stacer_header, False, False, 0)
+        
+        stacer_desc = Gtk.Label()
+        stacer_desc.set_markup(f"<small>{_('Modern system optimizer with resource monitoring, startup apps, and cache cleaner.')}</small>")
+        stacer_desc.set_line_wrap(True)
+        stacer_desc.set_xalign(0)
+        stacer_box.pack_start(stacer_desc, False, False, 0)
+        
+        self.stacer_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        stacer_box.pack_start(self.stacer_row, False, False, 2)
+        
+        # Sweeper
+        sweeper_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        clean_container.pack_start(sweeper_box, False, False, 5)
+        
+        sweeper_header = Gtk.Label()
+        sweeper_header.set_markup(f"<b>Sweeper</b> <span color='#8be9fd'>({_('KDE')})</span>")
+        sweeper_header.set_xalign(0)
+        sweeper_box.pack_start(sweeper_header, False, False, 0)
+        
+        sweeper_desc = Gtk.Label()
+        sweeper_desc.set_markup(f"<small>{_('KDE system cleaner. Simple tool to clean temporary files and browsing history.')}</small>")
+        sweeper_desc.set_line_wrap(True)
+        sweeper_desc.set_xalign(0)
+        sweeper_box.pack_start(sweeper_desc, False, False, 0)
+        
+        self.sweeper_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        sweeper_box.pack_start(self.sweeper_row, False, False, 2)
     
     def _create_antivirus_section(self):
         """Create antivirus and malware section."""
@@ -359,6 +397,8 @@ class SecurityTab(Gtk.ScrolledWindow):
         self._clear_container(self.clamtk_row)
         self._clear_container(self.rkhunter_row)
         self._clear_container(self.bleachbit_row)
+        self._clear_container(self.stacer_row)
+        self._clear_container(self.sweeper_row)
         
         # Timeshift
         self._update_package_button('timeshift', self.timeshift_row, with_configure=True)
@@ -381,6 +421,12 @@ class SecurityTab(Gtk.ScrolledWindow):
         # BleachBit
         self._update_package_button('bleachbit', self.bleachbit_row, with_configure=True, configure_label=_("Open BleachBit"))
         
+        # Stacer
+        self._update_package_button('stacer', self.stacer_row, with_configure=True, configure_label=_("Open Stacer"))
+        
+        # Sweeper
+        self._update_package_button('sweeper', self.sweeper_row, with_configure=True, configure_label=_("Open Sweeper"))
+        
         # ClamTk (install both clamav and clamtk)
         self._update_clamtk_button()
         
@@ -398,6 +444,8 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.clamtk_row.show_all()
         self.rkhunter_row.show_all()
         self.bleachbit_row.show_all()
+        self.stacer_row.show_all()
+        self.sweeper_row.show_all()
     
     def _update_package_button(self, package, row, with_configure=False, configure_label=None, with_scan=False):
         """Update button for a package."""

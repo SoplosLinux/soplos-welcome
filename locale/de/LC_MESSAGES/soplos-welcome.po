@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: soplos-welcome 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 16:37+0100\n"
+"POT-Creation-Date: 2026-01-02 16:43+0100\n"
 "PO-Revision-Date: 2025-12-06 21:33+0100\n"
 "Last-Translator: Sergi Perich <info@soploslinux.com>\n"
 "Language-Team: German <info@soploslinux.com>\n"
@@ -381,8 +381,8 @@ msgid "Security"
 msgstr "Sicherheit"
 
 #: ui/main_window.py:247 ui/tabs/kernels_tab.py:169
-#: ui/tabs/security_tab.py:126 ui/tabs/security_tab.py:256
-#: ui/tabs/security_tab.py:285
+#: ui/tabs/security_tab.py:128 ui/tabs/security_tab.py:258
+#: ui/tabs/security_tab.py:323
 msgid "Recommended"
 msgstr "Empfohlen"
 
@@ -1172,8 +1172,8 @@ msgstr "Empfohlener Treiber:"
 
 #: ui/tabs/drivers_tab.py:533 ui/tabs/drivers_tab.py:582
 #: ui/tabs/kernels_tab.py:524 ui/tabs/kernels_tab.py:545
-#: ui/tabs/recommended_tab.py:363 ui/tabs/security_tab.py:430
-#: ui/tabs/security_tab.py:454 ui/tabs/software_gnome_tab.py:230
+#: ui/tabs/recommended_tab.py:363 ui/tabs/security_tab.py:478
+#: ui/tabs/security_tab.py:502 ui/tabs/software_gnome_tab.py:230
 #: ui/tabs/software_plasma_tab.py:198 ui/tabs/software_xfce_tab.py:232
 msgid "Install"
 msgstr "Installieren"
@@ -1892,7 +1892,7 @@ msgstr "In Verwendung"
 
 #: ui/tabs/kernels_tab.py:453 ui/tabs/kernels_tab.py:510
 #: ui/tabs/kernels_tab.py:542 ui/tabs/recommended_tab.py:339
-#: ui/tabs/security_tab.py:412 ui/tabs/security_tab.py:445
+#: ui/tabs/security_tab.py:460 ui/tabs/security_tab.py:493
 msgid "Installed"
 msgstr "Installiert"
 
@@ -1913,8 +1913,8 @@ msgid "CPU vendor not detected"
 msgstr "CPU-Hersteller nicht erkannt"
 
 #: ui/tabs/kernels_tab.py:514 ui/tabs/kernels_tab.py:532
-#: ui/tabs/recommended_tab.py:356 ui/tabs/security_tab.py:407
-#: ui/tabs/security_tab.py:440 ui/tabs/software_gnome_tab.py:226
+#: ui/tabs/recommended_tab.py:356 ui/tabs/security_tab.py:455
+#: ui/tabs/security_tab.py:488 ui/tabs/software_gnome_tab.py:226
 #: ui/tabs/software_plasma_tab.py:194 ui/tabs/software_xfce_tab.py:228
 msgid "Uninstall"
 msgstr "Deinstallieren"
@@ -1924,7 +1924,7 @@ msgid "Installing Liquorix Kernel..."
 msgstr "Installiere Liquorix Kernel..."
 
 #: ui/tabs/kernels_tab.py:565 ui/tabs/kernels_tab.py:594
-#: ui/tabs/kernels_tab.py:741 ui/tabs/security_tab.py:489
+#: ui/tabs/kernels_tab.py:741 ui/tabs/security_tab.py:537
 msgid "Installation complete."
 msgstr "Installation abgeschlossen."
 
@@ -1937,7 +1937,7 @@ msgid "Uninstalling Liquorix Kernel..."
 msgstr "Deinstalliere Liquorix Kernel..."
 
 #: ui/tabs/kernels_tab.py:610 ui/tabs/kernels_tab.py:639
-#: ui/tabs/kernels_tab.py:758 ui/tabs/security_tab.py:502
+#: ui/tabs/kernels_tab.py:758 ui/tabs/security_tab.py:550
 msgid "Uninstallation complete."
 msgstr "Deinstallation abgeschlossen."
 
@@ -2117,19 +2117,19 @@ msgstr "Installation abgeschlossen"
 msgid "DaVinci Resolve has been installed successfully."
 msgstr "DaVinci Resolve wurde erfolgreich installiert."
 
-#: ui/tabs/security_tab.py:66
+#: ui/tabs/security_tab.py:68
 msgid "Security &amp; System Protection"
 msgstr "Sicherheit & Systemschutz"
 
-#: ui/tabs/security_tab.py:70
+#: ui/tabs/security_tab.py:72
 msgid "Protect your system with backups, firewall, and security tools"
 msgstr "Schützen Sie Ihr System mit Backups, Firewall und Sicherheitstools"
 
-#: ui/tabs/security_tab.py:113
+#: ui/tabs/security_tab.py:115
 msgid "System Backups"
 msgstr "System-Backups"
 
-#: ui/tabs/security_tab.py:131
+#: ui/tabs/security_tab.py:133
 msgid ""
 "Creates automatic system snapshots. Protects your configuration and allows "
 "easy restoration."
@@ -2137,55 +2137,55 @@ msgstr ""
 "Erstellt automatische System-Snapshots. Schützt Ihre Konfiguration und "
 "ermöglicht einfache Wiederherstellung."
 
-#: ui/tabs/security_tab.py:149
+#: ui/tabs/security_tab.py:151
 msgid "Simple backups of personal files with encryption support."
 msgstr ""
 "Einfache Backups persönlicher Dateien mit Verschlüsselungsunterstützung."
 
-#: ui/tabs/security_tab.py:160
+#: ui/tabs/security_tab.py:162
 msgid "Firewall Protection"
 msgstr "Firewall-Schutz"
 
-#: ui/tabs/security_tab.py:173
+#: ui/tabs/security_tab.py:175
 msgid "Recommended for Desktop"
 msgstr "Empfohlen für Desktop"
 
-#: ui/tabs/security_tab.py:178
+#: ui/tabs/security_tab.py:180
 msgid ""
 "Simple graphical interface for UFW firewall. Control network traffic easily."
 msgstr ""
 "Einfache grafische Oberfläche für UFW Firewall. Kontrollieren Sie den "
 "Netzwerkverkehr einfach."
 
-#: ui/tabs/security_tab.py:191
+#: ui/tabs/security_tab.py:193
 msgid "Firewall Status"
 msgstr "Firewall-Status"
 
-#: ui/tabs/security_tab.py:205
+#: ui/tabs/security_tab.py:207
 msgid "Filesystem Tools"
 msgstr "Dateisystem-Tools"
 
-#: ui/tabs/security_tab.py:224
+#: ui/tabs/security_tab.py:226
 msgid "Only for BTRFS"
 msgstr "Nur für BTRFS"
 
-#: ui/tabs/security_tab.py:230 ui/tabs/security_tab.py:232
+#: ui/tabs/security_tab.py:232 ui/tabs/security_tab.py:234
 msgid "Advanced management of BTRFS subvolumes and snapshots."
 msgstr "Erweiterte Verwaltung von BTRFS-Subvolumes und Snapshots."
 
-#: ui/tabs/security_tab.py:232
+#: ui/tabs/security_tab.py:234
 msgid "Current system"
 msgstr "Aktuelles System"
 
-#: ui/tabs/security_tab.py:232
+#: ui/tabs/security_tab.py:234
 msgid "BTRFS Assistant is not compatible."
 msgstr "BTRFS Assistant ist nicht kompatibel."
 
-#: ui/tabs/security_tab.py:243
+#: ui/tabs/security_tab.py:245
 msgid "System Cleaning"
 msgstr "Systembereinigung"
 
-#: ui/tabs/security_tab.py:261
+#: ui/tabs/security_tab.py:263
 msgid ""
 "Free disk space and maintain privacy. Cleans cache, cookies, and temporary "
 "files."
@@ -2193,11 +2193,35 @@ msgstr ""
 "Speicherplatz freigeben und Privatsphäre wahren. Bereinigt Cache, Cookies "
 "und temporäre Dateien."
 
-#: ui/tabs/security_tab.py:272
+#: ui/tabs/security_tab.py:276
+msgid "Alternative"
+msgstr "Alternative"
+
+#: ui/tabs/security_tab.py:281
+msgid ""
+"Modern system optimizer with resource monitoring, startup apps, and cache "
+"cleaner."
+msgstr ""
+"Moderner Systemoptimierer mit Ressourcenüberwachung, Start-Apps und Cache-"
+"Reiniger."
+
+#: ui/tabs/security_tab.py:294
+msgid "KDE"
+msgstr "KDE"
+
+#: ui/tabs/security_tab.py:299
+msgid ""
+"KDE system cleaner. Simple tool to clean temporary files and browsing "
+"history."
+msgstr ""
+"KDE-Systemreiniger. Einfaches Tool zum Bereinigen temporärer Dateien und "
+"Browserverlauf."
+
+#: ui/tabs/security_tab.py:310
 msgid "Antivirus & Malware"
 msgstr "Antivirus & Malware"
 
-#: ui/tabs/security_tab.py:290
+#: ui/tabs/security_tab.py:328
 msgid ""
 "Graphical interface for ClamAV. Scan your system against viruses and "
 "malware."
@@ -2205,67 +2229,75 @@ msgstr ""
 "Grafische Oberfläche für ClamAV. Scannen Sie Ihr System auf Viren und "
 "Malware."
 
-#: ui/tabs/security_tab.py:303
+#: ui/tabs/security_tab.py:341
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: ui/tabs/security_tab.py:308
+#: ui/tabs/security_tab.py:346
 msgid "Command-line tool to detect rootkits and system threats."
 msgstr "Kommandozeilen-Tool zum Erkennen von Rootkits und Systembedrohungen."
 
-#: ui/tabs/security_tab.py:370
+#: ui/tabs/security_tab.py:410
 msgid "Open GUFW"
 msgstr "GUFW öffnen"
 
-#: ui/tabs/security_tab.py:378
+#: ui/tabs/security_tab.py:418
 msgid "Not available on"
 msgstr "Nicht verfügbar auf"
 
-#: ui/tabs/security_tab.py:382
+#: ui/tabs/security_tab.py:422
 msgid "Open BleachBit"
 msgstr "BleachBit öffnen"
 
-#: ui/tabs/security_tab.py:418
+#: ui/tabs/security_tab.py:425
+msgid "Open Stacer"
+msgstr "Stacer öffnen"
+
+#: ui/tabs/security_tab.py:428
+msgid "Open Sweeper"
+msgstr "Sweeper öffnen"
+
+#: ui/tabs/security_tab.py:466
 msgid "Configure"
 msgstr "Konfigurieren"
 
-#: ui/tabs/security_tab.py:426
+#: ui/tabs/security_tab.py:474
 msgid "Scan System"
 msgstr "System scannen"
 
-#: ui/tabs/security_tab.py:450
+#: ui/tabs/security_tab.py:498
 msgid "Update Definitions"
 msgstr "Definitionen aktualisieren"
 
-#: ui/tabs/security_tab.py:464
+#: ui/tabs/security_tab.py:512
 msgid "Active"
 msgstr "Aktiv"
 
-#: ui/tabs/security_tab.py:465
+#: ui/tabs/security_tab.py:513
 msgid "Deactivate"
 msgstr "Deaktivieren"
 
-#: ui/tabs/security_tab.py:468
+#: ui/tabs/security_tab.py:516
 msgid "Inactive"
 msgstr "Inaktiv"
 
-#: ui/tabs/security_tab.py:469
+#: ui/tabs/security_tab.py:517
 msgid "Activate"
 msgstr "Aktivieren"
 
-#: ui/tabs/security_tab.py:552
+#: ui/tabs/security_tab.py:600
 msgid "Updating virus definitions..."
 msgstr "Aktualisiere Virendefinitionen..."
 
-#: ui/tabs/security_tab.py:554
+#: ui/tabs/security_tab.py:602
 msgid "Definitions updated successfully!"
 msgstr "Definitionen erfolgreich aktualisiert!"
 
-#: ui/tabs/security_tab.py:564
+#: ui/tabs/security_tab.py:612
 msgid "Scanning system for rootkits..."
 msgstr "Scanne System auf Rootkits..."
 
-#: ui/tabs/security_tab.py:566
+#: ui/tabs/security_tab.py:614
 msgid "Scan complete."
 msgstr "Scan abgeschlossen."
 
