@@ -223,15 +223,12 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
-                'name': 'Zed',
+                'name': 'Pulsar',
                 'package': None,
-                'flatpak': None,
-                'icon': 'zed.png',
-                'description': _('High-performance collaborative code editor'),
-                'official': False,
-                'install_commands': [
-                    'curl -fsSL https://zed.dev/install.sh | sh'
-                ]
+                'flatpak': 'dev.pulsar_edit.Pulsar',
+                'icon': 'pulsar.png',
+                'description': _('A community-led, hyper-hackable text editor'),
+                'official': False
             },
             {
                 'name': 'Geany',

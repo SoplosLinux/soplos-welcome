@@ -288,6 +288,8 @@ class RecommendedTab(Gtk.Box):
         # Package description
         desc_label = Gtk.Label(package.get('description', ''))
         desc_label.set_halign(Gtk.Align.START)
+        desc_label.set_valign(Gtk.Align.START)  # Force top alignment
+        desc_label.set_xalign(0)  # Ensure left alignment text-wise
         desc_label.set_line_wrap(True)
         desc_label.set_max_width_chars(45)
         desc_label.set_lines(2)  # Always reserve space for 2 lines
@@ -424,7 +426,7 @@ class RecommendedTab(Gtk.Box):
             'Telegram', 'Discord', 'Signal', 'Element', 'WhatsApp',
             'LibreWolf', 'LibreOffice', 'OnlyOffice', 'WPS Office',
             'OpenShot', 'Kdenlive', 'Shotcut',
-            'VSCodium', 'Zed',
+            'VSCodium', 'Pulsar',
             'Steam', 'Heroic Games Launcher', 'Bottles'
         ]
         

@@ -192,8 +192,9 @@ msgid "Code editor with integrated AI"
 msgstr "Éditeur de code avec IA intégrée"
 
 #: config/software.py:230
-msgid "High-performance collaborative code editor"
-msgstr "Éditeur de code collaboratif haute performance"
+msgid "A community-led, hyper-hackable text editor"
+msgstr "Un éditeur de texte hyper-hackable dirigé par la communauté"
+
 
 #: config/software.py:241
 msgid "Lightweight and fast IDE with multi-language support"
