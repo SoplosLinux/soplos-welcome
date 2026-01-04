@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 
+## [2.0.2] - 2026-01-04
+
+### 🛡️ Security Tab Enhancements
+- **New Feature: Grub BTRFS Integration** - Added one-click installation for `grub-btrfs` to automatically add snapshots to GRUB boot menu.
+- **Intelligent Detection** - Only shows Grub BTRFS option if BTRFS filesystem is detected (same as BTRFS Assistant).
+- **Streamlined Installation** - Uses `pkexec` for secure installation from official Soplos repositories.
+- **Complementary Tool** - Positioned next to TimeShift in System Backups section as a companion tool.
+
+### 🌍 Internationalization
+- **Updated Translations** - Added translations for Grub BTRFS feature in all 8 languages (ES, EN, FR, DE, PT, IT, RO, RU).
+- **Dictionary Updates** - Verified and synchronized translation keys.
+
 ## [2.0.1] - 2025-12-27
 
 ### 🚀 Hybrid Graphics Support (NEW)

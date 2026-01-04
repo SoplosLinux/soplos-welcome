@@ -3,7 +3,7 @@ Core module for Soplos Welcome.
 Contains the main application logic, environment detection, and system management.
 """
 
-__version__ = "2.0.1"
+__version__ = "2.0.2"
 __author__ = "Sergi Perich"
 __email__ = "info@soploslinux.com"
 __license__ = "GPL-3.0+"

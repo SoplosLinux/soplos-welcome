@@ -43,6 +43,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         
         # Containers for dynamic buttons
         self.timeshift_row = None
+        self.grub_btrfs_row = None
         self.dejaduprow = None
         self.gufw_row = None
         self.ufw_status_label = None
@@ -85,12 +86,6 @@ class SecurityTab(Gtk.ScrolledWindow):
         
         # Firewall section
         self._create_firewall_section()
-        
-        # Separator
-        self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
-        
-        # Filesystem tools section
-        self._create_filesystem_section()
         
         # Separator
         self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
@@ -138,6 +133,33 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.timeshift_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         timeshift_box.pack_start(self.timeshift_row, False, False, 2)
         
+        # Grub BTRFS (only if BTRFS)
+        # Grub BTRFS
+        current_fs = self._detect_filesystem()
+        
+        grub_btrfs_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        backups_container.pack_start(grub_btrfs_box, False, False, 5)
+        
+        grub_btrfs_header = Gtk.Label()
+        if current_fs == 'btrfs':
+            grub_btrfs_header.set_markup(f"<b>Grub BTRFS</b> <span color='#50fa7b'>({_('Complementary')})</span>")
+        else:
+            grub_btrfs_header.set_markup(f"<b>Grub BTRFS</b> <span color='#888888'>({_('Only for BTRFS')})</span>")
+        grub_btrfs_header.set_xalign(0)
+        grub_btrfs_box.pack_start(grub_btrfs_header, False, False, 0)
+        
+        grub_btrfs_desc = Gtk.Label()
+        if current_fs == 'btrfs':
+            grub_btrfs_desc.set_markup(f"<small>{_('Automatically add BTRFS snapshots to GRUB menu. Allows booting from snapshots.')}</small>")
+        else:
+             grub_btrfs_desc.set_markup(f"<small>{_('Automatically add BTRFS snapshots to GRUB menu.')}\n<i>{_('Current system')}: {current_fs.upper()}. {_('Grub BTRFS is not compatible.')}</i></small>")
+        grub_btrfs_desc.set_line_wrap(True)
+        grub_btrfs_desc.set_xalign(0)
+        grub_btrfs_box.pack_start(grub_btrfs_desc, False, False, 0)
+        
+        self.grub_btrfs_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        grub_btrfs_box.pack_start(self.grub_btrfs_row, False, False, 2)
+        
         # Deja Dup
         dejadup_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
         backups_container.pack_start(dejadup_box, False, False, 5)
@@ -155,6 +177,30 @@ class SecurityTab(Gtk.ScrolledWindow):
         
         self.dejadup_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         dejadup_box.pack_start(self.dejadup_row, False, False, 2)
+        
+        # BTRFS Assistant
+        btrfs_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        backups_container.pack_start(btrfs_box, False, False, 5)
+        
+        btrfs_header = Gtk.Label()
+        if current_fs == 'btrfs':
+            btrfs_header.set_markup(f"<b>BTRFS Assistant</b>")
+        else:
+            btrfs_header.set_markup(f"<b>BTRFS Assistant</b> <span color='#888888'>({_('Only for BTRFS')})</span>")
+        btrfs_header.set_xalign(0)
+        btrfs_box.pack_start(btrfs_header, False, False, 0)
+        
+        btrfs_desc = Gtk.Label()
+        if current_fs == 'btrfs':
+            btrfs_desc.set_markup(f"<small>{_('Advanced management of BTRFS subvolumes and snapshots.')}</small>")
+        else:
+            btrfs_desc.set_markup(f"<small>{_('Advanced management of BTRFS subvolumes and snapshots.')}\n<i>{_('Current system')}: {current_fs.upper()}. {_('BTRFS Assistant is not compatible.')}</i></small>")
+        btrfs_desc.set_line_wrap(True)
+        btrfs_desc.set_xalign(0)
+        btrfs_box.pack_start(btrfs_desc, False, False, 0)
+        
+        self.btrfs_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        btrfs_box.pack_start(self.btrfs_row, False, False, 2)
     
     def _create_firewall_section(self):
         """Create firewall protection section."""
@@ -182,12 +228,20 @@ class SecurityTab(Gtk.ScrolledWindow):
         gufw_desc.set_xalign(0)
         gufw_box.pack_start(gufw_desc, False, False, 0)
         
+        # Contenedor horizontal para botones y estado en la misma fila
+        controls_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=20)
+        gufw_box.pack_start(controls_box, False, False, 2)
+
         self.gufw_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        gufw_box.pack_start(self.gufw_row, False, False, 2)
+        controls_box.pack_start(self.gufw_row, False, False, 0)
         
-        # UFW Status
+        # Separador vertical
+        separator = Gtk.Separator(orientation=Gtk.Orientation.VERTICAL)
+        controls_box.pack_start(separator, False, False, 0)
+        
+        # UFW Status box
         ufw_status_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        firewall_container.pack_start(ufw_status_box, False, False, 5)
+        controls_box.pack_start(ufw_status_box, False, False, 0)
         
         ufw_status_title = Gtk.Label()
         ufw_status_title.set_markup(f"<b>{_('Firewall Status')}:</b>")
@@ -196,49 +250,11 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.ufw_status_label = Gtk.Label()
         ufw_status_box.pack_start(self.ufw_status_label, False, False, 0)
         
-        # Activate/Deactivate button
         self.ufw_toggle_button = Gtk.Button()
         self.ufw_toggle_button.connect('clicked', self._on_toggle_ufw_clicked)
         ufw_status_box.pack_start(self.ufw_toggle_button, False, False, 0)
     
-    def _create_filesystem_section(self):
-        """Create filesystem tools section."""
-        fs_frame = Gtk.Frame()
-        fs_frame.set_label(_("Filesystem Tools"))
-        fs_frame.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
-        self.main_box.pack_start(fs_frame, False, False, 5)
-        
-        fs_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
-        fs_container.set_border_width(10)
-        fs_frame.add(fs_container)
-        
-        # Detect filesystem
-        current_fs = self._detect_filesystem()
-        
-        # BTRFS Assistant
-        btrfs_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
-        fs_container.pack_start(btrfs_box, False, False, 5)
-        
-        btrfs_header = Gtk.Label()
-        if current_fs == 'btrfs':
-            btrfs_header.set_markup(f"<b>BTRFS Assistant</b>")
-        else:
-            btrfs_header.set_markup(f"<b>BTRFS Assistant</b> <span color='#888888'>({_('Only for BTRFS')})</span>")
-        btrfs_header.set_xalign(0)
-        btrfs_box.pack_start(btrfs_header, False, False, 0)
-        
-        btrfs_desc = Gtk.Label()
-        if current_fs == 'btrfs':
-            btrfs_desc.set_markup(f"<small>{_('Advanced management of BTRFS subvolumes and snapshots.')}</small>")
-        else:
-            btrfs_desc.set_markup(f"<small>{_('Advanced management of BTRFS subvolumes and snapshots.')}\n<i>{_('Current system')}: {current_fs.upper()}. {_('BTRFS Assistant is not compatible.')}</i></small>")
-        btrfs_desc.set_line_wrap(True)
-        btrfs_desc.set_xalign(0)
-        btrfs_box.pack_start(btrfs_desc, False, False, 0)
-        
-        self.btrfs_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        btrfs_box.pack_start(self.btrfs_row, False, False, 2)
-    
+
     def _create_cleaning_section(self):
         """Create system cleaning section."""
         clean_frame = Gtk.Frame()
@@ -403,6 +419,16 @@ class SecurityTab(Gtk.ScrolledWindow):
         # Timeshift
         self._update_package_button('timeshift', self.timeshift_row, with_configure=True)
         
+        # Grub BTRFS
+        self._clear_container(self.grub_btrfs_row)
+        current_fs = self._detect_filesystem()
+        if current_fs == 'btrfs':
+            self._update_package_button('grub-btrfs', self.grub_btrfs_row)
+        else:
+            not_available = Gtk.Label()
+            not_available.set_markup(f"<i>{_('Not available on')} {current_fs.upper()}</i>")
+            self.grub_btrfs_row.pack_start(not_available, False, False, 0)
+        
         # Deja Dup
         self._update_package_button('deja-dup', self.dejadup_row)
         
@@ -438,9 +464,10 @@ class SecurityTab(Gtk.ScrolledWindow):
         
         # Show buttons
         self.timeshift_row.show_all()
+        self.grub_btrfs_row.show_all()
         self.dejadup_row.show_all()
-        self.gufw_row.show_all()
         self.btrfs_row.show_all()
+        self.gufw_row.show_all()
         self.clamtk_row.show_all()
         self.rkhunter_row.show_all()
         self.bleachbit_row.show_all()

@@ -1,20 +1,7 @@
-# Romanian translations for soplos-welcome package.
-# Copyright (C) 2025 Sergi Perich
-# This file is distributed under the same license as the soplos-welcome package.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: soplos-welcome 2.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 16:43+0100\n"
-"PO-Revision-Date: 2025-12-07 18:00+0100\n"
-"Last-Translator: Sergi Perich <info@soploslinux.com>\n"
-"Language-Team: Romanian <info@soploslinux.com>\n"
-"Language: ro\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 
 #: core/application.py:200 ui/main_window.py:40 ui/main_window.py:99
 #: ui/main_window.py:117 ui/main_window.py:657
@@ -32,75 +19,6 @@ msgstr "Despre"
 #: core/application.py:239
 msgid "Quit"
 msgstr "Ieșire"
-
-#: core/application.py:289
-msgid ""
-"\n"
-"Soplos Welcome 2.0 - The world's most advanced welcome application\n"
-"\n"
-"Usage: soplos-welcome [OPTIONS]\n"
-"\n"
-"Options:\n"
-"  -h, --help              Show this help message\n"
-"  -v, --version           Show version information\n"
-"  --lang=LANG             Set language (es, en, fr, de, pt, it, ro, ru)\n"
-"  --theme=THEME           Set theme (base, light, dark, gnome, kde, xfce)\n"
-"  --debug                 Enable debug mode\n"
-"\n"
-"Examples:\n"
-"  soplos-welcome                    # Start with auto-detected settings\n"
-"  soplos-welcome --lang=es          # Start in Spanish\n"
-"  soplos-welcome --theme=dark       # Start with dark theme\n"
-"  soplos-welcome --debug            # Start in debug mode\n"
-"\n"
-"For more information, visit: https://soplos.org\n"
-msgstr ""
-"\n"
-"Soplos Welcome 2.0 - Cea mai avansată aplicație de bun venit din lume\n"
-"\n"
-"Utilizare: soplos-welcome [OPȚIUNI]\n"
-"\n"
-"Opțiuni:\n"
-"  -h, --help              Afișează acest mesaj de ajutor\n"
-"  -v, --version           Afișează informații despre versiune\n"
-"  --lang=LANG             Setează limba (es, en, fr, de, pt, it, ro, ru)\n"
-"  --theme=THEME           Setează tema (base, light, dark, gnome, kde, xfce)\n"
-"  --debug                 Activează modul de depanare\n"
-"\n"
-"Exemple:\n"
-"  soplos-welcome                    # Pornește cu setări detectate automat\n"
-"  soplos-welcome --lang=ro          # Pornește în Română\n"
-"  soplos-welcome --theme=dark       # Pornește cu tema întunecată\n"
-"  soplos-welcome --debug            # Pornește în modul de depanare\n"
-"\n"
-"Pentru mai multe informații, vizitează: https://soplos.org\n"
-
-#: core/application.py:315
-#, python-brace-format
-msgid ""
-"\n"
-"Soplos Welcome {version}\n"
-"\n"
-"Copyright (C) 2025 Sergi Perich\n"
-"This is free software; see the source for copying conditions.\n"
-"There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
-"\n"
-"Desktop Environment: {desktop_env}\n"
-"Display Protocol: {display_protocol}\n"
-"Theme: {theme}\n"
-"Language: {language}\n"
-msgstr ""
-"\n"
-"Soplos Welcome {version}\n"
-"\n"
-"Copyright (C) 2025 Sergi Perich\n"
-"Acesta este software liber; vezi sursa pentru condițiile de copiere.\n"
-"NU există garanție; nici măcar pentru COMERCIALIZARE sau ADECVARE PENTRU UN SCOP PARTICULAR.\n"
-"\n"
-"Mediu Desktop: {desktop_env}\n"
-"Protocol Afișare: {display_protocol}\n"
-"Temă: {theme}\n"
-"Limbă: {language}\n"
 
 #: config/software.py:16
 msgid "Web Browsers"
@@ -193,7 +111,6 @@ msgstr "Editor de cod cu AI integrat"
 #: config/software.py:230
 msgid "A community-led, hyper-hackable text editor"
 msgstr "Un editor de text hiper-hackabil condus de comunitate"
-
 
 #: config/software.py:241
 msgid "Lightweight and fast IDE with multi-language support"
@@ -379,9 +296,8 @@ msgstr "Nuclee"
 msgid "Security"
 msgstr "Securitate"
 
-#: ui/main_window.py:247 ui/tabs/kernels_tab.py:169
-#: ui/tabs/security_tab.py:128 ui/tabs/security_tab.py:258
-#: ui/tabs/security_tab.py:323
+#: ui/main_window.py:247 ui/tabs/kernels_tab.py:169 ui/tabs/security_tab.py:128
+#: ui/tabs/security_tab.py:258 ui/tabs/security_tab.py:323
 msgid "Recommended"
 msgstr "Recomandate"
 
@@ -408,12 +324,6 @@ msgstr "Închide"
 #: ui/main_window.py:472
 msgid "Welcome to Soplos Linux! Get started with your new system."
 msgstr "Bine ai venit în Soplos Linux! Începe cu noul tău sistem."
-
-#: ui/main_window.py:473
-msgid ""
-"Install and manage software packages, repositories, and software centers."
-msgstr ""
-"Instalează și gestionează pachete software, depozite și centre software."
 
 #: ui/main_window.py:474
 msgid "Detect and install optimal hardware drivers for your system."
@@ -526,15 +436,6 @@ msgstr "🎮 Modul Gaming Activat!"
 #: ui/main_window.py:753
 msgid "Language Changed"
 msgstr "Limbă Schimbată"
-
-#: ui/main_window.py:756
-#, python-brace-format
-msgid ""
-"Language has been changed to {language}. Please restart the application for "
-"full effect."
-msgstr ""
-"Limba a fost schimbată în {language}. Vă rugăm să reporniți aplicația pentru"
-" efect complet."
 
 #: ui/main_window.py:791
 msgid "Preparing installation..."
@@ -946,8 +847,8 @@ msgstr "vin în versiunile viitoare..."
 #: ui/tabs/customization_tab.py:667
 msgid "Note: Soplos customization tools are currently available for XFCE."
 msgstr ""
-"Notă: Instrumentele de personalizare Soplos sunt disponibile momentan pentru"
-" XFCE."
+"Notă: Instrumentele de personalizare Soplos sunt disponibile momentan pentru "
+"XFCE."
 
 #: ui/tabs/drivers_tab.py:47
 msgid "Hardware Drivers"
@@ -1356,13 +1257,6 @@ msgstr "Eliminare eșuată"
 msgid "Install Performance Mode Script?"
 msgstr "Instalează Script Mod Performanță?"
 
-#: ui/tabs/gaming_tab.py:423
-msgid ""
-"This script temporarily sets CPU to 'performance' mode when launching games."
-msgstr ""
-"Acest script setează temporar CPU pe modul 'performanță' la lansarea "
-"jocurilor."
-
 #: ui/tabs/gaming_tab.py:424
 msgid "Requirements:"
 msgstr "Cerințe:"
@@ -1376,8 +1270,7 @@ msgid "Performance Mode script installed!"
 msgstr "Script Mod Performanță instalat!"
 
 #: ui/tabs/gaming_tab.py:474
-msgid ""
-"• Steam: Add 'soplos-game-performance %command%' to game launch options"
+msgid "• Steam: Add 'soplos-game-performance %command%' to game launch options"
 msgstr ""
 "• Steam: Adaugă 'soplos-game-performance %command%' la opțiunile lansare"
 
@@ -1385,12 +1278,6 @@ msgstr ""
 msgid "• Lutris: Add 'soplos-game-performance' as a prefix in Lutris settings"
 msgstr ""
 "• Lutris: Adaugă 'soplos-game-performance' ca prefix în setările Lutris"
-
-#: ui/tabs/gaming_tab.py:476
-msgid ""
-"Your CPU will automatically switch to performance mode when games are "
-"running."
-msgstr "CPU-ul va trece automat în modul performanță când rulează jocuri."
 
 #: ui/tabs/gaming_tab.py:518
 msgid "Revert Gaming Sysctl Tweaks?"
@@ -1543,14 +1430,6 @@ msgstr "Optimizare eșuată"
 msgid "Install MangoHud + Goverlay?"
 msgstr "Instalează MangoHud + Goverlay?"
 
-#: ui/tabs/gaming_tab.py:1071
-msgid ""
-"MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, "
-"CPU/GPU load and more."
-msgstr ""
-"MangoHud este un overlay Vulkan/OpenGL pentru monitorizare FPS, temperaturi,"
-" încărcare CPU/GPU și altele."
-
 #: ui/tabs/gaming_tab.py:1113
 msgid "MangoHud + Goverlay installed!"
 msgstr "MangoHud + Goverlay instalate!"
@@ -1570,28 +1449,6 @@ msgstr "• Comută în joc cu Shift+F12"
 #: ui/tabs/gaming_tab.py:1153
 msgid "Revert ALL Gaming Optimizations?"
 msgstr "Revenire TOATE Optimizările Gaming?"
-
-#: ui/tabs/gaming_tab.py:1156
-msgid ""
-"This will remove:\n"
-"• Gaming sysctl tweaks\n"
-"• GPU optimizations\n"
-"• Disk I/O optimizations\n"
-"• Performance Mode script\n"
-"\n"
-"GameMode and MangoHud will remain installed.\n"
-"\n"
-"Continue?"
-msgstr ""
-"Aceasta va elimina:\n"
-"• Ajustări sysctl gaming\n"
-"• Optimizări GPU\n"
-"• Optimizări I/O Disc\n"
-"• Script Mod Performanță\n"
-"\n"
-"GameMode și MangoHud vor rămâne instalate.\n"
-"\n"
-"Continuați?"
 
 #: ui/tabs/gaming_tab.py:1237
 msgid "Optimizations reverted!"
@@ -1720,36 +1577,13 @@ msgstr "Actualizări Microcod CPU"
 msgid "Security and performance firmware updates for your CPU."
 msgstr "Actualizări firmware de securitate și performanță pentru CPU."
 
-#: ui/tabs/kernels_tab.py:103
-msgid ""
-"Warning: Liquorix kernel is NOT compatible with proprietary NVIDIA drivers."
-msgstr ""
-"Avertisment: Kernel-ul Liquorix NU este compatibil cu driverele proprietare "
-"NVIDIA."
-
 #: ui/tabs/kernels_tab.py:113
 msgid "Available Kernels"
 msgstr "Kernel-uri Disponibile"
 
-#: ui/tabs/kernels_tab.py:118
-msgid ""
-"Manage your system kernels. You can install optimized kernels for better "
-"performance or latency."
-msgstr ""
-"Gestionează kernel-urile sistemului. Poți instala kernel-uri optimizate "
-"pentru performanță sau latență."
-
 #: ui/tabs/kernels_tab.py:126 ui/tabs/kernels_tab.py:285
 msgid "Liquorix Kernel"
 msgstr "Kernel Liquorix"
-
-#: ui/tabs/kernels_tab.py:135
-msgid ""
-"Optimized for interactive systems and gaming. High responsiveness and low "
-"latency."
-msgstr ""
-"Optimizat pentru sisteme interactive și gaming. Răspuns rapid și latență "
-"scăzută."
 
 #: ui/tabs/kernels_tab.py:146
 msgid "XanMod Kernel Variants"
@@ -1766,13 +1600,6 @@ msgstr "Alege varianta potrivită hardware-ului tău:"
 #: ui/tabs/kernels_tab.py:169
 msgid "x64v3 - Standard"
 msgstr "x64v3 - Standard"
-
-#: ui/tabs/kernels_tab.py:174
-msgid ""
-"For CPUs from 2015+ (Intel Haswell, AMD Zen and newer). AVX2 optimizations."
-msgstr ""
-"Pentru CPU-uri din 2015+ (Intel Haswell, AMD Zen și mai noi). Optimizări "
-"AVX2."
 
 #: ui/tabs/kernels_tab.py:187
 msgid "x64v4 - Advanced"
@@ -1946,15 +1773,6 @@ msgstr "Se dezinstalează XanMod"
 msgid "Kernel in Use"
 msgstr "Kernel în Uz"
 
-#: ui/tabs/kernels_tab.py:656
-#, python-brace-format
-msgid ""
-"Cannot uninstall {0} because it is currently running. Please boot into "
-"another kernel first."
-msgstr ""
-"Nu se poate dezinstala {0} deoarece rulează. Vă rugăm să bootați în alt "
-"kernel mai întâi."
-
 #: ui/tabs/kernels_tab.py:668
 msgid "Checking for old kernels..."
 msgstr "Se verifică kernel-uri vechi..."
@@ -1986,8 +1804,7 @@ msgstr "Se instalează"
 #: ui/tabs/kernels_tab.py:742
 msgid "A system reboot is recommended to apply microcode updates."
 msgstr ""
-"Un restart de sistem este recomandat pentru a aplica actualizările "
-"microcode."
+"Un restart de sistem este recomandat pentru a aplica actualizările microcode."
 
 #: ui/tabs/kernels_tab.py:756
 msgid "Uninstalling"
@@ -2077,20 +1894,6 @@ msgstr "Toate programele selectate au fost instalate."
 msgid "DaVinci Resolve Installation"
 msgstr "Instalare DaVinci Resolve"
 
-#: ui/tabs/recommended_tab.py:978
-msgid ""
-"DaVinci Resolve requires manual download due to licensing.\n"
-"\n"
-"1. Go to blackmagicdesign.com and download the Linux version (ZIP).\n"
-"2. Click OK to select the downloaded file.\n"
-"3. We will convert it to a Debian package and install it."
-msgstr ""
-"DaVinci Resolve necesită descărcare manuală din cauza licenței.\n"
-"\n"
-"1. Mergi la blackmagicdesign.com și descarcă versiunea Linux (ZIP).\n"
-"2. Clic OK pentru a selecta fișierul descărcat.\n"
-"3. Îl vom converti în pachet Debian și îl vom instala."
-
 #: ui/tabs/recommended_tab.py:991
 msgid "DaVinci Resolve Installer"
 msgstr "Instalator DaVinci Resolve"
@@ -2130,14 +1933,6 @@ msgstr ""
 msgid "System Backups"
 msgstr "Copii de Rezervă Sistem"
 
-#: ui/tabs/security_tab.py:133
-msgid ""
-"Creates automatic system snapshots. Protects your configuration and allows "
-"easy restoration."
-msgstr ""
-"Creează instantanee automate ale sistemului. Protejează configurația și "
-"permite restaurarea ușoară."
-
 #: ui/tabs/security_tab.py:151
 msgid "Simple backups of personal files with encryption support."
 msgstr "Copii de rezervă simple pentru fișiere personale cu suport criptare."
@@ -2150,13 +1945,6 @@ msgstr "Protecție Firewall"
 msgid "Recommended for Desktop"
 msgstr "Recomandat pentru Desktop"
 
-#: ui/tabs/security_tab.py:180
-msgid ""
-"Simple graphical interface for UFW firewall. Control network traffic easily."
-msgstr ""
-"Interfață grafică simplă pentru firewall UFW. Controlează traficul de rețea "
-"ușor."
-
 #: ui/tabs/security_tab.py:193
 msgid "Firewall Status"
 msgstr "Status Firewall"
@@ -2165,69 +1953,25 @@ msgstr "Status Firewall"
 msgid "Filesystem Tools"
 msgstr "Instrumente Sistem de Fișiere"
 
-#: ui/tabs/security_tab.py:226
-msgid "Only for BTRFS"
-msgstr "Doar pentru BTRFS"
-
 #: ui/tabs/security_tab.py:232 ui/tabs/security_tab.py:234
 msgid "Advanced management of BTRFS subvolumes and snapshots."
 msgstr "Gestionare avansată a subvolumelor și instantaneelor BTRFS."
-
-#: ui/tabs/security_tab.py:234
-msgid "Current system"
-msgstr "Sistem curent"
-
-#: ui/tabs/security_tab.py:234
-msgid "BTRFS Assistant is not compatible."
-msgstr "BTRFS Assistant nu este compatibil."
 
 #: ui/tabs/security_tab.py:245
 msgid "System Cleaning"
 msgstr "Curățare sistem"
 
-#: ui/tabs/security_tab.py:263
-msgid ""
-"Free disk space and maintain privacy. Cleans cache, cookies, and temporary "
-"files."
-msgstr ""
-"Eliberează spațiu pe disc și menține confidențialitatea. Curăță cache-ul, "
-"cookie-urile și fișierele temporare."
-
 #: ui/tabs/security_tab.py:276
 msgid "Alternative"
 msgstr "Alternativă"
-
-#: ui/tabs/security_tab.py:281
-msgid ""
-"Modern system optimizer with resource monitoring, startup apps, and cache "
-"cleaner."
-msgstr ""
-"Optimizator de sistem modern cu monitorizare resurse, aplicații de pornire "
-"și curățare cache."
 
 #: ui/tabs/security_tab.py:294
 msgid "KDE"
 msgstr "KDE"
 
-#: ui/tabs/security_tab.py:299
-msgid ""
-"KDE system cleaner. Simple tool to clean temporary files and browsing "
-"history."
-msgstr ""
-"Curățător de sistem KDE. Instrument simplu pentru a curăța fișierele "
-"temporare și istoricul de navigare."
-
 #: ui/tabs/security_tab.py:310
 msgid "Antivirus & Malware"
 msgstr "Antivirus & Malware"
-
-#: ui/tabs/security_tab.py:328
-msgid ""
-"Graphical interface for ClamAV. Scan your system against viruses and "
-"malware."
-msgstr ""
-"Interfață grafică pentru ClamAV. Scanează sistemul împotriva virușilor și "
-"malware-ului."
 
 #: ui/tabs/security_tab.py:341
 msgid "Advanced"
@@ -2242,10 +1986,6 @@ msgstr ""
 #: ui/tabs/security_tab.py:410
 msgid "Open GUFW"
 msgstr "Deschide GUFW"
-
-#: ui/tabs/security_tab.py:418
-msgid "Not available on"
-msgstr "Indisponibil pe"
 
 #: ui/tabs/security_tab.py:422
 msgid "Open BleachBit"
@@ -2357,13 +2097,6 @@ msgstr "Curăță Sistem"
 msgid "Soplos Repository Manager"
 msgstr "Manager Depozite Soplos"
 
-#: ui/tabs/software_gnome_tab.py:184
-msgid ""
-"Manage repositories and modern software sources integrated with GNOME "
-"Software."
-msgstr ""
-"Gestionează depozite și surse software moderne integrate cu Software GNOME."
-
 #: ui/tabs/software_gnome_tab.py:190 ui/tabs/software_xfce_tab.py:192
 msgid "Launch Repository Manager"
 msgstr "Lansează Manager Depozite"
@@ -2403,18 +2136,11 @@ msgstr "Se încarcă gestionarea software pentru"
 
 #: ui/tabs/software_tab.py:124
 msgid "Desktop-specific software interface will be available soon."
-msgstr ""
-"Interfața software specifică desktop-ului va fi disponibilă în curând."
+msgstr "Interfața software specifică desktop-ului va fi disponibilă în curând."
 
 #: ui/tabs/software_xfce_tab.py:155
 msgid "Snap to Whisker Menu"
 msgstr "Snap în Meniul Whisker"
-
-#: ui/tabs/software_xfce_tab.py:186
-msgid ""
-"Manage additional repositories and software sources for your Soplos system."
-msgstr ""
-"Gestionează depozite suplimentare și surse software pentru sistemul Soplos."
 
 #: ui/tabs/welcome_tab.py:111
 msgid "Welcome to Soplos Linux"
@@ -2423,14 +2149,6 @@ msgstr "Bun venit în Soplos Linux"
 #: ui/tabs/welcome_tab.py:119
 msgid "Your gateway to the Soplos ecosystem"
 msgstr "Poarta ta către ecosistemul Soplos"
-
-#: ui/tabs/welcome_tab.py:128
-msgid ""
-"Thank you for choosing Soplos Linux! This application will help you get "
-"started with your new system."
-msgstr ""
-"Vă mulțumim că ați ales Soplos Linux! Această aplicație vă va ajuta să "
-"începeți cu noul sistem."
 
 #: ui/tabs/welcome_tab.py:143
 msgid "Use the tabs above to:"
@@ -2657,21 +2375,9 @@ msgstr "Folosește întotdeauna NVIDIA (performanță max)"
 msgid "Hybrid Graphics Detection"
 msgstr "Detectare Grafică Hibridă"
 
-#: ui/tabs/drivers_tab.py:955
-msgid "Hybrid graphics detected!\n\nIntegrated GPU: {integrated}\nDedicated GPU: {dedicated}\n\nYou can configure PRIME Render Offload (saves battery) or NVIDIA Primary (maximum performance)."
-msgstr "Grafică hibridă detectată!\n\nGPU Integrată: {integrated}\nGPU Dedicată: {dedicated}\n\nPoți configura PRIME Render Offload (economisește bateria) sau NVIDIA Primar (performanță maximă)."
-
-#: ui/tabs/drivers_tab.py:966
-msgid "No hybrid graphics detected.\n\nYour system has: {gpu}\n\nHybrid configuration is not needed."
-msgstr "Nu s-a detectat grafică hibridă.\n\nSistemul tău are: {gpu}\n\nConfigurația hibridă nu este necesară."
-
 #: ui/tabs/drivers_tab.py:400
 msgid "NVIDIA Driver Installation"
 msgstr "Instalare Driver NVIDIA"
-
-#: ui/tabs/drivers_tab.py:404
-msgid "This installation requires TWO automatic reboots:\n\n1. First reboot: System prepares for installation\n2. Second reboot: Driver is installed in text mode\n\nThe process is fully automatic. Do not turn off your computer.\n\nDo you want to continue?"
-msgstr "Această instalare necesită DOUĂ reporniri automate:\n\n1. Prima repornire: Sistemul se pregătește pentru instalare\n2. A doua repornire: Driverul este instalat în modul text\n\nProcesul este complet automat. Nu opri computerul.\n\nDorești să continui?"
 
 #~ msgid "NVIDIA Latest (550)"
 #~ msgstr "NVIDIA Recent (550)"
@@ -2681,3 +2387,35 @@ msgstr "Această instalare necesită DOUĂ reporniri automate:\n\n1. Prima repor
 
 #~ msgid "For Kepler GPUs (GTX 600-700 series)"
 #~ msgstr "Pentru GPU-uri Kepler (seria GTX 600-700)"
+
+#: ui/tabs/security_tab.py
+msgid "Grub BTRFS is not compatible."
+msgstr "Grub BTRFS nu este compatibil."
+
+#: ui/tabs/security_tab.py
+msgid "Not available on"
+msgstr "Nu este disponibil pe"
+
+#: ui/tabs/security_tab.py
+msgid "Current system"
+msgstr "Sistem curent"
+
+#: ui/tabs/security_tab.py
+msgid "BTRFS Assistant is not compatible."
+msgstr "BTRFS Assistant nu este compatibil."
+
+#: ui/tabs/security_tab.py
+msgid "Automatically add BTRFS snapshots to GRUB menu."
+msgstr "Adăugați automat instantanee BTRFS în meniul GRUB."
+
+#: ui/tabs/security_tab.py
+msgid "Automatically add BTRFS snapshots to GRUB menu. Allows booting from snapshots."
+msgstr "Adaugă automat instantanee BTRFS în meniul GRUB. Permite pornirea din instantanee."
+
+#: ui/tabs/security_tab.py
+msgid "Complementary"
+msgstr "Complementar"
+
+#: ui/tabs/security_tab.py
+msgid "Only for BTRFS"
+msgstr "Doar pentru BTRFS"

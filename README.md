@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.1-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.2-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.2 (04/01/2026)
+- **Security Tab**: Added **Grub BTRFS** management (Automatically add BTRFS snapshots to GRUB menu).
+- **Security Tab**: Fixed TimeShift integration to work seamlessly with grub-btrfs.
+- **Languages**: Updated all translation dictionaries with new strings.
 
 ### v2.0.1 (27/12/2025)
 - **NVIDIA Driver Improvements**: Added NVIDIA 580 Production driver (580.119.02) for RTX 40/50 series
