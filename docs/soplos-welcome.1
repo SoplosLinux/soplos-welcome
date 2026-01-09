@@ -1,0 +1,55 @@
+.TH "SOPLOS-WELCOME" "1" "2026-01-09" "Soplos Linux" "User Commands"
+.SH NAME
+soplos-welcome \- The advanced welcome application for Soplos Linux
+.SH SYNOPSIS
+.B soplos-welcome
+[\fIOPTIONS\fR]
+.SH DESCRIPTION
+.B soplos-welcome
+is the primary welcome application for new Soplos Linux installations.
+It provides a comprehensive interface for:
+.IP \[bu] 2
+Initial system configuration and personalization.
+.IP \[bu]
+Recommended software installation.
+.IP \[bu]
+Hardware driver detection and installation (NVIDIA, etc.).
+.IP \[bu]
+Desktop theme customization.
+.IP \[bu]
+Access to community resources and documentation.
+.P
+Designed to be desktop-agnostic, checking the running environment (GNOME, KDE, XFCE) to adapt its behavior.
+.SH OPTIONS
+Application Options:
+.TP
+.B \-h, \-\-help
+Show help options.
+.TP
+.B \-\-help-all
+Show all help options.
+.TP
+.B \-\-help-gtk
+Show GTK+ Options.
+.P
+GTK+ Options:
+.TP
+.B \-\-display=\fIDISPLAY\fR
+X display to use.
+.SH FILES
+.TP
+.I ~/.config/autostart/org.soplos.welcome.desktop
+User-specific autostart configuration file. If present, Soplos Welcome will launch automatically on login.
+.TP
+.I /usr/share/soplos-welcome/
+Application resources directory containing UI files, themes, and translations.
+.SH AUTHOR
+Written by Sergi Perich <info@soploslinux.com> for the Soplos Linux project.
+.SH COPYRIGHT
+Copyright \(co 2026 Sergi Perich.
+License: GPL-3.0-or-later <https://www.gnu.org/licenses/gpl-3.0.html>.
+.br
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+.SH SEE ALSO
+.BR soplos-repo-selector (1)
