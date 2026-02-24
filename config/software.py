@@ -345,20 +345,16 @@ SOFTWARE_CATEGORIES = {
                     'mkdir -p /opt/affinity',
                     'wget -q -O /opt/affinity/Affinity.AppImage "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.0.2/Affinity-3.0.2-x86_64.AppImage"',
                     'chmod +x /opt/affinity/Affinity.AppImage',
-                    'mkdir -p /usr/share/icons/hicolor/256x256/apps/',
-                    'cp /usr/local/bin/soplos-welcome/assets/icons/graphics/affinity.png /usr/share/icons/hicolor/256x256/apps/affinity.png',
-                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true',
+                    'cp /usr/local/bin/soplos-welcome/assets/icons/graphics/affinity.png /opt/affinity/icon.png',
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
                     'mkdir -p "$REAL_HOME/.local/share/applications"',
-                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=/opt/affinity/Affinity.AppImage\\nIcon=/usr/share/icons/hicolor/256x256/apps/affinity.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' > \"$REAL_HOME/.local/share/applications/affinity.desktop\"",
+                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=/opt/affinity/Affinity.AppImage\\nIcon=/opt/affinity/icon.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' > \"$REAL_HOME/.local/share/applications/affinity.desktop\"",
                     'chown $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/.local/share/applications/affinity.desktop"'
                 ],
                 'uninstall_commands': [
                     'rm -rf /opt/affinity/',
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'rm -f "$REAL_HOME/.local/share/applications/affinity.desktop"',
-                    'rm -f /usr/share/icons/hicolor/256x256/apps/affinity.png',
-                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true'
+                    'rm -f "$REAL_HOME/.local/share/applications/affinity.desktop"'
                 ]
             }
         ]

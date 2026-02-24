@@ -1606,20 +1606,16 @@ done
                     'mkdir -p /opt/es-de',
                     'wget -q -O /opt/es-de/EmulationStation-DE.AppImage "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
                     'chmod +x /opt/es-de/EmulationStation-DE.AppImage',
-                    'mkdir -p /usr/share/icons/hicolor/256x256/apps/',
-                    'cp /usr/local/bin/soplos-welcome/assets/icons/gaming/ES-DE.png /usr/share/icons/hicolor/256x256/apps/es-de.png',
-                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true',
+                    'cp /usr/local/bin/soplos-welcome/assets/icons/gaming/ES-DE.png /opt/es-de/icon.png',
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
                     'mkdir -p "$REAL_HOME/.local/share/applications"',
-                    "printf '[Desktop Entry]\\nName=EmulationStation-DE\\nExec=/opt/es-de/EmulationStation-DE.AppImage\\nIcon=/usr/share/icons/hicolor/256x256/apps/es-de.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > \"$REAL_HOME/.local/share/applications/es-de.desktop\"",
+                    "printf '[Desktop Entry]\\nName=ES-DE\\nExec=/opt/es-de/EmulationStation-DE.AppImage\\nIcon=/opt/es-de/icon.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > \"$REAL_HOME/.local/share/applications/es-de.desktop\"",
                     'chown $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/.local/share/applications/es-de.desktop"'
                 ],
                 'uninstall_commands': [
                     'rm -rf /opt/es-de/',
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'rm -f "$REAL_HOME/.local/share/applications/es-de.desktop"',
-                    'rm -f /usr/share/icons/hicolor/256x256/apps/es-de.png',
-                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true'
+                    'rm -f "$REAL_HOME/.local/share/applications/es-de.desktop"'
                 ]
             },
             {
