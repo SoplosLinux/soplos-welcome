@@ -348,11 +348,15 @@ SOFTWARE_CATEGORIES = {
                     'mkdir -p /usr/share/icons/hicolor/256x256/apps/',
                     'cp /usr/local/bin/soplos-welcome/assets/icons/graphics/affinity.png /usr/share/icons/hicolor/256x256/apps/affinity.png',
                     'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true',
-                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=/opt/affinity/Affinity.AppImage\\nIcon=affinity\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' > /usr/share/applications/affinity.desktop"
+                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'mkdir -p "$REAL_HOME/.local/share/applications"',
+                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=/opt/affinity/Affinity.AppImage\\nIcon=/usr/share/icons/hicolor/256x256/apps/affinity.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' > \"$REAL_HOME/.local/share/applications/affinity.desktop\"",
+                    'chown $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/.local/share/applications/affinity.desktop"'
                 ],
                 'uninstall_commands': [
                     'rm -rf /opt/affinity/',
-                    'rm -f /usr/share/applications/affinity.desktop',
+                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'rm -f "$REAL_HOME/.local/share/applications/affinity.desktop"',
                     'rm -f /usr/share/icons/hicolor/256x256/apps/affinity.png',
                     'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true'
                 ]
