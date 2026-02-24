@@ -345,9 +345,10 @@ SOFTWARE_CATEGORIES = {
                     'mkdir -p /opt/affinity',
                     'wget -q -O /opt/affinity/Affinity.AppImage "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.0.2/Affinity-3.0.2-x86_64.AppImage"',
                     'chmod +x /opt/affinity/Affinity.AppImage',
+                    'mkdir -p /usr/share/icons/hicolor/256x256/apps/',
                     'cp /usr/local/bin/soplos-welcome/assets/icons/graphics/affinity.png /usr/share/icons/hicolor/256x256/apps/affinity.png',
                     'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true',
-                    "bash -c 'cat > /usr/share/applications/affinity.desktop << EOF\n[Desktop Entry]\nName=Affinity Suite\nExec=/opt/affinity/Affinity.AppImage\nIcon=affinity\nType=Application\nCategories=Graphics;\nComment=Professional photo editing, design and publishing suite\nEOF'"
+                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=/opt/affinity/Affinity.AppImage\\nIcon=affinity\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' > /usr/share/applications/affinity.desktop"
                 ],
                 'uninstall_commands': [
                     'rm -rf /opt/affinity/',

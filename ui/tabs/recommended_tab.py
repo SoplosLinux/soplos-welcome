@@ -606,6 +606,11 @@ rm -f /tmp/{pkg_name}.deb"""
             self.installing_packages.clear() # Brute force cleanup
             self._refresh_content()
 
+    def refresh(self):
+        """Minimal refresh to clear cache and update UI."""
+        self.package_status_cache.clear()
+        self._refresh_content()
+
     def _on_package_operation_complete(self, package: dict, is_install: bool):
         """Handle completion of package operation."""
         # Invalidate cache
@@ -613,7 +618,6 @@ rm -f /tmp/{pkg_name}.deb"""
             del self.package_status_cache[package['name']]
             
         # Clear installing set - we need to remove by ID. 
-        # Since we don't have category_id here easily, we'll iterate and remove matching names
         to_remove = set()
         for pid in self.installing_packages:
             if pid.endswith(f":{package['name']}"):
@@ -624,6 +628,10 @@ rm -f /tmp/{pkg_name}.deb"""
             
         # Refresh UI
         GLib.idle_add(self._refresh_content)
+        
+        # Targeted synchronization with Gaming tab
+        if self.parent_window and hasattr(self.parent_window, 'gaming_tab') and self.parent_window.gaming_tab:
+            GLib.idle_add(self.parent_window.gaming_tab.refresh)
     
     def _on_toggle_batch_mode(self, button):
         """Toggle between normal and batch installation mode."""

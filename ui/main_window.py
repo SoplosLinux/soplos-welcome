@@ -36,6 +36,10 @@ class MainWindow(Gtk.ApplicationWindow):
         self.theme_manager = theme_manager
         self.i18n_manager = i18n_manager
         
+        # Tab references for synchronization
+        self.recommended_tab = None
+        self.gaming_tab = None
+        
         # Window properties
         self.set_title(_("Soplos Welcome"))
         self.set_default_size(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
@@ -266,13 +270,14 @@ class MainWindow(Gtk.ApplicationWindow):
                     )
                 elif tab_class == "RecommendedTab":
                     from .tabs.recommended_tab import RecommendedTab
-                    tab_content = RecommendedTab(
+                    self.recommended_tab = RecommendedTab(
                         self.i18n_manager, 
                         self.theme_manager,
                         self,  # parent_window
                         self.progress_bar,
                         self.progress_label
                     )
+                    tab_content = self.recommended_tab
                 elif tab_class == "DriversTab":
                     from .tabs.drivers_tab import DriversTab
                     tab_content = DriversTab(

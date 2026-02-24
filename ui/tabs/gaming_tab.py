@@ -1606,9 +1606,10 @@ done
                     'mkdir -p /opt/es-de',
                     'wget -q -O /opt/es-de/EmulationStation-DE.AppImage "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
                     'chmod +x /opt/es-de/EmulationStation-DE.AppImage',
+                    'mkdir -p /usr/share/icons/hicolor/256x256/apps/',
                     'cp /usr/local/bin/soplos-welcome/assets/icons/gaming/ES-DE.png /usr/share/icons/hicolor/256x256/apps/es-de.png',
                     'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true',
-                    "bash -c 'cat > /usr/share/applications/es-de.desktop << EOF\\n[Desktop Entry]\\nName=EmulationStation-DE\\nExec=/opt/es-de/EmulationStation-DE.AppImage\\nIcon=es-de\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\nEOF'"
+                    "printf '[Desktop Entry]\\nName=EmulationStation-DE\\nExec=/opt/es-de/EmulationStation-DE.AppImage\\nIcon=es-de\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > /usr/share/applications/es-de.desktop"
                 ],
                 'uninstall_commands': [
                     'rm -rf /opt/es-de/',
@@ -1932,6 +1933,11 @@ done
         except Exception as e:
             print(f"Error running launcher script: {e}")
     
+    def refresh(self):
+        """Minimal refresh to clear cache and update UI."""
+        self.launcher_status_cache.clear()
+        self._populate_launchers_grid()
+
     def _on_launcher_operation_complete(self, launcher):
         """Handle launcher operation completion."""
         # Clear cache for this specific launcher
@@ -1942,6 +1948,10 @@ done
         
         # Schedule grid refresh on main thread
         GLib.idle_add(self._populate_launchers_grid)
+        
+        # Targeted synchronization with Recommended tab
+        if self.parent_window and hasattr(self.parent_window, 'recommended_tab') and self.parent_window.recommended_tab:
+            GLib.idle_add(self.parent_window.recommended_tab.refresh)
     
     def _toggle_rgb_theme(self):
         """Toggle RGB Gaming theme (black with red neon accents)."""
