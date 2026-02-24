@@ -333,6 +333,28 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'hugin.png',
                 'description': _('Panorama photo stitcher'),
                 'official': True
+            },
+            {
+                'name': 'Affinity Suite',
+                'package': None,
+                'icon': 'affinity.png',
+                'description': _('Professional photo editing, design and publishing suite'),
+                'official': False,
+                'check_path': '/opt/affinity/Affinity.AppImage',
+                'install_commands': [
+                    'mkdir -p /opt/affinity',
+                    'wget -q -O /opt/affinity/Affinity.AppImage "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.0.2/Affinity-3.0.2-x86_64.AppImage"',
+                    'chmod +x /opt/affinity/Affinity.AppImage',
+                    'cp /usr/local/bin/soplos-welcome/assets/icons/graphics/affinity.png /usr/share/icons/hicolor/256x256/apps/affinity.png',
+                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true',
+                    "bash -c 'cat > /usr/share/applications/affinity.desktop << EOF\n[Desktop Entry]\nName=Affinity Suite\nExec=/opt/affinity/Affinity.AppImage\nIcon=affinity\nType=Application\nCategories=Graphics;\nComment=Professional photo editing, design and publishing suite\nEOF'"
+                ],
+                'uninstall_commands': [
+                    'rm -rf /opt/affinity/',
+                    'rm -f /usr/share/applications/affinity.desktop',
+                    'rm -f /usr/share/icons/hicolor/256x256/apps/affinity.png',
+                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true'
+                ]
             }
         ]
     },
@@ -521,6 +543,28 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'heroic.png',
                 'description': _('Launcher for Epic, GOG and Amazon Games'),
                 'official': False
+            },
+            {
+                'name': 'EmulationStation-DE',
+                'package': None,
+                'icon': 'ES-DE.png',
+                'description': _('Frontend for emulators with a modern interface'),
+                'official': False,
+                'check_path': '/opt/es-de/EmulationStation-DE.AppImage',
+                'install_commands': [
+                    'mkdir -p /opt/es-de',
+                    'wget -q -O /opt/es-de/EmulationStation-DE.AppImage "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
+                    'chmod +x /opt/es-de/EmulationStation-DE.AppImage',
+                    'cp /usr/local/bin/soplos-welcome/assets/icons/gaming/ES-DE.png /usr/share/icons/hicolor/256x256/apps/es-de.png',
+                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true',
+                    "bash -c 'cat > /usr/share/applications/es-de.desktop << EOF\\n[Desktop Entry]\\nName=EmulationStation-DE\\nExec=/opt/es-de/EmulationStation-DE.AppImage\\nIcon=es-de\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\nEOF'"
+                ],
+                'uninstall_commands': [
+                    'rm -rf /opt/es-de/',
+                    'rm -f /usr/share/applications/es-de.desktop',
+                    'rm -f /usr/share/icons/hicolor/256x256/apps/es-de.png',
+                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true'
+                ]
             }
         ]
     }

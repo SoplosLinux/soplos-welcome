@@ -165,6 +165,10 @@ msgstr "Продвинутая программа обработки RAW-фот�
 msgid "Panorama photo stitcher"
 msgstr "Сшиватель панорамных фотографий"
 
+#: config/software.py
+msgid "Professional photo editing, design and publishing suite"
+msgstr "Профессиональный пакет для редактирования фото, дизайна и публикации"
+
 #: config/software.py:344
 msgid "Multimedia"
 msgstr "Мультимедиа"
@@ -257,9 +261,49 @@ msgstr "Запуск Windows-приложений на Linux с использо
 msgid "Frontend for emulators and game engines"
 msgstr "Интерфейс для эмуляторов и игровых движков"
 
+#: config/software.py ui/tabs/gaming_tab.py
+msgid "Frontend for emulators with a modern interface"
+msgstr "Фронтенд для эмуляторов с современным интерфейсом"
+
 #: config/software.py:525
 msgid "Launcher for Epic, GOG and Amazon Games"
 msgstr "Лаунчер для Epic, GOG и Amazon Games"
+
+#: config/software.py
+msgid "Roblox client for Linux"
+msgstr "Клиент Roblox для Linux"
+
+#: ui/tabs/gaming_tab.py
+msgid "Mod manager for Lethal Company, Valheim and more"
+msgstr "Менеджер модов для Lethal Company, Valheim и других игр"
+
+#: ui/tabs/gaming_tab.py
+msgid "Modern launcher for playing Roblox on Linux"
+msgstr "Современный лаунчер для игры в Roblox на Linux"
+
+#: ui/tabs/gaming_tab.py
+msgid "Custom launcher for Minecraft"
+msgstr "Пользовательский лаунчер для Minecraft"
+
+#: ui/tabs/gaming_tab.py
+msgid "Indie game distribution platform"
+msgstr "Платформа распространения инди-игр"
+
+#: ui/tabs/gaming_tab.py
+msgid "Simple client for GOG.com"
+msgstr "Простой клиент для GOG.com"
+
+#: ui/tabs/gaming_tab.py
+msgid "NVIDIA GameStream/Sunshine streaming client"
+msgstr "Клиент потоковой передачи NVIDIA GameStream/Sunshine"
+
+#: ui/tabs/gaming_tab.py
+msgid "PlayStation Remote Play client (HDR version)"
+msgstr "Клиент PlayStation Remote Play (версия HDR)"
+
+#: ui/tabs/gaming_tab.py
+msgid "Communication platform for gaming communities"
+msgstr "Платформа общения для игровых сообществ"
 
 #: ui/main_window.py:147
 msgid "Change Language"
@@ -291,7 +335,7 @@ msgstr "Драйверы"
 
 #: ui/main_window.py:245
 msgid "Kernels"
-msgstr "Ядра"
+msgstr "Kernels"
 
 #: ui/main_window.py:246
 msgid "Security"
@@ -1796,6 +1840,34 @@ msgstr "Обновление GRUB..."
 #: ui/tabs/kernels_tab.py:708
 msgid "Cleanup complete."
 msgstr "Очистка завершена."
+
+#: ui/tabs/kernels_tab.py
+msgid "Packages to remove"
+msgstr "Пакеты для удаления"
+
+#: ui/tabs/kernels_tab.py
+msgid "Kernels to keep"
+msgstr "Ядра для сохранения"
+
+#: ui/tabs/kernels_tab.py
+msgid "Current kernel"
+msgstr "Текущее ядро"
+
+#: ui/tabs/kernels_tab.py
+msgid "No old kernels to remove. Your system is already clean."
+msgstr "Нет старых ядер для удаления. Ваша система уже чиста."
+
+#: ui/tabs/kernels_tab.py
+msgid "System is clean"
+msgstr "Система чиста"
+
+#: ui/tabs/kernels_tab.py
+msgid "Could not find any installed kernel packages."
+msgstr "Не удалось найти установленные пакеты ядра."
+
+#: ui/tabs/kernels_tab.py
+msgid "No kernels found"
+msgstr "Ядра не найдены"
 
 #: ui/tabs/kernels_tab.py:724
 msgid "GRUB update complete."

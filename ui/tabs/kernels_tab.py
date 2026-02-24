@@ -659,59 +659,150 @@ echo "{_('Uninstallation complete.')}"
         dialog.destroy()
 
     def on_clean_kernels_clicked(self, widget):
-        # Implementation of kernel cleaning logic
-        # For simplicity in this port, we'll use a direct command or a simplified dialog
-        # But to match legacy, we should check if there are kernels to remove
-        
-        script_content = f"""#!/bin/bash
-set -e
-echo "{_('Checking for old kernels...')}"
-CURRENT_KERNEL=$(uname -r)
-echo "{_('Current Kernel')}: $CURRENT_KERNEL"
-
-# Get latest base kernel (excluding liquorix and xanmod)
-BASE_KERNEL=$(dpkg -l 'linux-image-*' | grep '^ii' | grep -v liquorix | grep -v xanmod | sort -V | tail -n1 | awk '{{print $2}}')
-
-# Check count
-# Check count
-KERNEL_COUNT=$(dpkg -l 'linux-image-[0-9]*' | grep '^ii' | wc -l)
-if [ "$KERNEL_COUNT" -le 2 ]; then
-    echo "{_('No old kernels to remove.')}"
-    exit 0
-fi
-
-# Construct regex for grep -E (extended regex)
-# Escape dots in version numbers for regex safety
-CURRENT_SAFE=$(echo "$CURRENT_KERNEL" | sed 's/\\./\\\\./g')
-BASE_SAFE=$(echo "$BASE_KERNEL" | sed 's/linux-image-//' | sed 's/\\./\\\\./g')
-
-KEEP_PATTERN="$CURRENT_SAFE|$BASE_SAFE"
-
-# Find kernels to remove
-REMOVE_LIST=$(dpkg -l 'linux-image-[0-9]*' | grep '^ii' | grep -vE "$KEEP_PATTERN" | awk '{{print $2}}')
-
-if [ -z "$REMOVE_LIST" ]; then
-    echo "{_('No old kernels to remove.')}"
-    exit 0
-fi
-
-echo "{_('Removing old kernels...')}"
-echo "$REMOVE_LIST"
-
-for kernel in $REMOVE_LIST; do
-    echo "Removing $kernel..."
-    pkexec apt remove -y "$kernel"
-done
-
-echo "{_('Updating GRUB...')}"
-pkexec update-grub
-echo "{_('Cleanup complete.')}"
-"""
-        script_path = "/tmp/clean-kernels.sh"
-        with open(script_path, "w") as f:
-            f.write(script_content)
-        os.chmod(script_path, 0o755)
-        self.command_runner.run_command(script_path, self._on_operation_complete)
+        """Clean old kernels, keeping the running kernel and the latest of each type."""
+        try:
+            # Get current running kernel
+            current_kernel = subprocess.check_output(['uname', '-r']).decode().strip()
+            
+            # Get all installed kernel image packages
+            result = subprocess.run(
+                ['dpkg', '-l', 'linux-image-*'],
+                capture_output=True, text=True
+            )
+            
+            # Parse installed kernels (only real kernel packages, not meta-packages)
+            meta_packages = {
+                'linux-image-amd64', 'linux-image-liquorix-amd64',
+                'linux-image-686', 'linux-image-686-pae'
+            }
+            installed = []
+            for line in result.stdout.splitlines():
+                if line.startswith('ii') and 'linux-image-' in line:
+                    pkg = line.split()[1]
+                    if pkg in meta_packages:
+                        continue
+                    installed.append(pkg)
+            
+            if not installed:
+                self._show_info_dialog(_("No kernels found"), _("Could not find any installed kernel packages."))
+                return
+            
+            # Classify kernels by type
+            base_kernels = []
+            liquorix_kernels = []
+            xanmod_kernels = []
+            
+            for pkg in installed:
+                if 'liquorix' in pkg:
+                    liquorix_kernels.append(pkg)
+                elif 'xanmod' in pkg:
+                    xanmod_kernels.append(pkg)
+                else:
+                    base_kernels.append(pkg)
+            
+            # Sort each group (dpkg version order)
+            base_kernels.sort()
+            liquorix_kernels.sort()
+            xanmod_kernels.sort()
+            
+            # Determine which to keep
+            keep = set()
+            
+            # Always keep the running kernel's package
+            for pkg in installed:
+                if current_kernel in pkg:
+                    keep.add(pkg)
+            
+            # Keep the latest base kernel
+            if base_kernels:
+                keep.add(base_kernels[-1])
+            
+            # Keep the latest liquorix kernel (if any)
+            if liquorix_kernels:
+                keep.add(liquorix_kernels[-1])
+            
+            # Keep the latest xanmod kernel (if any)
+            if xanmod_kernels:
+                keep.add(xanmod_kernels[-1])
+            
+            # Determine which to remove
+            to_remove = [pkg for pkg in installed if pkg not in keep]
+            
+            if not to_remove:
+                self._show_info_dialog(
+                    _("System is clean"),
+                    _("No old kernels to remove. Your system is already clean.")
+                )
+                return
+            
+            # Also find matching headers packages
+            headers_to_remove = []
+            for pkg in to_remove:
+                header_pkg = pkg.replace('linux-image-', 'linux-headers-')
+                check = subprocess.run(['dpkg', '-s', header_pkg], capture_output=True, text=True)
+                if check.returncode == 0:
+                    headers_to_remove.append(header_pkg)
+            
+            all_to_remove = to_remove + headers_to_remove
+            
+            # Show confirmation dialog
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Clean Old Kernels")
+            )
+            
+            keep_text = "\n".join(f"  \u2713 {pkg}" for pkg in sorted(keep))
+            remove_text = "\n".join(f"  \u2717 {pkg}" for pkg in sorted(all_to_remove))
+            
+            dialog.format_secondary_text(
+                f"{_('Current kernel')}: {current_kernel}\n\n"
+                f"{_('Kernels to keep')}:\n{keep_text}\n\n"
+                f"{_('Packages to remove')} ({len(all_to_remove)}):\n{remove_text}\n\n"
+                f"{_('Continue?')}"
+            )
+            
+            response = dialog.run()
+            dialog.destroy()
+            
+            if response != Gtk.ResponseType.YES:
+                return
+            
+            # Build removal script (single pkexec execution)
+            packages_str = " ".join(all_to_remove)
+            script_content = (
+                "#!/bin/bash\n"
+                "set -e\n"
+                f"echo \"{_('Removing old kernels...')}\"\n"
+                f"apt remove -y {packages_str}\n"
+                "apt autoremove -y\n"
+                f"echo \"{_('Updating GRUB...')}\"\n"
+                "update-grub\n"
+                f"echo \"{_('Cleanup complete.')}\"\n"
+            )
+            script_path = "/tmp/clean-kernels.sh"
+            with open(script_path, "w") as f:
+                f.write(script_content)
+            os.chmod(script_path, 0o755)
+            self.command_runner.run_command(f"pkexec bash {script_path}", self._on_operation_complete)
+            
+        except Exception as e:
+            self._show_info_dialog(_("Error"), str(e))
+    
+    def _show_info_dialog(self, title, message):
+        """Show a simple info dialog."""
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK,
+            text=title
+        )
+        dialog.format_secondary_text(message)
+        dialog.run()
+        dialog.destroy()
 
     def on_update_grub_clicked(self, widget):
         script_content = f"""#!/bin/bash

@@ -447,7 +447,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         # BleachBit
         self._update_package_button('bleachbit', self.bleachbit_row, with_configure=True, configure_label=_("Open BleachBit"))
         
-        # Stacer (requires .deb from GitHub)
+        # Stacer (AppImage from GitHub)
         self._update_stacer_button()
         
         # Sweeper
@@ -508,13 +508,13 @@ class SecurityTab(Gtk.ScrolledWindow):
             row.pack_start(install_btn, False, False, 0)
     
     def _update_stacer_button(self):
-        """Update Stacer button (requires .deb from GitHub)."""
-        is_installed = self._is_package_installed('stacer')
+        """Update Stacer button (AppImage from GitHub)."""
+        is_installed = os.path.exists('/opt/stacer/Stacer.AppImage')
         
         if is_installed:
             uninstall_btn = Gtk.Button(label=_("Uninstall"))
             uninstall_btn.get_style_context().add_class("destructive-action")
-            uninstall_btn.connect('clicked', lambda w: self._on_uninstall_package('stacer'))
+            uninstall_btn.connect('clicked', lambda w: self._on_uninstall_stacer())
             self.stacer_row.pack_start(uninstall_btn, False, False, 0)
             
             installed_label = Gtk.Label(label=_("Installed"))
@@ -532,20 +532,44 @@ class SecurityTab(Gtk.ScrolledWindow):
             self.stacer_row.pack_start(install_btn, False, False, 0)
     
     def _on_install_stacer(self):
-        """Install Stacer from GitHub .deb release."""
-        script_content = f"""#!/bin/bash
-echo "Downloading Stacer..."
-wget -q -O /tmp/stacer.deb https://github.com/oguzhaninan/Stacer/releases/download/v1.1.0/stacer_1.1.0_amd64.deb
-echo "Installing Stacer..."
-pkexec apt install -y /tmp/stacer.deb
-rm -f /tmp/stacer.deb
-echo "{_('Installation complete.')}"
-"""
+        """Install Stacer as AppImage."""
+        script_content = (
+            "#!/bin/bash\n"
+            "set -e\n"
+            "mkdir -p /opt/stacer\n"
+            'wget -q -O /opt/stacer/Stacer.AppImage "https://github.com/oguzhaninan/Stacer/releases/download/v1.1.0/Stacer-1.1.0-x64.AppImage"\n'
+            "chmod +x /opt/stacer/Stacer.AppImage\n"
+            "cat > /usr/share/applications/stacer.desktop << EOF\n"
+            "[Desktop Entry]\n"
+            "Name=Stacer\n"
+            "Exec=/opt/stacer/Stacer.AppImage\n"
+            "Icon=stacer\n"
+            "Type=Application\n"
+            "Categories=System;\n"
+            "Comment=Modern system optimizer with resource monitoring\n"
+            "EOF\n"
+            f"echo \"{_('Installation complete.')}\"\n"
+        )
         script_path = "/tmp/install-stacer.sh"
         with open(script_path, "w") as f:
             f.write(script_content)
         os.chmod(script_path, 0o755)
-        self.command_runner.run_command(script_path, self._on_operation_complete)
+        self.command_runner.run_command(f"pkexec bash {script_path}", self._on_operation_complete)
+    
+    def _on_uninstall_stacer(self):
+        """Uninstall Stacer AppImage."""
+        script_content = (
+            "#!/bin/bash\n"
+            "set -e\n"
+            "rm -rf /opt/stacer/\n"
+            "rm -f /usr/share/applications/stacer.desktop\n"
+            f"echo \"{_('Uninstallation complete.')}\"\n"
+        )
+        script_path = "/tmp/uninstall-stacer.sh"
+        with open(script_path, "w") as f:
+            f.write(script_content)
+        os.chmod(script_path, 0o755)
+        self.command_runner.run_command(f"pkexec bash {script_path}", self._on_operation_complete)
     
     def _update_clamtk_button(self):
         """Update ClamTk button (installs both clamav and clamtk)."""
@@ -634,7 +658,7 @@ echo "{_('Uninstallation complete.')}"
             elif package == 'bleachbit':
                 subprocess.Popen(['bleachbit'])
             elif package == 'stacer':
-                subprocess.Popen(['stacer'])
+                subprocess.Popen(['/opt/stacer/Stacer.AppImage'])
             elif package == 'sweeper':
                 subprocess.Popen(['sweeper'])
         except Exception as e:

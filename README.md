@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.3-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.4-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,15 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.4 (24/02/2026)
+- **Gaming Tab**: Added Sober (Roblox) and EmulationStation-DE (AppImage) launchers.
+- **Gaming Tab**: Internationalized all 14 launcher descriptions with `_()` and 8-language translations.
+- **Gaming Tab**: Fixed launcher alignment with uniform height (60px) and consistent layout.
+- **Kernels Tab**: "Kernels" name kept untranslated as universal technical term.
+- **Kernels Tab**: Rewritten Clean Old Kernels with smart classification (keeps latest base + Liquorix + XanMod + running), confirmation dialog, and single `pkexec`.
+- **Security Tab**: Stacer converted from broken `.deb` to stable AppImage (`/opt/stacer/`).
+- **Translations**: Added 15+ new translation strings across all 8 languages.
 
 ### v2.0.3 (09/01/2026)
 - **Documentation**: Added manual page and copyright file.

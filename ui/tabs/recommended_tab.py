@@ -460,6 +460,12 @@ class RecommendedTab(Gtk.Box):
         # Return cached result if available
         if package_name in self.package_status_cache:
             return self.package_status_cache[package_name]
+        
+        # Check by file path (for AppImages)
+        if package.get('check_path'):
+            is_installed = os.path.exists(package['check_path'])
+            self.package_status_cache[package_name] = is_installed
+            return is_installed
             
         install_method = self._get_install_method(package)
         is_installed = False
@@ -544,7 +550,13 @@ rm -f /tmp/{pkg_name}.deb"""
         command = ""
         script_name = ""
         
-        if (install_method == 'apt' or install_method == 'deb' or install_method == 'custom') and package.get('package'):
+        # Handle packages with custom uninstall commands (e.g. AppImages)
+        if package.get('uninstall_commands'):
+            pkg_name = package.get('package') or package['name'].lower().replace(' ', '-')
+            cmds = "\n".join(package['uninstall_commands'])
+            command = cmds
+            script_name = f"uninstall-{pkg_name}.sh"
+        elif (install_method == 'apt' or install_method == 'deb' or install_method == 'custom') and package.get('package'):
             command = f"pkexec apt remove -y {package['package']}"
             script_name = f"uninstall-{package['package']}.sh"
             
@@ -574,7 +586,7 @@ rm -f /tmp/{pkg_name}.deb"""
             # For flatpak, run directly
             # For apt/deb (inside script), run directly (pkexec is inside)
             # For custom scripts (install), run with pkexec (entire script as root)
-            if package.get('install_commands') and is_install:
+            if (package.get('install_commands') and is_install) or (package.get('uninstall_commands') and not is_install):
                 final_command = f"pkexec {script_path}"
             else:
                 final_command = script_path

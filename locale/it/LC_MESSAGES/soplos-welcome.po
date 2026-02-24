@@ -164,6 +164,10 @@ msgstr "Programma avanzato di elaborazione foto RAW"
 msgid "Panorama photo stitcher"
 msgstr "Unione foto panoramiche"
 
+#: config/software.py
+msgid "Professional photo editing, design and publishing suite"
+msgstr "Suite professionale per fotoritocco, design e pubblicazione"
+
 #: config/software.py:344
 msgid "Multimedia"
 msgstr "Multimediale"
@@ -256,9 +260,49 @@ msgstr "Esegui applicazioni Windows su Linux usando Wine"
 msgid "Frontend for emulators and game engines"
 msgstr "Frontend per emulatori e motori di gioco"
 
+#: config/software.py ui/tabs/gaming_tab.py
+msgid "Frontend for emulators with a modern interface"
+msgstr "Frontend per emulatori con interfaccia moderna"
+
 #: config/software.py:525
 msgid "Launcher for Epic, GOG and Amazon Games"
 msgstr "Launcher per Epic, GOG e Amazon Games"
+
+#: config/software.py
+msgid "Roblox client for Linux"
+msgstr "Client Roblox per Linux"
+
+#: ui/tabs/gaming_tab.py
+msgid "Mod manager for Lethal Company, Valheim and more"
+msgstr "Gestore di mod per Lethal Company, Valheim e altro"
+
+#: ui/tabs/gaming_tab.py
+msgid "Modern launcher for playing Roblox on Linux"
+msgstr "Launcher moderno per giocare a Roblox su Linux"
+
+#: ui/tabs/gaming_tab.py
+msgid "Custom launcher for Minecraft"
+msgstr "Launcher personalizzato per Minecraft"
+
+#: ui/tabs/gaming_tab.py
+msgid "Indie game distribution platform"
+msgstr "Piattaforma di distribuzione di giochi indie"
+
+#: ui/tabs/gaming_tab.py
+msgid "Simple client for GOG.com"
+msgstr "Client semplice per GOG.com"
+
+#: ui/tabs/gaming_tab.py
+msgid "NVIDIA GameStream/Sunshine streaming client"
+msgstr "Client di streaming NVIDIA GameStream/Sunshine"
+
+#: ui/tabs/gaming_tab.py
+msgid "PlayStation Remote Play client (HDR version)"
+msgstr "Client PlayStation Remote Play (versione HDR)"
+
+#: ui/tabs/gaming_tab.py
+msgid "Communication platform for gaming communities"
+msgstr "Piattaforma di comunicazione per comunità di gioco"
 
 #: ui/main_window.py:147
 msgid "Change Language"
@@ -290,7 +334,7 @@ msgstr "Driver"
 
 #: ui/main_window.py:245
 msgid "Kernels"
-msgstr "Kernel"
+msgstr "Kernels"
 
 #: ui/main_window.py:246
 msgid "Security"
@@ -1796,6 +1840,34 @@ msgstr "Aggiornamento GRUB..."
 #: ui/tabs/kernels_tab.py:708
 msgid "Cleanup complete."
 msgstr "Pulizia completata."
+
+#: ui/tabs/kernels_tab.py
+msgid "Packages to remove"
+msgstr "Pacchetti da rimuovere"
+
+#: ui/tabs/kernels_tab.py
+msgid "Kernels to keep"
+msgstr "Kernel da mantenere"
+
+#: ui/tabs/kernels_tab.py
+msgid "Current kernel"
+msgstr "Kernel attuale"
+
+#: ui/tabs/kernels_tab.py
+msgid "No old kernels to remove. Your system is already clean."
+msgstr "Nessun vecchio kernel da rimuovere. Il tuo sistema è già pulito."
+
+#: ui/tabs/kernels_tab.py
+msgid "System is clean"
+msgstr "Sistema pulito"
+
+#: ui/tabs/kernels_tab.py
+msgid "Could not find any installed kernel packages."
+msgstr "Non è stato possibile trovare pacchetti kernel installati."
+
+#: ui/tabs/kernels_tab.py
+msgid "No kernels found"
+msgstr "Nessun kernel trovato"
 
 #: ui/tabs/kernels_tab.py:724
 msgid "GRUB update complete."

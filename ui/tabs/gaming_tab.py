@@ -1511,7 +1511,7 @@ done
                 'package': None,
                 'flatpak': 'com.valvesoftware.Steam',
                 'icon': 'steam.png',
-                'description': 'Plataforma de distribución digital de videojuegos',
+                'description': _('Digital distribution platform for video games'),
                 'official': False
             },
             {
@@ -1519,7 +1519,7 @@ done
                 'package': 'lutris',
                 'flatpak': 'net.lutris.Lutris',
                 'icon': 'lutris.png',
-                'description': 'Plataforma unificada para gestionar juegos en Linux',
+                'description': _('Unified platform for managing games on Linux'),
                 'official': True
             },
             {
@@ -1527,7 +1527,7 @@ done
                 'package': None,
                 'flatpak': 'com.heroicgameslauncher.hgl',
                 'icon': 'heroic.png',
-                'description': 'Launcher para juegos de Epic, GOG y Amazon Games',
+                'description': _('Launcher for Epic, GOG and Amazon Games'),
                 'official': False
             },
             {
@@ -1535,7 +1535,7 @@ done
                 'package': None,
                 'flatpak': 'com.usebottles.bottles',
                 'icon': 'bottles.png',
-                'description': 'Ejecuta aplicaciones Windows en Linux usando Wine',
+                'description': _('Run Windows applications on Linux using Wine'),
                 'official': False
             },
             {
@@ -1543,7 +1543,7 @@ done
                 'package': 'r2modman',
                 'deb_url': 'https://github.com/ebkr/r2modmanPlus/releases/download/v3.2.11/r2modman_3.2.11_amd64.deb',
                 'icon': 'r2modman.png',
-                'description': 'Gestor de mods para Lethal Company, Valheim y más',
+                'description': _('Mod manager for Lethal Company, Valheim and more'),
                 'official': False
             },
             {
@@ -1551,7 +1551,15 @@ done
                 'package': None,
                 'flatpak': 'org.vinegarhq.Vinegar',
                 'icon': 'vinegar.png',
-                'description': 'Launcher moderno para jugar a Roblox en Linux',
+                'description': _('Modern launcher for playing Roblox on Linux'),
+                'official': False
+            },
+            {
+                'name': 'Sober',
+                'package': None,
+                'flatpak': 'org.vinegarhq.Sober',
+                'icon': 'sober.png',
+                'description': _('Roblox client for Linux'),
                 'official': False
             },
             {
@@ -1559,7 +1567,7 @@ done
                 'package': None,
                 'flatpak': 'org.prismlauncher.PrismLauncher',
                 'icon': 'prism.png',
-                'description': 'Launcher personalizado para Minecraft',
+                'description': _('Custom launcher for Minecraft'),
                 'official': False
             },
             {
@@ -1567,7 +1575,7 @@ done
                 'package': None,
                 'flatpak': 'io.itch.itch',
                 'icon': 'itch-io.png',
-                'description': 'Plataforma de distribución de juegos indie',
+                'description': _('Indie game distribution platform'),
                 'official': False
             },
             {
@@ -1575,7 +1583,7 @@ done
                 'package': 'minigalaxy',
                 'flatpak': 'io.github.sharkwouter.Minigalaxy',
                 'icon': 'gog.png',
-                'description': 'Cliente simple para GOG.com',
+                'description': _('Simple client for GOG.com'),
                 'official': True
             },
             {
@@ -1583,15 +1591,38 @@ done
                 'package': 'retroarch',
                 'flatpak': 'org.libretro.RetroArch',
                 'icon': 'retroarch.png',
-                'description': 'Frontend para emuladores y motores de juegos',
+                'description': _('Frontend for emulators and game engines'),
                 'official': True
+            },
+            {
+                'name': 'EmulationStation-DE',
+                'package': None,
+                'flatpak': None,
+                'icon': 'ES-DE.png',
+                'description': _('Frontend for emulators with a modern interface'),
+                'official': False,
+                'check_path': '/opt/es-de/EmulationStation-DE.AppImage',
+                'install_commands': [
+                    'mkdir -p /opt/es-de',
+                    'wget -q -O /opt/es-de/EmulationStation-DE.AppImage "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
+                    'chmod +x /opt/es-de/EmulationStation-DE.AppImage',
+                    'cp /usr/local/bin/soplos-welcome/assets/icons/gaming/ES-DE.png /usr/share/icons/hicolor/256x256/apps/es-de.png',
+                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true',
+                    "bash -c 'cat > /usr/share/applications/es-de.desktop << EOF\\n[Desktop Entry]\\nName=EmulationStation-DE\\nExec=/opt/es-de/EmulationStation-DE.AppImage\\nIcon=es-de\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\nEOF'"
+                ],
+                'uninstall_commands': [
+                    'rm -rf /opt/es-de/',
+                    'rm -f /usr/share/applications/es-de.desktop',
+                    'rm -f /usr/share/icons/hicolor/256x256/apps/es-de.png',
+                    'gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true'
+                ]
             },
             {
                 'name': 'Moonlight',
                 'package': None,
                 'flatpak': 'com.moonlight_stream.Moonlight',
                 'icon': 'moonlight.png',
-                'description': 'Cliente de streaming NVIDIA GameStream/Sunshine',
+                'description': _('NVIDIA GameStream/Sunshine streaming client'),
                 'official': False
             },
             {
@@ -1599,7 +1630,7 @@ done
                 'package': None,
                 'flatpak': 'io.github.streetpea.Chiaki4deck',
                 'icon': 'chiaki.png',
-                'description': 'Cliente de PlayStation Remote Play (Versión HDR)',
+                'description': _('PlayStation Remote Play client (HDR version)'),
                 'official': False
             },
             {
@@ -1607,7 +1638,7 @@ done
                 'package': None,
                 'flatpak': 'com.discordapp.Discord',
                 'icon': 'discord.png',
-                'description': 'Plataforma de comunicación para comunidades gaming',
+                'description': _('Communication platform for gaming communities'),
                 'official': False
             }
         ]
@@ -1665,14 +1696,17 @@ done
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
         box.set_margin_top(8)
         box.set_margin_bottom(8)
+        box.set_size_request(-1, 60)
         
         # Icon
         icon = self._load_launcher_icon(launcher.get('icon', ''))
         if icon:
+            icon.set_valign(Gtk.Align.CENTER)
             box.pack_start(icon, False, False, 0)
         
         # Info box
-        info_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        info_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        info_box.set_valign(Gtk.Align.CENTER)
         
         # Name + Badges
         name_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
@@ -1703,11 +1737,11 @@ done
         # Description
         desc_label = Gtk.Label(launcher.get('description', ''))
         desc_label.set_halign(Gtk.Align.START)
+        desc_label.set_xalign(0.0)
         desc_label.set_line_wrap(True)
-        desc_label.set_max_width_chars(45)
+        desc_label.set_max_width_chars(30)
         desc_label.set_lines(2)
         desc_label.set_ellipsize(Pango.EllipsizeMode.END)
-        desc_label.set_size_request(-1, 40)
         desc_label.get_style_context().add_class('dim-label')
         info_box.pack_start(desc_label, False, False, 0)
         
@@ -1757,10 +1791,14 @@ done
     
     def _get_install_method(self, launcher):
         """Get preferred install method for launcher."""
+        # Custom install commands (AppImages)
+        if launcher.get('install_commands'):
+            return 'custom'
+        
         # Prefer Flatpak for certain launchers (like recommended tab)
         prefer_flatpak = ['Steam', 'Heroic Games Launcher', 'Bottles', 'Discord', 
                          'Prism Launcher', 'Itch.io', 'R2ModMan', 'Vinegar (Roblox)',
-                         'Moonlight', 'Chiaki (PS4/PS5)']
+                         'Sober', 'Moonlight', 'Chiaki (PS4/PS5)']
         
         if launcher['name'] in prefer_flatpak and launcher.get('flatpak'):
             return 'flatpak'
@@ -1784,6 +1822,12 @@ done
         # Check cache
         if name in self.launcher_status_cache:
             return self.launcher_status_cache[name]
+        
+        # Check by file path (for AppImages)
+        if launcher.get('check_path'):
+            is_installed = os.path.exists(launcher['check_path'])
+            self.launcher_status_cache[name] = is_installed
+            return is_installed
         
         method = self._get_install_method(launcher)
         is_installed = False
@@ -1831,9 +1875,13 @@ done
             # Standard install (matches recommended tab behavior)
             command = f"flatpak install -y flathub {launcher['flatpak']}"
             script_name = f"install-{launcher['flatpak'].replace('.', '-')}.sh"
+        elif method == 'custom' and launcher.get('install_commands'):
+            pkg_name = launcher['name'].lower().replace(' ', '-')
+            command = "\n".join(launcher['install_commands'])
+            script_name = f"install-{pkg_name}.sh"
         
         if command:
-            self._run_launcher_script(command, script_name, launcher)
+            self._run_launcher_script(command, script_name, launcher, is_install=(method == 'custom'))
     
     def _on_uninstall_launcher(self, button, launcher):
         """Uninstall launcher."""
@@ -1852,23 +1900,33 @@ done
             # Standard uninstall (matches recommended tab behavior exactly)
             command = f"flatpak uninstall -y {launcher['flatpak']}"
             script_name = f"uninstall-{launcher['flatpak'].replace('.', '-')}.sh"
+        elif launcher.get('uninstall_commands'):
+            pkg_name = launcher['name'].lower().replace(' ', '-')
+            command = "\n".join(launcher['uninstall_commands'])
+            script_name = f"uninstall-{pkg_name}.sh"
         
         if command:
-            self._run_launcher_script(command, script_name, launcher)
+            self._run_launcher_script(command, script_name, launcher, is_install=False)
     
-    def _run_launcher_script(self, command, script_name, launcher):
+    def _run_launcher_script(self, command, script_name, launcher, is_install=True):
         """Create and run installation script."""
         script_path = f"/tmp/{script_name}"
         try:
             with open(script_path, "w") as f:
                 f.write("#!/bin/bash\n")
                 f.write(command + "\n")
-                f.write(f"echo '{_('Operation completed successfully')}'\\n")
+                f.write(f"echo '{_('Operation completed successfully')}'\n")
             os.chmod(script_path, 0o755)
+            
+            # Use pkexec for custom install/uninstall commands (AppImages need root)
+            if launcher.get('install_commands') or launcher.get('uninstall_commands'):
+                final_command = f"pkexec {script_path}"
+            else:
+                final_command = script_path
             
             # Run and refresh on complete
             self.command_runner.run_command(
-                script_path,
+                final_command,
                 lambda: self._on_launcher_operation_complete(launcher)
             )
         except Exception as e:

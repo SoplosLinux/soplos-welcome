@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 
+## [2.0.4] - 2026-02-24
+
+### 🎮 Gaming Tab Enhancements
+- **Sober (Roblox)**: Added Sober launcher to Gaming tab (successor to Vinegar)
+- **EmulationStation-DE**: Added as AppImage in both Gaming tab and Recommended tab
+- **Internationalized Launchers**: All 14 launcher descriptions now use `_()` instead of hardcoded Spanish strings, with translations in all 8 languages
+- **Launcher Alignment Fix**: Fixed visual alignment of launcher entries with uniform height (60px), centered icons, and consistent description wrapping
+
+### 🔧 Kernels Tab Improvements
+- **"Kernels" tab name**: Changed to "Kernels" in all 8 languages (was translated as "Núcleos", "Noyaux", "Ядра", etc.)
+- **Clean Old Kernels**: Completely rewritten kernel cleanup with Python-based logic:
+  - Smart classification: keeps running kernel + latest base + latest Liquorix + latest XanMod
+  - Confirmation dialog showing ✓ kernels to keep and ✗ packages to remove (including headers)
+  - Single `pkexec` execution with `apt autoremove` and `update-grub`
+  - Proper "System is clean" message when nothing to remove
+
+### 🛡️ Security Tab Changes
+- **Stacer AppImage**: Converted from broken `.deb` installation to stable AppImage (`/opt/stacer/Stacer.AppImage`)
+  - Survives `apt upgrade` without breaking
+  - Creates `.desktop` file for system integration
+  - Clean uninstall removes AppImage and desktop entry
+
+### 🌍 Internationalization
+- Added 8 new gaming launcher translations (R2ModMan, Vinegar, Prism Launcher, Itch.io, Minigalaxy, Moonlight, Chiaki, Discord)
+- Added EmulationStation-DE description translations for all 8 languages
+- Added 7 new kernel cleanup dialog translations (confirmation, keep/remove labels)
+- Changed "Kernels" to remain untranslated as a universal technical term
+
 ## [2.0.3] - 2026-01-09
 
 ### 📚 Documentation
