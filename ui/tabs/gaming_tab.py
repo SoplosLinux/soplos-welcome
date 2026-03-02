@@ -1595,21 +1595,23 @@ done
                 'official': True
             },
             {
-                'name': 'EmulationStation-DE',
+                'name': 'ES-DE',
                 'package': None,
                 'flatpak': None,
                 'icon': 'ES-DE.png',
                 'description': _('Frontend for emulators with a modern interface'),
                 'official': False,
-                'check_path': '/opt/es-de/EmulationStation-DE.AppImage',
+                'check_path': '/opt/es-de/ES-DE_x64.AppImage',
                 'install_commands': [
+                    'rm -f /usr/share/applications/es-de.desktop',
+                    'rm -f /usr/local/share/applications/es-de.desktop',
                     'mkdir -p /opt/es-de',
-                    'wget -q -O /opt/es-de/EmulationStation-DE.AppImage "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
-                    'chmod +x /opt/es-de/EmulationStation-DE.AppImage',
-                    'cp /usr/local/bin/soplos-welcome/assets/icons/gaming/ES-DE.png /opt/es-de/icon.png',
+                    'wget -q -O /opt/es-de/ES-DE_x64.AppImage "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
+                    'chmod +x /opt/es-de/ES-DE_x64.AppImage',
+                    f'cp {os.path.join(ICONS_DIR, "gaming", "ES-DE.png")} /opt/es-de/icon.png',
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
                     'mkdir -p "$REAL_HOME/.local/share/applications"',
-                    "printf '[Desktop Entry]\\nName=ES-DE\\nExec=/opt/es-de/EmulationStation-DE.AppImage\\nIcon=/opt/es-de/icon.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > \"$REAL_HOME/.local/share/applications/es-de.desktop\"",
+                    "printf '[Desktop Entry]\\nName=ES-DE\\nExec=/opt/es-de/ES-DE_x64.AppImage\\nIcon=/opt/es-de/icon.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > \"$REAL_HOME/.local/share/applications/es-de.desktop\"",
                     'chown $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/.local/share/applications/es-de.desktop"'
                 ],
                 'uninstall_commands': [

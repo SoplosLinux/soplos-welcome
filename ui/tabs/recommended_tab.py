@@ -669,7 +669,7 @@ rm -f /tmp/{pkg_name}.deb"""
                 if deb_info not in self.selected_deb_urls:
                     self.selected_deb_urls.append(deb_info)
             elif install_method == 'custom' and package.get('install_commands'):
-                custom_info = (package['install_commands'], package['package'])
+                custom_info = (package['install_commands'], package.get('package') or package['name'])
                 if custom_info not in self.selected_custom:
                     self.selected_custom.append(custom_info)
         else:
@@ -685,8 +685,9 @@ rm -f /tmp/{pkg_name}.deb"""
             elif install_method == 'custom':
                 # Find and remove custom script
                 custom_to_remove = None
+                pkg_id = package.get('package') or package['name']
                 for custom_info in self.selected_custom:
-                    if custom_info[1] == package['package']:
+                    if custom_info[1] == pkg_id:
                         custom_to_remove = custom_info
                         break
                 if custom_to_remove:
@@ -706,8 +707,9 @@ rm -f /tmp/{pkg_name}.deb"""
             deb_info = (package['deb_url'], package['package'])
             return deb_info in self.selected_deb_urls
         elif install_method == 'custom' and package.get('install_commands'):
+            pkg_id = package.get('package') or package['name']
             for custom_info in self.selected_custom:
-                if custom_info[1] == package['package']:
+                if custom_info[1] == pkg_id:
                     return True
         return False
     
@@ -756,7 +758,7 @@ rm -f /tmp/{pkg_name}.deb"""
                     if deb_info not in self.selected_deb_urls:
                         self.selected_deb_urls.append(deb_info)
                 elif install_method == 'custom' and package.get('install_commands'):
-                    custom_info = (package['install_commands'], package['package'])
+                    custom_info = (package['install_commands'], package.get('package') or package['name'])
                     if custom_info not in self.selected_custom:
                         self.selected_custom.append(custom_info)
         

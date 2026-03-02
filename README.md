@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.4-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.5-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,9 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.5 (02/03/2026)
+- **Recommended Tab**: Fixed batch installation collision logic with custom script applications (e.g., ES-DE and Affinity Suite).
 
 ### v2.0.4 (24/02/2026)
 - **Gaming Tab**: Added Sober (Roblox) and EmulationStation-DE (AppImage) launchers.
