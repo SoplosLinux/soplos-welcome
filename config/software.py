@@ -597,7 +597,7 @@ SOFTWARE_CATEGORIES = {
             {
                 'name': 'Gear Lever',
                 'package': None,
-                'flatpak': 'it.miabbot.GearLever',
+                'flatpak': 'it.mijorus.gearlever',
                 'icon': 'gear-lever.png',
                 'description': _('Manage AppImages effortlessly'),
                 'official': False
