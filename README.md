@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.5-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.6-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 

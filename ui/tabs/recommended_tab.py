@@ -142,7 +142,8 @@ class RecommendedTab(Gtk.Box):
         categories = get_all_categories()
         
         # Show only selected categories with featured apps
-        recommended_categories = ['browsers', 'comunications', 'office', 'multimedia', 'graphics', 'developer', 'gaming']
+        recommended_categories = ['browsers', 'comunications', 'office', 'multimedia', 'graphics', 'developer', 'gaming', 'utilities']
+
         
         has_results = False
         for category_id in recommended_categories:

@@ -1643,6 +1643,14 @@ done
                 'icon': 'discord.png',
                 'description': _('Communication platform for gaming communities'),
                 'official': False
+            },
+            {
+                'name': 'ProtonUp-Qt',
+                'package': None,
+                'flatpak': 'net.davidotek.pupgui2',
+                'icon': 'protonup.png',
+                'description': _('Install and manage GE-Proton, Wine-GE and more for Steam and Lutris'),
+                'official': False
             }
         ]
         

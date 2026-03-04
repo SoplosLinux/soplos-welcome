@@ -659,7 +659,7 @@ echo "{_('Uninstallation complete.')}"
         dialog.destroy()
 
     def on_clean_kernels_clicked(self, widget):
-        """Clean old kernels, keeping the running kernel and the latest of each type."""
+        """Clean old kernels, keeping the running kernel and the latest of each type (Main, Liquorix, XanMod)."""
         try:
             # Get current running kernel
             current_kernel = subprocess.check_output(['uname', '-r']).decode().strip()
@@ -670,16 +670,13 @@ echo "{_('Uninstallation complete.')}"
                 capture_output=True, text=True
             )
             
-            # Parse installed kernels (only real kernel packages, not meta-packages)
-            meta_packages = {
-                'linux-image-amd64', 'linux-image-liquorix-amd64',
-                'linux-image-686', 'linux-image-686-pae'
-            }
+            # Parse installed kernels (ignore meta-packages)
+            meta_patterns = ['linux-image-amd64', 'linux-image-liquorix-amd64', 'linux-image-xanmod', 'linux-image-686']
             installed = []
             for line in result.stdout.splitlines():
                 if line.startswith('ii') and 'linux-image-' in line:
                     pkg = line.split()[1]
-                    if pkg in meta_packages:
+                    if any(pattern in pkg for pattern in meta_patterns) and not any(char.isdigit() for char in pkg):
                         continue
                     installed.append(pkg)
             
@@ -687,41 +684,34 @@ echo "{_('Uninstallation complete.')}"
                 self._show_info_dialog(_("No kernels found"), _("Could not find any installed kernel packages."))
                 return
             
-            # Classify kernels by type
-            base_kernels = []
-            liquorix_kernels = []
-            xanmod_kernels = []
+            # Helper for version sorting (Debian standard)
+            def version_sort(pkgs):
+                if not pkgs:
+                    return []
+                try:
+                    res = subprocess.run(['sort', '-V'], input="\n".join(pkgs), capture_output=True, text=True)
+                    return res.stdout.splitlines()
+                except:
+                    return sorted(pkgs)
             
-            for pkg in installed:
-                if 'liquorix' in pkg:
-                    liquorix_kernels.append(pkg)
-                elif 'xanmod' in pkg:
-                    xanmod_kernels.append(pkg)
-                else:
-                    base_kernels.append(pkg)
-            
-            # Sort each group (dpkg version order)
-            base_kernels.sort()
-            liquorix_kernels.sort()
-            xanmod_kernels.sort()
+            # Classify and sort kernels by type
+            base_kernels = version_sort([p for p in installed if 'liquorix' not in p and 'xanmod' not in p])
+            liquorix_kernels = version_sort([p for p in installed if 'liquorix' in p])
+            xanmod_kernels = version_sort([p for p in installed if 'xanmod' in p])
             
             # Determine which to keep
             keep = set()
             
-            # Always keep the running kernel's package
+            # 1. Always keep the running kernel
             for pkg in installed:
                 if current_kernel in pkg:
                     keep.add(pkg)
             
-            # Keep the latest base kernel
+            # 2. Keep the latest of each branch
             if base_kernels:
                 keep.add(base_kernels[-1])
-            
-            # Keep the latest liquorix kernel (if any)
             if liquorix_kernels:
                 keep.add(liquorix_kernels[-1])
-            
-            # Keep the latest xanmod kernel (if any)
             if xanmod_kernels:
                 keep.add(xanmod_kernels[-1])
             
@@ -735,12 +725,12 @@ echo "{_('Uninstallation complete.')}"
                 )
                 return
             
-            # Also find matching headers packages
+            # Find matching headers packages to purge them as well
             headers_to_remove = []
             for pkg in to_remove:
                 header_pkg = pkg.replace('linux-image-', 'linux-headers-')
-                check = subprocess.run(['dpkg', '-s', header_pkg], capture_output=True, text=True)
-                if check.returncode == 0:
+                check = subprocess.run(['dpkg', '-l', header_pkg], capture_output=True, text=True)
+                if check.returncode == 0 and 'ii' in check.stdout:
                     headers_to_remove.append(header_pkg)
             
             all_to_remove = to_remove + headers_to_remove
@@ -760,7 +750,8 @@ echo "{_('Uninstallation complete.')}"
             dialog.format_secondary_text(
                 f"{_('Current kernel')}: {current_kernel}\n\n"
                 f"{_('Kernels to keep')}:\n{keep_text}\n\n"
-                f"{_('Packages to remove')} ({len(all_to_remove)}):\n{remove_text}\n\n"
+                f"{_('Packages to purge')} ({len(all_to_remove)}):\n{remove_text}\n\n"
+                f"{_('This will remove binaries, headers and configuration files.')}\n"
                 f"{_('Continue?')}"
             )
             
@@ -770,14 +761,14 @@ echo "{_('Uninstallation complete.')}"
             if response != Gtk.ResponseType.YES:
                 return
             
-            # Build removal script (single pkexec execution)
+            # Build removal script (Purge + Autoremove + Update GRUB)
             packages_str = " ".join(all_to_remove)
             script_content = (
                 "#!/bin/bash\n"
                 "set -e\n"
-                f"echo \"{_('Removing old kernels...')}\"\n"
-                f"apt remove -y {packages_str}\n"
-                "apt autoremove -y\n"
+                f"echo \"{_('Purging old kernels and headers...')}\"\n"
+                f"apt purge -y {packages_str}\n"
+                "apt autoremove --purge -y\n"
                 f"echo \"{_('Updating GRUB...')}\"\n"
                 "update-grub\n"
                 f"echo \"{_('Cleanup complete.')}\"\n"

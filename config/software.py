@@ -573,6 +573,36 @@ SOFTWARE_CATEGORIES = {
                 ]
             }
         ]
+    },
+    
+    'utilities': {
+        'title': _('Utilities'),
+        'icon': 'utilities',
+        'packages': [
+            {
+                'name': 'Soplos WebApp Manager',
+                'package': 'soplos-webapp-manager',
+                'icon': 'soplos-webapps-manager.png',
+                'description': _('Manage your web applications with ease'),
+                'official': True
+            },
+            {
+                'name': 'Flatseal',
+                'package': None,
+                'flatpak': 'com.github.tchx84.Flatseal',
+                'icon': 'flatseal.png',
+                'description': _('Manage Flatpak permissions'),
+                'official': False
+            },
+            {
+                'name': 'Gear Lever',
+                'package': None,
+                'flatpak': 'it.miabbot.GearLever',
+                'icon': 'gear-lever.png',
+                'description': _('Manage AppImages effortlessly'),
+                'official': False
+            }
+        ]
     }
 }
 

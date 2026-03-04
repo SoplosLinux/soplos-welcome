@@ -4,7 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
-
+ 
+## [2.0.6] - 2026-03-04
+ 
+### 🆕 Added
+- **Recommended Tab**: New "Utilities" section featuring Soplos WebApp Manager, Flatseal, and Gear Lever.
+- **Gaming Tab**: Added ProtonUp-Qt to the launchers list for managing GE-Proton and Wine versions.
+ 
+### 🔧 Kernels Tab Fixes
+- **Clean Old Kernels**: Fixed critical logic bug where older kernels were sometimes kept instead of newer ones due to lexicographical sorting.
+  - Implemented version-aware sorting (`sort -V`) for accurate identification of the latest kernels.
+  - Enhanced preservation logic: now keeps the running kernel PLUS the latest version of each branch (Main, Liquorix, XanMod).
+  - Deep cleaning: Switched to `apt purge` to remove configuration files and stale modules.
+  - Automatic header cleanup: Matching `linux-headers-*` packages are now purged alongside images.
+ 
 ## [2.0.5] - 2026-03-02
 
 ### 🛠️ Bug Fixes

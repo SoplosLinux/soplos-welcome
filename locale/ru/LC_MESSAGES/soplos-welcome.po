@@ -1,543 +1,9 @@
 msgid ""
 msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-04 18:47+0100\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: core/application.py:200 ui/main_window.py:40 ui/main_window.py:99
-#: ui/main_window.py:117 ui/main_window.py:657
-msgid "Soplos Welcome"
-msgstr "Soplos Welcome"
-
-#: core/application.py:227
-msgid "Preferences"
-msgstr "Настройки"
-
-#: core/application.py:233
-msgid "About"
-msgstr "О программе"
-
-#: core/application.py:239
-msgid "Quit"
-msgstr "Выход"
-
-#: config/software.py:16
-msgid "Web Browsers"
-msgstr "Веб-браузеры"
-
-#: config/software.py:24
-msgid "Free and open-source web browser developed by Mozilla"
-msgstr "Свободный веб-браузер с открытым исходным кодом от Mozilla"
-
-#: config/software.py:31
-msgid "Web browser developed by Google"
-msgstr "Веб-браузер от Google"
-
-#: config/software.py:44
-msgid "Open-source project behind Google Chrome"
-msgstr "Проект с открытым исходным кодом, на котором основан Google Chrome"
-
-#: config/software.py:52
-msgid "Privacy-focused browser that blocks ads"
-msgstr "Браузер, ориентированный на конфиденциальность, блокирующий рекламу"
-
-#: config/software.py:67
-msgid "Firefox fork focused on privacy, security and freedom"
-msgstr ""
-"Форк Firefox, ориентированный на конфиденциальность, безопасность и свободу"
-
-#: config/software.py:74
-msgid "Lightweight, fast and secure web browser"
-msgstr "Легкий, быстрый и безопасный веб-браузер"
-
-#: config/software.py:86
-msgid "Communication"
-msgstr "Общение"
-
-#: config/software.py:94
-msgid "Free email client developed by Mozilla"
-msgstr "Бесплатный почтовый клиент от Mozilla"
-
-#: config/software.py:102
-msgid "Communication app for communities and gaming"
-msgstr "Приложение для общения сообществ и геймеров"
-
-#: config/software.py:110
-msgid "Fast and secure messaging app"
-msgstr "Быстрое и безопасное приложение для обмена сообщениями"
-
-#: config/software.py:118
-msgid "Private messaging with end-to-end encryption"
-msgstr "Приватный обмен сообщениями со сквозным шифрованием"
-
-#: config/software.py:126
-msgid "Matrix client for decentralized communication"
-msgstr "Клиент Matrix для децентрализованного общения"
-
-#: config/software.py:134
-msgid "Unofficial WhatsApp desktop client"
-msgstr "Неофициальный клиент WhatsApp для рабочего стола"
-
-#: config/software.py:142
-msgid "Team collaboration and communication platform"
-msgstr "Платформа командного взаимодействия и общения"
-
-#: config/software.py:150
-msgid "Video conferencing and meetings"
-msgstr "Видеоконференции и встречи"
-
-#: config/software.py:157
-msgid "Development"
-msgstr "Разработка"
-
-#: config/software.py:165
-msgid "Source code editor developed by Microsoft"
-msgstr "Редактор исходного кода от Microsoft"
-
-#: config/software.py:180
-msgid "Free version of Visual Studio Code without telemetry"
-msgstr "Свободная версия Visual Studio Code без телеметрии"
-
-#: config/software.py:187
-msgid "Advanced Agentic AI Coding Assistant"
-msgstr "Продвинутый агентный ИИ-ассистент программирования"
-
-#: config/software.py:202
-msgid "Sophisticated text editor for code and markup"
-msgstr "Сложный текстовый редактор для кода и разметки"
-
-#: config/software.py:222
-msgid "Code editor with integrated AI"
-msgstr "Редактор кода с интегрированным ИИ"
-
-#: config/software.py:230
-msgid "A community-led, hyper-hackable text editor"
-msgstr "Текстовый редактор, управляемый сообществом и легко настраиваемый"
-
-#: config/software.py:241
-msgid "Lightweight and fast IDE with multi-language support"
-msgstr "Легкая и быстрая IDE с поддержкой множества языков"
-
-#: config/software.py:248
-msgid "Advanced editor for web programmers"
-msgstr "Продвинутый редактор для веб-программистов"
-
-#: config/software.py:255
-msgid "Fast and reliable FTP/SFTP client"
-msgstr "Быстрый и надежный FTP/SFTP клиент"
-
-#: config/software.py:263
-msgid "API development and testing platform"
-msgstr "Платформа разработки и тестирования API"
-
-#: config/software.py:270
-msgid "Graphics and Design"
-msgstr "Графика и Дизайн"
-
-#: config/software.py:278
-msgid "Advanced and free image editor"
-msgstr "Продвинутый бесплатный редактор изображений"
-
-#: config/software.py:286
-msgid "Professional vector graphics editor"
-msgstr "Профессиональный редактор векторной графики"
-
-#: config/software.py:294
-msgid "Complete and free 3D creation suite"
-msgstr "Полный бесплатный набор для 3D-моделирования"
-
-#: config/software.py:302
-msgid "Professional digital painting program"
-msgstr "Профессиональная программа для цифровой живописи"
-
-#: config/software.py:310
-msgid "Virtual lighttable for photography"
-msgstr "Виртуальный световой стол для фотографии"
-
-#: config/software.py:322
-msgid "Fast and modern RAW photo editor"
-msgstr "Быстрый и современный редактор RAW фотографий"
-
-#: config/software.py:330
-msgid "Advanced RAW photo processing program"
-msgstr "Продвинутая программа обработки RAW-фотографий"
-
-#: config/software.py:337
-msgid "Panorama photo stitcher"
-msgstr "Сшиватель панорамных фотографий"
-
-#: config/software.py
-msgid "Professional photo editing, design and publishing suite"
-msgstr "Профессиональный пакет для редактирования фото, дизайна и публикации"
-
-#: config/software.py:344
-msgid "Multimedia"
-msgstr "Мультимедиа"
-
-#: config/software.py:352
-msgid "Universal media player"
-msgstr "Универсальный медиаплеер"
-
-#: config/software.py:360
-msgid "Software for streaming and video recording"
-msgstr "Программное обеспечение для стриминга и записи видео"
-
-#: config/software.py:368
-msgid "Professional non-linear video editor"
-msgstr "Профессиональный нелинейный видеоредактор"
-
-#: config/software.py:376
-msgid "Free and open-source audio editor"
-msgstr "Свободный аудиоредактор с открытым исходным кодом"
-
-#: config/software.py:384
-msgid "Minimalist and powerful media player"
-msgstr "Минималистичный и мощный медиаплеер"
-
-#: config/software.py:391
-msgid "Digital audio workstation"
-msgstr "Цифровая звуковая рабочая станция"
-
-#: config/software.py:398
-msgid "Professional DJ software"
-msgstr "Профессиональное программное обеспечение для DJ"
-
-#: config/software.py:406
-msgid "Open-source media center"
-msgstr "Медиацентр с открытым исходным кодом"
-
-#: config/software.py:414
-msgid "Easy to use video editor"
-msgstr "Простой в использовании видеоредактор"
-
-#: config/software.py:422
-msgid "Professional video editing (Script by Daniel Tufvesson)"
-msgstr "Профессиональный видеомонтаж (Скрипт Даниэля Туфвессона)"
-
-#: config/software.py:431
-msgid "Digital music streaming service"
-msgstr "Сервис потоковой передачи музыки"
-
-#: config/software.py:439
-msgid "Open source video transcoder"
-msgstr "Видеотранскодер с открытым исходным кодом"
-
-#: config/software.py:446
-msgid "Office"
-msgstr "Офис"
-
-#: config/software.py:454
-msgid "Complete and free office suite"
-msgstr "Полный бесплатный офисный пакет"
-
-#: config/software.py:462
-msgid "Office suite compatible with Microsoft Office"
-msgstr "Офисный пакет, совместимый с Microsoft Office"
-
-#: config/software.py:470
-msgid "Lightweight and elegant office suite"
-msgstr "Легкий и элегантный офисный пакет"
-
-#: config/software.py:478
-msgid "Adobe PDF reader"
-msgstr "Программа для чтения PDF от Adobe"
-
-#: config/software.py:485 ui/main_window.py:347
-msgid "Gaming"
-msgstr "Игры"
-
-#: config/software.py:493
-msgid "Digital distribution platform for video games"
-msgstr "Платформа цифровой дистрибуции видеоигр"
-
-#: config/software.py:501
-msgid "Unified platform for managing games on Linux"
-msgstr "Единая платформа для управления играми на Linux"
-
-#: config/software.py:509
-msgid "Run Windows applications on Linux using Wine"
-msgstr "Запуск Windows-приложений на Linux с использованием Wine"
-
-#: config/software.py:517
-msgid "Frontend for emulators and game engines"
-msgstr "Интерфейс для эмуляторов и игровых движков"
-
-#: config/software.py ui/tabs/gaming_tab.py
-msgid "Frontend for emulators with a modern interface"
-msgstr "Фронтенд для эмуляторов с современным интерфейсом"
-
-#: config/software.py:525
-msgid "Launcher for Epic, GOG and Amazon Games"
-msgstr "Лаунчер для Epic, GOG и Amazon Games"
-
-#: config/software.py
-msgid "Roblox client for Linux"
-msgstr "Клиент Roblox для Linux"
-
-#: ui/tabs/gaming_tab.py
-msgid "Mod manager for Lethal Company, Valheim and more"
-msgstr "Менеджер модов для Lethal Company, Valheim и других игр"
-
-#: ui/tabs/gaming_tab.py
-msgid "Modern launcher for playing Roblox on Linux"
-msgstr "Современный лаунчер для игры в Roblox на Linux"
-
-#: ui/tabs/gaming_tab.py
-msgid "Custom launcher for Minecraft"
-msgstr "Пользовательский лаунчер для Minecraft"
-
-#: ui/tabs/gaming_tab.py
-msgid "Indie game distribution platform"
-msgstr "Платформа распространения инди-игр"
-
-#: ui/tabs/gaming_tab.py
-msgid "Simple client for GOG.com"
-msgstr "Простой клиент для GOG.com"
-
-#: ui/tabs/gaming_tab.py
-msgid "NVIDIA GameStream/Sunshine streaming client"
-msgstr "Клиент потоковой передачи NVIDIA GameStream/Sunshine"
-
-#: ui/tabs/gaming_tab.py
-msgid "PlayStation Remote Play client (HDR version)"
-msgstr "Клиент PlayStation Remote Play (версия HDR)"
-
-#: ui/tabs/gaming_tab.py
-msgid "Communication platform for gaming communities"
-msgstr "Платформа общения для игровых сообществ"
-
-#: ui/main_window.py:147
-msgid "Change Language"
-msgstr "Изменить язык"
-
-#: ui/main_window.py:158
-msgid "Toggle Theme"
-msgstr "Переключить тему"
-
-#: ui/main_window.py:166
-msgid "About Soplos Welcome"
-msgstr "О Soplos Welcome"
-
-#: ui/main_window.py:224 ui/main_window.py:647 ui/tabs/recommended_tab.py:942
-msgid "Ready"
-msgstr "Готово"
-
-#: ui/main_window.py:242 ui/main_window.py:488
-msgid "Welcome"
-msgstr "Добро пожаловать"
-
-#: ui/main_window.py:243 ui/main_window.py:492
-msgid "Software"
-msgstr "Программное обеспечение"
-
-#: ui/main_window.py:244
-msgid "Drivers"
-msgstr "Драйверы"
-
-#: ui/main_window.py:245
-msgid "Kernels"
-msgstr "Kernels"
-
-#: ui/main_window.py:246
-msgid "Security"
-msgstr "Безопасность"
-
-#: ui/main_window.py:247 ui/tabs/kernels_tab.py:169 ui/tabs/security_tab.py:128
-#: ui/tabs/security_tab.py:258 ui/tabs/security_tab.py:323
-msgid "Recommended"
-msgstr "Рекомендуемые"
-
-#: ui/main_window.py:248 ui/tabs/gaming_tab.py:87
-msgid "Customization"
-msgstr "Персонализация"
-
-#: ui/main_window.py:375
-msgid "Minimize"
-msgstr "Свернуть"
-
-#: ui/main_window.py:386 ui/main_window.py:895
-msgid "Restore"
-msgstr "Восстановить"
-
-#: ui/main_window.py:389 ui/main_window.py:898
-msgid "Maximize"
-msgstr "Развернуть"
-
-#: ui/main_window.py:399 ui/tabs/drivers_tab.py:631
-msgid "Close"
-msgstr "Закрыть"
-
-#: ui/main_window.py:472
-msgid "Welcome to Soplos Linux! Get started with your new system."
-msgstr ""
-"Добро пожаловать в Soplos Linux! Начните работу с вашей новой системой."
-
-#: ui/main_window.py:474
-msgid "Detect and install optimal hardware drivers for your system."
-msgstr "Обнаружение и установка оптимальных драйверов для вашей системы."
-
-#: ui/main_window.py:475
-msgid "Customize your desktop environment, themes, and appearance."
-msgstr "Настройка окружения рабочего стола, тем и внешнего вида."
-
-#: ui/main_window.py:476
-msgid "Manage system kernels and performance optimizations."
-msgstr "Управление ядрами системы и оптимизация производительности."
-
-#: ui/main_window.py:477
-msgid "Discover recommended applications for your workflow."
-msgstr "Откройте для себя рекомендуемые приложения для вашей работы."
-
-#: ui/main_window.py:481
-msgid "Tab content coming soon..."
-msgstr "Содержимое вкладки скоро появится..."
-
-#: ui/main_window.py:497
-msgid "Full implementation coming soon..."
-msgstr "Полная реализация скоро..."
-
-#: ui/main_window.py:511 ui/tabs/drivers_tab.py:469 ui/tabs/kernels_tab.py:62
-msgid "System Information"
-msgstr "Информация о системе"
-
-#: ui/main_window.py:526
-msgid "Desktop Environment"
-msgstr "Окружение рабочего стола"
-
-#: ui/main_window.py:527
-msgid "Display Protocol"
-msgstr "Протокол дисплея"
-
-#: ui/main_window.py:528
-msgid "Theme Type"
-msgstr "Тип темы"
-
-#: ui/main_window.py:529
-msgid "Current Language"
-msgstr "Текущий язык"
-
-#: ui/main_window.py:530
-msgid "Current Theme"
-msgstr "Текущая тема"
-
-#: ui/main_window.py:530
-msgid "Default"
-msgstr "По умолчанию"
-
-#: ui/main_window.py:554
-msgid "Install Demo Package"
-msgstr "Установить демо-пакет"
-
-#: ui/main_window.py:560
-msgid "Uninstall Demo Package"
-msgstr "Удалить демо-пакет"
-
-#: ui/main_window.py:581
-#, python-brace-format
-msgid "Ready - {desktop} on {protocol}"
-msgstr "Готово - {desktop} на {protocol}"
-
-#: ui/main_window.py:604
-msgid "GNOME"
-msgstr "GNOME"
-
-#: ui/main_window.py:605 ui/main_window.py:606
-msgid "KDE Plasma"
-msgstr "KDE Plasma"
-
-#: ui/main_window.py:607
-msgid "XFCE"
-msgstr "XFCE"
-
-#: ui/main_window.py:608 ui/main_window.py:610 ui/main_window.py:617
-#: ui/main_window.py:619 ui/tabs/kernels_tab.py:297 ui/tabs/kernels_tab.py:309
-#: ui/tabs/kernels_tab.py:311 utils/hardware_detector.py:70
-#: utils/hardware_detector.py:189
-msgid "Unknown"
-msgstr "Неизвестно"
-
-#: ui/main_window.py:615
-msgid "X11"
-msgstr "X11"
-
-#: ui/main_window.py:616
-msgid "Wayland"
-msgstr "Wayland"
-
-#: ui/main_window.py:636
-msgid "Working..."
-msgstr "Работаю..."
-
-#: ui/main_window.py:659
-msgid "The world's most advanced welcome application for Linux"
-msgstr "Самое продвинутое приложение приветствия для Linux в мире"
-
-#: ui/main_window.py:663
-msgid "Soplos Linux Website"
-msgstr "Веб-сайт Soplos Linux"
-
-#: ui/main_window.py:737
-msgid "🎮 Gaming Mode Activated!"
-msgstr "🎮 Игровой режим активирован!"
-
-#: ui/main_window.py:753
-msgid "Language Changed"
-msgstr "Язык изменен"
-
-#: ui/main_window.py:791
-msgid "Preparing installation..."
-msgstr "Подготовка к установке..."
-
-#: ui/main_window.py:795
-msgid "Downloading package..."
-msgstr "Загрузка пакета..."
-
-#: ui/main_window.py:796
-msgid "Verifying dependencies..."
-msgstr "Проверка зависимостей..."
-
-#: ui/main_window.py:797
-msgid "Installing files..."
-msgstr "Установка файлов..."
-
-#: ui/main_window.py:798
-msgid "Configuring application..."
-msgstr "Настройка приложения..."
-
-#: ui/main_window.py:799
-msgid "Finalizing installation..."
-msgstr "Завершение установки..."
-
-#: ui/main_window.py:800
-msgid "Installation completed!"
-msgstr "Установка завершена!"
-
-#: ui/main_window.py:828
-msgid "✅ Installation successful"
-msgstr "✅ Установка успешна"
-
-#: ui/main_window.py:837
-msgid "Uninstalling package..."
-msgstr "Удаление пакета..."
-
-#: ui/main_window.py:841
-msgid "Stopping services..."
-msgstr "Остановка служб..."
-
-#: ui/main_window.py:842
-msgid "Removing files..."
-msgstr "Удаление файлов..."
-
-#: ui/main_window.py:843
-msgid "Cleaning configuration..."
-msgstr "Очистка конфигурации..."
-
-#: ui/main_window.py:844
-msgid "Uninstallation completed!"
-msgstr "Удаление завершено!"
-
-#: ui/main_window.py:869
-msgid "✅ Uninstallation successful"
-msgstr "✅ Удаление успешно"
 
 #: ui/tabs/customization_tab.py:53
 msgid "Desktop Customization"
@@ -896,266 +362,373 @@ msgstr ""
 "Примечание: Инструменты персонализации Soplos в настоящее время доступны для "
 "XFCE."
 
-#: ui/tabs/drivers_tab.py:47
+#: ui/tabs/drivers_tab.py:48
 msgid "Hardware Drivers"
 msgstr "Драйверы оборудования"
 
-#: ui/tabs/drivers_tab.py:52
+#: ui/tabs/drivers_tab.py:53
 msgid "Install and manage graphics drivers and hardware support"
 msgstr "Установка и управление драйверами видеокарт и поддержкой оборудования"
 
-#: ui/tabs/drivers_tab.py:62
+#: ui/tabs/drivers_tab.py:63
 msgid "Hardware Detection"
 msgstr "Обнаружение оборудования"
 
-#: ui/tabs/drivers_tab.py:67
+#: ui/tabs/drivers_tab.py:68
 msgid "Scan Hardware"
 msgstr "Сканировать оборудование"
 
-#: ui/tabs/drivers_tab.py:68
+#: ui/tabs/drivers_tab.py:69
 msgid "Automatically detect hardware and recommend drivers"
 msgstr "Автоматически обнаруживает оборудование и предлагает драйверы"
 
-#: ui/tabs/drivers_tab.py:114
+#: ui/tabs/drivers_tab.py:121
 msgid "NVIDIA Graphics Drivers"
 msgstr "Драйверы видеокарт NVIDIA"
 
-#: ui/tabs/drivers_tab.py:127
+#: ui/tabs/drivers_tab.py:134
 msgid "NVIDIA 590 (Latest)"
 msgstr "NVIDIA 590 (Последний)"
 
-#: ui/tabs/drivers_tab.py:128
+#: ui/tabs/drivers_tab.py:135
 msgid "Latest driver for RTX 50/40/30 series"
 msgstr "Последний драйвер для серий RTX 50/40/30"
 
-#: ui/tabs/drivers_tab.py:134
+#: ui/tabs/drivers_tab.py:141
 msgid "NVIDIA 580 (Production)"
 msgstr "NVIDIA 580 (Производственный)"
 
-#: ui/tabs/drivers_tab.py:135
+#: ui/tabs/drivers_tab.py:142
 msgid "Stable production driver for modern GPUs"
 msgstr "Стабильный производственный драйвер для современных GPU"
 
-#: ui/tabs/drivers_tab.py:142
+#: ui/tabs/drivers_tab.py:149
 msgid "NVIDIA 550 (Repo)"
 msgstr "NVIDIA 550 (Репозиторий)"
 
-#: ui/tabs/drivers_tab.py:143
+#: ui/tabs/drivers_tab.py:150
 msgid "For RTX 50/40/30/20, GTX 16xx/10xx series"
 msgstr "Для серий RTX 50/40/30/20, GTX 16xx/10xx"
 
-#: ui/tabs/drivers_tab.py:149
+#: ui/tabs/drivers_tab.py:156
 msgid "NVIDIA 470 (Legacy)"
 msgstr "NVIDIA 470 (Устаревший)"
 
-#: ui/tabs/drivers_tab.py:150
+#: ui/tabs/drivers_tab.py:157
 msgid "For Kepler/Maxwell GPUs (GTX 600-900 series)"
 msgstr "Для GPU Kepler/Maxwell (серии GTX 600-900)"
 
-#: ui/tabs/drivers_tab.py:157
+#: ui/tabs/drivers_tab.py:164
 msgid "NVIDIA 390 (Legacy)"
 msgstr "NVIDIA 390 (Устаревший)"
 
-#: ui/tabs/drivers_tab.py:158
+#: ui/tabs/drivers_tab.py:165
 msgid "For Fermi GPUs (GTX 400-500 series)"
 msgstr "Для видеокарт Fermi (серии GTX 400-500)"
 
-#: ui/tabs/drivers_tab.py:164
+#: ui/tabs/drivers_tab.py:171
 msgid "NVIDIA 340 (Legacy)"
 msgstr "NVIDIA 340 (Устаревший)"
 
-#: ui/tabs/drivers_tab.py:165
+#: ui/tabs/drivers_tab.py:172
 msgid "For very old GPUs (8xxx, 9xxx, 2xx, 3xx series)"
 msgstr "Для очень старых видеокарт (серии 8xxx, 9xxx, 2xx, 3xx)"
 
-#: ui/tabs/drivers_tab.py:172
+#: ui/tabs/drivers_tab.py:179
 msgid "Nouveau (Open Source)"
 msgstr "Nouveau (Открытый исходный код)"
 
-#: ui/tabs/drivers_tab.py:173
+#: ui/tabs/drivers_tab.py:180
 msgid "Free and open source NVIDIA driver"
 msgstr "Свободный драйвер NVIDIA с открытым исходным кодом"
 
-#: ui/tabs/drivers_tab.py:181
+#: ui/tabs/drivers_tab.py:188
+msgid "Hybrid Graphics (Laptops)"
+msgstr "Гибридная графика (Ноутбуки)"
+
+#: ui/tabs/drivers_tab.py:193
+msgid "For laptops with Intel/AMD + NVIDIA graphics"
+msgstr "Для ноутбуков с графикой Intel/AMD + NVIDIA"
+
+#: ui/tabs/drivers_tab.py:204 ui/tabs/drivers_tab.py:801
+msgid "PRIME Render Offload"
+msgstr "PRIME Render Offload"
+
+#: ui/tabs/drivers_tab.py:205
+msgid "Use NVIDIA on demand (recommended, saves battery)"
+msgstr "Использовать NVIDIA по требованию (рекомендуется, экономит батарею)"
+
+#: ui/tabs/drivers_tab.py:212 ui/tabs/drivers_tab.py:808
+msgid "NVIDIA Primary"
+msgstr "Основная NVIDIA"
+
+#: ui/tabs/drivers_tab.py:213
+msgid "Always use NVIDIA GPU (maximum performance)"
+msgstr "Всегда использовать GPU NVIDIA (максимальная производительность)"
+
+#: ui/tabs/drivers_tab.py:220
+msgid "Detect Hybrid Setup"
+msgstr "Обнаружить гибридную конфигурацию"
+
+#: ui/tabs/drivers_tab.py:221
+msgid "Check if you have a hybrid graphics laptop"
+msgstr "Проверьте, есть ли у вас ноутбук с гибридной графикой"
+
+#: ui/tabs/drivers_tab.py:229
 msgid "NVIDIA Extras"
 msgstr "Дополнения NVIDIA"
 
-#: ui/tabs/drivers_tab.py:190
+#: ui/tabs/drivers_tab.py:238
 msgid "DaVinci Resolve Extras"
 msgstr "Дополнения DaVinci Resolve"
 
-#: ui/tabs/drivers_tab.py:191
+#: ui/tabs/drivers_tab.py:239
 msgid "OpenCL and CUDA libraries for DaVinci Resolve"
 msgstr "Библиотеки OpenCL и CUDA для DaVinci Resolve"
 
-#: ui/tabs/drivers_tab.py:197
+#: ui/tabs/drivers_tab.py:245
 msgid "Blender CUDA Toolkit"
 msgstr "Инструментарий Blender CUDA"
 
-#: ui/tabs/drivers_tab.py:198
+#: ui/tabs/drivers_tab.py:246
 msgid "CUDA toolkit for Blender GPU rendering"
 msgstr "Инструментарий CUDA для рендеринга на GPU в Blender"
 
-#: ui/tabs/drivers_tab.py:206
+#: ui/tabs/drivers_tab.py:254
 msgid "AMD Graphics Drivers"
 msgstr "Драйверы видеокарт AMD"
 
-#: ui/tabs/drivers_tab.py:211
+#: ui/tabs/drivers_tab.py:259
 msgid "AMD Radeon (Open Source)"
 msgstr "AMD Radeon (Открытый исходный код)"
 
-#: ui/tabs/drivers_tab.py:212
+#: ui/tabs/drivers_tab.py:260
 msgid "Free drivers for all AMD GPUs"
 msgstr "Свободные драйверы для всех видеокарт AMD"
 
-#: ui/tabs/drivers_tab.py:221
+#: ui/tabs/drivers_tab.py:269
 msgid "Wi-Fi Drivers"
 msgstr "Драйверы Wi-Fi"
 
-#: ui/tabs/drivers_tab.py:229
+#: ui/tabs/drivers_tab.py:277
 msgid "Intel Wi-Fi"
 msgstr "Intel Wi-Fi"
 
-#: ui/tabs/drivers_tab.py:229
+#: ui/tabs/drivers_tab.py:277
 msgid "Intel wireless cards"
 msgstr "Беспроводные карты Intel"
 
-#: ui/tabs/drivers_tab.py:233
+#: ui/tabs/drivers_tab.py:281
 msgid "Realtek Wi-Fi"
 msgstr "Realtek Wi-Fi"
 
-#: ui/tabs/drivers_tab.py:233
+#: ui/tabs/drivers_tab.py:281
 msgid "Realtek wireless cards"
 msgstr "Беспроводные карты Realtek"
 
-#: ui/tabs/drivers_tab.py:237
+#: ui/tabs/drivers_tab.py:285
 msgid "Broadcom Wi-Fi"
 msgstr "Broadcom Wi-Fi"
 
-#: ui/tabs/drivers_tab.py:237
+#: ui/tabs/drivers_tab.py:285
 msgid "Broadcom wireless cards"
 msgstr "Беспроводные карты Broadcom"
 
-#: ui/tabs/drivers_tab.py:244
+#: ui/tabs/drivers_tab.py:292
 msgid "Other Drivers"
 msgstr "Другие драйверы"
 
-#: ui/tabs/drivers_tab.py:252
+#: ui/tabs/drivers_tab.py:300
 msgid "Printers"
 msgstr "Принтеры"
 
-#: ui/tabs/drivers_tab.py:252
+#: ui/tabs/drivers_tab.py:300
 msgid "Printer drivers"
 msgstr "Драйверы принтеров"
 
-#: ui/tabs/drivers_tab.py:256
+#: ui/tabs/drivers_tab.py:304
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: ui/tabs/drivers_tab.py:256
+#: ui/tabs/drivers_tab.py:304
 msgid "Bluetooth support"
 msgstr "Поддержка Bluetooth"
 
-#: ui/tabs/drivers_tab.py:263
+#: ui/tabs/drivers_tab.py:311
 msgid "Virtual Machine Tools"
 msgstr "Инструменты виртуальной машины"
 
-#: ui/tabs/drivers_tab.py:271
+#: ui/tabs/drivers_tab.py:319
 msgid "VMware Tools"
 msgstr "Инструменты VMware"
 
-#: ui/tabs/drivers_tab.py:271
+#: ui/tabs/drivers_tab.py:319
 msgid "For VMware virtual machines"
 msgstr "Для виртуальных машин VMware"
 
-#: ui/tabs/drivers_tab.py:275
+#: ui/tabs/drivers_tab.py:323
 msgid "QEMU/KVM Tools"
 msgstr "Инструменты QEMU/KVM"
 
-#: ui/tabs/drivers_tab.py:275
+#: ui/tabs/drivers_tab.py:323
 msgid "For QEMU/KVM virtual machines"
 msgstr "Для виртуальных машин QEMU/KVM"
 
-#: ui/tabs/drivers_tab.py:280
+#: ui/tabs/drivers_tab.py:328
 msgid "VirtualBox Guest"
 msgstr "Гостевые дополнения VirtualBox"
 
-#: ui/tabs/drivers_tab.py:280
+#: ui/tabs/drivers_tab.py:328
 msgid "For VirtualBox virtual machines"
 msgstr "Для виртуальных машин VirtualBox"
 
-#: ui/tabs/drivers_tab.py:491
+#: ui/tabs/drivers_tab.py:401
+msgid "NVIDIA Driver Installation"
+msgstr "Установка драйвера NVIDIA"
+
+#: ui/tabs/drivers_tab.py:404
+msgid ""
+"This installation requires TWO automatic reboots:\n"
+"\n"
+"1. First reboot: System prepares for installation\n"
+"2. Second reboot: Driver is installed in text mode\n"
+"\n"
+"The process is fully automatic. Do not turn off your computer.\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+
+#: ui/tabs/drivers_tab.py:701 ui/tabs/kernels_tab.py:62
+msgid "System Information"
+msgstr "Информация о системе"
+
+#: ui/tabs/drivers_tab.py:723
 msgid "Processor"
 msgstr "Процессор"
 
-#: ui/tabs/drivers_tab.py:500 ui/tabs/drivers_tab.py:519
+#: ui/tabs/drivers_tab.py:732 ui/tabs/drivers_tab.py:751
 msgid "Model:"
 msgstr "Модель:"
 
-#: ui/tabs/drivers_tab.py:500
+#: ui/tabs/drivers_tab.py:732
 msgid "Cores:"
 msgstr "Ядра:"
 
-#: ui/tabs/drivers_tab.py:500
+#: ui/tabs/drivers_tab.py:732
 msgid "Threads:"
 msgstr "Потоки:"
 
-#: ui/tabs/drivers_tab.py:510
+#: ui/tabs/drivers_tab.py:742
 msgid "Graphics Card"
 msgstr "Видеокарта"
 
-#: ui/tabs/drivers_tab.py:519
+#: ui/tabs/drivers_tab.py:751
 msgid "Vendor:"
 msgstr "Производитель:"
 
-#: ui/tabs/drivers_tab.py:519 ui/tabs/drivers_tab.py:571
+#: ui/tabs/drivers_tab.py:751 ui/tabs/drivers_tab.py:847
 msgid "Type:"
 msgstr "Тип:"
 
-#: ui/tabs/drivers_tab.py:527
+#: ui/tabs/drivers_tab.py:759
 msgid "Recommended driver:"
 msgstr "Рекомендуемый драйвер:"
 
-#: ui/tabs/drivers_tab.py:533 ui/tabs/drivers_tab.py:582
+#: ui/tabs/drivers_tab.py:765 ui/tabs/drivers_tab.py:858
 #: ui/tabs/kernels_tab.py:524 ui/tabs/kernels_tab.py:545
-#: ui/tabs/recommended_tab.py:363 ui/tabs/security_tab.py:478
-#: ui/tabs/security_tab.py:502 ui/tabs/software_gnome_tab.py:230
-#: ui/tabs/software_plasma_tab.py:198 ui/tabs/software_xfce_tab.py:232
+#: ui/tabs/recommended_tab.py:366 ui/tabs/security_tab.py:505
+#: ui/tabs/security_tab.py:529 ui/tabs/security_tab.py:593
+#: ui/tabs/software_gnome_tab.py:230 ui/tabs/software_plasma_tab.py:198
+#: ui/tabs/software_xfce_tab.py:232
 msgid "Install"
 msgstr "Установить"
 
-#: ui/tabs/drivers_tab.py:544
+#: ui/tabs/drivers_tab.py:776
+msgid "Hybrid Graphics Detected"
+msgstr "Обнаружена гибридная графика"
+
+#: ui/tabs/drivers_tab.py:786
+msgid "Integrated:"
+msgstr "Интегрированная:"
+
+#: ui/tabs/drivers_tab.py:787
+msgid "Dedicated:"
+msgstr "Дискретная:"
+
+#: ui/tabs/drivers_tab.py:793
+msgid "Configure how your GPUs work together:"
+msgstr "Настройте совместную работу ваших GPU:"
+
+#: ui/tabs/drivers_tab.py:802
+msgid "Use NVIDIA on demand (saves battery)"
+msgstr "Использовать NVIDIA по требованию (экономит батарею)"
+
+#: ui/tabs/drivers_tab.py:809
+msgid "Always use NVIDIA (max performance)"
+msgstr "Всегда использовать NVIDIA (макс. производительность)"
+
+#: ui/tabs/drivers_tab.py:820
 msgid "RAM Memory"
 msgstr "Оперативная память"
 
-#: ui/tabs/drivers_tab.py:553
+#: ui/tabs/drivers_tab.py:829
 msgid "Total:"
 msgstr "Всего:"
 
-#: ui/tabs/drivers_tab.py:553
+#: ui/tabs/drivers_tab.py:829
 msgid "Available:"
 msgstr "Доступно:"
 
-#: ui/tabs/drivers_tab.py:562
+#: ui/tabs/drivers_tab.py:838
 msgid "Virtual Machine"
 msgstr "Виртуальная машина"
 
-#: ui/tabs/drivers_tab.py:571 utils/hardware_detector.py:70
+#: ui/tabs/drivers_tab.py:847 utils/hardware_detector.py:70
 #: utils/hardware_detector.py:74
 msgid "N/A"
 msgstr "Н/Д"
 
-#: ui/tabs/drivers_tab.py:577
+#: ui/tabs/drivers_tab.py:853
 msgid "Recommended tools:"
 msgstr "Рекомендуемые инструменты:"
 
-#: ui/tabs/drivers_tab.py:593
+#: ui/tabs/drivers_tab.py:869
 msgid "Storage"
 msgstr "Накопитель"
 
-#: ui/tabs/drivers_tab.py:611
+#: ui/tabs/drivers_tab.py:887
 msgid "Network"
 msgstr "Сеть"
+
+#: ui/tabs/drivers_tab.py:907
+msgid "Close"
+msgstr "Закрыть"
+
+#: ui/tabs/drivers_tab.py:950
+msgid "Hybrid Graphics Detection"
+msgstr "Обнаружение гибридной графики"
+
+#: ui/tabs/drivers_tab.py:955
+#, python-brace-format
+msgid ""
+"Hybrid graphics detected!\n"
+"\n"
+"Integrated GPU: {integrated}\n"
+"Dedicated GPU: {dedicated}\n"
+"\n"
+"You can configure PRIME Render Offload (saves battery) or NVIDIA Primary "
+"(maximum performance)."
+msgstr ""
+
+#: ui/tabs/drivers_tab.py:966
+#, python-brace-format
+msgid ""
+"No hybrid graphics detected.\n"
+"\n"
+"Your system has: {gpu}\n"
+"\n"
+"Hybrid configuration is not needed."
+msgstr ""
 
 #: ui/tabs/gaming_tab.py:67
 msgid "Gaming Center"
@@ -1221,6 +794,10 @@ msgstr "Отменить все"
 msgid "Undo all gaming optimizations"
 msgstr "Отменить все игровые оптимизации"
 
+#: ui/tabs/gaming_tab.py:87
+msgid "Customization"
+msgstr "Персонализация"
+
 #: ui/tabs/gaming_tab.py:88 ui/tabs/gaming_tab.py:204
 msgid "Gaming Wallpapers"
 msgstr "Игровые обои"
@@ -1256,7 +833,7 @@ msgstr "Пакеты для установки:"
 #: ui/tabs/gaming_tab.py:263 ui/tabs/gaming_tab.py:427
 #: ui/tabs/gaming_tab.py:596 ui/tabs/gaming_tab.py:777
 #: ui/tabs/gaming_tab.py:989 ui/tabs/gaming_tab.py:1075
-#: ui/tabs/gaming_tab.py:1315
+#: ui/tabs/gaming_tab.py:1315 ui/tabs/kernels_tab.py:755
 msgid "Continue?"
 msgstr "Продолжить?"
 
@@ -1279,7 +856,7 @@ msgstr "• Lutris: Включите 'Feral GameMode' в настройках и
 
 #: ui/tabs/gaming_tab.py:327 ui/tabs/gaming_tab.py:493
 #: ui/tabs/gaming_tab.py:1136 ui/tabs/gaming_tab.py:1448
-#: ui/tabs/recommended_tab.py:860
+#: ui/tabs/recommended_tab.py:885
 msgid "Installation failed"
 msgstr "Установка не удалась"
 
@@ -1303,6 +880,11 @@ msgstr "Удаление не удалось"
 msgid "Install Performance Mode Script?"
 msgstr "Установить скрипт режима производительности?"
 
+#: ui/tabs/gaming_tab.py:423
+msgid ""
+"This script temporarily sets CPU to 'performance' mode when launching games."
+msgstr ""
+
 #: ui/tabs/gaming_tab.py:424
 msgid "Requirements:"
 msgstr "Требования:"
@@ -1325,6 +907,12 @@ msgstr ""
 msgid "• Lutris: Add 'soplos-game-performance' as a prefix in Lutris settings"
 msgstr ""
 "• Lutris: Добавьте 'soplos-game-performance' как префикс в настройках Lutris"
+
+#: ui/tabs/gaming_tab.py:476
+msgid ""
+"Your CPU will automatically switch to performance mode when games are "
+"running."
+msgstr ""
 
 #: ui/tabs/gaming_tab.py:518
 msgid "Revert Gaming Sysctl Tweaks?"
@@ -1476,6 +1064,12 @@ msgstr "Оптимизация не удалась"
 msgid "Install MangoHud + Goverlay?"
 msgstr "Установить MangoHud + Goverlay?"
 
+#: ui/tabs/gaming_tab.py:1071
+msgid ""
+"MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, CPU/"
+"GPU load and more."
+msgstr ""
+
 #: ui/tabs/gaming_tab.py:1113
 msgid "MangoHud + Goverlay installed!"
 msgstr "MangoHud + Goverlay установлены!"
@@ -1495,6 +1089,19 @@ msgstr "• Переключение в игре с помощью Shift+F12"
 #: ui/tabs/gaming_tab.py:1153
 msgid "Revert ALL Gaming Optimizations?"
 msgstr "Отменить ВСЕ игровые оптимизации?"
+
+#: ui/tabs/gaming_tab.py:1156
+msgid ""
+"This will remove:\n"
+"• Gaming sysctl tweaks\n"
+"• GPU optimizations\n"
+"• Disk I/O optimizations\n"
+"• Performance Mode script\n"
+"\n"
+"GameMode and MangoHud will remain installed.\n"
+"\n"
+"Continue?"
+msgstr ""
 
 #: ui/tabs/gaming_tab.py:1237
 msgid "Optimizations reverted!"
@@ -1548,66 +1155,132 @@ msgstr "Архив не найден"
 msgid "Unexpected error"
 msgstr "Неожиданная ошибка"
 
-#: ui/tabs/gaming_tab.py:1623
+#: ui/tabs/gaming_tab.py:1514 config/software.py:515
+msgid "Digital distribution platform for video games"
+msgstr "Платформа цифровой дистрибуции видеоигр"
+
+#: ui/tabs/gaming_tab.py:1522 config/software.py:523
+msgid "Unified platform for managing games on Linux"
+msgstr "Единая платформа для управления играми на Linux"
+
+#: ui/tabs/gaming_tab.py:1530 config/software.py:547
+msgid "Launcher for Epic, GOG and Amazon Games"
+msgstr "Лаунчер для Epic, GOG и Amazon Games"
+
+#: ui/tabs/gaming_tab.py:1538 config/software.py:531
+msgid "Run Windows applications on Linux using Wine"
+msgstr "Запуск Windows-приложений на Linux с использованием Wine"
+
+#: ui/tabs/gaming_tab.py:1546
+msgid "Mod manager for Lethal Company, Valheim and more"
+msgstr "Менеджер модов для Lethal Company, Valheim и других игр"
+
+#: ui/tabs/gaming_tab.py:1554
+msgid "Modern launcher for playing Roblox on Linux"
+msgstr "Современный лаунчер для игры в Roblox на Linux"
+
+#: ui/tabs/gaming_tab.py:1562
+msgid "Roblox client for Linux"
+msgstr "Клиент Roblox для Linux"
+
+#: ui/tabs/gaming_tab.py:1570
+msgid "Custom launcher for Minecraft"
+msgstr "Пользовательский лаунчер для Minecraft"
+
+#: ui/tabs/gaming_tab.py:1578
+msgid "Indie game distribution platform"
+msgstr "Платформа распространения инди-игр"
+
+#: ui/tabs/gaming_tab.py:1586
+msgid "Simple client for GOG.com"
+msgstr "Простой клиент для GOG.com"
+
+#: ui/tabs/gaming_tab.py:1594 config/software.py:539
+msgid "Frontend for emulators and game engines"
+msgstr "Интерфейс для эмуляторов и игровых движков"
+
+#: ui/tabs/gaming_tab.py:1602 config/software.py:554
+msgid "Frontend for emulators with a modern interface"
+msgstr "Фронтенд для эмуляторов с современным интерфейсом"
+
+#: ui/tabs/gaming_tab.py:1628
+msgid "NVIDIA GameStream/Sunshine streaming client"
+msgstr "Клиент потоковой передачи NVIDIA GameStream/Sunshine"
+
+#: ui/tabs/gaming_tab.py:1636
+msgid "PlayStation Remote Play client (HDR version)"
+msgstr "Клиент PlayStation Remote Play (версия HDR)"
+
+#: ui/tabs/gaming_tab.py:1644
+msgid "Communication platform for gaming communities"
+msgstr "Платформа общения для игровых сообществ"
+
+#: ui/tabs/gaming_tab.py:1652
+msgid ""
+"Install and manage GE-Proton, Wine-GE and more for Steam and Lutris"
+msgstr ""
+"Установка и управление GE-Proton, Wine-GE и другими для Steam и Lutris"
+
+#: ui/tabs/gaming_tab.py:1665
 msgid "Launchers"
 msgstr "Лаунчеры"
 
-#: ui/tabs/gaming_tab.py:1690 ui/tabs/recommended_tab.py:271
+#: ui/tabs/gaming_tab.py:1735 ui/tabs/recommended_tab.py:272
 #: ui/tabs/software_gnome_tab.py:93 ui/tabs/software_plasma_tab.py:93
 #: ui/tabs/software_xfce_tab.py:93
 msgid "Flatpak"
 msgstr "Flatpak"
 
-#: ui/tabs/gaming_tab.py:1698 ui/tabs/recommended_tab.py:279
+#: ui/tabs/gaming_tab.py:1743 ui/tabs/recommended_tab.py:280
 msgid "Official Package"
 msgstr "Официальный пакет"
 
-#: ui/tabs/gaming_tab.py:1866 ui/tabs/recommended_tab.py:563
+#: ui/tabs/gaming_tab.py:1929 ui/tabs/recommended_tab.py:578
 #: ui/tabs/software_gnome_tab.py:270 ui/tabs/software_plasma_tab.py:238
 #: ui/tabs/software_xfce_tab.py:272 utils/command_runner.py:194
 #: utils/command_runner.py:199
 msgid "Operation completed successfully"
 msgstr "Операция успешно завершена"
 
-#: ui/tabs/gaming_tab.py:1910
+#: ui/tabs/gaming_tab.py:1988
 msgid "RGB Theme Deactivated"
 msgstr "RGB Тема деактивирована"
 
-#: ui/tabs/gaming_tab.py:1912
+#: ui/tabs/gaming_tab.py:1990
 msgid "The RGB gaming theme has been disabled."
 msgstr "Игровая тема RGB была отключена."
 
-#: ui/tabs/gaming_tab.py:1930 utils/command_runner.py:220
-#: utils/hardware_detector.py:74 utils/hardware_detector.py:204
-#: utils/hardware_detector.py:226
+#: ui/tabs/gaming_tab.py:2008 ui/tabs/kernels_tab.py:783
+#: utils/command_runner.py:220 utils/hardware_detector.py:74
+#: utils/hardware_detector.py:279 utils/hardware_detector.py:301
 msgid "Error"
 msgstr "Ошибка"
 
-#: ui/tabs/gaming_tab.py:1956
+#: ui/tabs/gaming_tab.py:2034
 msgid "RGB Theme Activated! 🎮"
 msgstr "RGB Тема активирована! 🎮"
 
-#: ui/tabs/gaming_tab.py:1959
+#: ui/tabs/gaming_tab.py:2037
 msgid "Gaming RGB theme applied!"
 msgstr "Игровая RGB тема применена!"
 
-#: ui/tabs/gaming_tab.py:1960
+#: ui/tabs/gaming_tab.py:2038
 msgid "Features:"
 msgstr "Особенности:"
 
-#: ui/tabs/gaming_tab.py:1961
+#: ui/tabs/gaming_tab.py:2039
 msgid "Neon red accents"
 msgstr "Неоновые красные акценты"
 
-#: ui/tabs/gaming_tab.py:1962
+#: ui/tabs/gaming_tab.py:2040
 msgid "Dark optimized interface"
 msgstr "Темный оптимизированный интерфейс"
 
-#: ui/tabs/gaming_tab.py:1963
+#: ui/tabs/gaming_tab.py:2041
 msgid "Click 'RGB Theme' again to deactivate"
 msgstr "Нажмите 'RGB Тема' снова для деактивации"
 
-#: ui/tabs/gaming_tab.py:1974
+#: ui/tabs/gaming_tab.py:2052
 msgid "Error Activating RGB Theme"
 msgstr "Ошибка активации RGB темы"
 
@@ -1623,13 +1296,31 @@ msgstr "Обновления микрокода CPU"
 msgid "Security and performance firmware updates for your CPU."
 msgstr "Обновления безопасности и производительности для вашего процессора."
 
+#: ui/tabs/kernels_tab.py:103
+#, fuzzy
+msgid ""
+"Warning: Liquorix kernel is NOT compatible with proprietary NVIDIA drivers."
+msgstr "Liquorix не совместим с драйверами NVIDIA"
+
 #: ui/tabs/kernels_tab.py:113
 msgid "Available Kernels"
 msgstr "Доступные ядра"
 
+#: ui/tabs/kernels_tab.py:118
+msgid ""
+"Manage your system kernels. You can install optimized kernels for better "
+"performance or latency."
+msgstr ""
+
 #: ui/tabs/kernels_tab.py:126 ui/tabs/kernels_tab.py:285
 msgid "Liquorix Kernel"
 msgstr "Ядро Liquorix"
+
+#: ui/tabs/kernels_tab.py:135
+msgid ""
+"Optimized for interactive systems and gaming. High responsiveness and low "
+"latency."
+msgstr ""
 
 #: ui/tabs/kernels_tab.py:146
 msgid "XanMod Kernel Variants"
@@ -1646,6 +1337,16 @@ msgstr "Выберите вариант, соответствующий ваше
 #: ui/tabs/kernels_tab.py:169
 msgid "x64v3 - Standard"
 msgstr "x64v3 - Стандарт"
+
+#: ui/tabs/kernels_tab.py:169 ui/tabs/security_tab.py:123
+#: ui/tabs/security_tab.py:274 ui/tabs/security_tab.py:339
+msgid "Recommended"
+msgstr "Рекомендуемые"
+
+#: ui/tabs/kernels_tab.py:174
+msgid ""
+"For CPUs from 2015+ (Intel Haswell, AMD Zen and newer). AVX2 optimizations."
+msgstr ""
 
 #: ui/tabs/kernels_tab.py:187
 msgid "x64v4 - Advanced"
@@ -1693,7 +1394,7 @@ msgstr "Обслуживание системы"
 msgid "Tools to keep your system clean and updated."
 msgstr "Инструменты для поддержания чистоты и актуальности вашей системы."
 
-#: ui/tabs/kernels_tab.py:260
+#: ui/tabs/kernels_tab.py:260 ui/tabs/kernels_tab.py:744
 msgid "Clean Old Kernels"
 msgstr "Очистить старые ядра"
 
@@ -1717,6 +1418,12 @@ msgstr "Стандартное ядро"
 msgid "XanMod Kernel"
 msgstr "Ядро XanMod"
 
+#: ui/tabs/kernels_tab.py:297 ui/tabs/kernels_tab.py:309
+#: ui/tabs/kernels_tab.py:311 utils/hardware_detector.py:70
+#: utils/hardware_detector.py:141 utils/hardware_detector.py:264
+msgid "Unknown"
+msgstr "Неизвестно"
+
 #: ui/tabs/kernels_tab.py:308 ui/tabs/kernels_tab.py:310
 #: utils/hardware_detector.py:70
 msgid "Not detected"
@@ -1738,7 +1445,7 @@ msgstr "часов"
 msgid "minutes"
 msgstr "минут"
 
-#: ui/tabs/kernels_tab.py:346 ui/tabs/kernels_tab.py:670
+#: ui/tabs/kernels_tab.py:346
 msgid "Current Kernel"
 msgstr "Текущее ядро"
 
@@ -1763,8 +1470,9 @@ msgid "In Use"
 msgstr "Используется"
 
 #: ui/tabs/kernels_tab.py:453 ui/tabs/kernels_tab.py:510
-#: ui/tabs/kernels_tab.py:542 ui/tabs/recommended_tab.py:339
-#: ui/tabs/security_tab.py:460 ui/tabs/security_tab.py:493
+#: ui/tabs/kernels_tab.py:542 ui/tabs/recommended_tab.py:342
+#: ui/tabs/security_tab.py:487 ui/tabs/security_tab.py:520
+#: ui/tabs/security_tab.py:584
 msgid "Installed"
 msgstr "Установлено"
 
@@ -1785,9 +1493,10 @@ msgid "CPU vendor not detected"
 msgstr "Производитель процессора не обнаружен"
 
 #: ui/tabs/kernels_tab.py:514 ui/tabs/kernels_tab.py:532
-#: ui/tabs/recommended_tab.py:356 ui/tabs/security_tab.py:455
-#: ui/tabs/security_tab.py:488 ui/tabs/software_gnome_tab.py:226
-#: ui/tabs/software_plasma_tab.py:194 ui/tabs/software_xfce_tab.py:228
+#: ui/tabs/recommended_tab.py:359 ui/tabs/security_tab.py:482
+#: ui/tabs/security_tab.py:515 ui/tabs/security_tab.py:579
+#: ui/tabs/software_gnome_tab.py:226 ui/tabs/software_plasma_tab.py:194
+#: ui/tabs/software_xfce_tab.py:228
 msgid "Uninstall"
 msgstr "Удалить"
 
@@ -1796,7 +1505,8 @@ msgid "Installing Liquorix Kernel..."
 msgstr "Установка ядра Liquorix..."
 
 #: ui/tabs/kernels_tab.py:565 ui/tabs/kernels_tab.py:594
-#: ui/tabs/kernels_tab.py:741 ui/tabs/security_tab.py:537
+#: ui/tabs/kernels_tab.py:823 ui/tabs/security_tab.py:551
+#: ui/tabs/security_tab.py:628
 msgid "Installation complete."
 msgstr "Установка завершена."
 
@@ -1809,7 +1519,8 @@ msgid "Uninstalling Liquorix Kernel..."
 msgstr "Удаление ядра Liquorix..."
 
 #: ui/tabs/kernels_tab.py:610 ui/tabs/kernels_tab.py:639
-#: ui/tabs/kernels_tab.py:758 ui/tabs/security_tab.py:550
+#: ui/tabs/kernels_tab.py:840 ui/tabs/security_tab.py:566
+#: ui/tabs/security_tab.py:641
 msgid "Uninstallation complete."
 msgstr "Удаление завершено."
 
@@ -1821,68 +1532,74 @@ msgstr "Удаление XanMod"
 msgid "Kernel in Use"
 msgstr "Ядро используется"
 
-#: ui/tabs/kernels_tab.py:668
-msgid "Checking for old kernels..."
-msgstr "Проверка старых ядер..."
+#: ui/tabs/kernels_tab.py:656
+#, python-brace-format
+msgid ""
+"Cannot uninstall {0} because it is currently running. Please boot into "
+"another kernel first."
+msgstr ""
 
-#: ui/tabs/kernels_tab.py:679 ui/tabs/kernels_tab.py:694
-msgid "No old kernels to remove."
-msgstr "Нет старых ядер для удаления."
-
-#: ui/tabs/kernels_tab.py:698
-msgid "Removing old kernels..."
-msgstr "Удаление старых ядер..."
-
-#: ui/tabs/kernels_tab.py:706 ui/tabs/kernels_tab.py:718
-msgid "Updating GRUB..."
-msgstr "Обновление GRUB..."
-
-#: ui/tabs/kernels_tab.py:708
-msgid "Cleanup complete."
-msgstr "Очистка завершена."
-
-#: ui/tabs/kernels_tab.py
-msgid "Packages to remove"
-msgstr "Пакеты для удаления"
-
-#: ui/tabs/kernels_tab.py
-msgid "Kernels to keep"
-msgstr "Ядра для сохранения"
-
-#: ui/tabs/kernels_tab.py
-msgid "Current kernel"
-msgstr "Текущее ядро"
-
-#: ui/tabs/kernels_tab.py
-msgid "No old kernels to remove. Your system is already clean."
-msgstr "Нет старых ядер для удаления. Ваша система уже чиста."
-
-#: ui/tabs/kernels_tab.py
-msgid "System is clean"
-msgstr "Система чиста"
-
-#: ui/tabs/kernels_tab.py
-msgid "Could not find any installed kernel packages."
-msgstr "Не удалось найти установленные пакеты ядра."
-
-#: ui/tabs/kernels_tab.py
+#: ui/tabs/kernels_tab.py:684
 msgid "No kernels found"
 msgstr "Ядра не найдены"
 
+#: ui/tabs/kernels_tab.py:684
+msgid "Could not find any installed kernel packages."
+msgstr "Не удалось найти установленные пакеты ядра."
+
+#: ui/tabs/kernels_tab.py:723
+msgid "System is clean"
+msgstr "Система чиста"
+
 #: ui/tabs/kernels_tab.py:724
+msgid "No old kernels to remove. Your system is already clean."
+msgstr "Нет старых ядер для удаления. Ваша система уже чиста."
+
+#: ui/tabs/kernels_tab.py:751
+msgid "Current kernel"
+msgstr "Текущее ядро"
+
+#: ui/tabs/kernels_tab.py:752
+msgid "Kernels to keep"
+msgstr "Ядра для сохранения"
+
+#: ui/tabs/kernels_tab.py:753
+#, fuzzy
+msgid "Packages to purge"
+msgstr "Пакеты для удаления"
+
+#: ui/tabs/kernels_tab.py:754
+#, fuzzy
+msgid "This will remove binaries, headers and configuration files."
+msgstr "Это удалит бинарные файлы, заголовки и конфигурационные файлы."
+
+#: ui/tabs/kernels_tab.py:769
+#, fuzzy
+msgid "Purging old kernels and headers..."
+msgstr "Очистка старых ядер и заголовков..."
+
+#: ui/tabs/kernels_tab.py:772 ui/tabs/kernels_tab.py:800
+msgid "Updating GRUB..."
+msgstr "Обновление GRUB..."
+
+#: ui/tabs/kernels_tab.py:774
+msgid "Cleanup complete."
+msgstr "Очистка завершена."
+
+#: ui/tabs/kernels_tab.py:806
 msgid "GRUB update complete."
 msgstr "Обновление GRUB завершено."
 
-#: ui/tabs/kernels_tab.py:738
+#: ui/tabs/kernels_tab.py:820
 msgid "Installing"
 msgstr "Установка"
 
-#: ui/tabs/kernels_tab.py:742
+#: ui/tabs/kernels_tab.py:824
 msgid "A system reboot is recommended to apply microcode updates."
 msgstr ""
 "Рекомендуется перезагрузка системы для применения обновлений микрокода."
 
-#: ui/tabs/kernels_tab.py:756
+#: ui/tabs/kernels_tab.py:838
 msgid "Uninstalling"
 msgstr "Удаление"
 
@@ -1894,7 +1611,7 @@ msgstr "Рекомендовано для вас"
 msgid "Curated applications based on your desktop environment"
 msgstr "Отобранные приложения на основе вашего окружения рабочего стола"
 
-#: ui/tabs/recommended_tab.py:79 ui/tabs/recommended_tab.py:622
+#: ui/tabs/recommended_tab.py:79 ui/tabs/recommended_tab.py:645
 msgid "Multiple Selection"
 msgstr "Множественный выбор"
 
@@ -1918,203 +1635,282 @@ msgstr "0 программ выбрано"
 msgid "Install Selected"
 msgstr "Установить выбранные"
 
-#: ui/tabs/recommended_tab.py:157
+#: ui/tabs/recommended_tab.py:158
 msgid "No results found for"
 msgstr "Результаты не найдены для"
 
-#: ui/tabs/recommended_tab.py:347 utils/command_runner.py:180
+#: ui/tabs/recommended_tab.py:350 utils/command_runner.py:180
 msgid "Processing..."
 msgstr "Обработка..."
 
-#: ui/tabs/recommended_tab.py:620
+#: ui/tabs/recommended_tab.py:643
 msgid "Normal Mode"
 msgstr "Обычный режим"
 
-#: ui/tabs/recommended_tab.py:759
+#: ui/tabs/recommended_tab.py:784
 msgid "{} programs selected"
 msgstr "{} программ выбрано"
 
-#: ui/tabs/recommended_tab.py:759
+#: ui/tabs/recommended_tab.py:784
 msgid "1 program selected"
 msgstr "1 программа выбрана"
 
-#: ui/tabs/recommended_tab.py:777
+#: ui/tabs/recommended_tab.py:802
 msgid "Install {} selected programs?"
 msgstr "Установить {} выбранных программ?"
 
-#: ui/tabs/recommended_tab.py:852
+#: ui/tabs/recommended_tab.py:877
 msgid "Downloading"
 msgstr "Загрузка"
 
-#: ui/tabs/recommended_tab.py:853
+#: ui/tabs/recommended_tab.py:878
 msgid "Download failed for"
 msgstr "Ошибка загрузки для"
 
-#: ui/tabs/recommended_tab.py:856
+#: ui/tabs/recommended_tab.py:881
 msgid "Installing all .deb packages..."
 msgstr "Установка всех .deb пакетов..."
 
-#: ui/tabs/recommended_tab.py:866
+#: ui/tabs/recommended_tab.py:891
 msgid "All .deb packages installed successfully"
 msgstr "Все .deb пакеты успешно установлены"
 
-#: ui/tabs/recommended_tab.py:934
+#: ui/tabs/recommended_tab.py:959
 msgid "Batch Installation Complete"
 msgstr "Пакетная установка завершена"
 
-#: ui/tabs/recommended_tab.py:936
+#: ui/tabs/recommended_tab.py:961
 msgid "All selected programs have been installed."
 msgstr "Все выбранные программы были установлены."
 
-#: ui/tabs/recommended_tab.py:975
+#: ui/tabs/recommended_tab.py:967
+msgid "Ready"
+msgstr "Готово"
+
+#: ui/tabs/recommended_tab.py:1000
 msgid "DaVinci Resolve Installation"
 msgstr "Установка DaVinci Resolve"
 
-#: ui/tabs/recommended_tab.py:991
+#: ui/tabs/recommended_tab.py:1003
+msgid ""
+"DaVinci Resolve requires manual download due to licensing.\n"
+"\n"
+"1. Go to blackmagicdesign.com and download the Linux version (ZIP).\n"
+"2. Click OK to select the downloaded file.\n"
+"3. We will convert it to a Debian package and install it."
+msgstr ""
+
+#: ui/tabs/recommended_tab.py:1016
 msgid "DaVinci Resolve Installer"
 msgstr "Установщик DaVinci Resolve"
 
-#: ui/tabs/recommended_tab.py:996
+#: ui/tabs/recommended_tab.py:1021
 msgid "Select DaVinci Resolve Installer"
 msgstr "Выберите установщик DaVinci Resolve"
 
-#: ui/tabs/recommended_tab.py:1001 ui/tabs/software_gnome_tab.py:371
+#: ui/tabs/recommended_tab.py:1026 ui/tabs/software_gnome_tab.py:371
 #: ui/tabs/software_plasma_tab.py:341 ui/tabs/software_xfce_tab.py:372
 msgid "Cancel"
 msgstr "Отмена"
 
-#: ui/tabs/recommended_tab.py:1002
+#: ui/tabs/recommended_tab.py:1027
 msgid "Select"
 msgstr "Выбрать"
 
-#: ui/tabs/recommended_tab.py:1132
+#: ui/tabs/recommended_tab.py:1157
 msgid "Installation Complete"
 msgstr "Установка завершена"
 
-#: ui/tabs/recommended_tab.py:1134
+#: ui/tabs/recommended_tab.py:1159
 msgid "DaVinci Resolve has been installed successfully."
 msgstr "DaVinci Resolve был успешно установлен."
 
-#: ui/tabs/security_tab.py:68
+#: ui/tabs/security_tab.py:69
 msgid "Security &amp; System Protection"
 msgstr "Безопасность и Защита системы"
 
-#: ui/tabs/security_tab.py:72
+#: ui/tabs/security_tab.py:73
 msgid "Protect your system with backups, firewall, and security tools"
 msgstr ""
 "Защитите вашу систему с помощью резервных копий, брандмауэра и инструментов "
 "безопасности"
 
-#: ui/tabs/security_tab.py:115
+#: ui/tabs/security_tab.py:110
 msgid "System Backups"
 msgstr "Резервное копирование"
 
-#: ui/tabs/security_tab.py:151
+#: ui/tabs/security_tab.py:128
+msgid ""
+"Creates automatic system snapshots. Protects your configuration and allows "
+"easy restoration."
+msgstr ""
+
+#: ui/tabs/security_tab.py:145
+msgid "Complementary"
+msgstr "Дополнительно"
+
+#: ui/tabs/security_tab.py:147 ui/tabs/security_tab.py:189
+msgid "Only for BTRFS"
+msgstr "Только для BTRFS"
+
+#: ui/tabs/security_tab.py:153
+msgid ""
+"Automatically add BTRFS snapshots to GRUB menu. Allows booting from "
+"snapshots."
+msgstr ""
+"Автоматически добавляет снимки BTRFS в меню GRUB. Позволяет загружаться со "
+"снимков."
+
+#: ui/tabs/security_tab.py:155
+msgid "Automatically add BTRFS snapshots to GRUB menu."
+msgstr "Автоматически добавлять снимки BTRFS в меню GRUB."
+
+#: ui/tabs/security_tab.py:155 ui/tabs/security_tab.py:197
+msgid "Current system"
+msgstr "Текущая система"
+
+#: ui/tabs/security_tab.py:155
+msgid "Grub BTRFS is not compatible."
+msgstr "Grub BTRFS несовместим."
+
+#: ui/tabs/security_tab.py:173
 msgid "Simple backups of personal files with encryption support."
 msgstr "Простое резервное копирование личных файлов с поддержкой шифрования."
 
-#: ui/tabs/security_tab.py:162
-msgid "Firewall Protection"
-msgstr "Защита брандмауэром"
-
-#: ui/tabs/security_tab.py:175
-msgid "Recommended for Desktop"
-msgstr "Рекомендуется для десктопа"
-
-#: ui/tabs/security_tab.py:193
-msgid "Firewall Status"
-msgstr "Статус брандмауэра"
-
-#: ui/tabs/security_tab.py:207
-msgid "Filesystem Tools"
-msgstr "Инструменты файловой системы"
-
-#: ui/tabs/security_tab.py:232 ui/tabs/security_tab.py:234
+#: ui/tabs/security_tab.py:195 ui/tabs/security_tab.py:197
 msgid "Advanced management of BTRFS subvolumes and snapshots."
 msgstr "Расширенное управление подтомами и снимками BTRFS."
 
-#: ui/tabs/security_tab.py:245
+#: ui/tabs/security_tab.py:197
+msgid "BTRFS Assistant is not compatible."
+msgstr "BTRFS Assistant несовместим."
+
+#: ui/tabs/security_tab.py:208
+msgid "Firewall Protection"
+msgstr "Защита брандмауэром"
+
+#: ui/tabs/security_tab.py:221
+msgid "Recommended for Desktop"
+msgstr "Рекомендуется для десктопа"
+
+#: ui/tabs/security_tab.py:226
+msgid ""
+"Simple graphical interface for UFW firewall. Control network traffic easily."
+msgstr ""
+
+#: ui/tabs/security_tab.py:247
+msgid "Firewall Status"
+msgstr "Статус брандмауэра"
+
+#: ui/tabs/security_tab.py:261
 msgid "System Cleaning"
 msgstr "Очистка системы"
 
-#: ui/tabs/security_tab.py:276
+#: ui/tabs/security_tab.py:279
+msgid ""
+"Free disk space and maintain privacy. Cleans cache, cookies, and temporary "
+"files."
+msgstr ""
+
+#: ui/tabs/security_tab.py:292
 msgid "Alternative"
 msgstr "Альтернатива"
 
-#: ui/tabs/security_tab.py:294
+#: ui/tabs/security_tab.py:297
+msgid ""
+"Modern system optimizer with resource monitoring, startup apps, and cache "
+"cleaner."
+msgstr ""
+
+#: ui/tabs/security_tab.py:310
 msgid "KDE"
 msgstr "KDE"
 
-#: ui/tabs/security_tab.py:310
+#: ui/tabs/security_tab.py:315
+msgid ""
+"KDE system cleaner. Simple tool to clean temporary files and browsing "
+"history."
+msgstr ""
+
+#: ui/tabs/security_tab.py:326
 msgid "Antivirus & Malware"
 msgstr "Антивирус и Вредоносное ПО"
 
-#: ui/tabs/security_tab.py:341
+#: ui/tabs/security_tab.py:344
+msgid ""
+"Graphical interface for ClamAV. Scan your system against viruses and malware."
+msgstr ""
+
+#: ui/tabs/security_tab.py:357
 msgid "Advanced"
 msgstr "Расширенный"
 
-#: ui/tabs/security_tab.py:346
+#: ui/tabs/security_tab.py:362
 msgid "Command-line tool to detect rootkits and system threats."
 msgstr ""
 "Инструмент командной строки для обнаружения руткитов и системных угроз."
 
-#: ui/tabs/security_tab.py:410
+#: ui/tabs/security_tab.py:429 ui/tabs/security_tab.py:444
+msgid "Not available on"
+msgstr "Недоступно на"
+
+#: ui/tabs/security_tab.py:436
 msgid "Open GUFW"
 msgstr "Открыть GUFW"
 
-#: ui/tabs/security_tab.py:422
+#: ui/tabs/security_tab.py:448
 msgid "Open BleachBit"
 msgstr "Открыть BleachBit"
 
-#: ui/tabs/security_tab.py:425
-msgid "Open Stacer"
-msgstr "Открыть Stacer"
-
-#: ui/tabs/security_tab.py:428
+#: ui/tabs/security_tab.py:454
 msgid "Open Sweeper"
 msgstr "Открыть Sweeper"
 
-#: ui/tabs/security_tab.py:466
+#: ui/tabs/security_tab.py:493
 msgid "Configure"
 msgstr "Настроить"
 
-#: ui/tabs/security_tab.py:474
+#: ui/tabs/security_tab.py:501
 msgid "Scan System"
 msgstr "Сканировать систему"
 
-#: ui/tabs/security_tab.py:498
+#: ui/tabs/security_tab.py:524
+msgid "Open Stacer"
+msgstr "Открыть Stacer"
+
+#: ui/tabs/security_tab.py:589
 msgid "Update Definitions"
 msgstr "Обновить базы"
 
-#: ui/tabs/security_tab.py:512
+#: ui/tabs/security_tab.py:603
 msgid "Active"
 msgstr "Активно"
 
-#: ui/tabs/security_tab.py:513
+#: ui/tabs/security_tab.py:604
 msgid "Deactivate"
 msgstr "Деактивировать"
 
-#: ui/tabs/security_tab.py:516
+#: ui/tabs/security_tab.py:607
 msgid "Inactive"
 msgstr "Неактивно"
 
-#: ui/tabs/security_tab.py:517
+#: ui/tabs/security_tab.py:608
 msgid "Activate"
 msgstr "Активировать"
 
-#: ui/tabs/security_tab.py:600
+#: ui/tabs/security_tab.py:695
 msgid "Updating virus definitions..."
 msgstr "Обновление вирусных баз..."
 
-#: ui/tabs/security_tab.py:602
+#: ui/tabs/security_tab.py:697
 msgid "Definitions updated successfully!"
 msgstr "Базы успешно обновлены!"
 
-#: ui/tabs/security_tab.py:612
+#: ui/tabs/security_tab.py:707
 msgid "Scanning system for rootkits..."
 msgstr "Сканирование системы на наличие руткитов..."
 
-#: ui/tabs/security_tab.py:614
+#: ui/tabs/security_tab.py:709
 msgid "Scan complete."
 msgstr "Сканирование завершено."
 
@@ -2172,6 +1968,12 @@ msgstr "Очистить систему"
 msgid "Soplos Repository Manager"
 msgstr "Менеджер репозиториев Soplos"
 
+#: ui/tabs/software_gnome_tab.py:184
+msgid ""
+"Manage repositories and modern software sources integrated with GNOME "
+"Software."
+msgstr ""
+
 #: ui/tabs/software_gnome_tab.py:190 ui/tabs/software_xfce_tab.py:192
 msgid "Launch Repository Manager"
 msgstr "Запустить менеджер репозиториев"
@@ -2217,6 +2019,11 @@ msgstr "Интерфейс управления ПО для рабочего с�
 msgid "Snap to Whisker Menu"
 msgstr "Прикрепить к меню Whisker"
 
+#: ui/tabs/software_xfce_tab.py:186
+msgid ""
+"Manage additional repositories and software sources for your Soplos system."
+msgstr ""
+
 #: ui/tabs/welcome_tab.py:111
 msgid "Welcome to Soplos Linux"
 msgstr "Добро пожаловать в Soplos Linux"
@@ -2224,6 +2031,14 @@ msgstr "Добро пожаловать в Soplos Linux"
 #: ui/tabs/welcome_tab.py:119
 msgid "Your gateway to the Soplos ecosystem"
 msgstr "Ваш путь в экосистему Soplos"
+
+#: ui/tabs/welcome_tab.py:128
+#, fuzzy
+msgid ""
+"Thank you for choosing Soplos Linux! This application will help you get "
+"started with your new system."
+msgstr ""
+"Добро пожаловать в Soplos Linux! Начните работу с вашей новой системой."
 
 #: ui/tabs/welcome_tab.py:143
 msgid "Use the tabs above to:"
@@ -2310,6 +2125,304 @@ msgstr "Ошибка отключения автозапуска"
 msgid "Could not remove autostart file."
 msgstr "Не удалось удалить файл автозапуска."
 
+#: config/software.py:16
+msgid "Web Browsers"
+msgstr "Веб-браузеры"
+
+#: config/software.py:24
+msgid "Free and open-source web browser developed by Mozilla"
+msgstr "Свободный веб-браузер с открытым исходным кодом от Mozilla"
+
+#: config/software.py:31
+msgid "Web browser developed by Google"
+msgstr "Веб-браузер от Google"
+
+#: config/software.py:44
+msgid "Open-source project behind Google Chrome"
+msgstr "Проект с открытым исходным кодом, на котором основан Google Chrome"
+
+#: config/software.py:52
+msgid "Privacy-focused browser that blocks ads"
+msgstr "Браузер, ориентированный на конфиденциальность, блокирующий рекламу"
+
+#: config/software.py:67
+msgid "Firefox fork focused on privacy, security and freedom"
+msgstr ""
+"Форк Firefox, ориентированный на конфиденциальность, безопасность и свободу"
+
+#: config/software.py:74
+msgid "Lightweight, fast and secure web browser"
+msgstr "Легкий, быстрый и безопасный веб-браузер"
+
+#: config/software.py:86
+msgid "Communication"
+msgstr "Общение"
+
+#: config/software.py:94
+msgid "Free email client developed by Mozilla"
+msgstr "Бесплатный почтовый клиент от Mozilla"
+
+#: config/software.py:102
+msgid "Communication app for communities and gaming"
+msgstr "Приложение для общения сообществ и геймеров"
+
+#: config/software.py:110
+msgid "Fast and secure messaging app"
+msgstr "Быстрое и безопасное приложение для обмена сообщениями"
+
+#: config/software.py:118
+msgid "Private messaging with end-to-end encryption"
+msgstr "Приватный обмен сообщениями со сквозным шифрованием"
+
+#: config/software.py:126
+msgid "Matrix client for decentralized communication"
+msgstr "Клиент Matrix для децентрализованного общения"
+
+#: config/software.py:134
+msgid "Unofficial WhatsApp desktop client"
+msgstr "Неофициальный клиент WhatsApp для рабочего стола"
+
+#: config/software.py:142
+msgid "Team collaboration and communication platform"
+msgstr "Платформа командного взаимодействия и общения"
+
+#: config/software.py:150
+msgid "Video conferencing and meetings"
+msgstr "Видеоконференции и встречи"
+
+#: config/software.py:157
+msgid "Development"
+msgstr "Разработка"
+
+#: config/software.py:165
+msgid "Source code editor developed by Microsoft"
+msgstr "Редактор исходного кода от Microsoft"
+
+#: config/software.py:180
+msgid "Free version of Visual Studio Code without telemetry"
+msgstr "Свободная версия Visual Studio Code без телеметрии"
+
+#: config/software.py:187
+msgid "Advanced Agentic AI Coding Assistant"
+msgstr "Продвинутый агентный ИИ-ассистент программирования"
+
+#: config/software.py:202
+msgid "Sophisticated text editor for code and markup"
+msgstr "Сложный текстовый редактор для кода и разметки"
+
+#: config/software.py:222
+msgid "Code editor with integrated AI"
+msgstr "Редактор кода с интегрированным ИИ"
+
+#: config/software.py:230
+msgid "A community-led, hyper-hackable text editor"
+msgstr "Текстовый редактор, управляемый сообществом и легко настраиваемый"
+
+#: config/software.py:238
+msgid "Lightweight and fast IDE with multi-language support"
+msgstr "Легкая и быстрая IDE с поддержкой множества языков"
+
+#: config/software.py:245
+msgid "Advanced editor for web programmers"
+msgstr "Продвинутый редактор для веб-программистов"
+
+#: config/software.py:252
+msgid "Fast and reliable FTP/SFTP client"
+msgstr "Быстрый и надежный FTP/SFTP клиент"
+
+#: config/software.py:260
+msgid "API development and testing platform"
+msgstr "Платформа разработки и тестирования API"
+
+#: config/software.py:267
+msgid "Graphics and Design"
+msgstr "Графика и Дизайн"
+
+#: config/software.py:275
+msgid "Advanced and free image editor"
+msgstr "Продвинутый бесплатный редактор изображений"
+
+#: config/software.py:283
+msgid "Professional vector graphics editor"
+msgstr "Профессиональный редактор векторной графики"
+
+#: config/software.py:291
+msgid "Complete and free 3D creation suite"
+msgstr "Полный бесплатный набор для 3D-моделирования"
+
+#: config/software.py:299
+msgid "Professional digital painting program"
+msgstr "Профессиональная программа для цифровой живописи"
+
+#: config/software.py:307
+msgid "Virtual lighttable for photography"
+msgstr "Виртуальный световой стол для фотографии"
+
+#: config/software.py:319
+msgid "Fast and modern RAW photo editor"
+msgstr "Быстрый и современный редактор RAW фотографий"
+
+#: config/software.py:327
+msgid "Advanced RAW photo processing program"
+msgstr "Продвинутая программа обработки RAW-фотографий"
+
+#: config/software.py:334
+msgid "Panorama photo stitcher"
+msgstr "Сшиватель панорамных фотографий"
+
+#: config/software.py:341
+msgid "Professional photo editing, design and publishing suite"
+msgstr "Профессиональный пакет для редактирования фото, дизайна и публикации"
+
+#: config/software.py:366
+msgid "Multimedia"
+msgstr "Мультимедиа"
+
+#: config/software.py:374
+msgid "Universal media player"
+msgstr "Универсальный медиаплеер"
+
+#: config/software.py:382
+msgid "Software for streaming and video recording"
+msgstr "Программное обеспечение для стриминга и записи видео"
+
+#: config/software.py:390
+msgid "Professional non-linear video editor"
+msgstr "Профессиональный нелинейный видеоредактор"
+
+#: config/software.py:398
+msgid "Free and open-source audio editor"
+msgstr "Свободный аудиоредактор с открытым исходным кодом"
+
+#: config/software.py:406
+msgid "Minimalist and powerful media player"
+msgstr "Минималистичный и мощный медиаплеер"
+
+#: config/software.py:413
+msgid "Digital audio workstation"
+msgstr "Цифровая звуковая рабочая станция"
+
+#: config/software.py:420
+msgid "Professional DJ software"
+msgstr "Профессиональное программное обеспечение для DJ"
+
+#: config/software.py:428
+msgid "Open-source media center"
+msgstr "Медиацентр с открытым исходным кодом"
+
+#: config/software.py:436
+msgid "Easy to use video editor"
+msgstr "Простой в использовании видеоредактор"
+
+#: config/software.py:444
+msgid "Professional video editing (Script by Daniel Tufvesson)"
+msgstr "Профессиональный видеомонтаж (Скрипт Даниэля Туфвессона)"
+
+#: config/software.py:453
+msgid "Digital music streaming service"
+msgstr "Сервис потоковой передачи музыки"
+
+#: config/software.py:461
+msgid "Open source video transcoder"
+msgstr "Видеотранскодер с открытым исходным кодом"
+
+#: config/software.py:468
+msgid "Office"
+msgstr "Офис"
+
+#: config/software.py:476
+msgid "Complete and free office suite"
+msgstr "Полный бесплатный офисный пакет"
+
+#: config/software.py:484
+msgid "Office suite compatible with Microsoft Office"
+msgstr "Офисный пакет, совместимый с Microsoft Office"
+
+#: config/software.py:492
+msgid "Lightweight and elegant office suite"
+msgstr "Легкий и элегантный офисный пакет"
+
+#: config/software.py:500
+msgid "Adobe PDF reader"
+msgstr "Программа для чтения PDF от Adobe"
+
+#: config/software.py:507
+msgid "Gaming"
+msgstr "Игры"
+
+#: config/software.py:579
+msgid "Utilities"
+msgstr "Утилиты"
+
+#: config/software.py:586
+msgid "Manage your web applications with ease"
+msgstr "Управляйте веб-приложениями с лёгкостью"
+
+#: config/software.py:594
+#, fuzzy
+msgid "Manage Flatpak permissions"
+msgstr "Управление расширениями"
+
+#: config/software.py:602
+msgid "Manage AppImages effortlessly"
+msgstr "Управляйте AppImages без усилий"
+
+#: core/application.py:200
+msgid "Soplos Welcome"
+msgstr "Soplos Welcome"
+
+#: core/application.py:227
+msgid "Preferences"
+msgstr "Настройки"
+
+#: core/application.py:233
+msgid "About"
+msgstr "О программе"
+
+#: core/application.py:239
+msgid "Quit"
+msgstr "Выход"
+
+#: core/application.py:289
+msgid ""
+"\n"
+"Soplos Welcome 2.0 - The world's most advanced welcome application\n"
+"\n"
+"Usage: soplos-welcome [OPTIONS]\n"
+"\n"
+"Options:\n"
+"  -h, --help              Show this help message\n"
+"  -v, --version           Show version information\n"
+"  --lang=LANG             Set language (es, en, fr, de, pt, it, ro, ru)\n"
+"  --theme=THEME           Set theme (base, light, dark, gnome, kde, xfce)\n"
+"  --debug                 Enable debug mode\n"
+"\n"
+"Examples:\n"
+"  soplos-welcome                    # Start with auto-detected settings\n"
+"  soplos-welcome --lang=es          # Start in Spanish\n"
+"  soplos-welcome --theme=dark       # Start with dark theme\n"
+"  soplos-welcome --debug            # Start in debug mode\n"
+"\n"
+"For more information, visit: https://soplos.org\n"
+msgstr ""
+
+#: core/application.py:315
+#, python-brace-format
+msgid ""
+"\n"
+"Soplos Welcome {version}\n"
+"\n"
+"Copyright (C) 2025 Sergi Perich\n"
+"This is free software; see the source for copying conditions.\n"
+"There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A "
+"PARTICULAR PURPOSE.\n"
+"\n"
+"Desktop Environment: {desktop_env}\n"
+"Display Protocol: {display_protocol}\n"
+"Theme: {theme}\n"
+"Language: {language}\n"
+msgstr ""
+
 #: utils/command_runner.py:51
 msgid "Starting..."
 msgstr "Запуск..."
@@ -2334,125 +2447,226 @@ msgstr "Дискретная/Интегрированная"
 msgid "Integrated"
 msgstr "Интегрированная"
 
-#: utils/hardware_detector.py:293
+#: utils/hardware_detector.py:149
+#, fuzzy
+msgid "Detection error"
+msgstr "Обнаружение памяти..."
+
+#: utils/hardware_detector.py:368
 msgid "Disk"
 msgstr "Диск"
 
-#: utils/hardware_detector.py:314
+#: utils/hardware_detector.py:389
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: utils/hardware_detector.py:316
+#: utils/hardware_detector.py:391
 msgid "Ethernet"
 msgstr "Ethernet"
 
-#: utils/hardware_detector.py:318
+#: utils/hardware_detector.py:393
 msgid "Other"
 msgstr "Другое"
 
-#: utils/hardware_detector.py:331
+#: utils/hardware_detector.py:406
 msgid "Connected"
 msgstr "Подключено"
 
-#: utils/hardware_detector.py:331
+#: utils/hardware_detector.py:406
 msgid "Disconnected"
 msgstr "Отключено"
 
-#: utils/hardware_detector.py:355
+#: utils/hardware_detector.py:430
 msgid "Detecting CPU..."
 msgstr "Обнаружение CPU..."
 
-#: utils/hardware_detector.py:360
+#: utils/hardware_detector.py:435
 msgid "Detecting memory..."
 msgstr "Обнаружение памяти..."
 
-#: utils/hardware_detector.py:365
+#: utils/hardware_detector.py:440
 msgid "Detecting GPU..."
 msgstr "Обнаружение GPU..."
 
-#: utils/hardware_detector.py:370
-msgid "Detecting virtual machine..."
-msgstr "Обнаружение виртуальной машины..."
-
-#: utils/hardware_detector.py:375
-msgid "Detecting storage..."
-msgstr "Обнаружение накопителя..."
-
-#: utils/hardware_detector.py:380
-msgid "Detecting network..."
-msgstr "Обнаружение сети..."
-
-#: utils/hardware_detector.py:385
-msgid "Scan completed"
-msgstr "Сканирование завершено"
-
-#: utils/hardware_detector.py:369
+#: utils/hardware_detector.py:445
 msgid "Detecting hybrid graphics..."
 msgstr "Обнаружение гибридной графики..."
 
-#: ui/tabs/drivers_tab.py:188
-msgid "Hybrid Graphics (Laptops)"
-msgstr "Гибридная графика (Ноутбуки)"
+#: utils/hardware_detector.py:450
+msgid "Detecting virtual machine..."
+msgstr "Обнаружение виртуальной машины..."
 
-#: ui/tabs/drivers_tab.py:193
-msgid "For laptops with Intel/AMD + NVIDIA graphics"
-msgstr "Для ноутбуков с графикой Intel/AMD + NVIDIA"
+#: utils/hardware_detector.py:455
+msgid "Detecting storage..."
+msgstr "Обнаружение накопителя..."
 
-#: ui/tabs/drivers_tab.py:204
-msgid "PRIME Render Offload"
-msgstr "PRIME Render Offload"
+#: utils/hardware_detector.py:460
+msgid "Detecting network..."
+msgstr "Обнаружение сети..."
 
-#: ui/tabs/drivers_tab.py:205
-msgid "Use NVIDIA on demand (recommended, saves battery)"
-msgstr "Использовать NVIDIA по требованию (рекомендуется, экономит батарею)"
+#: utils/hardware_detector.py:465
+msgid "Scan completed"
+msgstr "Сканирование завершено"
 
-#: ui/tabs/drivers_tab.py:213
-msgid "NVIDIA Primary"
-msgstr "Основная NVIDIA"
+#~ msgid "Change Language"
+#~ msgstr "Изменить язык"
 
-#: ui/tabs/drivers_tab.py:214
-msgid "Always use NVIDIA GPU (maximum performance)"
-msgstr "Всегда использовать GPU NVIDIA (максимальная производительность)"
+#~ msgid "Toggle Theme"
+#~ msgstr "Переключить тему"
 
-#: ui/tabs/drivers_tab.py:220
-msgid "Detect Hybrid Setup"
-msgstr "Обнаружить гибридную конфигурацию"
+#~ msgid "About Soplos Welcome"
+#~ msgstr "О Soplos Welcome"
 
-#: ui/tabs/drivers_tab.py:221
-msgid "Check if you have a hybrid graphics laptop"
-msgstr "Проверьте, есть ли у вас ноутбук с гибридной графикой"
+#~ msgid "Welcome"
+#~ msgstr "Добро пожаловать"
 
-#: ui/tabs/drivers_tab.py:776
-msgid "Hybrid Graphics Detected"
-msgstr "Обнаружена гибридная графика"
+#~ msgid "Software"
+#~ msgstr "Программное обеспечение"
 
-#: ui/tabs/drivers_tab.py:787
-msgid "Integrated:"
-msgstr "Интегрированная:"
+#~ msgid "Drivers"
+#~ msgstr "Драйверы"
 
-#: ui/tabs/drivers_tab.py:788
-msgid "Dedicated:"
-msgstr "Дискретная:"
+#~ msgid "Kernels"
+#~ msgstr "Kernels"
 
-#: ui/tabs/drivers_tab.py:793
-msgid "Configure how your GPUs work together:"
-msgstr "Настройте совместную работу ваших GPU:"
+#~ msgid "Security"
+#~ msgstr "Безопасность"
 
-#: ui/tabs/drivers_tab.py:802
-msgid "Use NVIDIA on demand (saves battery)"
-msgstr "Использовать NVIDIA по требованию (экономит батарею)"
+#~ msgid "Minimize"
+#~ msgstr "Свернуть"
 
-#: ui/tabs/drivers_tab.py:809
-msgid "Always use NVIDIA (max performance)"
-msgstr "Всегда использовать NVIDIA (макс. производительность)"
+#~ msgid "Restore"
+#~ msgstr "Восстановить"
 
-#: ui/tabs/drivers_tab.py:950
-msgid "Hybrid Graphics Detection"
-msgstr "Обнаружение гибридной графики"
+#~ msgid "Maximize"
+#~ msgstr "Развернуть"
 
-#: ui/tabs/drivers_tab.py:400
-msgid "NVIDIA Driver Installation"
-msgstr "Установка драйвера NVIDIA"
+#~ msgid "Detect and install optimal hardware drivers for your system."
+#~ msgstr "Обнаружение и установка оптимальных драйверов для вашей системы."
+
+#~ msgid "Customize your desktop environment, themes, and appearance."
+#~ msgstr "Настройка окружения рабочего стола, тем и внешнего вида."
+
+#~ msgid "Manage system kernels and performance optimizations."
+#~ msgstr "Управление ядрами системы и оптимизация производительности."
+
+#~ msgid "Discover recommended applications for your workflow."
+#~ msgstr "Откройте для себя рекомендуемые приложения для вашей работы."
+
+#~ msgid "Tab content coming soon..."
+#~ msgstr "Содержимое вкладки скоро появится..."
+
+#~ msgid "Full implementation coming soon..."
+#~ msgstr "Полная реализация скоро..."
+
+#~ msgid "Desktop Environment"
+#~ msgstr "Окружение рабочего стола"
+
+#~ msgid "Display Protocol"
+#~ msgstr "Протокол дисплея"
+
+#~ msgid "Theme Type"
+#~ msgstr "Тип темы"
+
+#~ msgid "Current Language"
+#~ msgstr "Текущий язык"
+
+#~ msgid "Current Theme"
+#~ msgstr "Текущая тема"
+
+#~ msgid "Default"
+#~ msgstr "По умолчанию"
+
+#~ msgid "Install Demo Package"
+#~ msgstr "Установить демо-пакет"
+
+#~ msgid "Uninstall Demo Package"
+#~ msgstr "Удалить демо-пакет"
+
+#, python-brace-format
+#~ msgid "Ready - {desktop} on {protocol}"
+#~ msgstr "Готово - {desktop} на {protocol}"
+
+#~ msgid "GNOME"
+#~ msgstr "GNOME"
+
+#~ msgid "KDE Plasma"
+#~ msgstr "KDE Plasma"
+
+#~ msgid "XFCE"
+#~ msgstr "XFCE"
+
+#~ msgid "X11"
+#~ msgstr "X11"
+
+#~ msgid "Wayland"
+#~ msgstr "Wayland"
+
+#~ msgid "Working..."
+#~ msgstr "Работаю..."
+
+#~ msgid "The world's most advanced welcome application for Linux"
+#~ msgstr "Самое продвинутое приложение приветствия для Linux в мире"
+
+#~ msgid "Soplos Linux Website"
+#~ msgstr "Веб-сайт Soplos Linux"
+
+#~ msgid "🎮 Gaming Mode Activated!"
+#~ msgstr "🎮 Игровой режим активирован!"
+
+#~ msgid "Language Changed"
+#~ msgstr "Язык изменен"
+
+#~ msgid "Preparing installation..."
+#~ msgstr "Подготовка к установке..."
+
+#~ msgid "Downloading package..."
+#~ msgstr "Загрузка пакета..."
+
+#~ msgid "Verifying dependencies..."
+#~ msgstr "Проверка зависимостей..."
+
+#~ msgid "Installing files..."
+#~ msgstr "Установка файлов..."
+
+#~ msgid "Configuring application..."
+#~ msgstr "Настройка приложения..."
+
+#~ msgid "Finalizing installation..."
+#~ msgstr "Завершение установки..."
+
+#~ msgid "Installation completed!"
+#~ msgstr "Установка завершена!"
+
+#~ msgid "✅ Installation successful"
+#~ msgstr "✅ Установка успешна"
+
+#~ msgid "Uninstalling package..."
+#~ msgstr "Удаление пакета..."
+
+#~ msgid "Stopping services..."
+#~ msgstr "Остановка служб..."
+
+#~ msgid "Removing files..."
+#~ msgstr "Удаление файлов..."
+
+#~ msgid "Cleaning configuration..."
+#~ msgstr "Очистка конфигурации..."
+
+#~ msgid "Uninstallation completed!"
+#~ msgstr "Удаление завершено!"
+
+#~ msgid "✅ Uninstallation successful"
+#~ msgstr "✅ Удаление успешно"
+
+#~ msgid "Checking for old kernels..."
+#~ msgstr "Проверка старых ядер..."
+
+#~ msgid "No old kernels to remove."
+#~ msgstr "Нет старых ядер для удаления."
+
+#~ msgid "Filesystem Tools"
+#~ msgstr "Инструменты файловой системы"
 
 #~ msgid "NVIDIA Latest (550)"
 #~ msgstr "NVIDIA Последний (550)"
@@ -2468,35 +2682,3 @@ msgstr "Установка драйвера NVIDIA"
 
 #~ msgid "Installation complete"
 #~ msgstr "Установка завершена"
-
-#: ui/tabs/security_tab.py
-msgid "Grub BTRFS is not compatible."
-msgstr "Grub BTRFS несовместим."
-
-#: ui/tabs/security_tab.py
-msgid "Not available on"
-msgstr "Недоступно на"
-
-#: ui/tabs/security_tab.py
-msgid "Current system"
-msgstr "Текущая система"
-
-#: ui/tabs/security_tab.py
-msgid "BTRFS Assistant is not compatible."
-msgstr "BTRFS Assistant несовместим."
-
-#: ui/tabs/security_tab.py
-msgid "Automatically add BTRFS snapshots to GRUB menu."
-msgstr "Автоматически добавлять снимки BTRFS в меню GRUB."
-
-#: ui/tabs/security_tab.py
-msgid "Automatically add BTRFS snapshots to GRUB menu. Allows booting from snapshots."
-msgstr "Автоматически добавляет снимки BTRFS в меню GRUB. Позволяет загружаться со снимков."
-
-#: ui/tabs/security_tab.py
-msgid "Complementary"
-msgstr "Дополнительно"
-
-#: ui/tabs/security_tab.py
-msgid "Only for BTRFS"
-msgstr "Только для BTRFS"
