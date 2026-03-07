@@ -1384,7 +1384,7 @@ done
                         import glob
                         installed_files = []
                         for ext in ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG', 'WEBP']:
-                            installed_files.extend(glob.glob(f"{dest_dir}/*.{ext}"))
+                            installed_files.extend(glob.glob(f"{temp_dir}/*.{ext}"))
                         filenames = [os.path.basename(f) for f in installed_files]
                         if filenames:
                             self._generate_gnome_wallpaper_xml(filenames, dest_dir, temp_dir)
