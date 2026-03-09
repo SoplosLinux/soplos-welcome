@@ -1601,23 +1601,19 @@ done
                 'icon': 'ES-DE.png',
                 'description': _('Frontend for emulators with a modern interface'),
                 'official': False,
-                'check_path': '/opt/es-de/ES-DE_x64.AppImage',
+                'check_path': '~/AppImages/ES-DE_x64.AppImage',
                 'install_commands': [
-                    'rm -f /usr/share/applications/es-de.desktop',
-                    'rm -f /usr/local/share/applications/es-de.desktop',
-                    'mkdir -p /opt/es-de',
-                    'wget -q -O /opt/es-de/ES-DE_x64.AppImage "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
-                    'chmod +x /opt/es-de/ES-DE_x64.AppImage',
-                    f'cp {os.path.join(ICONS_DIR, "gaming", "ES-DE.png")} /opt/es-de/icon.png',
-                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'mkdir -p "$REAL_HOME/.local/share/applications"',
-                    "printf '[Desktop Entry]\\nName=ES-DE\\nExec=/opt/es-de/ES-DE_x64.AppImage\\nIcon=/opt/es-de/icon.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > \"$REAL_HOME/.local/share/applications/es-de.desktop\"",
-                    'chown $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/.local/share/applications/es-de.desktop"'
+                    'mkdir -p "$HOME/AppImages/.icons"',
+                    'wget -q -O "$HOME/AppImages/ES-DE_x64.AppImage" "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
+                    'chmod +x "$HOME/AppImages/ES-DE_x64.AppImage"',
+                    f'cp {os.path.join(ICONS_DIR, "gaming", "ES-DE.png")} "$HOME/AppImages/.icons/ES-DE.png"',
+                    'mkdir -p "$HOME/.local/share/applications"',
+                    "printf '[Desktop Entry]\\nName=ES-DE\\nExec='\"$HOME\"'/AppImages/ES-DE_x64.AppImage\\nIcon='\"$HOME\"'/AppImages/.icons/ES-DE.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > \"$HOME/.local/share/applications/es-de.desktop\""
                 ],
                 'uninstall_commands': [
-                    'rm -rf /opt/es-de/',
-                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'rm -f "$REAL_HOME/.local/share/applications/es-de.desktop"'
+                    'rm -f "$HOME/AppImages/ES-DE_x64.AppImage"',
+                    'rm -f "$HOME/AppImages/.icons/ES-DE.png"',
+                    'rm -f "$HOME/.local/share/applications/es-de.desktop"'
                 ]
             },
             {
@@ -1836,7 +1832,8 @@ done
         
         # Check by file path (for AppImages)
         if launcher.get('check_path'):
-            is_installed = os.path.exists(launcher['check_path'])
+            check_path = os.path.expanduser(launcher['check_path'])
+            is_installed = os.path.exists(check_path)
             self.launcher_status_cache[name] = is_installed
             return is_installed
         
@@ -1929,9 +1926,9 @@ done
                 f.write(f"echo '{_('Operation completed successfully')}'\n")
             os.chmod(script_path, 0o755)
             
-            # Use pkexec for custom install/uninstall commands (AppImages need root)
+            # Do not use pkexec for AppImages (custom install/uninstall), install in user home
             if launcher.get('install_commands') or launcher.get('uninstall_commands'):
-                final_command = f"pkexec {script_path}"
+                final_command = f"bash {script_path}"
             else:
                 final_command = script_path
             

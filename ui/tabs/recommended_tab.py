@@ -464,7 +464,8 @@ class RecommendedTab(Gtk.Box):
         
         # Check by file path (for AppImages)
         if package.get('check_path'):
-            is_installed = os.path.exists(package['check_path'])
+            check_path = os.path.expanduser(package['check_path'])
+            is_installed = os.path.exists(check_path)
             self.package_status_cache[package_name] = is_installed
             return is_installed
             
@@ -949,6 +950,10 @@ rm -f /tmp/{pkg_name}.deb"""
         
         # Refresh UI
         self._refresh_content()
+        
+        # Targeted synchronization with Gaming tab
+        if self.parent_window and hasattr(self.parent_window, 'gaming_tab') and self.parent_window.gaming_tab:
+            GLib.idle_add(self.parent_window.gaming_tab.refresh)
         
         # Show completion dialog
         dialog = Gtk.MessageDialog(

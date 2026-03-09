@@ -340,22 +340,23 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'affinity.png',
                 'description': _('Professional photo editing, design and publishing suite'),
                 'official': False,
-                'check_path': '/opt/affinity/Affinity-3.0.2-x86_64.AppImage',
+                'check_path': '~/AppImages/Affinity-3.0.2-x86_64.AppImage',
                 'install_commands': [
-                    'rm -f /usr/share/applications/affinity.desktop',
-                    'rm -f /usr/local/share/applications/affinity.desktop',
-                    'mkdir -p /opt/affinity',
-                    'wget -q -O /opt/affinity/Affinity-3.0.2-x86_64.AppImage "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.0.2/Affinity-3.0.2-x86_64.AppImage"',
-                    'chmod +x /opt/affinity/Affinity-3.0.2-x86_64.AppImage',
-                    f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "graphics", "affinity.png")} /opt/affinity/icon.png',
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'mkdir -p "$REAL_HOME/.local/share/applications"',
-                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=/opt/affinity/Affinity-3.0.2-x86_64.AppImage\\nIcon=/opt/affinity/icon.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' > \"$REAL_HOME/.local/share/applications/affinity.desktop\"",
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/AppImages/.icons"',
+                    'wget -q -O "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage" "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.0.2/Affinity-3.0.2-x86_64.AppImage"',
+                    'chmod +x "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
+                    f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "graphics", "affinity.png")} "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
+                    'chown -R $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/AppImages"',
+                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/.local/share/applications"',
+                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec='\"$REAL_HOME\"'/AppImages/Affinity-3.0.2-x86_64.AppImage\\nIcon='\"$REAL_HOME\"'/AppImages/.icons/AffinitySuite.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' > \"$REAL_HOME/.local/share/applications/affinity.desktop\"",
                     'chown $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/.local/share/applications/affinity.desktop"'
                 ],
                 'uninstall_commands': [
-                    'rm -rf /opt/affinity/',
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'rm -f "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
+                    'rm -f "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
                     'rm -f "$REAL_HOME/.local/share/applications/affinity.desktop"'
                 ]
             }
@@ -553,22 +554,23 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'ES-DE.png',
                 'description': _('Frontend for emulators with a modern interface'),
                 'official': False,
-                'check_path': '/opt/es-de/ES-DE_x64.AppImage',
+                'check_path': '~/AppImages/ES-DE_x64.AppImage',
                 'install_commands': [
-                    'rm -f /usr/share/applications/es-de.desktop',
-                    'rm -f /usr/local/share/applications/es-de.desktop',
-                    'mkdir -p /opt/es-de',
-                    'wget -q -O /opt/es-de/ES-DE_x64.AppImage "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
-                    'chmod +x /opt/es-de/ES-DE_x64.AppImage',
-                    f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "gaming", "ES-DE.png")} /opt/es-de/icon.png',
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'mkdir -p "$REAL_HOME/.local/share/applications"',
-                    "printf '[Desktop Entry]\\nName=ES-DE\\nExec=/opt/es-de/ES-DE_x64.AppImage\\nIcon=/opt/es-de/icon.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > \"$REAL_HOME/.local/share/applications/es-de.desktop\"",
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/AppImages/.icons"',
+                    'wget -q -O "$REAL_HOME/AppImages/ES-DE_x64.AppImage" "https://gitlab.com/es-de/emulationstation-de/-/package_files/246875981/download"',
+                    'chmod +x "$REAL_HOME/AppImages/ES-DE_x64.AppImage"',
+                    f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "gaming", "ES-DE.png")} "$REAL_HOME/AppImages/.icons/ES-DE.png"',
+                    'chown -R $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/AppImages"',
+                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/.local/share/applications"',
+                    "printf '[Desktop Entry]\\nName=ES-DE\\nExec='\"$REAL_HOME\"'/AppImages/ES-DE_x64.AppImage\\nIcon='\"$REAL_HOME\"'/AppImages/.icons/ES-DE.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > \"$REAL_HOME/.local/share/applications/es-de.desktop\"",
                     'chown $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/.local/share/applications/es-de.desktop"'
                 ],
                 'uninstall_commands': [
-                    'rm -rf /opt/es-de/',
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'rm -f "$REAL_HOME/AppImages/ES-DE_x64.AppImage"',
+                    'rm -f "$REAL_HOME/AppImages/.icons/ES-DE.png"',
                     'rm -f "$REAL_HOME/.local/share/applications/es-de.desktop"'
                 ]
             }

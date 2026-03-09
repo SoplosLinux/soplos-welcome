@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.6-3] - 2026-03-08
+
+### 🛠️ Bug Fixes
+- **AppImages**: Fixed `Errno 13 Permission denied` when creating web apps by installing all AppImages (Affinity Suite, ES-DE, Stacer) to `~/AppImage` instead of `/opt`, and removing the use of `pkexec` to prevent root ownership of user directories.
+
 ## [2.0.6-2] - 2026-03-07
 
 ### 🛠️ Bug Fixes

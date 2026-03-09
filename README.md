@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.6--2-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.6--3-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,9 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.6-3 (08/03/2026)
+- **AppImages**: Fixed `Errno 13 Permission denied` when creating web apps by installing all AppImages (Affinity Suite, ES-DE, Stacer) to `~/AppImage` instead of `/opt` or `~/.local`, and removing the use of `pkexec` for their installation to prevent root ownership of user directories.
 
 ### v2.0.6-2 (07/03/2026)
 - **Gaming Tab**: Fixed an issue where installing gaming wallpapers on GNOME (Boro) would duplicate existing Soplos wallpapers in the background settings.

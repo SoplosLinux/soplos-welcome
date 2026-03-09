@@ -509,7 +509,8 @@ class SecurityTab(Gtk.ScrolledWindow):
     
     def _update_stacer_button(self):
         """Update Stacer button (AppImage from GitHub)."""
-        is_installed = os.path.exists('/opt/stacer/Stacer.AppImage')
+        stacer_path = os.path.expanduser('~/AppImages/Stacer.AppImage')
+        is_installed = os.path.exists(stacer_path)
         
         if is_installed:
             uninstall_btn = Gtk.Button(label=_("Uninstall"))
@@ -536,14 +537,17 @@ class SecurityTab(Gtk.ScrolledWindow):
         script_content = (
             "#!/bin/bash\n"
             "set -e\n"
-            "mkdir -p /opt/stacer\n"
-            'wget -q -O /opt/stacer/Stacer.AppImage "https://github.com/oguzhaninan/Stacer/releases/download/v1.1.0/Stacer-1.1.0-x64.AppImage"\n'
-            "chmod +x /opt/stacer/Stacer.AppImage\n"
-            "cat > /usr/share/applications/stacer.desktop << EOF\n"
+            "mkdir -p \"$HOME/AppImages/.icons\"\n"
+            'wget -q -O "$HOME/AppImages/Stacer.AppImage" "https://github.com/oguzhaninan/Stacer/releases/download/v1.1.0/Stacer-1.1.0-x64.AppImage"\n'
+            "chmod +x \"$HOME/AppImages/Stacer.AppImage\"\n"
+            "mkdir -p \"$HOME/.local/share/applications\"\n"
+            # Getting an icon to put in .icons
+            'wget -q -O "$HOME/AppImages/.icons/stacer.png" "https://raw.githubusercontent.com/oguzhaninan/Stacer/master/stacer/images/stacer.png" || true\n'
+            "cat > \"$HOME/.local/share/applications/stacer.desktop\" << EOF\n"
             "[Desktop Entry]\n"
             "Name=Stacer\n"
-            "Exec=/opt/stacer/Stacer.AppImage\n"
-            "Icon=stacer\n"
+            "Exec=$HOME/AppImages/Stacer.AppImage\n"
+            "Icon=$HOME/AppImages/.icons/stacer.png\n"
             "Type=Application\n"
             "Categories=System;\n"
             "Comment=Modern system optimizer with resource monitoring\n"
@@ -554,22 +558,24 @@ class SecurityTab(Gtk.ScrolledWindow):
         with open(script_path, "w") as f:
             f.write(script_content)
         os.chmod(script_path, 0o755)
-        self.command_runner.run_command(f"pkexec bash {script_path}", self._on_operation_complete)
+        # Run normally without pkexec as it's in the user's home
+        self.command_runner.run_command(f"bash {script_path}", self._on_operation_complete)
     
     def _on_uninstall_stacer(self):
         """Uninstall Stacer AppImage."""
         script_content = (
             "#!/bin/bash\n"
             "set -e\n"
-            "rm -rf /opt/stacer/\n"
-            "rm -f /usr/share/applications/stacer.desktop\n"
+            "rm -f \"$HOME/AppImages/Stacer.AppImage\"\n"
+            "rm -f \"$HOME/AppImages/.icons/stacer.png\"\n"
+            "rm -f \"$HOME/.local/share/applications/stacer.desktop\"\n"
             f"echo \"{_('Uninstallation complete.')}\"\n"
         )
         script_path = "/tmp/uninstall-stacer.sh"
         with open(script_path, "w") as f:
             f.write(script_content)
         os.chmod(script_path, 0o755)
-        self.command_runner.run_command(f"pkexec bash {script_path}", self._on_operation_complete)
+        self.command_runner.run_command(f"bash {script_path}", self._on_operation_complete)
     
     def _update_clamtk_button(self):
         """Update ClamTk button (installs both clamav and clamtk)."""
@@ -658,7 +664,8 @@ echo "{_('Uninstallation complete.')}"
             elif package == 'bleachbit':
                 subprocess.Popen(['bleachbit'])
             elif package == 'stacer':
-                subprocess.Popen(['/opt/stacer/Stacer.AppImage'])
+                stacer_path = os.path.expanduser('~/AppImages/Stacer.AppImage')
+                subprocess.Popen([stacer_path])
             elif package == 'sweeper':
                 subprocess.Popen(['sweeper'])
         except Exception as e:
