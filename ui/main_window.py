@@ -595,14 +595,14 @@ class MainWindow(Gtk.ApplicationWindow):
         status_box.pack_start(self.status_label, False, False, 0)
         
         # Right side: Version info
-        version_text = f"Soplos Welcome v{__version__}"
+        version_text = f"v{__version__}"
         version_label = Gtk.Label(label=version_text)
         version_label.set_halign(Gtk.Align.END)
         version_label.set_name("status-version")  # For consistent styling
         version_label.get_style_context().add_class('dim-label')
         status_box.pack_end(version_label, False, False, 0)
         
-        main_vbox.pack_start(status_box, False, False, 0)
+        main_vbox.pack_end(status_box, False, False, 0)
     
     def _translate_desktop_name(self, desktop_env):
         """Translate desktop environment name."""

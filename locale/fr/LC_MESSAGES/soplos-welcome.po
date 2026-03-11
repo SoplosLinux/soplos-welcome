@@ -586,18 +586,6 @@ msgstr "Pour machines virtuelles VirtualBox"
 msgid "NVIDIA Driver Installation"
 msgstr "Installation du pilote NVIDIA"
 
-#: ui/tabs/drivers_tab.py:404
-msgid ""
-"This installation requires TWO automatic reboots:\n"
-"\n"
-"1. First reboot: System prepares for installation\n"
-"2. Second reboot: Driver is installed in text mode\n"
-"\n"
-"The process is fully automatic. Do not turn off your computer.\n"
-"\n"
-"Do you want to continue?"
-msgstr ""
-
 #: ui/tabs/drivers_tab.py:701 ui/tabs/kernels_tab.py:62
 msgid "System Information"
 msgstr "Informations système"
@@ -707,28 +695,6 @@ msgstr "Fermer"
 #: ui/tabs/drivers_tab.py:950
 msgid "Hybrid Graphics Detection"
 msgstr "Détection des graphiques hybrides"
-
-#: ui/tabs/drivers_tab.py:955
-#, python-brace-format
-msgid ""
-"Hybrid graphics detected!\n"
-"\n"
-"Integrated GPU: {integrated}\n"
-"Dedicated GPU: {dedicated}\n"
-"\n"
-"You can configure PRIME Render Offload (saves battery) or NVIDIA Primary "
-"(maximum performance)."
-msgstr ""
-
-#: ui/tabs/drivers_tab.py:966
-#, python-brace-format
-msgid ""
-"No hybrid graphics detected.\n"
-"\n"
-"Your system has: {gpu}\n"
-"\n"
-"Hybrid configuration is not needed."
-msgstr ""
 
 #: ui/tabs/gaming_tab.py:67
 msgid "Gaming Center"
@@ -882,11 +848,6 @@ msgstr "Échec de la suppression"
 msgid "Install Performance Mode Script?"
 msgstr "Installer le script Mode Performance ?"
 
-#: ui/tabs/gaming_tab.py:423
-msgid ""
-"This script temporarily sets CPU to 'performance' mode when launching games."
-msgstr ""
-
 #: ui/tabs/gaming_tab.py:424
 msgid "Requirements:"
 msgstr "Prérequis :"
@@ -910,12 +871,6 @@ msgid "• Lutris: Add 'soplos-game-performance' as a prefix in Lutris settings"
 msgstr ""
 "• Lutris : Ajoutez 'soplos-game-performance' comme préfixe dans les "
 "paramètres Lutris"
-
-#: ui/tabs/gaming_tab.py:476
-msgid ""
-"Your CPU will automatically switch to performance mode when games are "
-"running."
-msgstr ""
 
 #: ui/tabs/gaming_tab.py:518
 msgid "Revert Gaming Sysctl Tweaks?"
@@ -1071,12 +1026,6 @@ msgstr "Échec de l'optimisation"
 msgid "Install MangoHud + Goverlay?"
 msgstr "Installer MangoHud + Goverlay ?"
 
-#: ui/tabs/gaming_tab.py:1071
-msgid ""
-"MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, CPU/"
-"GPU load and more."
-msgstr ""
-
 #: ui/tabs/gaming_tab.py:1113
 msgid "MangoHud + Goverlay installed!"
 msgstr "MangoHud + Goverlay installés !"
@@ -1096,19 +1045,6 @@ msgstr "• Basculez en jeu avec Shift+F12"
 #: ui/tabs/gaming_tab.py:1153
 msgid "Revert ALL Gaming Optimizations?"
 msgstr "Annuler TOUTES les optimisations de jeu ?"
-
-#: ui/tabs/gaming_tab.py:1156
-msgid ""
-"This will remove:\n"
-"• Gaming sysctl tweaks\n"
-"• GPU optimizations\n"
-"• Disk I/O optimizations\n"
-"• Performance Mode script\n"
-"\n"
-"GameMode and MangoHud will remain installed.\n"
-"\n"
-"Continue?"
-msgstr ""
 
 #: ui/tabs/gaming_tab.py:1237
 msgid "Optimizations reverted!"
@@ -1304,30 +1240,16 @@ msgid "Security and performance firmware updates for your CPU."
 msgstr "Mises à jour de sécurité et de performance pour votre CPU."
 
 #: ui/tabs/kernels_tab.py:103
-#, fuzzy
-msgid ""
-"Warning: Liquorix kernel is NOT compatible with proprietary NVIDIA drivers."
-msgstr "Liquorix n'est pas compatible avec les pilotes NVIDIA"
+msgid "Warning: Liquorix kernel is NOT compatible with proprietary NVIDIA drivers."
+msgstr "Attention : Le noyau Liquorix n'est PAS compatible avec les pilotes propriétaires NVIDIA."
 
 #: ui/tabs/kernels_tab.py:113
 msgid "Available Kernels"
 msgstr "Noyaux disponibles"
 
-#: ui/tabs/kernels_tab.py:118
-msgid ""
-"Manage your system kernels. You can install optimized kernels for better "
-"performance or latency."
-msgstr ""
-
 #: ui/tabs/kernels_tab.py:126 ui/tabs/kernels_tab.py:285
 msgid "Liquorix Kernel"
 msgstr "Noyau Liquorix"
-
-#: ui/tabs/kernels_tab.py:135
-msgid ""
-"Optimized for interactive systems and gaming. High responsiveness and low "
-"latency."
-msgstr ""
 
 #: ui/tabs/kernels_tab.py:146
 msgid "XanMod Kernel Variants"
@@ -1349,11 +1271,6 @@ msgstr "x64v3 - Standard"
 #: ui/tabs/security_tab.py:274 ui/tabs/security_tab.py:339
 msgid "Recommended"
 msgstr "Recommandé"
-
-#: ui/tabs/kernels_tab.py:174
-msgid ""
-"For CPUs from 2015+ (Intel Haswell, AMD Zen and newer). AVX2 optimizations."
-msgstr ""
 
 #: ui/tabs/kernels_tab.py:187
 msgid "x64v4 - Advanced"
@@ -1538,13 +1455,6 @@ msgstr "Désinstallation de XanMod"
 msgid "Kernel in Use"
 msgstr "Noyau en cours d'utilisation"
 
-#: ui/tabs/kernels_tab.py:656
-#, python-brace-format
-msgid ""
-"Cannot uninstall {0} because it is currently running. Please boot into "
-"another kernel first."
-msgstr ""
-
 #: ui/tabs/kernels_tab.py:684
 msgid "No kernels found"
 msgstr "Aucun kernel trouvé"
@@ -1694,15 +1604,6 @@ msgstr "Prêt"
 msgid "DaVinci Resolve Installation"
 msgstr "Installation de DaVinci Resolve"
 
-#: ui/tabs/recommended_tab.py:1003
-msgid ""
-"DaVinci Resolve requires manual download due to licensing.\n"
-"\n"
-"1. Go to blackmagicdesign.com and download the Linux version (ZIP).\n"
-"2. Click OK to select the downloaded file.\n"
-"3. We will convert it to a Debian package and install it."
-msgstr ""
-
 #: ui/tabs/recommended_tab.py:1016
 msgid "DaVinci Resolve Installer"
 msgstr "Installateur DaVinci Resolve"
@@ -1742,12 +1643,6 @@ msgstr ""
 msgid "System Backups"
 msgstr "Sauvegardes système"
 
-#: ui/tabs/security_tab.py:128
-msgid ""
-"Creates automatic system snapshots. Protects your configuration and allows "
-"easy restoration."
-msgstr ""
-
 #: ui/tabs/security_tab.py:145
 msgid "Complementary"
 msgstr "Complémentaire"
@@ -1755,14 +1650,6 @@ msgstr "Complémentaire"
 #: ui/tabs/security_tab.py:147 ui/tabs/security_tab.py:189
 msgid "Only for BTRFS"
 msgstr "Uniquement pour BTRFS"
-
-#: ui/tabs/security_tab.py:153
-msgid ""
-"Automatically add BTRFS snapshots to GRUB menu. Allows booting from "
-"snapshots."
-msgstr ""
-"Ajoute automatiquement les instantanés BTRFS au menu GRUB. Permite de "
-"démarrer à partir d'instantanés."
 
 #: ui/tabs/security_tab.py:155
 msgid "Automatically add BTRFS snapshots to GRUB menu."
@@ -1797,11 +1684,6 @@ msgstr "Protection pare-feu"
 msgid "Recommended for Desktop"
 msgstr "Recommandé pour le bureau"
 
-#: ui/tabs/security_tab.py:226
-msgid ""
-"Simple graphical interface for UFW firewall. Control network traffic easily."
-msgstr ""
-
 #: ui/tabs/security_tab.py:247
 msgid "Firewall Status"
 msgstr "État du pare-feu"
@@ -1810,40 +1692,17 @@ msgstr "État du pare-feu"
 msgid "System Cleaning"
 msgstr "Nettoyage du système"
 
-#: ui/tabs/security_tab.py:279
-msgid ""
-"Free disk space and maintain privacy. Cleans cache, cookies, and temporary "
-"files."
-msgstr ""
-
 #: ui/tabs/security_tab.py:292
 msgid "Alternative"
 msgstr "Alternative"
-
-#: ui/tabs/security_tab.py:297
-msgid ""
-"Modern system optimizer with resource monitoring, startup apps, and cache "
-"cleaner."
-msgstr ""
 
 #: ui/tabs/security_tab.py:310
 msgid "KDE"
 msgstr "KDE"
 
-#: ui/tabs/security_tab.py:315
-msgid ""
-"KDE system cleaner. Simple tool to clean temporary files and browsing "
-"history."
-msgstr ""
-
 #: ui/tabs/security_tab.py:326
 msgid "Antivirus & Malware"
 msgstr "Antivirus et logiciels malveillants"
-
-#: ui/tabs/security_tab.py:344
-msgid ""
-"Graphical interface for ClamAV. Scan your system against viruses and malware."
-msgstr ""
 
 #: ui/tabs/security_tab.py:357
 msgid "Advanced"
@@ -1972,12 +1831,6 @@ msgstr "Nettoyer le système"
 msgid "Soplos Repository Manager"
 msgstr "Gestionnaire de dépôts Soplos"
 
-#: ui/tabs/software_gnome_tab.py:184
-msgid ""
-"Manage repositories and modern software sources integrated with GNOME "
-"Software."
-msgstr ""
-
 #: ui/tabs/software_gnome_tab.py:190 ui/tabs/software_xfce_tab.py:192
 msgid "Launch Repository Manager"
 msgstr "Lancer le gestionnaire de dépôts"
@@ -2023,11 +1876,6 @@ msgstr "L'interface logicielle spécifique au bureau sera bientôt disponible."
 msgid "Snap to Whisker Menu"
 msgstr "Snap vers le menu Whisker"
 
-#: ui/tabs/software_xfce_tab.py:186
-msgid ""
-"Manage additional repositories and software sources for your Soplos system."
-msgstr ""
-
 #: ui/tabs/welcome_tab.py:111
 msgid "Welcome to Soplos Linux"
 msgstr "Bienvenue sur Soplos Linux"
@@ -2035,13 +1883,6 @@ msgstr "Bienvenue sur Soplos Linux"
 #: ui/tabs/welcome_tab.py:119
 msgid "Your gateway to the Soplos ecosystem"
 msgstr "Votre porte d'entrée vers l'écosystème Soplos"
-
-#: ui/tabs/welcome_tab.py:128
-#, fuzzy
-msgid ""
-"Thank you for choosing Soplos Linux! This application will help you get "
-"started with your new system."
-msgstr "Bienvenue sur Soplos Linux ! Commencez avec votre nouveau système."
 
 #: ui/tabs/welcome_tab.py:143
 msgid "Use the tabs above to:"
@@ -2361,9 +2202,8 @@ msgid "Manage your web applications with ease"
 msgstr "Gérez vos applications web en toute simplicité"
 
 #: config/software.py:594
-#, fuzzy
 msgid "Manage Flatpak permissions"
-msgstr "Gérer les extensions"
+msgstr "Gérer les permissions Flatpak"
 
 #: config/software.py:592
 msgid "Manage AppImages effortlessly"
@@ -2384,46 +2224,6 @@ msgstr "À propos"
 #: core/application.py:239
 msgid "Quit"
 msgstr "Quitter"
-
-#: core/application.py:289
-msgid ""
-"\n"
-"Soplos Welcome 2.0 - The world's most advanced welcome application\n"
-"\n"
-"Usage: soplos-welcome [OPTIONS]\n"
-"\n"
-"Options:\n"
-"  -h, --help              Show this help message\n"
-"  -v, --version           Show version information\n"
-"  --lang=LANG             Set language (es, en, fr, de, pt, it, ro, ru)\n"
-"  --theme=THEME           Set theme (base, light, dark, gnome, kde, xfce)\n"
-"  --debug                 Enable debug mode\n"
-"\n"
-"Examples:\n"
-"  soplos-welcome                    # Start with auto-detected settings\n"
-"  soplos-welcome --lang=es          # Start in Spanish\n"
-"  soplos-welcome --theme=dark       # Start with dark theme\n"
-"  soplos-welcome --debug            # Start in debug mode\n"
-"\n"
-"For more information, visit: https://soplos.org\n"
-msgstr ""
-
-#: core/application.py:315
-#, python-brace-format
-msgid ""
-"\n"
-"Soplos Welcome {version}\n"
-"\n"
-"Copyright (C) 2025 Sergi Perich\n"
-"This is free software; see the source for copying conditions.\n"
-"There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A "
-"PARTICULAR PURPOSE.\n"
-"\n"
-"Desktop Environment: {desktop_env}\n"
-"Display Protocol: {display_protocol}\n"
-"Theme: {theme}\n"
-"Language: {language}\n"
-msgstr ""
 
 #: utils/command_runner.py:51
 msgid "Starting..."
@@ -2450,9 +2250,8 @@ msgid "Integrated"
 msgstr "Intégré"
 
 #: utils/hardware_detector.py:149
-#, fuzzy
 msgid "Detection error"
-msgstr "Détection de la mémoire..."
+msgstr "Erreur de détection"
 
 #: utils/hardware_detector.py:368
 msgid "Disk"
@@ -2510,180 +2309,30 @@ msgstr "Détection du réseau..."
 msgid "Scan completed"
 msgstr "Analyse terminée"
 
-#~ msgid "Change Language"
-#~ msgstr "Changer la langue"
+#: ui/main_window.py:587
+msgid "Ready - {desktop} on {protocol}"
+msgstr "Prêt - {desktop} sur {protocol}"
 
-#~ msgid "Toggle Theme"
-#~ msgstr "Changer le thème"
+#: ui/main_window.py:610
+msgid "GNOME"
+msgstr "GNOME"
 
-#~ msgid "About Soplos Welcome"
-#~ msgstr "À propos de Soplos Welcome"
+#: ui/main_window.py:611 ui/main_window.py:612
+msgid "KDE Plasma"
+msgstr "KDE Plasma"
 
-#~ msgid "Welcome"
-#~ msgstr "Accueil"
+#: ui/main_window.py:613
+msgid "XFCE"
+msgstr "XFCE"
 
-#~ msgid "Software"
-#~ msgstr "Logiciels"
+#: ui/main_window.py:621
+msgid "X11"
+msgstr "X11"
 
-#~ msgid "Drivers"
-#~ msgstr "Pilotes"
+#: ui/main_window.py:622
+msgid "Wayland"
+msgstr "Wayland"
 
-#~ msgid "Kernels"
-#~ msgstr "Kernels"
-
-#~ msgid "Security"
-#~ msgstr "Sécurité"
-
-#~ msgid "Minimize"
-#~ msgstr "Réduire"
-
-#~ msgid "Restore"
-#~ msgstr "Restaurer"
-
-#~ msgid "Maximize"
-#~ msgstr "Agrandir"
-
-#~ msgid "Detect and install optimal hardware drivers for your system."
-#~ msgstr ""
-#~ "Détectez et installez les pilotes matériels optimaux pour votre système."
-
-#~ msgid "Customize your desktop environment, themes, and appearance."
-#~ msgstr ""
-#~ "Personnalisez votre environnement de bureau, vos thèmes et votre "
-#~ "apparence."
-
-#~ msgid "Manage system kernels and performance optimizations."
-#~ msgstr "Gérez les noyaux système et les optimisations de performance."
-
-#~ msgid "Discover recommended applications for your workflow."
-#~ msgstr "Découvrez des applications recommandées pour votre flux de travail."
-
-#~ msgid "Tab content coming soon..."
-#~ msgstr "Contenu de l'onglet bientôt disponible..."
-
-#~ msgid "Full implementation coming soon..."
-#~ msgstr "Implémentation complète bientôt disponible..."
-
-#~ msgid "Desktop Environment"
-#~ msgstr "Environnement de bureau"
-
-#~ msgid "Display Protocol"
-#~ msgstr "Protocole d'affichage"
-
-#~ msgid "Theme Type"
-#~ msgstr "Type de thème"
-
-#~ msgid "Current Language"
-#~ msgstr "Langue actuelle"
-
-#~ msgid "Current Theme"
-#~ msgstr "Thème actuel"
-
-#~ msgid "Default"
-#~ msgstr "Défaut"
-
-#~ msgid "Install Demo Package"
-#~ msgstr "Installer le paquet de démonstration"
-
-#~ msgid "Uninstall Demo Package"
-#~ msgstr "Désinstaller le paquet de démonstration"
-
-#, python-brace-format
-#~ msgid "Ready - {desktop} on {protocol}"
-#~ msgstr "Prêt - {desktop} sur {protocol}"
-
-#~ msgid "GNOME"
-#~ msgstr "GNOME"
-
-#~ msgid "KDE Plasma"
-#~ msgstr "KDE Plasma"
-
-#~ msgid "XFCE"
-#~ msgstr "XFCE"
-
-#~ msgid "X11"
-#~ msgstr "X11"
-
-#~ msgid "Wayland"
-#~ msgstr "Wayland"
-
-#~ msgid "Working..."
-#~ msgstr "Travail en cours..."
-
-#~ msgid "The world's most advanced welcome application for Linux"
-#~ msgstr "L'application de bienvenue la plus avancée au monde pour Linux"
-
-#~ msgid "Soplos Linux Website"
-#~ msgstr "Site web de Soplos Linux"
-
-#~ msgid "🎮 Gaming Mode Activated!"
-#~ msgstr "🎮 Mode Jeu Activé !"
-
-#~ msgid "Language Changed"
-#~ msgstr "Langue changée"
-
-#~ msgid "Preparing installation..."
-#~ msgstr "Préparation de l'installation..."
-
-#~ msgid "Downloading package..."
-#~ msgstr "Téléchargement du paquet..."
-
-#~ msgid "Verifying dependencies..."
-#~ msgstr "Vérification des dépendances..."
-
-#~ msgid "Installing files..."
-#~ msgstr "Installation des fichiers..."
-
-#~ msgid "Configuring application..."
-#~ msgstr "Configuration de l'application..."
-
-#~ msgid "Finalizing installation..."
-#~ msgstr "Finalisation de l'installation..."
-
-#~ msgid "Installation completed!"
-#~ msgstr "Installation terminée !"
-
-#~ msgid "✅ Installation successful"
-#~ msgstr "✅ Installation réussie"
-
-#~ msgid "Uninstalling package..."
-#~ msgstr "Désinstallation du paquet..."
-
-#~ msgid "Stopping services..."
-#~ msgstr "Arrêt des services..."
-
-#~ msgid "Removing files..."
-#~ msgstr "Suppression des fichiers..."
-
-#~ msgid "Cleaning configuration..."
-#~ msgstr "Nettoyage de la configuration..."
-
-#~ msgid "Uninstallation completed!"
-#~ msgstr "Désinstallation terminée !"
-
-#~ msgid "✅ Uninstallation successful"
-#~ msgstr "✅ Désinstallation réussie"
-
-#~ msgid "Checking for old kernels..."
-#~ msgstr "Recherche des anciens noyaux..."
-
-#~ msgid "No old kernels to remove."
-#~ msgstr "Aucun ancien noyau à supprimer."
-
-#~ msgid "Filesystem Tools"
-#~ msgstr "Outils de système de fichiers"
-
-#~ msgid "NVIDIA Latest (550)"
-#~ msgstr "NVIDIA Dernier (550)"
-
-#~ msgid "Latest driver from repository (RTX/GTX 16xx and newer)"
-#~ msgstr "Dernier pilote du dépôt (RTX/GTX 16xx et plus récents)"
-
-#~ msgid "For Kepler GPUs (GTX 600-700 series)"
-#~ msgstr "Pour GPU Kepler (séries GTX 600-700)"
-
-#~ msgid "Advanced IDE with zero gravity"
-#~ msgstr "IDE avancé avec gravité zéro"
-
-#~ msgid "Installation complete"
-#~ msgstr "Installation terminée"
+#: ui/main_window.py:642
+msgid "Working..."
+msgstr "Travail en cours..."
