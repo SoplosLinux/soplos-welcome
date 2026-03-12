@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.7-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.7--1-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,10 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.7-1 (12/03/2026)
+- **NVIDIA Driver Improvements**: Improved official repository installation logic for Debian 12/13.
+- **Keyring Management**: Switched to official `cuda-keyring` package for more robust GPG handling.
 
 ### v2.0.7 (11/03/2026)
 - **NVIDIA Legacy Drivers**: Legacy drivers (340, 390, 470) now install via APT from Debian Sid instead of `.run` files.

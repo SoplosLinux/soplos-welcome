@@ -456,32 +456,60 @@ echo "IMPORTANT: Restart the system to apply the changes."
 set -e
 
 NVIDIA_VERSION="{version}"
-echo "=== NVIDIA $NVIDIA_VERSION Official CUDA Repository Installation ==="
+# Dynamic repository selection (590+ uses debian13, 580 uses debian12)
+if [ "$NVIDIA_VERSION" -ge 590 ]; then
+    DISTRO="debian13"
+else
+    DISTRO="debian12"
+fi
+
+echo "=== NVIDIA $NVIDIA_VERSION Official CUDA Repository ($DISTRO) ==="
 echo ""
 
-echo "[1/6] Installing dependencies and enabling repos..."
-apt update
-apt install -y software-properties-common wget dirmngr
-apt-add-repository -y contrib non-free non-free-firmware || true
+echo "[1/5] Enabling contrib and non-free repos..."
+# Enable contrib, non-free and non-free-firmware components
+if command -v apt-get >/dev/null; then
+    # Direct way for Debian systems
+    sed -i 's/main$/main contrib non-free non-free-firmware/g' /etc/apt/sources.list || true
+    # Also check .sources files (standard in Debian 12/13)
+    find /etc/apt/sources.list.d/ -name "*.sources" -exec sed -i 's/Components: main/Components: main contrib non-free non-free-firmware/g' {{}} + || true
+fi
+
+# Initial update to ensure baseline is fresh
+apt update || echo "Warning: apt update had some warnings, continuing..."
 
 # Install kernel headers
 apt install -y linux-headers-$(uname -r)
 
-echo "[2/6] Setting up NVIDIA Official Keyring..."
-mkdir -p /usr/share/keyrings
-wget -qO - https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/3bf863cc.pub | gpg --dearmor -o /usr/share/keyrings/cuda-archive-keyring.gpg || echo "Warning: Key import might have failed."
+echo "[2/5] Setting up NVIDIA Official Keyring Package..."
+# The official way is to install the cuda-keyring.deb which configures the repo and keys automatically
+TEMP_KEYRING_DEB=$(mktemp)
+wget -q -O "$TEMP_KEYRING_DEB" https://developer.download.nvidia.com/compute/cuda/repos/$DISTRO/x86_64/cuda-keyring_1.1-1_all.deb
 
-echo "[3/6] Adding NVIDIA CUDA Repository..."
-echo "deb [signed-by=/usr/share/keyrings/cuda-archive-keyring.gpg] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /" > /etc/apt/sources.list.d/cuda-debian12-x86_64.list
+if [ -f "$TEMP_KEYRING_DEB" ] && [ -s "$TEMP_KEYRING_DEB" ]; then
+    dpkg -i "$TEMP_KEYRING_DEB"
+    rm -f "$TEMP_KEYRING_DEB"
+else
+    echo "ERROR: Failed to download NVIDIA keyring package."
+    exit 1
+fi
 
-echo "[4/6] Updating package cache..."
-apt update
+echo "[3/5] Updating package cache for NVIDIA Repository..."
+# After installing the keyring deb, we update to see the new repository
+apt update || echo "Apt update after keyring installation had some warnings..."
 
-echo "[5/6] Installing NVIDIA Driver $NVIDIA_VERSION..."
-# Prioritize specific versions from CUDA repo
-apt install -y cuda-drivers-$NVIDIA_VERSION || apt install -y nvidia-driver-$NVIDIA_VERSION
+echo "[4/5] Installing NVIDIA Driver $NVIDIA_VERSION..."
+# Try versioned driver packages first
+if ! apt install -y cuda-drivers-$NVIDIA_VERSION; then
+    echo "Warning: cuda-drivers-$NVIDIA_VERSION failed, trying nvidia-driver-$NVIDIA_VERSION..."
+    if ! apt install -y nvidia-driver-$NVIDIA_VERSION; then
+        echo "Trying generic driver with branch pinning..."
+        apt install -y nvidia-driver-pinning-$NVIDIA_VERSION || echo "Pinning not found."
+        apt install -y cuda-drivers || apt install -y nvidia-driver
+    fi
+fi
 
-echo "[6/6] Configuring OS parameters..."
+echo "[5/5] Configuring OS parameters..."
 # === BLACKLIST NOUVEAU ===
 echo "Blacklisting nouveau in modprobe..."
 mkdir -p /etc/modprobe.d
@@ -494,7 +522,7 @@ MODPROBE
 echo "Configuring GRUB with nvidia-drm.modeset=1..."
 if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
     sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\\([^"]*\\)"/GRUB_CMDLINE_LINUX_DEFAULT="\\1 nvidia-drm.modeset=1"/' /etc/default/grub
-    update-grub
+    DEBIAN_FRONTEND=noninteractive update-grub
 fi
 
 # === CONFIGURE DRACUT/INITRAMFS ===
