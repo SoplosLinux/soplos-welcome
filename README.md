@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.6--3-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.7-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,13 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.7 (11/03/2026)
+- **NVIDIA Legacy Drivers**: Legacy drivers (340, 390, 470) now install via APT from Debian Sid instead of `.run` files.
+- **Debian Sid Workflow**: Two-step dialog guides users to enable Sid via Soplos Repo Selector before installing legacy drivers.
+- **Automatic Repo Selector Launch**: Legacy driver buttons now automatically open Soplos Repo Selector and wait for the user to finish.
+- **Correct APT Packages**: Updated to `nvidia-legacy-340xx-driver`, `nvidia-legacy-390xx-driver`, `nvidia-tesla-470-driver`.
+- **Translations**: Added 4 new legacy driver dialog strings in all 8 languages.
 
 ### v2.0.6-3 (08/03/2026)
 - **AppImages**: Fixed `Errno 13 Permission denied` when creating web apps by installing all AppImages (Affinity Suite, ES-DE, Stacer) to `~/AppImage` instead of `/opt` or `~/.local`, and removing the use of `pkexec` for their installation to prevent root ownership of user directories.

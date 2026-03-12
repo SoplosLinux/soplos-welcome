@@ -134,20 +134,20 @@ class DriversTab(Gtk.ScrolledWindow):
             _("NVIDIA 590 (Latest)"),
             _("Latest driver for RTX 50/40/30 series")
         )
-        nvidia_590.connect("clicked", self._on_nvidia_run_clicked, "590.48.01")
+        nvidia_590.connect("clicked", self._on_nvidia_cuda_repo_clicked, "590")
         grid.attach(nvidia_590, 0, 0, 1, 1)
         
         nvidia_580 = self._create_button(
             _("NVIDIA 580 (Production)"),
             _("Stable production driver for modern GPUs")
         )
-        nvidia_580.connect("clicked", self._on_nvidia_run_clicked, "580.119.02")
+        nvidia_580.connect("clicked", self._on_nvidia_cuda_repo_clicked, "580")
         grid.attach(nvidia_580, 1, 0, 1, 1)
         
         # Row 1: Repository driver + Legacy 470
         nvidia_550 = self._create_button(
             _("NVIDIA 550 (Repo)"),
-            _("For RTX 50/40/30/20, GTX 16xx/10xx series")
+            _("For RTX 30/20, GTX 16xx/10xx series")
         )
         nvidia_550.connect("clicked", self._on_nvidia_repo_clicked, "nvidia-driver")
         grid.attach(nvidia_550, 0, 1, 1, 1)
@@ -156,7 +156,7 @@ class DriversTab(Gtk.ScrolledWindow):
             _("NVIDIA 470 (Legacy)"),
             _("For Kepler/Maxwell GPUs (GTX 600-900 series)")
         )
-        nvidia_470.connect("clicked", self._on_nvidia_run_clicked, "470.256.02")
+        nvidia_470.connect("clicked", self._on_legacy_nvidia_clicked, "nvidia-tesla-470-driver")
         grid.attach(nvidia_470, 1, 1, 1, 1)
         
         # Row 2: Older legacy drivers (390, 340)
@@ -164,14 +164,14 @@ class DriversTab(Gtk.ScrolledWindow):
             _("NVIDIA 390 (Legacy)"),
             _("For Fermi GPUs (GTX 400-500 series)")
         )
-        nvidia_390.connect("clicked", self._on_nvidia_run_clicked, "390.157")
+        nvidia_390.connect("clicked", self._on_legacy_nvidia_clicked, "nvidia-legacy-390xx-driver")
         grid.attach(nvidia_390, 0, 2, 1, 1)
         
         nvidia_340 = self._create_button(
             _("NVIDIA 340 (Legacy)"),
             _("For very old GPUs (8xxx, 9xxx, 2xx, 3xx series)")
         )
-        nvidia_340.connect("clicked", self._on_nvidia_run_clicked, "340.108")
+        nvidia_340.connect("clicked", self._on_legacy_nvidia_clicked, "nvidia-legacy-340xx-driver")
         grid.attach(nvidia_340, 1, 2, 1, 1)
         
         # Row 3: Open source driver
@@ -346,9 +346,68 @@ echo "Installation completed successfully."
 """
         self._run_script_as_root(script, f"install-{packages.split()[0]}.sh")
     
+    def _on_legacy_nvidia_clicked(self, button, package_name):
+        """Show warning about Debian Sid requirement before installing legacy drivers."""
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Legacy Driver Support Required")
+        )
+        
+        dialog.format_secondary_text(
+            _("This legacy driver is only available in the unstable repositories.\n\n"
+              "We will now open <b>Soplos Repo Selector</b> so you can temporarily enable "
+              "the <b>Debian Sid (Unstable)</b> repository.\n\n"
+              "After completing the driver installation, it is CRITICAL that you return "
+              "to Soplos Repo Selector and disable Sid, or you may break your system "
+              "during future updates.\n\n"
+              "Do you want to enable Sid and continue with the installation?")
+        )
+        
+        # Enable markup for the secondary text to support <b> tags
+        dialog.get_message_area().get_children()[1].set_use_markup(True)
+
+        response = dialog.run()
+        dialog.destroy()
+
+        if response == Gtk.ResponseType.YES:
+            # Launch Soplos Repo Selector asynchronously
+            try:
+                import subprocess
+                subprocess.Popen(['soplos-repo-selector'])
+            except Exception as e:
+                print(f"Failed to launch soplos-repo-selector: {e}")
+                
+            # Show a second dialog waiting for the user to finish with Repo Selector
+            wait_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.OK_CANCEL,
+                text=_("Waiting for Soplos Repo Selector")
+            )
+            
+            wait_dialog.format_secondary_text(
+                _("Soplos Repo Selector has been opened.\n\n"
+                  "1. Enable the <b>Debian Sid (Unstable)</b> repository.\n"
+                  "2. Wait for the operation to finish and close Soplos Repo Selector.\n"
+                  "3. Click <b>OK</b> below to begin the driver installation.\n\n"
+                  "If you changed your mind, click Cancel.")
+            )
+            wait_dialog.get_message_area().get_children()[1].set_use_markup(True)
+            
+            wait_response = wait_dialog.run()
+            wait_dialog.destroy()
+            
+            if wait_response == Gtk.ResponseType.OK:
+                self._on_nvidia_repo_clicked(button, package_name)
+
     def _on_nvidia_repo_clicked(self, button, package):
         """Install NVIDIA driver from repository with proper configuration."""
         script = f"""#!/bin/bash
+        
 set -e
 
 echo "Installing NVIDIA driver from repository..."
@@ -389,220 +448,75 @@ echo "NVIDIA driver installed successfully."
 echo "IMPORTANT: Restart the system to apply the changes."
 """
         self._run_script_as_root(script, f"install-{package}.sh")
+
     
-    def _on_nvidia_run_clicked(self, button, version):
-        """Download and install NVIDIA driver from .run file using two-phase installation."""
-        # Show confirmation dialog
-        dialog = Gtk.MessageDialog(
-            transient_for=self.parent_window,
-            flags=0,
-            message_type=Gtk.MessageType.WARNING,
-            buttons=Gtk.ButtonsType.YES_NO,
-            text=_("NVIDIA Driver Installation")
-        )
-        dialog.format_secondary_text(
-            _("This installation requires TWO automatic reboots:\n\n"
-              "1. First reboot: System prepares for installation\n"
-              "2. Second reboot: Driver is installed in text mode\n\n"
-              "The process is fully automatic. Do not turn off your computer.\n\n"
-              "Do you want to continue?")
-        )
-        response = dialog.run()
-        dialog.destroy()
-        
-        if response != Gtk.ResponseType.YES:
-            return
-        
-        # Phase 1: Prepare everything and setup systemd service
+    def _on_nvidia_cuda_repo_clicked(self, button, version):
+        """Install NVIDIA driver from official CUDA repository for Debian."""
         script = f"""#!/bin/bash
 set -e
 
 NVIDIA_VERSION="{version}"
-INSTALLER_DIR="/opt/nvidia-installer"
-
-echo "=== NVIDIA $NVIDIA_VERSION Installation - Phase 1 ==="
+echo "=== NVIDIA $NVIDIA_VERSION Official CUDA Repository Installation ==="
 echo ""
 
-# Install dependencies
-echo "[1/8] Installing dependencies..."
+echo "[1/6] Installing dependencies and enabling repos..."
 apt update
-apt install -y build-essential dkms linux-headers-$(uname -r) wget
+apt install -y software-properties-common wget dirmngr
+apt-add-repository -y contrib non-free non-free-firmware || true
 
-# Create installer directory
-echo "[2/8] Creating installer directory..."
-mkdir -p "$INSTALLER_DIR"
+# Install kernel headers
+apt install -y linux-headers-$(uname -r)
 
-# Download driver
-echo "[3/8] Downloading NVIDIA driver $NVIDIA_VERSION..."
-wget -q --show-progress -O "$INSTALLER_DIR/nvidia.run" \\
-    "https://us.download.nvidia.com/XFree86/Linux-x86_64/$NVIDIA_VERSION/NVIDIA-Linux-x86_64-$NVIDIA_VERSION.run"
-chmod +x "$INSTALLER_DIR/nvidia.run"
+echo "[2/6] Setting up NVIDIA Official Keyring..."
+mkdir -p /usr/share/keyrings
+wget -qO - https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/3bf863cc.pub | gpg --dearmor -o /usr/share/keyrings/cuda-archive-keyring.gpg || echo "Warning: Key import might have failed."
 
-# Blacklist nouveau in modprobe
-echo "[4/8] Blacklisting nouveau..."
+echo "[3/6] Adding NVIDIA CUDA Repository..."
+echo "deb [signed-by=/usr/share/keyrings/cuda-archive-keyring.gpg] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /" > /etc/apt/sources.list.d/cuda-debian12-x86_64.list
+
+echo "[4/6] Updating package cache..."
+apt update
+
+echo "[5/6] Installing NVIDIA Driver $NVIDIA_VERSION..."
+# Prioritize specific versions from CUDA repo
+apt install -y cuda-drivers-$NVIDIA_VERSION || apt install -y nvidia-driver-$NVIDIA_VERSION
+
+echo "[6/6] Configuring OS parameters..."
+# === BLACKLIST NOUVEAU ===
+echo "Blacklisting nouveau in modprobe..."
 mkdir -p /etc/modprobe.d
 cat > /etc/modprobe.d/blacklist-nouveau.conf << 'MODPROBE'
 blacklist nouveau
 options nouveau modeset=0
 MODPROBE
 
-# Configure GRUB
-echo "[5/8] Configuring GRUB..."
+# === CONFIGURE GRUB ===
+echo "Configuring GRUB with nvidia-drm.modeset=1..."
 if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
-    sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\\([^"]*\\)"/GRUB_CMDLINE_LINUX_DEFAULT="\\1 nvidia-drm.modeset=1 rd.driver.blacklist=nouveau"/' /etc/default/grub
+    sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\\([^"]*\\)"/GRUB_CMDLINE_LINUX_DEFAULT="\\1 nvidia-drm.modeset=1"/' /etc/default/grub
     update-grub
 fi
 
-# Configure Dracut
-echo "[6/8] Configuring Dracut..."
-mkdir -p /etc/dracut.conf.d
-echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
-echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
-
-# Create Phase 2 installation script
-echo "[7/8] Creating installation script..."
-cat > "$INSTALLER_DIR/install.sh" << 'INSTALLSCRIPT'
-#!/bin/bash
-LOG_FILE="/var/log/nvidia-installer.log"
-exec > >(tee -a "$LOG_FILE") 2>&1
-
-echo "=== NVIDIA Installation - Phase 2 ==="
-echo "Started at: $(date)"
-
-INSTALLER_DIR="/opt/nvidia-installer"
-
-# Run the NVIDIA installer
-echo "Running NVIDIA installer..."
-if "$INSTALLER_DIR/nvidia.run" --silent --dkms --no-x-check --no-questions; then
-    echo "NVIDIA installer completed successfully."
-    
-    # Verify installation
-    if command -v nvidia-smi &>/dev/null; then
-        echo "nvidia-smi found. Installation successful!"
-        
-        # Cleanup
-        systemctl disable nvidia-installer.service
-        rm -f /etc/systemd/system/nvidia-installer.service
-        rm -rf "$INSTALLER_DIR"
-        
-        # Restore graphical target
-        systemctl set-default graphical.target
-        
-        # Create success notification for user
-        mkdir -p /etc/profile.d
-        cat > /etc/profile.d/nvidia-install-notify.sh << 'NOTIFY'
-#!/bin/bash
-if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
-    notify-send -i nvidia "NVIDIA Driver" "Installation completed successfully. Run 'nvidia-smi' to verify." 2>/dev/null || true
-    rm -f /etc/profile.d/nvidia-install-notify.sh
+# === CONFIGURE DRACUT/INITRAMFS ===
+if command -v dracut >/dev/null 2>&1; then
+    echo "Configuring Dracut..."
+    mkdir -p /etc/dracut.conf.d
+    echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
+    echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
+    echo "Regenerating initramfs..."
+    dracut --force
+elif command -v update-initramfs >/dev/null 2>&1; then
+    echo "Regenerating initramfs..."
+    update-initramfs -u
 fi
-NOTIFY
-        chmod +x /etc/profile.d/nvidia-install-notify.sh
-        
-        echo "Rebooting to graphical mode..."
-        sleep 2
-        reboot
-    else
-        echo "ERROR: nvidia-smi not found after installation!"
-        # Trigger rollback
-        exit 1
-    fi
-else
-    echo "ERROR: NVIDIA installer failed!"
-    exit 1
-fi
-INSTALLSCRIPT
-chmod +x "$INSTALLER_DIR/install.sh"
-
-# Create rollback script
-cat > "$INSTALLER_DIR/rollback.sh" << 'ROLLBACK'
-#!/bin/bash
-echo "=== NVIDIA Installation Rollback ==="
-echo "Restoring nouveau driver..."
-
-# Remove nouveau blacklist
-rm -f /etc/modprobe.d/blacklist-nouveau.conf
-
-# Remove NVIDIA dracut config
-rm -f /etc/dracut.conf.d/blacklist-nouveau.conf
-rm -f /etc/dracut.conf.d/nvidia.conf
-
-# Remove nvidia-drm.modeset from GRUB
-sed -i 's/ nvidia-drm.modeset=1//g' /etc/default/grub
-sed -i 's/ rd.driver.blacklist=nouveau//g' /etc/default/grub
-update-grub
-
-# Regenerate initramfs
-dracut --force
-
-# Cleanup
-systemctl disable nvidia-installer.service 2>/dev/null || true
-rm -f /etc/systemd/system/nvidia-installer.service
-
-# Create failure notification
-mkdir -p /etc/profile.d
-cat > /etc/profile.d/nvidia-install-notify.sh << 'NOTIFY'
-#!/bin/bash
-if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
-    notify-send -u critical -i dialog-error "NVIDIA Driver" "Installation failed. System restored to nouveau driver. Check /var/log/nvidia-installer.log for details." 2>/dev/null || true
-    rm -f /etc/profile.d/nvidia-install-notify.sh
-fi
-NOTIFY
-chmod +x /etc/profile.d/nvidia-install-notify.sh
-
-# Restore graphical target
-systemctl set-default graphical.target
-
-rm -rf /opt/nvidia-installer
-
-echo "Rollback complete. Rebooting..."
-sleep 2
-reboot
-ROLLBACK
-chmod +x "$INSTALLER_DIR/rollback.sh"
-
-# Create systemd service
-cat > /etc/systemd/system/nvidia-installer.service << 'SERVICE'
-[Unit]
-Description=NVIDIA Driver Installer (Phase 2)
-Before=display-manager.service
-After=local-fs.target network.target
-
-[Service]
-Type=oneshot
-ExecStart=/opt/nvidia-installer/install.sh
-ExecStopPost=/bin/bash -c 'if [ "$EXIT_STATUS" != "0" ]; then /opt/nvidia-installer/rollback.sh; fi'
-RemainAfterExit=yes
-StandardOutput=journal+console
-StandardError=journal+console
-
-[Install]
-WantedBy=multi-user.target
-SERVICE
-
-# Enable service and set target
-echo "[8/8] Enabling installer service..."
-systemctl daemon-reload
-systemctl enable nvidia-installer.service
-
-# Regenerate initramfs
-echo "Regenerating initramfs..."
-dracut --force
-
-# Change to multi-user target for next boot
-systemctl set-default multi-user.target
 
 echo ""
-echo "=== Phase 1 Complete ==="
-echo "The system will now reboot to complete the installation."
-echo "DO NOT turn off your computer during this process."
-echo ""
-
-# Notify before reboot
-sleep 3
-reboot
+echo "=== Installation completed successfully ==="
+echo "NVIDIA official driver $NVIDIA_VERSION has been installed."
+echo "IMPORTANT: Restart the system to apply the changes."
 """
-        self._run_script_as_root(script, f"nvidia-phase1-{version}.sh")
+        self._run_script_as_root(script, f"install-nvidia-cuda-{version}.sh")
+
     
     def _on_nvidia_extras_clicked(self, button, mode):
         """Install additional NVIDIA support for DaVinci Resolve or Blender."""
@@ -917,23 +831,19 @@ echo "IMPORTANT: Restart the system to apply the changes."
         """Install recommended driver from hardware scan."""
         dialog.destroy()
         
-        # Check if it's NVIDIA driver from .run or from repo
-        if driver.startswith('nvidia-driver-') and driver != 'nvidia-driver':
-            # Driver from .run file
-            version_map = {
-                'nvidia-driver-590': '590.48.01',
-                'nvidia-driver-580': '580.119.02',
-                'nvidia-driver-470': '470.256.02',
-                'nvidia-driver-390': '390.157',
-                'nvidia-driver-340': '340.108'
-            }
-            if driver in version_map:
-                self._on_nvidia_run_clicked(button, version_map[driver])
-        elif driver == 'nvidia-driver':
-            # Latest from repo
+        # Route to appropriate installation method based on driver format
+        if driver.startswith('nvidia-driver-580') or driver.startswith('nvidia-driver-590'):
+            # CUDA Repo driver
+            version = driver.split('-')[-1]
+            self._on_nvidia_cuda_repo_clicked(button, version)
+        elif driver.startswith('nvidia-legacy-') or driver.startswith('nvidia-tesla-'):
+            # Legacy drivers from Sid
+            self._on_legacy_nvidia_clicked(button, driver)
+        elif driver.startswith('nvidia-driver'):
+            # Standard Repo driver (550, etc)
             self._on_nvidia_repo_clicked(button, driver)
         else:
-            # AMD, Intel, or other drivers
+            # AMD, Intel, or other open source drivers
             self._on_driver_clicked(button, driver)
     
     def _on_detect_hybrid_clicked(self, button):

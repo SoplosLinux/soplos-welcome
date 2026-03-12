@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.7] - 2026-03-11
+
+### 🔧 NVIDIA Legacy Drivers Overhaul
+- **APT-based Legacy Installation**: Legacy NVIDIA drivers (340, 390, 470) are now installed via APT from Debian Sid instead of `.run` files, for cleaner integration and fewer dependency conflicts.
+- **Debian Sid Workflow**: New two-step dialog guides users to temporarily enable Debian Sid (Unstable) via **Soplos Repo Selector** before installing legacy drivers, with clear warnings to disable Sid afterwards.
+- **Automatic Repo Selector Launch**: Clicking a legacy driver button now opens Soplos Repo Selector automatically and waits for the user to finish before proceeding with the installation.
+- **Correct APT Package Names**: Updated hardware detector to use `nvidia-legacy-340xx-driver`, `nvidia-legacy-390xx-driver`, and `nvidia-tesla-470-driver` from Debian Sid.
+
+### 🌍 Translations
+- Added 4 new translation strings for the legacy driver dialogs in all 8 languages (ES, EN, FR, DE, PT, IT, RO, RU).
+
 ## [2.0.6-3] - 2026-03-08
 
 ### 🛠️ Bug Fixes
