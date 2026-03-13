@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.7--1-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.7--2-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.7-2 (13/03/2026)
+- **NVIDIA Driver Logic Fixes**: Corrected mapping for MacBook Kepler GPUs (650M/750M) and improved driver detection for MX/GT series.
+- **Improved Installation Workflow**: Added confirmation dialogs for all NVIDIA installation paths, explicit installation of auxiliary tools (nvidia-smi, settings, modprobe), and pre-installation driver cleanup.
+- **Translations**: Updated all 8 supported languages with 4 new confirmation dialog strings.
 
 ### v2.0.7-1 (12/03/2026)
 - **NVIDIA Driver Improvements**: Improved official repository installation logic for Debian 12/13.

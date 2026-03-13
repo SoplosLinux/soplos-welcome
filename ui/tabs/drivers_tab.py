@@ -406,18 +406,47 @@ echo "Installation completed successfully."
 
     def _on_nvidia_repo_clicked(self, button, package):
         """Install NVIDIA driver from repository with proper configuration."""
+        # Show confirmation dialog before proceeding
+        confirm_dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Confirm NVIDIA Driver Installation")
+        )
+        confirm_dialog.format_secondary_text(
+            _("This will:\n\n"
+              "1. Remove any existing NVIDIA drivers to prevent conflicts.\n"
+              "2. Install the driver: {package}\n"
+              "3. Install auxiliary tools (nvidia-smi, nvidia-settings).\n"
+              "4. Regenerate initramfs.\n\n"
+              "A system restart will be required after installation.\n\n"
+              "Do you want to continue?").format(package=package)
+        )
+        response = confirm_dialog.run()
+        confirm_dialog.destroy()
+        if response != Gtk.ResponseType.YES:
+            return
+
         script = f"""#!/bin/bash
         
 set -e
 
 echo "Installing NVIDIA driver from repository..."
 
+# === CLEANUP EXISTING NVIDIA PACKAGES ===
+echo "Removing existing NVIDIA packages to prevent conflicts..."
+apt purge -y 'nvidia-driver*' 'nvidia-kernel*' 'libnvidia*' 'nvidia-modprobe' \
+    'nvidia-settings' 'nvidia-smi' 'nvidia-opencl*' 'nvidia-cuda*' \
+    'cuda-drivers*' 'xserver-xorg-video-nvidia*' 2>/dev/null || true
+apt autoremove -y 2>/dev/null || true
+
 # Install kernel headers
 apt update
 apt install -y linux-headers-$(uname -r)
 
-# Install NVIDIA driver
-apt install -y {package}
+# Install NVIDIA driver + auxiliary packages
+apt install -y {package} nvidia-smi nvidia-settings nvidia-modprobe libglu1-mesa
 
 # === BLACKLIST NOUVEAU IN MODPROBE ===
 echo "Blacklisting nouveau in modprobe..."
@@ -432,19 +461,23 @@ if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
     update-grub
 fi
 
-# === CONFIGURE DRACUT ===
-echo "Configuring Dracut..."
-mkdir -p /etc/dracut.conf.d
-echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
-echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
-
-# Regenerate initramfs
-echo "Regenerating initramfs..."
-dracut --force
+# === CONFIGURE DRACUT/INITRAMFS ===
+if command -v dracut >/dev/null 2>&1; then
+    echo "Configuring Dracut..."
+    mkdir -p /etc/dracut.conf.d
+    echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
+    echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
+    echo "Regenerating initramfs..."
+    dracut --force
+elif command -v update-initramfs >/dev/null 2>&1; then
+    echo "Regenerating initramfs..."
+    update-initramfs -u
+fi
 
 echo ""
 echo "=== Installation completed ==="
 echo "NVIDIA driver installed successfully."
+echo "Auxiliary tools installed: nvidia-smi, nvidia-settings, nvidia-modprobe"
 echo "IMPORTANT: Restart the system to apply the changes."
 """
         self._run_script_as_root(script, f"install-{package}.sh")
@@ -452,6 +485,28 @@ echo "IMPORTANT: Restart the system to apply the changes."
     
     def _on_nvidia_cuda_repo_clicked(self, button, version):
         """Install NVIDIA driver from official CUDA repository for Debian."""
+        # Show confirmation dialog before proceeding
+        confirm_dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Confirm NVIDIA CUDA Driver Installation")
+        )
+        confirm_dialog.format_secondary_text(
+            _("This will:\n\n"
+              "1. Remove any existing NVIDIA drivers to prevent conflicts.\n"
+              "2. Add the official NVIDIA CUDA repository.\n"
+              "3. Install driver version {version} with auxiliary tools.\n"
+              "4. Regenerate initramfs.\n\n"
+              "A system restart will be required after installation.\n\n"
+              "Do you want to continue?").format(version=version)
+        )
+        response = confirm_dialog.run()
+        confirm_dialog.destroy()
+        if response != Gtk.ResponseType.YES:
+            return
+
         script = f"""#!/bin/bash
 set -e
 
@@ -466,7 +521,7 @@ fi
 echo "=== NVIDIA $NVIDIA_VERSION Official CUDA Repository ($DISTRO) ==="
 echo ""
 
-echo "[1/5] Enabling contrib and non-free repos..."
+echo "[1/6] Enabling contrib and non-free repos..."
 # Enable contrib, non-free and non-free-firmware components
 if command -v apt-get >/dev/null; then
     # Direct way for Debian systems
@@ -481,7 +536,14 @@ apt update || echo "Warning: apt update had some warnings, continuing..."
 # Install kernel headers
 apt install -y linux-headers-$(uname -r)
 
-echo "[2/5] Setting up NVIDIA Official Keyring Package..."
+echo "[2/6] Cleaning up existing NVIDIA packages..."
+# Remove existing NVIDIA packages to prevent conflicts
+apt purge -y 'nvidia-driver*' 'nvidia-kernel*' 'libnvidia*' 'nvidia-modprobe' \
+    'nvidia-settings' 'nvidia-smi' 'nvidia-opencl*' 'nvidia-cuda*' \
+    'cuda-drivers*' 'xserver-xorg-video-nvidia*' 2>/dev/null || true
+apt autoremove -y 2>/dev/null || true
+
+echo "[3/6] Setting up NVIDIA Official Keyring Package..."
 # The official way is to install the cuda-keyring.deb which configures the repo and keys automatically
 TEMP_KEYRING_DEB=$(mktemp)
 wget -q -O "$TEMP_KEYRING_DEB" https://developer.download.nvidia.com/compute/cuda/repos/$DISTRO/x86_64/cuda-keyring_1.1-1_all.deb
@@ -494,22 +556,50 @@ else
     exit 1
 fi
 
-echo "[3/5] Updating package cache for NVIDIA Repository..."
+echo "[4/6] Updating package cache for NVIDIA Repository..."
 # After installing the keyring deb, we update to see the new repository
 apt update || echo "Apt update after keyring installation had some warnings..."
 
-echo "[4/5] Installing NVIDIA Driver $NVIDIA_VERSION..."
-# Try versioned driver packages first
-if ! apt install -y cuda-drivers-$NVIDIA_VERSION; then
-    echo "Warning: cuda-drivers-$NVIDIA_VERSION failed, trying nvidia-driver-$NVIDIA_VERSION..."
-    if ! apt install -y nvidia-driver-$NVIDIA_VERSION; then
-        echo "Trying generic driver with branch pinning..."
-        apt install -y nvidia-driver-pinning-$NVIDIA_VERSION || echo "Pinning not found."
-        apt install -y cuda-drivers || apt install -y nvidia-driver
+echo "[5/6] Installing NVIDIA Driver $NVIDIA_VERSION..."
+# Validate that the requested driver version is available before installing
+if apt-cache policy cuda-drivers-$NVIDIA_VERSION 2>/dev/null | grep -q 'Candidate:'; then
+    CANDIDATE=$(apt-cache policy cuda-drivers-$NVIDIA_VERSION | grep 'Candidate:' | awk '{{print $2}}')
+    if [ "$CANDIDATE" = "(none)" ]; then
+        echo "ERROR: cuda-drivers-$NVIDIA_VERSION is not available in the configured repositories."
+        echo "Available cuda-drivers packages:"
+        apt-cache search 'cuda-drivers' 2>/dev/null || true
+        echo ""
+        echo "Please check that the repository for $DISTRO contains driver version $NVIDIA_VERSION."
+        exit 1
     fi
+    echo "Found cuda-drivers-$NVIDIA_VERSION (candidate: $CANDIDATE). Installing..."
+    apt install -y cuda-drivers-$NVIDIA_VERSION
+elif apt-cache policy nvidia-driver-$NVIDIA_VERSION 2>/dev/null | grep -q 'Candidate:'; then
+    CANDIDATE=$(apt-cache policy nvidia-driver-$NVIDIA_VERSION | grep 'Candidate:' | awk '{{print $2}}')
+    if [ "$CANDIDATE" = "(none)" ]; then
+        echo "ERROR: nvidia-driver-$NVIDIA_VERSION is not available either."
+        echo "Available nvidia-driver packages:"
+        apt-cache search 'nvidia-driver' 2>/dev/null || true
+        exit 1
+    fi
+    echo "Found nvidia-driver-$NVIDIA_VERSION (candidate: $CANDIDATE). Installing..."
+    apt install -y nvidia-driver-$NVIDIA_VERSION
+else
+    echo "ERROR: No driver package found for version $NVIDIA_VERSION."
+    echo ""
+    echo "Available CUDA driver packages:"
+    apt-cache search 'cuda-drivers' 2>/dev/null || echo "  (none found)"
+    echo ""
+    echo "Available NVIDIA driver packages:"
+    apt-cache search 'nvidia-driver' 2>/dev/null || echo "  (none found)"
+    exit 1
 fi
 
-echo "[5/5] Configuring OS parameters..."
+# Install auxiliary packages
+apt install -y nvidia-smi nvidia-settings nvidia-modprobe libglu1-mesa 2>/dev/null || \
+    echo "Warning: Some auxiliary packages could not be installed (nvidia-smi, nvidia-settings)."
+
+echo "[6/6] Configuring OS parameters..."
 # === BLACKLIST NOUVEAU ===
 echo "Blacklisting nouveau in modprobe..."
 mkdir -p /etc/modprobe.d
@@ -541,6 +631,7 @@ fi
 echo ""
 echo "=== Installation completed successfully ==="
 echo "NVIDIA official driver $NVIDIA_VERSION has been installed."
+echo "Auxiliary tools installed: nvidia-smi, nvidia-settings, nvidia-modprobe"
 echo "IMPORTANT: Restart the system to apply the changes."
 """
         self._run_script_as_root(script, f"install-nvidia-cuda-{version}.sh")

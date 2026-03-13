@@ -5,7 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.7-2] - 2026-03-13
+
+### 🚀 NVIDIA Driver Fixes
+- **Hardware Detection**: Corrected mapping for GeForce 650M/750M (Kepler MacBooks) to use driver 470 instead of nouveau.
+- **MX/GT Series**: Improved detection patterns for MX and legacy GT series GPUs.
+- **Installation Workflow**:
+  - Added mandatory confirmation dialogs before starting driver installation.
+  - Implemented automatic `apt purge` of existing NVIDIA drivers to prevent conflicts.
+  - Ensured explicit installation of `nvidia-smi`, `nvidia-settings`, `nvidia-modprobe`, and `libglu1-mesa`.
+  - Added fallback support for `update-initramfs` when `dracut` is not available.
+
+### 🌍 Translations
+- Updated all 8 supported languages (ES, EN, FR, DE, PT, IT, RO, RU) with new confirmation dialog strings.
+
 ## [2.0.7-1] - 2026-03-12
+
 
 ### 🚀 NVIDIA Driver Improvements
 - **Official Repository Logic**: Refactored official NVIDIA repository installation logic to follow official documentation.

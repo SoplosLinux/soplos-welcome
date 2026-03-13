@@ -178,38 +178,42 @@ def _recommend_nvidia_driver(model):
     if any(s in model_lower for s in ['rtx 40', 'rtx40', 'rtx 4090', 'rtx 4080', 'rtx 4070', 'rtx 4060']):
         return 'nvidia-driver-580'
     
-    # RTX 30, RTX 20, GTX 16, GTX 10 (Pascal) - Repo driver de Debian
+    # RTX 30, RTX 20, GTX 16, GTX 10 (Pascal/Turing/Ampere) - Repo driver de Debian
+    # MX 500/400 series (Turing) - also supported by current repo driver
     if any(s in model_lower for s in ['rtx 30', 'rtx30', 'rtx 3090', 'rtx 3080', 'rtx 3070', 'rtx 3060', 'rtx 3050',
                                        'rtx 20', 'rtx20', 'gtx 16', 'gtx16',
-                                       'gtx 10', 'gtx10', 'gtx 1080', 'gtx 1070', 'gtx 1060', 'gtx 1050', 'gt 1030']):
+                                       'gtx 10', 'gtx10', 'gtx 1080', 'gtx 1070', 'gtx 1060', 'gtx 1050', 'gt 1030',
+                                       'mx550', 'mx 550', 'mx450', 'mx 450', 'mx350', 'mx 350', 'mx330', 'mx 330']):
         return 'nvidia-driver'
     
     # Legacy 470 (GTX 900, 700, 600 series - Maxwell/Kepler)
-    if any(s in model_lower for s in ['gtx 9', 'gtx 980', 'gtx 970', 'gtx 960', 'gtx 950', 
+    # Also: MX 200/100 series, GT 710/720/730/740, mobile MX models (920MX, 930MX, 940MX)
+    if any(s in model_lower for s in ['gtx 9', 'gtx 980', 'gtx 970', 'gtx 960', 'gtx 950',
+                                       'gtx 8', 'gtx 880', 'gtx 870', 'gtx 860', 'gtx 850',
                                        'gtx 7', 'gtx 780', 'gtx 770', 'gtx 760', 'gtx 750',
-                                       'gtx 6', 'gtx 680', 'gtx 670', 'gtx 660', 'gtx 650']):
+                                       'gtx 6', 'gtx 680', 'gtx 670', 'gtx 660', 'gtx 650',
+                                       'gt 710', 'gt 720', 'gt 730', 'gt 740',
+                                       'mx250', 'mx 250', 'mx230', 'mx 230',
+                                       'mx150', 'mx 150', 'mx130', 'mx 130', 'mx110', 'mx 110',
+                                       '920m', '930m', '940m', '920mx', '930mx', '940mx',
+                                       '910m', '820m', '840m',
+                                       '650m', '750m']):
         return 'nvidia-tesla-470-driver'
     
     # Legacy 390 (GTX 400/500, Fermi)
-    if any(s in model_lower for s in ['gtx 5', 'gtx 4', 'gtx 580', 'gtx 570', 'gtx 560', 'gtx 550',
-                                       'gtx 480', 'gtx 470', 'gtx 460']):
+    if any(s in model_lower for s in ['gtx 580', 'gtx 570', 'gtx 560', 'gtx 550',
+                                       'gtx 480', 'gtx 470', 'gtx 460', 'gtx 450',
+                                       'gtx 555', 'gtx 520', 'gtx 510',
+                                       'gt 640', 'gt 630', 'gt 620', 'gt 610',
+                                       'gt 545', 'gt 530', 'gt 520', 'gt 440', 'gt 430',
+                                       'gts 450']):
         return 'nvidia-legacy-390xx-driver'
 
-    # Legacy 340 (Very old GPUs like 8000/9000 series, 200/300 series)
+    # Very old GPUs (pre-Fermi) - Use nouveau (open source driver)
+    # GeForce 8xxx/9xxx, 2xx/3xx series, Quadro FX/NVS, NForce
     if any(s in model_lower for s in ['geforce 8', 'geforce 9', 'geforce 2', 'geforce 3',
                                        '8400', '8600', '8800', '9400', '9500', '9600', '9800',
-                                       'gt 2', 'gt 3', 'gt 1', 'gts ', '320m', '330m', '650m', '750m',
-                                       'nforce']):
-        return 'nvidia-legacy-340xx-driver'
-    
-    # Very old GPUs (Quadro FX, etc.) - Use nouveau
-    if any(s in model_lower for s in ['quadro fx', 'quadro nvs']):
-        return 'nouveau'
-    
-    # Very old GPUs (8000/9000 series, 200/300 series, MacBook GPUs) - Use nouveau
-    if any(s in model_lower for s in ['geforce 8', 'geforce 9', 'geforce 2', 'geforce 3',
-                                       '8400', '8600', '8800', '9400', '9500', '9600', '9800',
-                                       'gt 2', 'gt 3', 'gt 1', 'gts ', '320m', '330m', '650m', '750m',
+                                       'gts ', '320m', '330m',
                                        'quadro fx', 'quadro nvs', 'nforce']):
         return 'nouveau'
     
