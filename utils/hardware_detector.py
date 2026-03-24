@@ -10,10 +10,16 @@ from gi.repository import GLib
 from core.i18n_manager import _
 
 
-def detect_gpu():
+def _get_lspci_output():
+    """Run lspci once and return output."""
+    return subprocess.check_output(['lspci'], stderr=subprocess.DEVNULL).decode('utf-8')
+
+
+def detect_gpu(lspci_output=None):
     """Detect GPU and recommend driver."""
     try:
-        lspci_output = subprocess.check_output(['lspci'], stderr=subprocess.DEVNULL).decode('utf-8')
+        if lspci_output is None:
+            lspci_output = _get_lspci_output()
         
         # Store all detected GPUs
         nvidia_gpus = []
@@ -74,10 +80,11 @@ def detect_gpu():
         return {'vendor': _('Error'), 'model': str(e), 'recommended_driver': None, 'type': _('N/A')}
 
 
-def detect_hybrid_gpu():
+def detect_hybrid_gpu(lspci_output=None):
     """Detect if the system has hybrid graphics (integrated + dedicated)."""
     try:
-        lspci_output = subprocess.check_output(['lspci'], stderr=subprocess.DEVNULL).decode('utf-8')
+        if lspci_output is None:
+            lspci_output = _get_lspci_output()
         
         nvidia_gpu = None
         intel_gpu = None
@@ -178,26 +185,35 @@ def _recommend_nvidia_driver(model):
     if any(s in model_lower for s in ['rtx 40', 'rtx40', 'rtx 4090', 'rtx 4080', 'rtx 4070', 'rtx 4060']):
         return 'nvidia-driver-580'
     
-    # RTX 30, RTX 20, GTX 16, GTX 10 (Pascal/Turing/Ampere) - Repo driver de Debian
-    # MX 500/400 series (Turing) - also supported by current repo driver
+    # GTX 16xx (Turing) - 590 soporta Turing y es mejor para Wayland que el 550 del repo
+    if any(s in model_lower for s in ['gtx 16', 'gtx16', 'gtx 1650', 'gtx 1660',
+                                       'mx550', 'mx 550', 'mx450', 'mx 450']):
+        return 'nvidia-driver-590'
+
+    # RTX 30, RTX 20, GTX 10 (Pascal/Ampere/Turing) - Repo driver de Debian (550)
+    # MX 350/330 (Pascal) - also supported by current repo driver
     if any(s in model_lower for s in ['rtx 30', 'rtx30', 'rtx 3090', 'rtx 3080', 'rtx 3070', 'rtx 3060', 'rtx 3050',
-                                       'rtx 20', 'rtx20', 'gtx 16', 'gtx16',
+                                       'rtx 20', 'rtx20',
                                        'gtx 10', 'gtx10', 'gtx 1080', 'gtx 1070', 'gtx 1060', 'gtx 1050', 'gt 1030',
-                                       'mx550', 'mx 550', 'mx450', 'mx 450', 'mx350', 'mx 350', 'mx330', 'mx 330']):
+                                       'mx350', 'mx 350', 'mx330', 'mx 330']):
         return 'nvidia-driver'
     
-    # Legacy 470 (GTX 900, 700, 600 series - Maxwell/Kepler)
-    # Also: MX 200/100 series, GT 710/720/730/740, mobile MX models (920MX, 930MX, 940MX)
+    # Maxwell (GTX 900 series, 800M, 900M) - 580 is required for Wayland/Plasma 6 stability
+    # 470 still supports Maxwell but causes freezes with KDE Wayland
     if any(s in model_lower for s in ['gtx 9', 'gtx 980', 'gtx 970', 'gtx 960', 'gtx 950',
                                        'gtx 8', 'gtx 880', 'gtx 870', 'gtx 860', 'gtx 850',
-                                       'gtx 7', 'gtx 780', 'gtx 770', 'gtx 760', 'gtx 750',
+                                       '920m', '930m', '940m', '920mx', '930mx', '940mx',
+                                       '910m', '820m', '840m',
+                                       '750m', '960m', '970m', '980m']):
+        return 'nvidia-driver-580'
+
+    # Legacy 470 (Kepler: GTX 700/600 series, older MX/GT)
+    if any(s in model_lower for s in ['gtx 7', 'gtx 780', 'gtx 770', 'gtx 760', 'gtx 750',
                                        'gtx 6', 'gtx 680', 'gtx 670', 'gtx 660', 'gtx 650',
                                        'gt 710', 'gt 720', 'gt 730', 'gt 740',
                                        'mx250', 'mx 250', 'mx230', 'mx 230',
                                        'mx150', 'mx 150', 'mx130', 'mx 130', 'mx110', 'mx 110',
-                                       '920m', '930m', '940m', '920mx', '930mx', '940mx',
-                                       '910m', '820m', '840m',
-                                       '650m', '750m']):
+                                       '650m']):
         return 'nvidia-tesla-470-driver'
     
     # Legacy 390 (GTX 400/500, Fermi)
@@ -446,12 +462,13 @@ def scan_hardware(update_status_cb, update_progress_cb, show_results_cb):
         # GPU
         GLib.idle_add(update_status_cb, _('Detecting GPU...'))
         GLib.idle_add(update_progress_cb, 0.35)
-        results['gpu'] = detect_gpu()
-        
+        lspci_output = _get_lspci_output()
+        results['gpu'] = detect_gpu(lspci_output)
+
         # Hybrid GPU Detection
         GLib.idle_add(update_status_cb, _('Detecting hybrid graphics...'))
         GLib.idle_add(update_progress_cb, 0.5)
-        results['hybrid_gpu'] = detect_hybrid_gpu()
+        results['hybrid_gpu'] = detect_hybrid_gpu(lspci_output)
         
         # VM Detection
         GLib.idle_add(update_status_cb, _('Detecting virtual machine...'))

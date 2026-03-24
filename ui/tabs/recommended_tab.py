@@ -272,9 +272,16 @@ class RecommendedTab(Gtk.Box):
             flatpak_badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> {_("Flatpak")} </span>')
             flatpak_badge.set_valign(Gtk.Align.CENTER)
             name_box.pack_start(flatpak_badge, False, False, 0)
+
+        # Add AppImage badge for packages installed as AppImage
+        if package.get('check_path', '').endswith('.AppImage'):
+            appimage_badge = Gtk.Label()
+            appimage_badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> {_("AppImage")} </span>')
+            appimage_badge.set_valign(Gtk.Align.CENTER)
+            name_box.pack_start(appimage_badge, False, False, 0)
         
-        # Official badge
-        if package.get('official', False):
+        # Official badge (only when installing via APT, not Flatpak/AppImage)
+        if package.get('official', False) and install_method == 'apt':
             official_badge = Gtk.Image.new_from_icon_name("security-high-symbolic", Gtk.IconSize.MENU)
             official_badge.get_style_context().add_class('success-color')
             official_badge.set_tooltip_text(self.i18n_manager._("Official Package"))
@@ -427,8 +434,10 @@ class RecommendedTab(Gtk.Box):
             'Telegram', 'Discord', 'Signal', 'Element', 'WhatsApp',
             'LibreWolf', 'LibreOffice', 'OnlyOffice', 'WPS Office',
             'OpenShot', 'Kdenlive', 'Shotcut',
+            'OBS Studio', 'HandBrake',
             'VSCodium', 'Pulsar',
-            'Steam', 'Heroic Games Launcher', 'Bottles'
+            'Steam', 'Heroic Games Launcher', 'Bottles',
+            'Lutris'
         ]
         
         if package['name'] in prefer_flatpak and package.get('flatpak'):

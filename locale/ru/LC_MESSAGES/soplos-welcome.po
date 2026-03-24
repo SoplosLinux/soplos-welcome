@@ -391,48 +391,48 @@ msgid "NVIDIA 590 (Latest)"
 msgstr "NVIDIA 590 (Последний)"
 
 #: ui/tabs/drivers_tab.py:135
-msgid "Latest driver for RTX 50/40/30 series"
-msgstr "Последний драйвер для серий RTX 50/40/30"
+msgid "Turing and newer: GTX 1650/1660, RTX 20/30/40/50 series"
+msgstr "Turing и новее: GTX 1650/1660, серия RTX 20/30/40/50"
 
 #: ui/tabs/drivers_tab.py:141
 msgid "NVIDIA 580 (Production)"
 msgstr "NVIDIA 580 (Производственный)"
 
 #: ui/tabs/drivers_tab.py:142
-msgid "Stable production driver for modern GPUs"
-msgstr "Стабильный производственный драйвер для современных GPU"
+msgid "Universal driver: Maxwell to Blackwell (GTX 900 → RTX 5000)"
+msgstr "Универсальный драйвер: Maxwell — Blackwell (GTX 900 → RTX 5000)"
 
 #: ui/tabs/drivers_tab.py:149
 msgid "NVIDIA 550 (Repo)"
 msgstr "NVIDIA 550 (Репозиторий)"
 
 #: ui/tabs/drivers_tab.py:150
-msgid "For RTX 50/40/30/20, GTX 16xx/10xx series"
-msgstr "Для серий RTX 50/40/30/20, GTX 16xx/10xx"
+msgid "Maxwell to Ada Lovelace (GTX 900, GTX 10xx/16xx, RTX 20/30/40)"
+msgstr "Maxwell — Ada Lovelace (GTX 900, GTX 10xx/16xx, RTX 20/30/40)"
 
 #: ui/tabs/drivers_tab.py:156
 msgid "NVIDIA 470 (Legacy)"
 msgstr "NVIDIA 470 (Устаревший)"
 
 #: ui/tabs/drivers_tab.py:157
-msgid "For Kepler/Maxwell GPUs (GTX 600-900 series)"
-msgstr "Для GPU Kepler/Maxwell (серии GTX 600-900)"
+msgid "Kepler to Ampere (GTX 600/700/900/10xx, RTX 20/30 series)"
+msgstr "Kepler — Ampere (GTX 600/700/900/10xx, серия RTX 20/30)"
 
 #: ui/tabs/drivers_tab.py:164
 msgid "NVIDIA 390 (Legacy)"
 msgstr "NVIDIA 390 (Устаревший)"
 
 #: ui/tabs/drivers_tab.py:165
-msgid "For Fermi GPUs (GTX 400-500 series)"
-msgstr "Для видеокарт Fermi (серии GTX 400-500)"
+msgid "Fermi and Kepler (GTX 400/500/600/700 series)"
+msgstr "Fermi и Kepler (серия GTX 400/500/600/700)"
 
 #: ui/tabs/drivers_tab.py:171
 msgid "NVIDIA 340 (Legacy)"
 msgstr "NVIDIA 340 (Устаревший)"
 
 #: ui/tabs/drivers_tab.py:172
-msgid "For very old GPUs (8xxx, 9xxx, 2xx, 3xx series)"
-msgstr "Для очень старых видеокарт (серии 8xxx, 9xxx, 2xx, 3xx)"
+msgid "Tesla architecture (GeForce 8/9/100/200/300 series)"
+msgstr "Архитектура Tesla (серия GeForce 8/9/100/200/300)"
 
 #: ui/tabs/drivers_tab.py:179
 msgid "Nouveau (Open Source)"
@@ -441,6 +441,14 @@ msgstr "Nouveau (Открытый исходный код)"
 #: ui/tabs/drivers_tab.py:180
 msgid "Free and open source NVIDIA driver"
 msgstr "Свободный драйвер NVIDIA с открытым исходным кодом"
+
+#: ui/tabs/drivers_tab.py:186 ui/tabs/drivers_tab.py:973
+msgid "Uninstall NVIDIA Drivers"
+msgstr "Удалить драйверы NVIDIA"
+
+#: ui/tabs/drivers_tab.py:187
+msgid "Remove all NVIDIA packages completely before switching drivers"
+msgstr "Полностью удалить все пакеты NVIDIA перед сменой драйвера"
 
 #: ui/tabs/drivers_tab.py:188
 msgid "Hybrid Graphics (Laptops)"
@@ -2200,6 +2208,18 @@ msgstr "Управление разрешениями Flatpak"
 #: config/software.py:602
 msgid "Manage AppImages effortlessly"
 msgstr "Управляйте AppImages без усилий"
+
+msgid "Manage and integrate AppImages on your system"
+msgstr "Управляйте и интегрируйте AppImages в вашей системе"
+
+msgid "AppImage"
+msgstr "AppImage"
+
+msgid "Soplos system cleaner. Clean package cache, orphan packages, logs and temporary files."
+msgstr "Очиститель системы Soplos. Очищает кэш пакетов, осиротевшие пакеты, журналы и временные файлы."
+
+msgid "Open Soplos Sys Cleaner"
+msgstr "Открыть Soplos Sys Cleaner"
 
 #: core/application.py:200
 msgid "Soplos Welcome"

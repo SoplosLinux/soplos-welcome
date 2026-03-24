@@ -132,55 +132,62 @@ class DriversTab(Gtk.ScrolledWindow):
         # Row 0: Latest drivers (590, 580)
         nvidia_590 = self._create_button(
             _("NVIDIA 590 (Latest)"),
-            _("Latest driver for RTX 50/40/30 series")
+            _("Turing and newer: GTX 1650/1660, RTX 20/30/40/50 series")
         )
         nvidia_590.connect("clicked", self._on_nvidia_cuda_repo_clicked, "590")
         grid.attach(nvidia_590, 0, 0, 1, 1)
-        
+
         nvidia_580 = self._create_button(
             _("NVIDIA 580 (Production)"),
-            _("Stable production driver for modern GPUs")
+            _("Universal driver: Maxwell to Blackwell (GTX 900 → RTX 5000)")
         )
         nvidia_580.connect("clicked", self._on_nvidia_cuda_repo_clicked, "580")
         grid.attach(nvidia_580, 1, 0, 1, 1)
-        
+
         # Row 1: Repository driver + Legacy 470
         nvidia_550 = self._create_button(
             _("NVIDIA 550 (Repo)"),
-            _("For RTX 30/20, GTX 16xx/10xx series")
+            _("Maxwell to Ada Lovelace (GTX 900, GTX 10xx/16xx, RTX 20/30/40)")
         )
         nvidia_550.connect("clicked", self._on_nvidia_repo_clicked, "nvidia-driver")
         grid.attach(nvidia_550, 0, 1, 1, 1)
-        
+
         nvidia_470 = self._create_button(
             _("NVIDIA 470 (Legacy)"),
-            _("For Kepler/Maxwell GPUs (GTX 600-900 series)")
+            _("Kepler to Ampere (GTX 600/700/900/10xx, RTX 20/30 series)")
         )
         nvidia_470.connect("clicked", self._on_legacy_nvidia_clicked, "nvidia-tesla-470-driver")
         grid.attach(nvidia_470, 1, 1, 1, 1)
-        
+
         # Row 2: Older legacy drivers (390, 340)
         nvidia_390 = self._create_button(
             _("NVIDIA 390 (Legacy)"),
-            _("For Fermi GPUs (GTX 400-500 series)")
+            _("Fermi and Kepler (GTX 400/500/600/700 series)")
         )
         nvidia_390.connect("clicked", self._on_legacy_nvidia_clicked, "nvidia-legacy-390xx-driver")
         grid.attach(nvidia_390, 0, 2, 1, 1)
-        
+
         nvidia_340 = self._create_button(
             _("NVIDIA 340 (Legacy)"),
-            _("For very old GPUs (8xxx, 9xxx, 2xx, 3xx series)")
+            _("Tesla architecture (GeForce 8/9/100/200/300 series)")
         )
         nvidia_340.connect("clicked", self._on_legacy_nvidia_clicked, "nvidia-legacy-340xx-driver")
         grid.attach(nvidia_340, 1, 2, 1, 1)
         
-        # Row 3: Open source driver
+        # Row 3: Open source driver + Uninstall
         nouveau = self._create_button(
             _("Nouveau (Open Source)"),
             _("Free and open source NVIDIA driver")
         )
         nouveau.connect("clicked", self._on_driver_clicked, "xserver-xorg-video-nouveau")
         grid.attach(nouveau, 0, 3, 1, 1)
+
+        uninstall_nvidia = self._create_button(
+            _("Uninstall NVIDIA Drivers"),
+            _("Remove all NVIDIA packages completely before switching drivers")
+        )
+        uninstall_nvidia.connect("clicked", self._on_uninstall_nvidia_clicked)
+        grid.attach(uninstall_nvidia, 1, 3, 1, 1)
     
     def _create_nvidia_hybrid_section(self):
         """Create NVIDIA hybrid graphics section for laptops."""
@@ -507,132 +514,87 @@ echo "IMPORTANT: Restart the system to apply the changes."
         if response != Gtk.ResponseType.YES:
             return
 
-        script = f"""#!/bin/bash
-set -e
-
-NVIDIA_VERSION="{version}"
-# Dynamic repository selection (590+ uses debian13, 580 uses debian12)
-if [ "$NVIDIA_VERSION" -ge 590 ]; then
-    DISTRO="debian13"
-else
-    DISTRO="debian12"
+        distro = "debian12" if version == "580" else "debian13"
+        if version == "580":
+            # debian12 CUDA repo usa SHA1 en las binding signatures de su clave GPG.
+            # sqv (usado por Debian 13) rechaza SHA1 desde 2026-02-01, así que
+            # no podemos usar cuda-keyring. Añadimos el repo con trusted=yes.
+            repo_setup = """echo "deb [trusted=yes] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /" \\
+    > /etc/apt/sources.list.d/cuda-debian12-x86_64.list
+trap 'rm -f /etc/apt/sources.list.d/cuda-debian12-x86_64.list' EXIT"""
+            install_driver = "apt install -y nvidia-driver-pinning-580\napt install -y --allow-downgrades cuda-drivers-580"
+            repo_cleanup = """trap - EXIT
+rm -f /etc/apt/sources.list.d/cuda-debian12-x86_64.list
+apt update -q"""
+        else:
+            repo_setup = """TEMP_DIR=$(mktemp -d)
+wget -q -O "$TEMP_DIR/cuda-keyring.deb" \\
+    https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb
+if [ ! -s "$TEMP_DIR/cuda-keyring.deb" ]; then
+    echo "ERROR: Failed to download cuda-keyring."
+    rm -rf "$TEMP_DIR"
+    exit 1
 fi
+dpkg -i "$TEMP_DIR/cuda-keyring.deb"
+rm -rf "$TEMP_DIR\""""
+            install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y cuda-drivers"
+            repo_cleanup = ""
+
+        script = f"""#!/bin/bash
+
+set -e
+NVIDIA_VERSION="{version}"
+DISTRO="{distro}"
+LOG="/tmp/nvidia-install-$NVIDIA_VERSION.log"
+exec > >(tee -a "$LOG") 2>&1
 
 echo "=== NVIDIA $NVIDIA_VERSION Official CUDA Repository ($DISTRO) ==="
 echo ""
 
-echo "[1/6] Enabling contrib and non-free repos..."
-# Enable contrib, non-free and non-free-firmware components
-if command -v apt-get >/dev/null; then
-    # Direct way for Debian systems
-    sed -i 's/main$/main contrib non-free non-free-firmware/g' /etc/apt/sources.list || true
-    # Also check .sources files (standard in Debian 12/13)
-    find /etc/apt/sources.list.d/ -name "*.sources" -exec sed -i 's/Components: main/Components: main contrib non-free non-free-firmware/g' {{}} + || true
-fi
-
-# Initial update to ensure baseline is fresh
-apt update || echo "Warning: apt update had some warnings, continuing..."
-
-# Install kernel headers
-apt install -y linux-headers-$(uname -r)
-
-echo "[2/6] Cleaning up existing NVIDIA packages..."
-# Remove existing NVIDIA packages to prevent conflicts
-apt purge -y 'nvidia-driver*' 'nvidia-kernel*' 'libnvidia*' 'nvidia-modprobe' \
-    'nvidia-settings' 'nvidia-smi' 'nvidia-opencl*' 'nvidia-cuda*' \
-    'cuda-drivers*' 'xserver-xorg-video-nvidia*' 2>/dev/null || true
+echo "[1/5] Removing existing NVIDIA/CUDA packages..."
+rm -rf /var/lib/dkms/nvidia*
+rm -f /etc/dracut.conf.d/nvidia.conf
+rm -f /etc/dracut.conf.d/blacklist-nouveau.conf
+rm -f /etc/modprobe.d/blacklist-nouveau.conf
+rm -f /etc/apt/apt.conf.d/99nvidia-sha1-exception
+apt purge -y 'nvidia*' 'cuda*' 'libnvidia*' 2>/dev/null || true
 apt autoremove -y 2>/dev/null || true
+apt -f install -y 2>/dev/null || true
 
-echo "[3/6] Setting up NVIDIA Official Keyring Package..."
-# The official way is to install the cuda-keyring.deb which configures the repo and keys automatically
-TEMP_KEYRING_DEB=$(mktemp)
-wget -q -O "$TEMP_KEYRING_DEB" https://developer.download.nvidia.com/compute/cuda/repos/$DISTRO/x86_64/cuda-keyring_1.1-1_all.deb
-
-if [ -f "$TEMP_KEYRING_DEB" ] && [ -s "$TEMP_KEYRING_DEB" ]; then
-    dpkg -i "$TEMP_KEYRING_DEB"
-    rm -f "$TEMP_KEYRING_DEB"
+echo "[2/5] Installing kernel headers..."
+if apt-cache show linux-headers-$(uname -r) &>/dev/null; then
+    apt install -y linux-headers-$(uname -r)
 else
-    echo "ERROR: Failed to download NVIDIA keyring package."
-    exit 1
+    echo "Custom kernel detected, headers already present, skipping."
 fi
 
-echo "[4/6] Updating package cache for NVIDIA Repository..."
-# After installing the keyring deb, we update to see the new repository
-apt update || echo "Apt update after keyring installation had some warnings..."
+echo "[3/5] Setting up NVIDIA CUDA repository ($DISTRO)..."
+{repo_setup}
 
-echo "[5/6] Installing NVIDIA Driver $NVIDIA_VERSION..."
-# Validate that the requested driver version is available before installing
-if apt-cache policy cuda-drivers-$NVIDIA_VERSION 2>/dev/null | grep -q 'Candidate:'; then
-    CANDIDATE=$(apt-cache policy cuda-drivers-$NVIDIA_VERSION | grep 'Candidate:' | awk '{{print $2}}')
-    if [ "$CANDIDATE" = "(none)" ]; then
-        echo "ERROR: cuda-drivers-$NVIDIA_VERSION is not available in the configured repositories."
-        echo "Available cuda-drivers packages:"
-        apt-cache search 'cuda-drivers' 2>/dev/null || true
-        echo ""
-        echo "Please check that the repository for $DISTRO contains driver version $NVIDIA_VERSION."
-        exit 1
-    fi
-    echo "Found cuda-drivers-$NVIDIA_VERSION (candidate: $CANDIDATE). Installing..."
-    apt install -y cuda-drivers-$NVIDIA_VERSION
-elif apt-cache policy nvidia-driver-$NVIDIA_VERSION 2>/dev/null | grep -q 'Candidate:'; then
-    CANDIDATE=$(apt-cache policy nvidia-driver-$NVIDIA_VERSION | grep 'Candidate:' | awk '{{print $2}}')
-    if [ "$CANDIDATE" = "(none)" ]; then
-        echo "ERROR: nvidia-driver-$NVIDIA_VERSION is not available either."
-        echo "Available nvidia-driver packages:"
-        apt-cache search 'nvidia-driver' 2>/dev/null || true
-        exit 1
-    fi
-    echo "Found nvidia-driver-$NVIDIA_VERSION (candidate: $CANDIDATE). Installing..."
-    apt install -y nvidia-driver-$NVIDIA_VERSION
-else
-    echo "ERROR: No driver package found for version $NVIDIA_VERSION."
-    echo ""
-    echo "Available CUDA driver packages:"
-    apt-cache search 'cuda-drivers' 2>/dev/null || echo "  (none found)"
-    echo ""
-    echo "Available NVIDIA driver packages:"
-    apt-cache search 'nvidia-driver' 2>/dev/null || echo "  (none found)"
-    exit 1
-fi
+echo "[4/5] Installing NVIDIA Driver $NVIDIA_VERSION..."
+apt update
+{install_driver}
+{repo_cleanup}
 
-# Install auxiliary packages
-apt install -y nvidia-smi nvidia-settings nvidia-modprobe libglu1-mesa 2>/dev/null || \
-    echo "Warning: Some auxiliary packages could not be installed (nvidia-smi, nvidia-settings)."
-
-echo "[6/6] Configuring OS parameters..."
-# === BLACKLIST NOUVEAU ===
-echo "Blacklisting nouveau in modprobe..."
+echo "[5/5] Blacklisting nouveau and regenerating initramfs..."
 mkdir -p /etc/modprobe.d
 cat > /etc/modprobe.d/blacklist-nouveau.conf << 'MODPROBE'
 blacklist nouveau
 options nouveau modeset=0
 MODPROBE
 
-# === CONFIGURE GRUB ===
-echo "Configuring GRUB with nvidia-drm.modeset=1..."
-if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
-    sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\\([^"]*\\)"/GRUB_CMDLINE_LINUX_DEFAULT="\\1 nvidia-drm.modeset=1"/' /etc/default/grub
-    DEBIAN_FRONTEND=noninteractive update-grub
-fi
-
-# === CONFIGURE DRACUT/INITRAMFS ===
 if command -v dracut >/dev/null 2>&1; then
-    echo "Configuring Dracut..."
     mkdir -p /etc/dracut.conf.d
     echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
     echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
-    echo "Regenerating initramfs..."
     dracut --force
 elif command -v update-initramfs >/dev/null 2>&1; then
-    echo "Regenerating initramfs..."
     update-initramfs -u
 fi
 
 echo ""
 echo "=== Installation completed successfully ==="
-echo "NVIDIA official driver $NVIDIA_VERSION has been installed."
-echo "Auxiliary tools installed: nvidia-smi, nvidia-settings, nvidia-modprobe"
-echo "IMPORTANT: Restart the system to apply the changes."
+echo "NVIDIA driver $NVIDIA_VERSION installed. Restart to apply changes."
 """
         self._run_script_as_root(script, f"install-nvidia-cuda-{version}.sh")
 
@@ -949,20 +911,19 @@ echo "IMPORTANT: Restart the system to apply the changes."
     def _on_install_recommended_driver(self, button, driver, dialog):
         """Install recommended driver from hardware scan."""
         dialog.destroy()
-        
-        # Route to appropriate installation method based on driver format
-        if driver.startswith('nvidia-driver-580') or driver.startswith('nvidia-driver-590'):
-            # CUDA Repo driver
-            version = driver.split('-')[-1]
-            self._on_nvidia_cuda_repo_clicked(button, version)
-        elif driver.startswith('nvidia-legacy-') or driver.startswith('nvidia-tesla-'):
-            # Legacy drivers from Sid
+
+        cuda_drivers = {"nvidia-driver-580": "580", "nvidia-driver-590": "590"}
+        legacy_drivers = {"nvidia-tesla-470-driver", "nvidia-legacy-390xx-driver", "nvidia-legacy-340xx-driver"}
+
+        if driver in cuda_drivers:
+            self._on_nvidia_cuda_repo_clicked(button, cuda_drivers[driver])
+        elif driver == "nvidia-driver":
+            self._on_nvidia_repo_clicked(button, "nvidia-driver")
+        elif driver in legacy_drivers:
             self._on_legacy_nvidia_clicked(button, driver)
-        elif driver.startswith('nvidia-driver'):
-            # Standard Repo driver (550, etc)
-            self._on_nvidia_repo_clicked(button, driver)
+        elif driver == "nouveau":
+            self._on_driver_clicked(button, "xserver-xorg-video-nouveau")
         else:
-            # AMD, Intel, or other open source drivers
             self._on_driver_clicked(button, driver)
     
     def _on_detect_hybrid_clicked(self, button):
@@ -1001,7 +962,77 @@ echo "IMPORTANT: Restart the system to apply the changes."
         
         dialog.run()
         dialog.destroy()
-    
+
+    def _on_uninstall_nvidia_clicked(self, button):
+        """Remove all NVIDIA drivers and related packages."""
+        confirm_dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Uninstall NVIDIA Drivers")
+        )
+        confirm_dialog.format_secondary_text(
+            _("This will completely remove all NVIDIA and CUDA packages from your system.\n\n"
+              "This includes drivers, kernel modules, DKMS entries, CUDA libraries "
+              "and NVIDIA repository sources.\n\n"
+              "After removal you can install a different driver version.\n\n"
+              "A system restart will be required.\n\n"
+              "Do you want to continue?")
+        )
+        response = confirm_dialog.run()
+        confirm_dialog.destroy()
+        if response != Gtk.ResponseType.YES:
+            return
+
+        script = """#!/bin/bash
+
+echo "=== Removing all NVIDIA drivers ==="
+echo ""
+
+echo "[1/6] Fixing any interrupted dpkg state..."
+dpkg --configure -a 2>/dev/null || true
+
+echo "[2/6] Removing NVIDIA and CUDA packages..."
+NVIDIA_PKGS=$(dpkg -l | grep -iE '^[a-z]+[[:space:]]+(nvidia|libnvidia|cuda)' | awk '{print $2}' | tr '\n' ' ')
+if [ -n "$NVIDIA_PKGS" ]; then
+    echo "Packages to remove: $NVIDIA_PKGS"
+    apt purge -y $NVIDIA_PKGS 2>/dev/null || dpkg --purge --force-depends $NVIDIA_PKGS
+else
+    echo "No NVIDIA/CUDA packages found."
+fi
+apt autoremove -y 2>/dev/null || true
+
+echo "[3/6] Removing NVIDIA CUDA repository sources..."
+rm -f /etc/apt/sources.list.d/cuda-*.list
+rm -f /etc/apt/sources.list.d/nvidia*.list
+rm -f /usr/share/keyrings/cuda-*.gpg
+rm -f /usr/share/keyrings/nvidia*.gpg
+apt update -q
+
+echo "[4/6] Removing NVIDIA modprobe/dracut configuration..."
+rm -f /etc/modprobe.d/blacklist-nouveau.conf
+rm -f /etc/dracut.conf.d/nvidia.conf
+rm -f /etc/dracut.conf.d/blacklist-nouveau.conf
+rm -f /etc/apt/apt.conf.d/99nvidia-sha1-exception
+
+echo "[5/6] Restoring GRUB defaults..."
+sed -i 's/ nvidia-drm.modeset=1//' /etc/default/grub 2>/dev/null || true
+update-grub 2>/dev/null || true
+
+echo "[6/6] Regenerating initramfs..."
+if command -v dracut >/dev/null 2>&1; then
+    dracut --force
+elif command -v update-initramfs >/dev/null 2>&1; then
+    update-initramfs -u
+fi
+
+echo ""
+echo "=== NVIDIA drivers removed completely ==="
+echo "Restart the system before installing a new driver version."
+"""
+        self._run_script_as_root(script, "uninstall-nvidia.sh")
+
     def _on_hybrid_clicked(self, button, mode):
         """Configure hybrid graphics."""
         if mode == "offload":
@@ -1120,7 +1151,6 @@ mkdir -p /etc/environment.d
 cat > /etc/environment.d/10-nvidia-primary.conf << 'ENVCONF'
 # NVIDIA as primary GPU - Works on X11 and Wayland
 __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/10_nvidia.json
-GBM_BACKEND=nvidia-drm
 __GLX_VENDOR_LIBRARY_NAME=nvidia
 ENVCONF
 
@@ -1138,17 +1168,8 @@ case "$DESKTOP_ENV" in
         ;;
     "kde")
         echo "Configuring for KDE Plasma (SDDM)..."
-        # SDDM supports both X11 and Wayland sessions
-        # User can choose at login screen, no forced config needed
-        # But we ensure Wayland is available
-        if [ -d /etc/sddm.conf.d ]; then
-            mkdir -p /etc/sddm.conf.d
-            # Don't force Wayland, let user choose at login
-            cat > /etc/sddm.conf.d/10-nvidia.conf << 'SDDMCONF'
-[General]
-# Both X11 and Wayland sessions available at login
-SDDMCONF
-        fi
+        # SDDM supports both X11 and Wayland sessions natively
+        # User can choose at login screen — no additional config needed
         ;;
     "xfce")
         echo "Configuring for Xfce (LightDM)..."
@@ -1188,7 +1209,15 @@ if [ "$DESKTOP_ENV" = "xfce" ]; then
     echo "Xfce uses X11 only."
 else
     echo "Both X11 and Wayland sessions are available."
-    echo "Wayland requires driver version 495+ (yours: $DRIVER_VERSION)"
+    if [[ "$DRIVER_VERSION" =~ ^[0-9]+$ ]] && [ "$DRIVER_VERSION" -ge 555 ]; then
+        echo "Wayland: fully supported (driver $DRIVER_VERSION)."
+    elif [[ "$DRIVER_VERSION" =~ ^[0-9]+$ ]] && [ "$DRIVER_VERSION" -ge 550 ]; then
+        echo "WARNING: Driver 550 has known freezes with KDE Wayland."
+        echo "Upgrade to 580 or 590 for a stable Wayland experience."
+    else
+        echo "WARNING: Could not detect driver version or version below 550."
+        echo "Wayland stability not guaranteed. Use X11 session if issues arise."
+    fi
 fi
 echo ""
 echo "IMPORTANT: Restart the system to apply changes."

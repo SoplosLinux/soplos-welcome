@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.7-3] - 2026-03-24
+
+### 🚀 NVIDIA 580 Driver Fix
+- **SHA1/sqv workaround**: Replaced cuda-keyring with `[trusted=yes]` in sources.list for the debian12 CUDA repo, bypassing `sqv` rejection of SHA1 key binding signatures on Debian 13.
+- **Version pinning**: Added `nvidia-driver-pinning-580` installation step to force apt to resolve the 580 branch instead of the latest (595+).
+- **Downgrade support**: Added `--allow-downgrades` flag to handle packages already at a newer version (e.g. `firmware-nvidia-gsp`, `libxnvctrl0`).
+- **Uninstall cleanup**: `_on_uninstall_nvidia_clicked` now also removes `99nvidia-sha1-exception` leftover file.
+
+### 🔧 Hardware Detection Improvements
+- **GTX 16xx / MX550/MX450**: Correctly mapped to `nvidia-driver-590` (CUDA repo, debian13).
+- **Maxwell GPUs** (GTX 9xx, 8xx, 9xxM): Correctly mapped to `nvidia-driver-580` (CUDA repo, debian12).
+- **lspci caching**: Added `_get_lspci_output()` helper; `scan_hardware` now calls lspci once and passes the result to both `detect_gpu` and `detect_hybrid_gpu`.
+
+### 🛡️ Security Tab
+- **Soplos Sys Cleaner**: Added to the Cleaning section with install/uninstall and "Open" button.
+
+### ⭐ Recommended Tab
+- **Soplos AppImage Manager**: Added to the Utilities category.
+- **OBS Studio** and **HandBrake**: Switched to Flatpak installation (apt versions cause dependency issues on Debian 13).
+- **Lutris**: Switched to Flatpak in both Recommended and Gaming tabs.
+- **AppImage badge**: Packages installed as AppImage now display an AppImage badge alongside their name.
+- **Official badge**: Now only shown when the install method is APT (not Flatpak or AppImage).
+
+### 🌍 Translations
+- Updated all 8 languages (ES, EN, FR, DE, PT, IT, RO, RU) with 4 new strings: Soplos AppImage Manager description, AppImage badge, Soplos Sys Cleaner description, and "Open Soplos Sys Cleaner" button.
+
 ## [2.0.7-2] - 2026-03-13
 
 ### 🚀 NVIDIA Driver Fixes

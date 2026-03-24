@@ -1803,7 +1803,8 @@ done
             return 'custom'
         
         # Prefer Flatpak for certain launchers (like recommended tab)
-        prefer_flatpak = ['Steam', 'Heroic Games Launcher', 'Bottles', 'Discord', 
+        prefer_flatpak = ['Steam', 'Heroic Games Launcher', 'Bottles', 'Discord',
+                         'Lutris',
                          'Prism Launcher', 'Itch.io', 'R2ModMan', 'Vinegar (Roblox)',
                          'Sober', 'Moonlight', 'Chiaki (PS4/PS5)']
         

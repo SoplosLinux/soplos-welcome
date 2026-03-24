@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.7--2-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.7--3-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -28,7 +28,7 @@ Soplos Welcome is a welcome application that guides new users through the initia
 - Access to help and support resources
 - Intuitive and user-friendly interface
 - Support for multiple languages
-- **Universal Desktop Support**: GNOME (GDM3), KDE Plasma (SDDM), XFCE (LightDM)
+- **Universal Desktop Support**: XFCE/Tyron (LightDM), KDE Plasma/Tyson (SDDM), GNOME/Boro (GDM3)
 - **Display Protocol Support**: Full X11 and Wayland compatibility with automatic detection
 - **Environment Detection**: Automatic DE, display manager, and display protocol detection
 - **Advanced Architecture**: Modular design with Python and GTK3
@@ -120,6 +120,14 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.7-3 (24/03/2026)
+- **NVIDIA 580 Fix**: Resolved SHA1/sqv rejection on Debian 13 using `[trusted=yes]` repo entry, version pinning with `nvidia-driver-pinning-580`, and `--allow-downgrades` to handle newer package versions.
+- **Hardware Detection**: GTX 16xx/MX550/MX450 correctly mapped to driver 590; Maxwell GPUs (GTX 9xx/8xx, 9xxM) correctly mapped to driver 580. Added lspci caching to avoid duplicate system calls.
+- **Security Tab**: Added Soplos Sys Cleaner to the Cleaning section with install/uninstall and launch button.
+- **Recommended Tab**: Added Soplos AppImage Manager to Utilities. OBS Studio and HandBrake switched to Flatpak. New AppImage badge for AppImage-based packages. Official badge now only shown for APT-installed packages.
+- **Gaming Tab**: Lutris switched to Flatpak installation in both Recommended and Gaming tabs.
+- **Translations**: Updated all 8 languages with 4 new strings (AppImage Manager description, AppImage badge, Sys Cleaner description, Open Sys Cleaner button).
 
 ### v2.0.7-2 (13/03/2026)
 - **NVIDIA Driver Logic Fixes**: Corrected mapping for MacBook Kepler GPUs (650M/750M) and improved driver detection for MX/GT series.

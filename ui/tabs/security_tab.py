@@ -53,6 +53,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.bleachbit_row = None
         self.stacer_row = None
         self.sweeper_row = None
+        self.soplos_sys_cleaner_row = None
         
         # Timer for periodic UFW status updates
         self.ufw_timer_id = None
@@ -319,7 +320,25 @@ class SecurityTab(Gtk.ScrolledWindow):
         
         self.sweeper_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         sweeper_box.pack_start(self.sweeper_row, False, False, 2)
-    
+
+        # Soplos Sys Cleaner
+        soplos_cleaner_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        clean_container.pack_start(soplos_cleaner_box, False, False, 5)
+
+        soplos_cleaner_header = Gtk.Label()
+        soplos_cleaner_header.set_markup(f"<b>Soplos Sys Cleaner</b> <span color='#50fa7b'>({_('Recommended')})</span>")
+        soplos_cleaner_header.set_xalign(0)
+        soplos_cleaner_box.pack_start(soplos_cleaner_header, False, False, 0)
+
+        soplos_cleaner_desc = Gtk.Label()
+        soplos_cleaner_desc.set_markup(f"<small>{_('Soplos system cleaner. Clean package cache, orphan packages, logs and temporary files.')}</small>")
+        soplos_cleaner_desc.set_line_wrap(True)
+        soplos_cleaner_desc.set_xalign(0)
+        soplos_cleaner_box.pack_start(soplos_cleaner_desc, False, False, 0)
+
+        self.soplos_sys_cleaner_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        soplos_cleaner_box.pack_start(self.soplos_sys_cleaner_row, False, False, 2)
+
     def _create_antivirus_section(self):
         """Create antivirus and malware section."""
         av_frame = Gtk.Frame()
@@ -415,6 +434,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self._clear_container(self.bleachbit_row)
         self._clear_container(self.stacer_row)
         self._clear_container(self.sweeper_row)
+        self._clear_container(self.soplos_sys_cleaner_row)
         
         # Timeshift
         self._update_package_button('timeshift', self.timeshift_row, with_configure=True)
@@ -452,6 +472,9 @@ class SecurityTab(Gtk.ScrolledWindow):
         
         # Sweeper
         self._update_package_button('sweeper', self.sweeper_row, with_configure=True, configure_label=_("Open Sweeper"))
+
+        # Soplos Sys Cleaner
+        self._update_package_button('soplos-sys-cleaner', self.soplos_sys_cleaner_row, with_configure=True, configure_label=_("Open Soplos Sys Cleaner"))
         
         # ClamTk (install both clamav and clamtk)
         self._update_clamtk_button()
@@ -473,6 +496,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.bleachbit_row.show_all()
         self.stacer_row.show_all()
         self.sweeper_row.show_all()
+        self.soplos_sys_cleaner_row.show_all()
     
     def _update_package_button(self, package, row, with_configure=False, configure_label=None, with_scan=False):
         """Update button for a package."""
@@ -668,6 +692,8 @@ echo "{_('Uninstallation complete.')}"
                 subprocess.Popen([stacer_path])
             elif package == 'sweeper':
                 subprocess.Popen(['sweeper'])
+            elif package == 'soplos-sys-cleaner':
+                subprocess.Popen(['soplos-sys-cleaner'])
         except Exception as e:
             print(f"Error launching {package}: {e}")
     

@@ -603,6 +603,13 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'gear-lever.png',
                 'description': _('Manage AppImages effortlessly'),
                 'official': False
+            },
+            {
+                'name': 'Soplos AppImage Manager',
+                'package': 'soplos-appimage-manager',
+                'icon': 'soplos-appimage-manager.png',
+                'description': _('Manage and integrate AppImages on your system'),
+                'official': True
             }
         ]
     }
