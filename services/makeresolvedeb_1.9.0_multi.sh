@@ -2,10 +2,10 @@
 
 #
 # DaVinci Resolve Multi Debian package creator
-# Release 2025-08-11
+# Release 2026-04-14
 # By Daniel Tufvesson
 #
-MAKERESOLVEDEB_VERSION=1.8.3
+MAKERESOLVEDEB_VERSION=1.9.0
 
 check_command() {
     echo -n "Checking for ${1}..."
@@ -434,6 +434,74 @@ process_20() {
     create_directory "${RESOLVE_BASE_DIR}"/Apple\ Immersive
 
     # Copy objects
+    copy_object "${UNPACK_DIR}"/bin "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/Control "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/Certificates "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/DaVinci\ Control\ Panels\ Setup "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/Developer "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/docs "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/Fairlight\ Studio\ Utility "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/Fusion "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/graphics "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/libs "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/LUT "${RESOLVE_BASE_DIR}"
+    if [[ -z "$SKIP_ONBOARDING" ]]; then
+	copy_object "${UNPACK_DIR}"/Onboarding "${RESOLVE_BASE_DIR}"
+    fi
+    copy_object "${UNPACK_DIR}"/plugins "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/Technical\ Documentation "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/UI_Resource "${RESOLVE_BASE_DIR}"
+    copy_object "${UNPACK_DIR}"/scripts/script.checkfirmware "${RESOLVE_BASE_DIR}"/scripts/
+    copy_object "${UNPACK_DIR}"/scripts/script.getlogs.v4 "${RESOLVE_BASE_DIR}"/scripts/
+    copy_object "${UNPACK_DIR}"/scripts/script.start "${RESOLVE_BASE_DIR}"/scripts/
+    copy_object "${UNPACK_DIR}"/share/default-config.dat "${RESOLVE_BASE_DIR}"/share/
+    copy_object "${UNPACK_DIR}"/share/default_cm_config.bin "${RESOLVE_BASE_DIR}"/share/
+    copy_object "${UNPACK_DIR}"/share/log-conf.xml "${RESOLVE_BASE_DIR}"/share/
+    if [[ -e "${UNPACK_DIR}"/share/remote-monitor-log-conf.xml ]]; then
+	copy_object "${UNPACK_DIR}"/share/remote-monitor-log-conf.xml "${RESOLVE_BASE_DIR}"/share/
+    fi
+
+    # Disable libs
+    for lib in "libgio-2.0" "libglib-2.0" "libgobject-2.0" "libgmodule-2.0"; do
+	mkdir -p "${RESOLVE_BASE_DIR}"/libs/disabled
+	mv "${RESOLVE_BASE_DIR}"/libs/"${lib}"* "${RESOLVE_BASE_DIR}"/libs/disabled/
+    done
+
+    # Extract panel API library
+    create_directory "${DEB_DIR}"/usr/lib
+    extract_tgz "${UNPACK_DIR}"/share/panels/dvpanel-framework-linux-x86_64.tgz "${DEB_DIR}"/usr/lib libDaVinciPanelAPI.so
+    extract_tgz "${UNPACK_DIR}"/share/panels/dvpanel-framework-linux-x86_64.tgz "${DEB_DIR}"/usr/lib libFairlightPanelAPI.so
+
+    # Create common data dir
+    create_directory "${DEB_DIR}"/var/BlackmagicDesign/DaVinci\ Resolve
+
+    # Add postinst commands
+    cat >> "${DEB_DIR}"/DEBIAN/postinst <<EOF
+chmod -R a+rw /opt/resolve/easyDCP
+chmod -R a+rw /opt/resolve/LUT
+chmod -R a+rw /opt/resolve/.license
+chmod -R a+rw /opt/resolve/Fairlight
+chmod -R a+rw /var/BlackmagicDesign/"DaVinci Resolve"
+chmod -R a+rw /opt/resolve/Extras
+chmod -R a+rw /opt/resolve/Apple\ Immersive
+EOF
+}
+
+process_21() {
+    # Create directories
+    create_directory "${RESOLVE_BASE_DIR}"/easyDCP
+    create_directory "${RESOLVE_BASE_DIR}"/scripts
+    create_directory "${RESOLVE_BASE_DIR}"/.license
+    create_directory "${RESOLVE_BASE_DIR}"/share
+    create_directory "${RESOLVE_BASE_DIR}"/Fairlight
+    create_directory "${RESOLVE_BASE_DIR}"/Extras
+
+    # Copy objects
+    if [[ -e "${UNPACK_DIR}"/Apple\ Immersive ]]; then
+	copy_object "${UNPACK_DIR}"/Apple\ Immersive "${RESOLVE_BASE_DIR}"
+    else
+	create_directory "${RESOLVE_BASE_DIR}"/Apple\ Immersive
+    fi
     copy_object "${UNPACK_DIR}"/bin "${RESOLVE_BASE_DIR}"
     copy_object "${UNPACK_DIR}"/Control "${RESOLVE_BASE_DIR}"
     copy_object "${UNPACK_DIR}"/Certificates "${RESOLVE_BASE_DIR}"
@@ -916,6 +984,14 @@ case $RESOLVE_VERSION in
 	process_udev
 	process_desktop_shortcuts
 	;;
+    21.*)
+	echo "Using Resolve 21 conversion process"
+	installer_extract_native
+	process_21
+	process_braw
+	process_udev
+	process_desktop_shortcuts
+	;;
     *)
 	echo "Unknown Resolve version"
 	echo "Trying Resolve 20 conversion process"
@@ -933,9 +1009,7 @@ close_deb
 if [[ -z "$CI_TEST" ]]; then
     create_directory "./tmp"
     echo "Creating Debian package (This can take a while. Do not interrupt)"
-    # Use -Zgzip -z1 for fastest gzip compression (level 1)
-    # This is much faster than default (level 9) while still being compatible
-    if ! TMPDIR=./tmp fakeroot dpkg-deb -Zgzip -z1 -b "${DEB_DIR}" "${DEB_DIR}".deb;
+    if ! TMPDIR=./tmp fakeroot dpkg-deb -Zxz -z9 -b "${DEB_DIR}" "${DEB_DIR}".deb;
     then
 	ERRORS=$((ERRORS+1))
     fi

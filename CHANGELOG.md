@@ -5,6 +5,136 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.8-2] - 2026-04-30
+
+### 🛍️ Software Tab — Snap Store & Bazaar
+
+- **Added Snap Store and Bazaar to all three DEs** (XFCE, GNOME, KDE/Plasma): The software grid is now 4 columns × 2 rows. Snap Store (`snap:snap-store`) and Bazaar (`flatpak:io.github.kolunmi.Bazaar`) occupy the new column.
+- **Dependency check dialog**: If the user clicks Snap Store without `snapd` installed, or Bazaar without `flatpak` installed, a warning dialog offers to install the missing runtime first.
+- **Fixed: buttons now correctly show "Uninstall" state** for Snap and Flatpak apps: `snap install/remove` now uses `pkexec` (was failing silently as a regular user, leaving the button stuck on "Install"). The post-operation callback no longer leaks a `GLib.idle_add` loop by returning the timer source ID.
+- **Fixed: program no longer hangs after installing Bazaar**: `flatpak install` now uses `--user --noninteractive` flags, which avoids prompting for interactive confirmation and eliminates the need for `pkexec`.
+
+### 🔒 Security Tab — VPN
+
+- **Added Surfshark** (`com.surfshark.Surfshark`) and **Mozilla VPN** (`org.mozilla.vpn`) to the VPN section as Flatpak apps. Both include Install/Uninstall/Open buttons with state detection.
+
+### 🎮 Gaming Tab — Optimizations
+
+- **Added CPU Power** tool to the Optimizations section: installs `linux-cpupower` and `cpupower-gui` via `pkexec apt`, allowing control of the CPU frequency governor (powersave, performance, etc.) from a graphical interface.
+
+### 📦 Recommended Tab — Office
+
+- **Added Calligra** (`org.kde.calligra`) and **Collabora Office** (`org.collaboraoffice.CollaboraOffice`) as Flatpak entries in the Office section. Both support multi-selection batch install.
+
+### 🖥️ Footer
+
+- **Removed "Ready/Listo" status text**: The footer now shows only the desktop environment and display protocol, without the translated "Ready" prefix.
+
+### 🎨 Customization Tab
+
+- **Docklike removed from XFCE**: The Docklike launcher has been removed from the XFCE tools since its functionality is now completely integrated into Soplos Theme Manager.
+
+## [2.0.8-1] - 2026-04-04
+
+### 🎮 Hybrid Graphics — Fixes
+
+- **Fixed NVIDIA Primary mode not booting**: The "NVIDIA Primary" script was regenerating the initramfs without first creating the dracut configuration files (`/etc/dracut.conf.d/nvidia.conf`, `blacklist-nouveau.conf`). This caused the system to boot without NVIDIA modules loaded, resulting in a black screen or failed boot on laptops. Now creates the dracut configs before calling `dracut --force`, consistent with the repository install script.
+- **PRIME Render Offload — KDE Plasma fix**: On KDE Plasma systems with Optimus hybrid graphics, KWin could lose the wallpaper and desktop icons after each reboot due to not correctly identifying the laptop screen connector. The PRIME Offload script now detects the Intel display connector dynamically from `/sys/class/drm/` (`eDP` or `LVDS`) and generates `~/.config/kdedefaults/kwinoutputconfig.json` with the correct output priority, leaving resolution, refresh rate and scale for KWin to fill in. Only runs on KDE Plasma (detected via `EnvironmentDetector` at launch, not by scanning binaries at runtime).
+
+
+
+### 🎬 DaVinci Resolve — Script Update & Optional Patches
+
+- **MakeResolveDeb updated to 1.9.0** (by Daniel Tufvesson, 2026-04-14): Adds full support for DaVinci Resolve 21 with its own `process_21()` function. In version 21, the `Apple Immersive` folder is copied from the installer if present instead of always being created empty. Package compression changed from gzip level 1 to xz level 9 for smaller output.
+- **Virtual microphone patch**: New optional post-install patch that creates a PipeWire virtual microphone so DaVinci Resolve can start on systems without a physical audio capture device. The patch auto-detects whether a real capture device is present and skips itself if one is found.
+- **Integrated GPU patch (AMD / Intel iGPU)**: New optional post-install patch for mini PCs and systems with integrated graphics. Installs the appropriate OpenCL stack (Mesa Rusticl for AMD, Intel NEO for Intel), downloads i915 firmware for ADL-N/N-series chips if missing, injects a libProResRAW stub to prevent Signal 11 crashes, patches the `.desktop` launcher with the correct environment variables, and adds the user to the `render` and `video` groups.
+- **Post-install patches dialog**: After successfully installing DaVinci Resolve, a new dialog offers both patches as optional checkboxes ("Skip" / "Apply Selected"). Selecting none goes straight to cleanup. When both are selected, the mic patch runs first, then the GPU patch, then cleanup.
+
+### 🔧 Drivers Tab — Fixes & Full Rework
+
+- **Fixed crash on startup**: `self._driver_buttons` dict was never initialized and `subprocess` was not imported at module level, causing `AttributeError` and `NameError` on load.
+- **Install/Uninstall toggle**: All 15 driver buttons (NVIDIA 590/580/550/470/390/340, Nouveau, AMD, Wi-Fi Intel/Realtek/Broadcom, Printers, Bluetooth, VMware/QEMU/VirtualBox) now show `✓ name` when the driver is installed and act as uninstall on click, or as install when not present — consistent with the Gaming and Recommended tabs.
+- **NVIDIA 590 and 580 buttons**: Were created but never stored in `_driver_buttons`, so their state was never reflected. Now fully registered.
+- **Auto-refresh after operations**: `_refresh_driver_status` is called on startup and as a callback after every install/uninstall, keeping all buttons in sync.
+
+### 🔍 Hardware Scanner — Fixes & Full Rework
+
+- **Fixed broken GPU section**: Dialog was using `results['gpu']` (old single-GPU key) instead of `results['gpus']` (list). On systems with no GPU entry under that key the section was silently skipped.
+- **All hardware sections now shown**: GPU(s), Hybrid Graphics, Wi-Fi adapters, Audio, Bluetooth, Printers, VM Tools — each with their detected model, driver status (✓ installed / ✗ missing / ⚠ partial) and Install/Uninstall button.
+- **VM Tools detection**: If running inside VMware, VirtualBox or QEMU/KVM, the scanner now detects it, shows whether the guest tools are installed, and offers to install or uninstall them directly.
+
+### ➕ New Applications
+- **ProtonVPN** (`com.protonvpn.www`): Added to Security tab in a new VPN section, with Install/Uninstall toggle.
+- **ClamUI** (`io.github.linx_systems.ClamUI`): Added to Security tab in the antivirus section alongside ClamTk.
+- **LACT** (`io.github.ilya_zlobintsev.LACT`): Added to Drivers tab in the AMD section for GPU overclocking and monitoring.
+- **Resources** (`net.nokyan.Resources`): Added to Recommended tab in the utilities section as a modern system monitor.
+- **Soplos Kernel Installer** (`soplos-kernel-installer`): Added to Kernels tab with Install/Uninstall toggle and Open button.
+- **Portmaster**: Added to Security tab (Firewall section) as a privacy-focused packet filter. Downloads the official `portmaster-installer.deb` with no hardcoded version.
+- **JoPDF**: Added to Recommended tab (Ofimática section) as a PDF editor. Downloads `jopdf-linux-amd64_setup.deb` directly from the official site.
+- **qBittorrent** (`org.qbittorrent.qBittorrent`): Added to Recommended tab (Utilities section) via Flatpak.
+- **JDownloader** (`org.jdownloader.JDownloader`): Added to Recommended tab (Utilities section) via Flatpak.
+- **PPSSPP** (`org.ppsspp.PPSSPP`): Added to Recommended (Gaming section) and Gaming tab launchers via Flatpak. Includes a post-install script that creates a symlink to the Flatpak binary as the Lutris runner, making PSP games playable directly from Lutris.
+- **LACT** (`io.github.ilya_zlobintsev.LACT`): Also added to Recommended tab (Utilities section) via Flatpak.
+- **CoolerControl**: Added to Recommended tab (Utilities section) as an AppImage that runs as root (fan/cooling daemon) plus a WebApp shortcut pointing to `http://localhost:11987/`.
+
+### 🎮 Gaming Tab — MangoHud Rework
+- **MangoHud** now installs via Flatpak instead of system packages. Six packages are installed: `MangoHud`, `GOverlay`, `VulkanInfo`, `vkBasalt`, `gamescope`, and `DXVK`.
+
+### 🔧 Post-Install Script System
+- **Lutris Vulkan patch**: After installing Lutris (Flatpak) from Recommended or Gaming tab, `lutris-vulkan-patch.sh` runs automatically and patches `gpu.py` inside the Flatpak to use `/app/bin/vulkaninfo` instead of the broken `/usr/bin/vulkaninfo` path.
+- **PPSSPP Lutris runner**: After installing PPSSPP Flatpak, `ppsspp-lutris-runner.sh` runs automatically. It backs up any existing `PPSSPPSDL` binary in Lutris' runner directory and creates a symlink to the PPSSPP Flatpak binary.
+- **General post-install hook**: Both `recommended_tab.py` and `gaming_tab.py` now support a `post_install_script` key in any package dict. After a successful install, the named script (from `services/`) is executed as the current user.
+
+### 🛡️ Security Tab — Icons & Layout
+- **Icons added to all 14 tools**: Timeshift, Grub BTRFS, Deja Dup, BTRFS Assistant, GUFW, Portmaster, Proton VPN, BleachBit, Stacer, Sweeper, Soplos Sys Cleaner, ClamTk, ClamUI and rkhunter now show a 48 px icon from `assets/icons/security/`.
+- **Same row layout as Gaming/Recommended**: Each tool's icon is now centred vertically next to both the name and the description, matching the visual style of the other tabs.
+- **Open Portmaster button**: When Portmaster is installed an "Open Portmaster" button launches the app via `gtk-launch portmaster` with a `/opt/safing/portmaster/portmaster` fallback.
+- **UFW conflict warning**: When Portmaster is installed and UFW is active, an orange warning label recommends disabling UFW to avoid rule conflicts.
+
+### 🎮 Gaming Tab — GeForce NOW, Badges & Tooltips
+- **GeForce NOW WebApp launcher**: New launcher that installs a Soplos WebApp Manager `.desktop` entry pointing to `https://play.geforcenow.com/` using the system's Chromium/Brave/Firefox (auto-detected).
+- **Flatpak / AppImage / WebApp badges**: All launcher widgets now display a small badge indicating the installation method.
+- **Optimization button tooltips**: All 7 optimization buttons in the Gaming tab now show a tooltip on hover explaining what each option does.
+- **MangoHud Flatpak package IDs corrected**: Fixed to the exact IDs required — `io.github.benjamimgois.goverlay`, `org.freedesktop.Platform.VulkanLayer.MangoHud`, `org.freedesktop.Platform.VulkanInfo`, `org.freedesktop.Platform.VulkanLayer.gamescope`, `org.winehq.Wine.DLLs.dxvk`, `org.freedesktop.Platform.VulkanLayer.vkBasalt`.
+
+### 💻 Software Tab (XFCE)
+- **GNOME Software**: Now also installs `gnome-packagekit` so that the XFCE panel update indicator can actually apply updates when clicked.
+
+### 🌍 Translations
+- Added `"Complete installation"` string in all 8 languages (ES, EN, FR, DE, PT, IT, RO, RU).
+- Added translations for new apps (ProtonVPN, ClamUI, LACT, Resources) in all 8 languages.
+- Added translations for PPSSPP, LACT (utilities), CoolerControl, and updated Drivers tab subtitle in all 8 languages.
+- Added missing translations for all Security tab tool descriptions, driver status labels (Audio, Not installed, Driver installed, Hybrid Graphics, Partially installed, Different version installed), kernel AVX2 description, and app descriptions (JDownloader, qBittorrent, JoPDF) in all 8 languages.
+
+## [2.0.8] - 2026-03-31
+
+### ✨ Customization Tab
+- **Install dialog for Soplos tools**: Buttons for Soplos tools (Soplos Theme Manager, Soplos Docklike, etc.) now detect whether the tool is installed. If not, they show a confirmation dialog inviting the user to install it via `pkexec apt-get install`, and auto-launch the tool on success.
+
+### ⭐ Recommended Tab
+- Added 6 new Flatpak applications: **Bitwig Studio**, **Reaper**, **Zrythm**, **Ardour** (Multimedia), **Warehouse** (Flatpak manager), **PeaZip** (archive manager).
+
+### ⌨️ Keyboard Navigation
+- **Ctrl+Shift+Tab**: Navigate to previous tab (backward navigation now works).
+- **F1**: Opens the About dialog, consistent with all other Soplos applications.
+
+### 🎨 UI Fixes
+- **About dialog**: Fixed dark strip between content and action area in both dark and light themes.
+- **Welcome tab**: Added Security to the features list (was missing). Fixed icon order to match tab order. Updated tab icons to match the feature list icons.
+- **Drivers tab**: Removed emojis from Frame labels (Processor, Graphics Card, Hybrid Graphics, RAM Memory, Virtual Machine) for better font compatibility.
+
+### 🔧 Code Audit
+- Removed unused demo code (`_add_software_demo_buttons`, `_on_demo_install`, `_on_demo_uninstall` and related methods) from `main_window.py`.
+- Fixed deprecated `get_action_area()` call in `drivers_tab.py` (replaced with manual button box in `get_content_area()`).
+- Fixed duplicate imports in `welcome_tab.py`.
+- Removed "coming soon" placeholder text from tab fallback view.
+- Unified version string to 2.0.8 across all modules.
+
+### 🌍 Translations
+- Added `• Manage system security` string in all 8 languages (ES, EN, FR, DE, PT, IT, RO, RU).
+- Added install flow strings for Soplos tools dialog in all 8 languages.
+- Added descriptions for 6 new Recommended apps in all 8 languages.
+
 ## [2.0.7-3] - 2026-03-24
 
 ### 🚀 NVIDIA 580 Driver Fix
@@ -379,6 +509,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - **Updated English/Spanish Dictionary Headers**: Corrected Last-Translator and Language-Team metadata.
 - **Translation Quality**: All 8 languages (EN, ES, DE, FR, IT, PT, RO, RU) now at 100% with 565 messages each.
 
+## [1.1.5] - 2025-09-08 *(Tyson only)*
+
+### 🆕 Changed / Fixed
+- Updated all welcome tab link buttons to soplos.org: website (`https://soplos.org`), forum (`https://soplos.org/forums/`) and wiki (`https://soplos.org/wiki/`).
+- Removed deprecated `on_website_clicked` and `on_wiki_clicked` method handlers — buttons now use inline lambdas consistently.
+- Updated Blender icon to the new design.
+
 ## [1.1.4] - 2025-09-08
 
 ### 🆕 Added / Fixed
@@ -439,6 +576,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - DaVinci Resolve replaced with Shotcut for video editing.
 - Driver Center improved with optimized hardware detection.
 - Enhanced hardware scanning functionality.
+
+## [1.0.5] - 2025-05-08
+
+### 🔧 Fixed
+- Reverted App ID to `com.soplos.welcome` (dot notation restored after 1.0.2 change).
+- Soplos Packager injection block removed from `main.py` (reverted to clean entry point).
+- Assets renamed back to `com.soplos.welcome` convention (desktop file, icons, metainfo, pixmaps).
+
+## [1.0.4] - 2025-05-07
+
+### 🔧 Fixed
+- Autostart updated: now copies `com.soploswelcome.desktop` from `/usr/share/applications/` instead of writing inline content, ensuring the autostart entry always matches the installed desktop file.
+- Desktop file references updated (`X-GNOME-Application-ID`, `X-AppStream-Metadata`, `Icon`, `StartupWMClass`) to use `com.soploswelcome`.
+
+## [1.0.3] - 2025-05-06
+
+### 🔧 Fixed
+- Soplos Packager App ID initialization block injected into `main.py`: sets `GLib.set_prgname`, `GLib.set_application_name` and `Gtk.Window.set_default_icon_name` to `com.soploswelcome` for correct window manager integration.
+
+## [1.0.2] - 2025-05-05
+
+### 🔄 Changed
+- Renamed all assets from `com.soplos.welcome` to `com.soploswelcome` (dot removed) for Soplos Packager compatibility: desktop file, icons (all sizes), metainfo and pixmaps.
+- App ID changed from `com.soplos.welcome` to `com.soploswelcome`.
+
+## [1.0.1] - 2025-04-xx
+
+### 🔧 Fixed
+- Welcome tab: corrected website button URL from `soploslinux.com/distro` to the distro-specific URL (`soploslinux.com/tyron` for Tyron, `soploslinux.com/tyson` for Tyson).
 
 ## [1.0.0] - 2025-04-08
 

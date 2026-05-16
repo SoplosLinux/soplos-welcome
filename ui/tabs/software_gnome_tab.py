@@ -90,54 +90,51 @@ class SoftwareGnomeTab(Gtk.Box):
             (_("Synaptic"), "synaptic", "synaptic.png"),
             (_("Gdebi"), "gdebi gdebi-core", "gdebi.png"),
             (_("GNOME Software"), "gnome-software package-update-indicator", "gnome-software.png"),
+            (_("Snap Store"), "snap:snap-store", "snap-store.png"),
             (_("Flatpak"), "flatpak gnome-software-plugin-flatpak", "flatpak.png"),
             (_("Snap"), "snapd gnome-software-plugin-snap", "snap.png"),
+            (_("Bazaar"), "flatpak:io.github.kolunmi.Bazaar", "bazaar.png"),
             (_("Repo Selector"), "soplos-repo-selector", "reposelector.png")
         ]
-        
+
         # Create software buttons
         row = 0
         col = 0
         for name, packages, icon_name in software_options:
-            # Container for each software
             app_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
             app_container.set_size_request(140, 140)
-            
-            # Icon
+
             icon_path = os.path.join(icons_path, icon_name)
             icon = self._load_icon(icon_path, 48)
             app_container.pack_start(icon, False, False, 0)
-            
-            # Label
+
             label = Gtk.Label(label=name)
             label.set_line_wrap(True)
             label.set_justify(Gtk.Justification.CENTER)
             app_container.pack_start(label, False, False, 0)
-            
-            # Button - special handling for Repo Selector
+
             main_package = packages.split()[0]
             if main_package == "soplos-repo-selector":
-                # Create Launch button for Repo Selector
                 button = Gtk.Button(label=_("Open"))
                 button.get_style_context().add_class("suggested-action")
                 button.connect("clicked", self._on_repo_selector_clicked)
+            elif main_package.startswith("snap:"):
+                snap_name = main_package[5:]
+                button = self._create_snap_button(snap_name, app_container)
+                self.software_buttons[main_package] = {'container': app_container, 'packages': packages}
+            elif main_package.startswith("flatpak:"):
+                app_id = main_package[8:]
+                button = self._create_flatpak_app_button(app_id, app_container)
+                self.software_buttons[main_package] = {'container': app_container, 'packages': packages}
             else:
-                # Normal install/uninstall button
                 button = self._create_software_button(main_package, packages)
-            
+                self.software_buttons[main_package] = {'container': app_container, 'packages': packages}
+
             app_container.pack_start(button, False, False, 0)
-            
-            # Store reference for updates (only for installable packages)
-            if main_package != "soplos-repo-selector":
-                self.software_buttons[main_package] = {
-                    'container': app_container,
-                    'packages': packages
-                }
-            
             software_grid.attach(app_container, col, row, 1, 1)
-            
+
             col += 1
-            if col >= 3:  # 3 columns
+            if col >= 4:  # 4 columns
                 col = 0
                 row += 1
     
@@ -218,10 +215,152 @@ class SoftwareGnomeTab(Gtk.Box):
             print(f"Error checking package {package_name}: {e}")
             return False
     
+    def _is_snap_app_installed(self, snap_name):
+        """Check if a snap package is installed."""
+        try:
+            result = subprocess.run(["snap", "list", snap_name], capture_output=True, text=True)
+            return result.returncode == 0
+        except Exception:
+            return False
+
+    def _is_flatpak_app_installed(self, app_id):
+        """Check if a Flatpak app is installed."""
+        try:
+            result = subprocess.run(["flatpak", "info", app_id],
+                                    capture_output=True, text=True)
+            return result.returncode == 0
+        except Exception:
+            return False
+
+    def _create_snap_button(self, snap_name, container):
+        """Create install/uninstall button for a snap package."""
+        is_installed = self._is_snap_app_installed(snap_name)
+        if is_installed:
+            button = Gtk.Button(label=_("Uninstall"))
+            button.get_style_context().add_class("destructive-action")
+            button.connect("clicked", self._on_snap_uninstall_clicked, snap_name, container)
+        else:
+            button = Gtk.Button(label=_("Install"))
+            button.get_style_context().add_class("suggested-action")
+            button.connect("clicked", self._on_snap_install_clicked, snap_name, container)
+        button.set_use_underline(True)
+        return button
+
+    def _create_flatpak_app_button(self, app_id, container):
+        """Create install/uninstall button for a Flatpak app."""
+        is_installed = self._is_flatpak_app_installed(app_id)
+        if is_installed:
+            button = Gtk.Button(label=_("Uninstall"))
+            button.get_style_context().add_class("destructive-action")
+            button.connect("clicked", self._on_flatpak_app_uninstall_clicked, app_id, container)
+        else:
+            button = Gtk.Button(label=_("Install"))
+            button.get_style_context().add_class("suggested-action")
+            button.connect("clicked", self._on_flatpak_app_install_clicked, app_id, container)
+        button.set_use_underline(True)
+        return button
+
+    def _update_snap_button(self, snap_name, container):
+        """Refresh the snap button after install/uninstall."""
+        children = container.get_children()
+        if len(children) < 3:
+            return
+        old_button = children[-1]
+        new_button = self._create_snap_button(snap_name, container)
+        container.remove(old_button)
+        container.pack_start(new_button, False, False, 0)
+        new_button.show()
+
+    def _update_flatpak_app_button(self, app_id, container):
+        """Refresh the flatpak app button after install/uninstall."""
+        children = container.get_children()
+        if len(children) < 3:
+            return
+        old_button = children[-1]
+        new_button = self._create_flatpak_app_button(app_id, container)
+        container.remove(old_button)
+        container.pack_start(new_button, False, False, 0)
+        new_button.show()
+
+    def _schedule_snap_update(self, snap_name, container):
+        GLib.timeout_add(1000, lambda: self._update_snap_button(snap_name, container) or False)
+
+    def _schedule_flatpak_update(self, app_id, container):
+        GLib.timeout_add(1000, lambda: self._update_flatpak_app_button(app_id, container) or False)
+
+    def _on_snap_install_clicked(self, widget, snap_name, container):
+        """Install a snap app, offering to install snapd first if missing."""
+        if not self._is_package_installed("snapd"):
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Snap not installed")
+            )
+            dialog.format_secondary_text(
+                _("Snap Store requires Snapd to be installed.\n\nDo you want to install Snapd now?")
+            )
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+            script = f"pkexec apt install -y snapd gnome-software-plugin-snap\npkexec snap install {snap_name}"
+        else:
+            script = f"pkexec snap install {snap_name}"
+        self._create_and_run_script(script, f"install-snap-{snap_name}.sh",
+                                    on_complete=lambda: self._schedule_snap_update(snap_name, container))
+
+    def _on_snap_uninstall_clicked(self, widget, snap_name, container):
+        """Uninstall a snap app."""
+        script = f"pkexec snap remove {snap_name}"
+        self._create_and_run_script(script, f"uninstall-snap-{snap_name}.sh",
+                                    on_complete=lambda: self._schedule_snap_update(snap_name, container))
+
+    def _on_flatpak_app_install_clicked(self, widget, app_id, container):
+        """Install a Flatpak app."""
+        import shutil
+        if not shutil.which("flatpak"):
+            app_name = app_id.split('.')[-1]
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text=_("Flatpak not installed")
+            )
+            dialog.format_secondary_text(
+                _("{app} requires Flatpak to be installed.\n\nPlease install Flatpak first from the software list.").format(app=app_name)
+            )
+            dialog.run()
+            dialog.destroy()
+            widget.set_sensitive(True)
+            return
+        else:
+            if self.parent_window and hasattr(self.parent_window, 'show_progress'):
+                app_name = app_id.split('.')[-1]
+                self.parent_window.show_progress(_("Installing {}...").format(app_name), 0.0)
+                
+            self.command_runner.run_command(
+                f"flatpak install -y flathub {app_id}",
+                lambda: self._schedule_flatpak_update(app_id, container)
+            )
+
+    def _on_flatpak_app_uninstall_clicked(self, widget, app_id, container):
+        """Uninstall a Flatpak app."""
+        if self.parent_window and hasattr(self.parent_window, 'show_progress'):
+            app_name = app_id.split('.')[-1]
+            self.parent_window.show_progress(_("Removing {}...").format(app_name), 0.0)
+            
+        self.command_runner.run_command(
+            f"flatpak uninstall -y {app_id}",
+            lambda: self._schedule_flatpak_update(app_id, container)
+        )
+
     def _create_software_button(self, package_name, packages):
         """Create install/uninstall button based on package status."""
         is_installed = self._is_package_installed(package_name)
-        
+
         if is_installed:
             button = Gtk.Button(label=_("Uninstall"))
             button.get_style_context().add_class("destructive-action")
@@ -268,7 +407,6 @@ class SoftwareGnomeTab(Gtk.Box):
                 f.write("set -e\n")
                 f.write(script_content)
                 f.write(f"\necho '{_('Operation completed successfully')}'\n")
-                f.write("sleep 2\n")
             os.chmod(script_path, 0o755)
             
             # Run with progress tracking
@@ -288,7 +426,7 @@ class SoftwareGnomeTab(Gtk.Box):
         if package_to_update:
             print(f"Operation completed for {package_to_update}, success: {success}")
             # Update button after a delay
-            GLib.timeout_add(3000, lambda: self._update_software_button(package_to_update))
+            GLib.timeout_add(1000, lambda: self._update_software_button(package_to_update))
     
     # Event handlers
     def _on_repo_selector_clicked(self, widget):

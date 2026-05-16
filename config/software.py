@@ -68,6 +68,22 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
+                'name': 'Vivaldi',
+                'package': None,
+                'flatpak': 'com.vivaldi.Vivaldi',
+                'icon': 'vivaldi.png',
+                'description': _('Feature-packed web browser with built-in tools'),
+                'official': False
+            },
+            {
+                'name': 'Opera GX',
+                'package': None,
+                'flatpak': 'com.opera.opera-gx',
+                'icon': 'opera-gx.png',
+                'description': _('Gaming browser with system resource controls'),
+                'official': False
+            },
+            {
                 'name': 'Midori',
                 'package': 'midori',
                 'icon': 'midori.png',
@@ -461,6 +477,38 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'handbrake.png',
                 'description': _('Open source video transcoder'),
                 'official': True
+            },
+            {
+                'name': 'Bitwig Studio',
+                'package': None,
+                'flatpak': 'com.bitwig.BitwigStudio',
+                'icon': 'bitwig-studio.png',
+                'description': _('Professional digital audio workstation for music production'),
+                'official': False
+            },
+            {
+                'name': 'Reaper',
+                'package': None,
+                'flatpak': 'fm.reaper.Reaper',
+                'icon': 'reaper.png',
+                'description': _('Professional digital audio workstation and MIDI sequencer'),
+                'official': False
+            },
+            {
+                'name': 'Zrythm',
+                'package': None,
+                'flatpak': 'org.zrythm.Zrythm',
+                'icon': 'zrythm.png',
+                'description': _('Free and open-source digital audio workstation'),
+                'official': False
+            },
+            {
+                'name': 'Ardour',
+                'package': None,
+                'flatpak': 'org.ardour.Ardour',
+                'icon': 'ardour.png',
+                'description': _('Professional recording, editing and mixing DAW'),
+                'official': False
             }
         ]
     },
@@ -500,6 +548,35 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'reader.png',
                 'description': _('Adobe PDF reader'),
                 'official': False
+            },
+            {
+                'name': 'JoPDF',
+                'package': 'jopdf',
+                'flatpak': None,
+                'icon': 'jopdf.png',
+                'description': _('PDF editor: annotate, sign, fill forms and merge PDFs'),
+                'official': False,
+                'install_commands': [
+                    'wget -q -O /tmp/jopdf.deb https://cdn.jopdf.com/download/jopdf/jopdf-linux-amd64_setup.deb',
+                    'apt install -y /tmp/jopdf.deb',
+                    'rm /tmp/jopdf.deb'
+                ]
+            },
+            {
+                'name': 'Calligra',
+                'package': None,
+                'flatpak': 'org.kde.calligra',
+                'icon': 'calligra.png',
+                'description': _('KDE office suite: word processor, spreadsheet and presentation'),
+                'official': True
+            },
+            {
+                'name': 'Collabora Office',
+                'package': None,
+                'flatpak': 'org.collaboraoffice.CollaboraOffice',
+                'icon': 'collabora.png',
+                'description': _('Enterprise-grade LibreOffice fork by Collabora'),
+                'official': True
             }
         ]
     },
@@ -573,10 +650,19 @@ SOFTWARE_CATEGORIES = {
                     'rm -f "$REAL_HOME/AppImages/.icons/ES-DE.png"',
                     'rm -f "$REAL_HOME/.local/share/applications/es-de.desktop"'
                 ]
+            },
+            {
+                'name': 'PPSSPP',
+                'package': None,
+                'flatpak': 'org.ppsspp.PPSSPP',
+                'icon': 'ppsspp.png',
+                'description': _('PSP emulator with high-quality rendering'),
+                'official': False,
+                'post_install_script': 'ppsspp-lutris-runner.sh'
             }
         ]
     },
-    
+
     'utilities': {
         'title': _('Utilities'),
         'icon': 'utilities',
@@ -610,6 +696,74 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'soplos-appimage-manager.png',
                 'description': _('Manage and integrate AppImages on your system'),
                 'official': True
+            },
+            {
+                'name': 'Warehouse',
+                'package': None,
+                'flatpak': 'io.github.flattool.Warehouse',
+                'icon': 'warehouse.png',
+                'description': _('Manage and control your Flatpak apps and runtimes'),
+                'official': False
+            },
+            {
+                'name': 'PeaZip',
+                'package': None,
+                'flatpak': 'io.github.peazip.PeaZip',
+                'icon': 'peazip.png',
+                'description': _('Free file archiver and extractor utility'),
+                'official': False
+            },
+            {
+                'name': 'Resources',
+                'package': None,
+                'flatpak': 'net.nokyan.Resources',
+                'icon': 'resources.png',
+                'description': _('Modern system monitor with detailed resource usage'),
+                'official': False
+            },
+            {
+                'name': 'qBittorrent',
+                'package': None,
+                'flatpak': 'org.qbittorrent.qBittorrent',
+                'icon': 'qbittorrent.png',
+                'description': _('Free and open-source BitTorrent client'),
+                'official': False
+            },
+            {
+                'name': 'JDownloader',
+                'package': None,
+                'flatpak': 'org.jdownloader.JDownloader',
+                'icon': 'jdownloader.png',
+                'description': _('Download manager for direct downloads, video sites and file hosts'),
+                'official': False
+            },
+            {
+                'name': 'LACT',
+                'package': None,
+                'flatpak': 'io.github.ilya_zlobintsev.LACT',
+                'icon': 'lact.png',
+                'description': _('GPU control center for AMD and NVIDIA on Linux'),
+                'official': False
+            },
+            {
+                'name': 'CoolerControl',
+                'package': None,
+                'flatpak': None,
+                'icon': 'coolercontrol.png',
+                'description': _('Fan and cooling control with a web interface'),
+                'official': False,
+                'check_path': '~/AppImages/CoolerControlD-x86_64.AppImage',
+                'install_commands': [
+                    f'bash {os.path.join(PROJECT_ROOT, "services", "coolercontrol-install.sh")} {os.path.join(PROJECT_ROOT, "assets", "icons", "utilities", "coolercontrol.png")}'
+                ],
+                'uninstall_commands': [
+                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'rm -f "$REAL_HOME/AppImages/CoolerControlD-x86_64.AppImage"',
+                    'rm -f "$REAL_HOME/AppImages/.icons/coolercontrol.png"',
+                    'rm -f "$REAL_HOME/.local/share/applications/soplos-appimage-coolercontrold.desktop"',
+                    'rm -f "$REAL_HOME/.local/share/applications/soplos-webapp-coolercontrol-ui-111987.desktop"',
+                    'rm -rf "$REAL_HOME/.local/share/soplos-webapps/coolercontrol-ui-111987"'
+                ]
             }
         ]
     }

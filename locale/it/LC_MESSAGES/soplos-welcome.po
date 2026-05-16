@@ -2455,3 +2455,738 @@ msgstr ""
 "Sarà necessario riavviare il sistema dopo l'installazione.\n"
 "\n"
 "Vuoi continuare?"
+
+msgid "{tool} is not installed"
+msgstr "{tool} non è installato"
+
+msgid "Would you like to install it now?"
+msgstr "Vuoi installarlo adesso?"
+
+msgid "Installing {tool}"
+msgstr "Installazione di {tool}"
+
+msgid "Installing {tool}…"
+msgstr "Installazione di {tool}…"
+
+msgid "Could not install {tool}. Check your internet connection and try again."
+msgstr "Impossibile installare {tool}. Controlla la connessione internet e riprova."
+
+msgid "Professional digital audio workstation for music production"
+msgstr "Workstation audio digitale professionale per la produzione musicale"
+
+msgid "Professional digital audio workstation and MIDI sequencer"
+msgstr "Workstation audio digitale professionale e sequencer MIDI"
+
+msgid "Free and open-source digital audio workstation"
+msgstr "Workstation audio digitale libera e open source"
+
+msgid "Professional recording, editing and mixing DAW"
+msgstr "DAW professionale per registrazione, editing e missaggio"
+
+msgid "Manage and control your Flatpak apps and runtimes"
+msgstr "Gestisci e controlla le tue app e i runtime Flatpak"
+
+msgid "Free file archiver and extractor utility"
+msgstr "Utilità gratuita per archiviazione ed estrazione di file"
+
+msgid "Thank you for choosing Soplos Linux! This application will help you get started with your new system."
+msgstr "Grazie per aver scelto Soplos Linux! Questa applicazione ti aiuterà a iniziare con il tuo nuovo sistema."
+
+msgid "The world's most advanced welcome application for Linux"
+msgstr "L'applicazione di benvenuto più avanzata al mondo per Linux"
+
+msgid "Welcome to Soplos Linux! Get started with your new system."
+msgstr "Benvenuto in Soplos Linux! Inizia con il tuo nuovo sistema."
+
+msgid "Welcome"
+msgstr "Benvenuto"
+
+msgid "Software"
+msgstr "Software"
+
+msgid "Security"
+msgstr "Sicurezza"
+
+msgid "Drivers"
+msgstr "Driver"
+
+msgid "Kernels"
+msgstr "Kernels"
+
+msgid "About Soplos Welcome"
+msgstr "Informazioni su Soplos Benvenuto"
+
+msgid "Soplos Linux Website"
+msgstr "Sito web di Soplos Linux"
+
+msgid "Change Language"
+msgstr "Cambia lingua"
+
+msgid "Current Language"
+msgstr "Lingua corrente"
+
+msgid "Current Theme"
+msgstr "Tema corrente"
+
+msgid "Default"
+msgstr "Predefinito"
+
+msgid "Desktop Environment"
+msgstr "Ambiente desktop"
+
+msgid "Display Protocol"
+msgstr "Protocollo display"
+
+msgid "Theme Type"
+msgstr "Tipo di tema"
+
+msgid "Language Changed"
+msgstr "Lingua modificata"
+
+msgid "Toggle Theme"
+msgstr "Cambia tema"
+
+msgid "Maximize"
+msgstr "Massimizza"
+
+msgid "Minimize"
+msgstr "Minimizza"
+
+msgid "Restore"
+msgstr "Ripristina"
+
+msgid "Downloading package..."
+msgstr "Download del pacchetto..."
+
+msgid "Preparing installation..."
+msgstr "Preparazione installazione..."
+
+msgid "Verifying dependencies..."
+msgstr "Verifica dipendenze..."
+
+msgid "Installing files..."
+msgstr "Installazione file..."
+
+msgid "Configuring application..."
+msgstr "Configurazione applicazione..."
+
+msgid "Finalizing installation..."
+msgstr "Finalizzazione installazione..."
+
+msgid "Installation completed!"
+msgstr "Installazione completata!"
+
+msgid "Uninstalling package..."
+msgstr "Disinstallazione del pacchetto..."
+
+msgid "Removing files..."
+msgstr "Rimozione dei file..."
+
+msgid "Stopping services..."
+msgstr "Arresto dei servizi..."
+
+msgid "Uninstallation completed!"
+msgstr "Disinstallazione completata!"
+
+
+msgid "• Manage system security"
+msgstr "• Gestisci la sicurezza del sistema"
+
+# Gaming tab — GPU optimization descriptions
+msgid "• Shader disk cache enabled"
+msgstr "• Cache shader su disco abilitata"
+
+msgid "• Threaded optimization enabled"
+msgstr "• Ottimizzazione multithread abilitata"
+
+msgid "• VSync disabled (lower input lag)"
+msgstr "• VSync disabilitato (latenza di input ridotta)"
+
+msgid "• NVAPI enabled for Proton"
+msgstr "• NVAPI abilitato per Proton"
+
+msgid "• GPL shader pipeline enabled"
+msgstr "• Pipeline shader GPL abilitata"
+
+msgid "• RADV driver forced"
+msgstr "• Driver RADV forzato"
+
+msgid "• OpenGL threading enabled"
+msgstr "• Threading OpenGL abilitato"
+
+msgid "• Radeonsi driver optimization"
+msgstr "• Ottimizzazione driver Radeonsi"
+
+msgid "• Iris driver optimization (Gen9+)"
+msgstr "• Ottimizzazione driver Iris (Gen9+)"
+
+msgid "Optimize {} GPU for Gaming?"
+msgstr "Ottimizzare la GPU {} per il gaming?"
+
+msgid "Hybrid Graphics Optimized!"
+msgstr "Grafica ibrida ottimizzata!"
+
+msgid "Dedicated GPU:"
+msgstr "GPU dedicata:"
+
+msgid "Integrated GPU:"
+msgstr "GPU integrata:"
+
+msgid "prime-run script installed to /usr/local/bin/prime-run"
+msgstr "Script prime-run installato in /usr/local/bin/prime-run"
+
+msgid "Usage for hybrid graphics:"
+msgstr "Utilizzo con grafica ibrida:"
+
+msgid "• Steam: Add 'prime-run %command%' to game launch options"
+msgstr "• Steam: Aggiungi 'prime-run %command%' alle opzioni di avvio"
+
+msgid "• Lutris: Add 'prime-run' as a prefix"
+msgstr "• Lutris: Aggiungi 'prime-run' come prefisso"
+
+msgid "• Terminal: prime-run <application>"
+msgstr "• Terminale: prime-run <applicazione>"
+
+msgid "This forces games to use your NVIDIA GPU."
+msgstr "Questo costringe i giochi a usare la GPU NVIDIA."
+
+msgid "IMPORTANT: You must log out and log back in for changes to take effect."
+msgstr "IMPORTANTE: È necessario disconnettersi e riconnettersi per applicare le modifiche."
+
+msgid "Gaming optimizations applied for {}."
+msgstr "Ottimizzazioni gaming applicate per {}."
+
+msgid "{} GPU Optimized!"
+msgstr "GPU {} ottimizzata!"
+
+msgid "your desktop environment"
+msgstr "il tuo ambiente desktop"
+
+msgid "Failed to install wallpapers: {}"
+msgstr "Errore durante l'installazione degli sfondi: {}"
+
+msgid "Please check your internet connection and try again."
+msgstr "Controlla la connessione internet e riprova."
+
+msgid "Gaming Feature: {}"
+msgstr "Funzionalità gaming: {}"
+
+msgid "This script temporarily sets CPU to 'performance' mode when launching games."
+msgstr "Questo script imposta temporaneamente la CPU in modalità 'performance' all'avvio dei giochi."
+
+msgid "MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more."
+msgstr "MangoHud è un overlay Vulkan/OpenGL per monitorare FPS, temperature, carico CPU/GPU e altro."
+
+msgid "This will remove:\n• Gaming sysctl tweaks\n• GPU optimizations\n• Disk I/O optimizations\n• Performance Mode script\n\nGameMode and MangoHud will remain installed.\n\nContinue?"
+msgstr "Questo rimuoverà:\n• Ottimizzazioni sysctl gaming\n• Ottimizzazioni GPU\n• Ottimizzazioni I/O disco\n• Script Modalità Performance\n\nGameMode e MangoHud rimarranno installati.\n\nContinuare?"
+
+msgid "RGB theme file not found:"
+msgstr "File del tema RGB non trovato:"
+
+msgid "Failed to load RGB theme:"
+msgstr "Errore nel caricamento del tema RGB:"
+
+msgid "Your CPU will automatically switch to performance mode when games are running."
+msgstr "Il tuo CPU passerà automaticamente alla modalità performance quando i giochi sono in esecuzione."
+
+msgid "Manage your system kernels. You can install optimized kernels for better performance or latency."
+msgstr "Gestisci i kernel del tuo sistema. Puoi installare kernel ottimizzati per migliori prestazioni o latenza ridotta."
+
+msgid "Optimized for interactive systems and gaming. High responsiveness and low latency."
+msgstr "Ottimizzato per sistemi interattivi e gaming. Alta reattività e bassa latenza."
+
+msgid "Cannot uninstall {0} because it is currently running. Please boot into another kernel first."
+msgstr "Impossibile disinstallare {0} perché è in esecuzione. Avvia prima con un altro kernel."
+
+msgid "Manage repositories and modern software sources integrated with GNOME Software."
+msgstr "Gestisci repository e fonti software moderne integrate con GNOME Software."
+
+msgid "Manage additional repositories and software sources for your Soplos system."
+msgstr "Gestisci repository aggiuntivi e fonti software per il tuo sistema Soplos."
+
+msgid "Driver already installed"
+msgstr "Driver già installato"
+
+msgid "NVIDIA driver {version} is installed"
+msgstr "Il driver NVIDIA {version} è installato"
+
+msgid "Switch to"
+msgstr "Passa a"
+
+#: ui/tabs/drivers_tab.py
+msgid "Complete installation"
+msgstr "Completa installazione"
+
+#: config/software.py ui/tabs/security_tab.py ui/tabs/drivers_tab.py
+msgid "Modern system monitor with detailed resource usage"
+msgstr "Monitor di sistema moderno con utilizzo dettagliato delle risorse"
+
+#: config/software.py ui/tabs/security_tab.py ui/tabs/drivers_tab.py
+msgid "Secure and private VPN service from Proton."
+msgstr "Servizio VPN sicuro e privato di Proton."
+
+#: config/software.py ui/tabs/security_tab.py ui/tabs/drivers_tab.py
+msgid "Modern Flatpak interface for ClamAV antivirus."
+msgstr "Interfaccia Flatpak moderna per l'antivirus ClamAV."
+
+#: config/software.py ui/tabs/security_tab.py ui/tabs/drivers_tab.py
+msgid "Open Proton VPN"
+msgstr "Apri Proton VPN"
+
+#: config/software.py ui/tabs/security_tab.py ui/tabs/drivers_tab.py
+msgid "Open ClamUI"
+msgstr "Apri ClamUI"
+
+#: config/software.py ui/tabs/security_tab.py ui/tabs/drivers_tab.py
+msgid "LACT — GPU Control Center"
+msgstr "LACT — Centro di controllo GPU"
+
+#: config/software.py ui/tabs/security_tab.py ui/tabs/drivers_tab.py
+msgid "Overclocking, fan control and monitoring for AMD and NVIDIA GPUs"
+msgstr "Overclocking, controllo ventole e monitoraggio per GPU AMD e NVIDIA"
+
+#: ui/tabs/kernels_tab.py
+msgid "Soplos Kernel Installer"
+msgstr "Soplos Kernel Installer"
+
+#: ui/tabs/kernels_tab.py
+msgid "Graphical tool to manage and install kernels from the Soplos repository."
+msgstr "Strumento grafico per gestire e installare kernel dal repository Soplos."
+
+#: ui/tabs/kernels_tab.py
+msgid "Installing Soplos Kernel Installer..."
+msgstr "Installazione di Soplos Kernel Installer in corso..."
+
+#: ui/tabs/kernels_tab.py
+msgid "Uninstalling Soplos Kernel Installer..."
+msgstr "Disinstallazione di Soplos Kernel Installer in corso..."
+
+#: ui/tabs/kernels_tab.py
+msgid "Open Soplos Kernel Installer"
+msgstr "Apri Soplos Kernel Installer"
+
+#: ui/tabs/recommended_tab.py
+msgid "Optional Patches for DaVinci Resolve"
+msgstr "Patch opzionali per DaVinci Resolve"
+
+#: ui/tabs/recommended_tab.py
+msgid "Skip"
+msgstr "Salta"
+
+#: ui/tabs/recommended_tab.py
+msgid "Apply Selected"
+msgstr "Applica selezionati"
+
+#: ui/tabs/recommended_tab.py
+msgid "<b>DaVinci Resolve is installed.</b>\nThe following optional patches can fix common issues on certain hardware.\nSelect the ones you want to apply:"
+msgstr "<b>DaVinci Resolve è installato.</b>\nI seguenti patch opzionali possono risolvere problemi comuni su determinato hardware.\nSeleziona quelli che vuoi applicare:"
+
+#: ui/tabs/recommended_tab.py
+msgid "Virtual microphone (for systems without audio capture device)"
+msgstr "Microfono virtuale (per sistemi senza dispositivo di acquisizione audio)"
+
+#: ui/tabs/recommended_tab.py
+msgid "Creates a virtual PipeWire microphone so DaVinci Resolve can start when no physical capture device is present."
+msgstr "Crea un microfono virtuale PipeWire in modo che DaVinci Resolve possa avviarsi quando non è presente alcun dispositivo di acquisizione fisico."
+
+#: ui/tabs/recommended_tab.py
+msgid "Integrated GPU patch (AMD / Intel iGPU, mini PCs)"
+msgstr "Patch per GPU integrata (AMD / Intel iGPU, mini PC)"
+
+#: ui/tabs/recommended_tab.py
+msgid "Installs OpenCL drivers, firmware and patches the launcher so DaVinci Resolve works on systems with integrated AMD or Intel graphics."
+msgstr "Installa driver OpenCL, firmware e modifica il launcher affinché DaVinci Resolve funzioni su sistemi con grafica integrata AMD o Intel."
+
+#: config/software.py ui/tabs/gaming_tab.py
+msgid "PSP emulator with high-quality rendering"
+msgstr "Emulatore PSP con rendering di alta qualità"
+
+#: config/software.py
+msgid "GPU control center for AMD and NVIDIA on Linux"
+msgstr "Centro di controllo GPU per AMD e NVIDIA su Linux"
+
+#: config/software.py
+msgid "Fan and cooling control with a web interface"
+msgstr "Controllo ventole e raffreddamento con interfaccia web"
+
+#: ui/tabs/drivers_tab.py
+msgid "Install and manage all hardware drivers: graphics, Wi-Fi, audio, Bluetooth, printers and more"
+msgstr "Installa e gestisci tutti i driver hardware: grafica, Wi-Fi, audio, Bluetooth, stampanti e altro"
+
+#: ui/tabs/gaming_tab.py
+msgid "NVIDIA cloud gaming — stream games from the cloud"
+msgstr "Cloud gaming NVIDIA — gioca in streaming dal cloud"
+
+#: ui/tabs/gaming_tab.py
+msgid "Feral GameMode automatically sets CPU governor to performance, raises game process priority and notifies the kernel while a game is running.\n\nUsage: add 'gamemoderun %command%' to Steam launch options or enable it in Lutris."
+msgstr "Feral GameMode imposta automaticamente il governor della CPU su performance, aumenta la priorità del processo del gioco e notifica il kernel mentre un gioco è in esecuzione.\n\nUtilizzo: aggiungi 'gamemoderun %command%' nelle opzioni di avvio di Steam o abilitalo in Lutris."
+
+#: ui/tabs/gaming_tab.py
+msgid "Installs the soplos-game-performance script to /usr/local/bin. When used as a game prefix, it switches the CPU to performance mode while the game runs and restores it on exit.\n\nUsage: add 'soplos-game-performance %command%' to Steam launch options."
+msgstr "Installa lo script soplos-game-performance in /usr/local/bin. Usato come prefisso di gioco, passa la CPU in modalità performance mentre il gioco è in esecuzione e la ripristina all'uscita.\n\nUtilizzo: aggiungi 'soplos-game-performance %command%' nelle opzioni di avvio di Steam."
+
+#: ui/tabs/gaming_tab.py
+msgid "Applies kernel parameter tweaks optimised for gaming:\n• vm.max_map_count = 2147483642 (required for Proton/Steam)\n• vm.swappiness = 10 (prefer RAM over swap)\n• Reduced system latency\n\nClick again to revert all tweaks."
+msgstr "Applica ottimizzazioni dei parametri del kernel per il gaming:\n• vm.max_map_count = 2147483642 (necessario per Proton/Steam)\n• vm.swappiness = 10 (preferire la RAM allo swap)\n• Latenza di sistema ridotta\n\nClicca di nuovo per annullare tutte le ottimizzazioni."
+
+#: ui/tabs/gaming_tab.py
+msgid "Detects your GPU (NVIDIA / AMD / Intel) and applies driver-specific performance tweaks.\n\nFor hybrid laptops it configures PRIME correctly. For NVIDIA it adjusts driver power settings. For AMD/Intel it tunes Mesa/DRI parameters."
+msgstr "Rileva la tua GPU (NVIDIA / AMD / Intel) e applica ottimizzazioni delle prestazioni specifiche del driver.\n\nPer i portatili ibridi configura PRIME correttamente. Per NVIDIA regola le impostazioni di alimentazione del driver. Per AMD/Intel ottimizza i parametri Mesa/DRI."
+
+#: ui/tabs/gaming_tab.py
+msgid "Installs udev rules that assign the best I/O scheduler per disk type:\n• HDD → BFQ (lowest latency)\n• SSD → mq-deadline\n• NVMe → none (maximum throughput)\n\nClick again to remove the rules."
+msgstr "Installa regole udev che assegnano il miglior scheduler I/O per tipo di disco:\n• HDD → BFQ (latenza minima)\n• SSD → mq-deadline\n• NVMe → none (throughput massimo)\n\nClicca di nuovo per rimuovere le regole."
+
+#: ui/tabs/gaming_tab.py
+msgid "Installs via Flatpak:\n• MangoHud — in-game overlay for FPS, CPU/GPU temp and load\n• GOverlay — graphical configuration tool for MangoHud\n• VulkanInfo, gamescope, DXVK, vkBasalt\n\nUsage: add 'mangohud %command%' to Steam launch options."
+msgstr "Installa via Flatpak:\n• MangoHud — overlay in gioco per FPS, temperatura e carico CPU/GPU\n• GOverlay — strumento di configurazione grafica per MangoHud\n• VulkanInfo, gamescope, DXVK, vkBasalt\n\nUtilizzo: aggiungi 'mangohud %command%' nelle opzioni di avvio di Steam."
+
+#: ui/tabs/gaming_tab.py
+msgid "Removes all optimizations applied from this tab:\n• Uninstalls GameMode and the performance script\n• Reverts Gaming Sysctl kernel tweaks\n• Removes GPU tweaks\n• Removes Disk I/O scheduler rules"
+msgstr "Rimuove tutte le ottimizzazioni applicate da questa scheda:\n• Disinstalla GameMode e lo script di performance\n• Annulla le ottimizzazioni del kernel Gaming Sysctl\n• Rimuove le ottimizzazioni GPU\n• Rimuove le regole dello scheduler I/O del disco"
+
+msgid "Open Portmaster"
+msgstr "Apri Portmaster"
+
+msgid "UFW is active — consider disabling it to avoid conflicts with Portmaster"
+msgstr "UFW è attivo — considera di disabilitarlo per evitare conflitti con Portmaster"
+
+msgid "Application-level firewall. Monitor and control network connections per application."
+msgstr "Firewall a livello applicativo. Monitora e controlla le connessioni di rete per applicazione."
+
+msgid "Automatically add BTRFS snapshots to GRUB menu. Allows booting from snapshots."
+msgstr "Aggiunge automaticamente gli snapshot BTRFS al menu GRUB. Permette di avviare dagli snapshot."
+
+msgid "Creates automatic system snapshots. Protects your configuration and allows easy restoration."
+msgstr "Crea snapshot automatici del sistema. Protegge la tua configurazione e consente un ripristino facile."
+
+msgid "Free disk space and maintain privacy. Cleans cache, cookies, and temporary files."
+msgstr "Libera spazio su disco e mantiene la privacy. Pulisce cache, cookie e file temporanei."
+
+msgid "Graphical interface for ClamAV. Scan your system against viruses and malware."
+msgstr "Interfaccia grafica per ClamAV. Scansiona il sistema alla ricerca di virus e malware."
+
+msgid "KDE system cleaner. Simple tool to clean temporary files and browsing history."
+msgstr "Pulitore di sistema KDE. Strumento semplice per pulire file temporanei e cronologia di navigazione."
+
+msgid "Modern system optimizer with resource monitoring, startup apps, and cache cleaner."
+msgstr "Ottimizzatore moderno del sistema con monitoraggio risorse, app di avvio e pulitore di cache."
+
+msgid "Simple graphical interface for UFW firewall. Control network traffic easily."
+msgstr "Interfaccia grafica semplice per il firewall UFW. Controlla facilmente il traffico di rete."
+
+msgid "Download manager for direct downloads, video sites and file hosts"
+msgstr "Gestore download per download diretti, siti video e host di file"
+
+msgid "Free and open-source BitTorrent client"
+msgstr "Client BitTorrent libero e open source"
+
+msgid "PDF editor: annotate, sign, fill forms and merge PDFs"
+msgstr "Editor PDF: annota, firma, compila moduli e unisci PDF"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Different version installed"
+msgstr "Versione diversa installata"
+
+msgid "Driver installed"
+msgstr "Driver installato"
+
+msgid "Hybrid Graphics"
+msgstr "Grafica ibrida"
+
+msgid "Not installed"
+msgstr "Non installato"
+
+msgid "Partially installed — missing:"
+msgstr "Parzialmente installato — mancanti:"
+
+msgid "For CPUs from 2015+ (Intel Haswell, AMD Zen and newer). AVX2 optimizations."
+msgstr "Per CPU dal 2015+ (Intel Haswell, AMD Zen e successivi). Ottimizzazioni AVX2."
+
+msgid "Feature-packed web browser with built-in tools"
+msgstr "Browser web ricco di funzionalità con strumenti integrati"
+
+msgid "Gaming browser with system resource controls"
+msgstr "Browser gaming con controlli delle risorse di sistema"
+
+msgid "Install and manage software packages, repositories, and software centers."
+msgstr "Installa e gestisci pacchetti software, repository e centri software."
+
+msgid "Detect and install optimal hardware drivers for your system."
+msgstr "Rileva e installa i driver hardware ottimali per il tuo sistema."
+
+msgid "Customize your desktop environment, themes, and appearance."
+msgstr "Personalizza il tuo ambiente desktop, i temi e l'aspetto."
+
+msgid "Manage system kernels and performance optimizations."
+msgstr "Gestisci i kernel di sistema e le ottimizzazioni delle prestazioni."
+
+msgid "Discover recommended applications for your workflow."
+msgstr "Scopri le applicazioni consigliate per il tuo flusso di lavoro."
+
+msgid "Tab content coming soon..."
+msgstr "Contenuto della scheda disponibile a breve..."
+
+msgid "🎮 Gaming Mode Activated!"
+msgstr "🎮 Modalità Gaming Attivata!"
+
+#, python-brace-format
+msgid "Language has been changed to {language}. Please restart the application for full effect."
+msgstr "La lingua è stata cambiata in {language}. Riavvia l'applicazione per applicare le modifiche."
+
+msgid "Virtual"
+msgstr "Virtuale"
+
+msgid "Detecting hardware..."
+msgstr "Rilevamento hardware..."
+
+msgid "Detecting Wi-Fi..."
+msgstr "Rilevamento Wi-Fi..."
+
+msgid "Detecting audio..."
+msgstr "Rilevamento audio..."
+
+msgid "Detecting Bluetooth..."
+msgstr "Rilevamento Bluetooth..."
+
+msgid "Detecting printers..."
+msgstr "Rilevamento stampanti..."
+
+#, python-brace-format
+msgid ""
+"Hybrid graphics detected!\n"
+"\n"
+"Integrated GPU: {integrated}\n"
+"Dedicated GPU: {dedicated}\n"
+"\n"
+"You can configure PRIME Render Offload (saves battery) or NVIDIA Primary (maximum performance)."
+msgstr ""
+"Grafica ibrida rilevata!\n"
+"\n"
+"GPU integrata: {integrated}\n"
+"GPU dedicata: {dedicated}\n"
+"\n"
+"Puoi configurare PRIME Render Offload (risparmia la batteria) o NVIDIA Primario (prestazioni massime)."
+
+#, python-brace-format
+msgid ""
+"No hybrid graphics detected.\n"
+"\n"
+"Your system has: {gpu}\n"
+"\n"
+"Hybrid configuration is not needed."
+msgstr ""
+"Nessuna grafica ibrida rilevata.\n"
+"\n"
+"Il tuo sistema ha: {gpu}\n"
+"\n"
+"La configurazione ibrida non è necessaria."
+
+msgid ""
+"This will completely remove all NVIDIA and CUDA packages from your system.\n"
+"\n"
+"This includes drivers, kernel modules, DKMS entries, CUDA libraries and NVIDIA repository sources.\n"
+"\n"
+"After removal you can install a different driver version.\n"
+"\n"
+"A system restart will be required.\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"Questo rimuoverà completamente tutti i pacchetti NVIDIA e CUDA dal tuo sistema.\n"
+"\n"
+"Ciò include driver, moduli del kernel, voci DKMS, librerie CUDA e sorgenti del repository NVIDIA.\n"
+"\n"
+"Dopo la rimozione puoi installare una versione diversa del driver.\n"
+"\n"
+"Sarà necessario un riavvio del sistema.\n"
+"\n"
+"Vuoi continuare?"
+
+msgid ""
+"DaVinci Resolve requires manual download due to licensing.\n"
+"\n"
+"1. Go to blackmagicdesign.com and download the Linux version (ZIP).\n"
+"2. Click OK to select the downloaded file.\n"
+"3. We will convert it to a Debian package and install it."
+msgstr ""
+"DaVinci Resolve richiede il download manuale per motivi di licenza.\n"
+"\n"
+"1. Vai su blackmagicdesign.com e scarica la versione Linux (ZIP).\n"
+"2. Clicca OK per selezionare il file scaricato.\n"
+"3. Lo convertiremo in un pacchetto Debian e lo installeremo."
+
+msgid "VPN"
+msgstr "VPN"
+
+msgid ""
+"\n"
+"Soplos Welcome 2.0 - The world's most advanced welcome application\n"
+"\n"
+"Usage: soplos-welcome [OPTIONS]\n"
+"\n"
+"Options:\n"
+"  -h, --help              Show this help message\n"
+"  -v, --version           Show version information\n"
+"  --lang=LANG             Set language (es, en, fr, de, pt, it, ro, ru)\n"
+"  --theme=THEME           Set theme (base, light, dark, gnome, kde, xfce)\n"
+"  --debug                 Enable debug mode\n"
+"\n"
+"Examples:\n"
+"  soplos-welcome                    # Start with auto-detected settings\n"
+"  soplos-welcome --lang=es          # Start in Spanish\n"
+"  soplos-welcome --theme=dark       # Start with dark theme\n"
+"  soplos-welcome --debug            # Start in debug mode\n"
+"\n"
+"For more information, visit: https://soplos.org\n"
+msgstr ""
+"\n"
+"Soplos Welcome 2.0 - L'applicazione di benvenuto più avanzata al mondo\n"
+"\n"
+"Uso: soplos-welcome [OPZIONI]\n"
+"\n"
+"Opzioni:\n"
+"  -h, --help              Mostra questo messaggio di aiuto\n"
+"  -v, --version           Mostra informazioni sulla versione\n"
+"  --lang=LINGUA           Imposta la lingua (es, en, fr, de, pt, it, ro, ru)\n"
+"  --theme=TEMA            Imposta il tema (base, light, dark, gnome, kde, xfce)\n"
+"  --debug                 Attiva la modalità debug\n"
+"\n"
+"Esempi:\n"
+"  soplos-welcome                    # Avvia con impostazioni rilevate automaticamente\n"
+"  soplos-welcome --lang=it          # Avvia in italiano\n"
+"  soplos-welcome --theme=dark       # Avvia con tema scuro\n"
+"  soplos-welcome --debug            # Avvia in modalità debug\n"
+"\n"
+"Per ulteriori informazioni, visita: https://soplos.org\n"
+
+#, python-brace-format
+msgid ""
+"\n"
+"Soplos Welcome {version}\n"
+"\n"
+"Copyright (C) 2025 Sergi Perich\n"
+"This is free software; see the source for copying conditions.\n"
+"There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+"\n"
+"Desktop Environment: {desktop_env}\n"
+"Display Protocol: {display_protocol}\n"
+"Theme: {theme}\n"
+"Language: {language}\n"
+msgstr ""
+"\n"
+"Soplos Welcome {version}\n"
+"\n"
+"Copyright (C) 2025 Sergi Perich\n"
+"Questo è software libero; consulta il codice sorgente per le condizioni di copia.\n"
+"Non c'è NESSUNA garanzia; nemmeno di COMMERCIABILITÀ o IDONEITÀ PER UNO SCOPO PARTICOLARE.\n"
+"\n"
+"Ambiente Desktop: {desktop_env}\n"
+"Protocollo Display: {display_protocol}\n"
+"Tema: {theme}\n"
+"Lingua: {language}\n"
+
+msgid "Snap not installed"
+msgstr "Snap non installato"
+
+msgid "Snap Store requires Snapd to be installed.\n\nDo you want to install Snapd now?"
+msgstr "Snap Store richiede l'installazione di Snapd.\n\nVuoi installare Snapd ora?"
+
+msgid "Flatpak not installed"
+msgstr "Flatpak non installato"
+
+msgid "{app} requires Flatpak to be installed.\n\nPlease install Flatpak first from the software list."
+msgstr "{app} richiede l'installazione di Flatpak.\n\nPer favore, installa prima Flatpak dalla lista software."
+
+msgid "KDE office suite: word processor, spreadsheet and presentation"
+msgstr "Suite office KDE: elaboratore di testi, foglio di calcolo e presentazione"
+
+msgid "Enterprise-grade LibreOffice fork by Collabora"
+msgstr "Fork di LibreOffice di livello enterprise da Collabora"
+
+msgid "CPU Power"
+msgstr "CPU Power"
+
+msgid "Install CPU Power GUI"
+msgstr "Installa CPU Power GUI"
+
+msgid "Installs linux-cpupower and cpupower-gui to control the CPU frequency governor.\n\nAllows switching between powersave, performance and other governors from a graphical interface."
+msgstr "Installa linux-cpupower e cpupower-gui per controllare il governatore di frequenza della CPU.\n\nConsente di passare tra le modalità powersave, performance e altri governatori da un'interfaccia grafica."
+
+msgid "Install CPU Power?"
+msgstr "Installare CPU Power?"
+
+msgid "Installs linux-cpupower and cpupower-gui to control the CPU frequency governor.\n\nContinue?"
+msgstr "Installerà linux-cpupower e cpupower-gui per controllare il governatore di frequenza della CPU.\n\nContinuare?"
+
+msgid "Uninstall CPU Power?"
+msgstr "Disinstallare CPU Power?"
+
+msgid "This will remove linux-cpupower and cpupower-gui.\n\nContinue?"
+msgstr "Questo rimuoverà linux-cpupower e cpupower-gui.\n\nContinuare?"
+
+msgid "CPU Power installed successfully!"
+msgstr "CPU Power installato con successo!"
+
+msgid "CPU Power uninstalled successfully!"
+msgstr "CPU Power disinstallato con successo!"
+
+msgid "Fast and affordable VPN with unlimited devices."
+msgstr "VPN veloce ed economica con dispositivi illimitati."
+
+msgid "VPN from Mozilla. Simple, fast and focused on privacy."
+msgstr "VPN di Mozilla. Semplice, veloce e focalizzata sulla privacy."
+
+msgid "Open Surfshark"
+msgstr "Apri Surfshark"
+
+msgid "Open Mozilla VPN"
+msgstr "Apri Mozilla VPN"
+
+
+msgid "RyzenAdj"
+msgstr "RyzenAdj"
+
+msgid "AMD thermal fix for Mini PCs"
+msgstr "Fix termico AMD per Mini PC"
+
+msgid "Fixes overheating on AMD Ryzen Mini PCs (GenMachine, Beelink, Minisforum, CWWK) with proprietary EC firmware.\n\nThe EC controller is invisible to Linux and triggers PROCHOT at ~100°C, cutting the fan and USB ports.\n\nRyzenAdj bypasses the EC and limits TDP/temperature via the CPU SMU:\n• Max temperature: 85°C\n• Power limit: 35W sustained/fast/slow\n\nInstalls as a systemd service that applies limits on every boot.\n\nRecommended for: Ryzen 6000H/7000H Mini PCs with fan issues under Linux."
+msgstr "Risolve il surriscaldamento nei Mini PC AMD Ryzen (GenMachine, Beelink, Minisforum, CWWK) con firmware EC proprietario.\n\nIl controller EC è invisibile a Linux e attiva PROCHOT a ~100°C, spegnendo la ventola e le porte USB.\n\nRyzenAdj aggira l'EC e limita TDP/temperatura tramite la SMU del processore:\n• Temperatura massima: 85°C\n• Limite di potenza: 35W sostenuto/veloce/lento\n\nInstallato come servizio systemd applicato ad ogni avvio.\n\nConsigliato per: Mini PC Ryzen 6000H/7000H con problemi di ventola su Linux."
+
+msgid "Uninstall RyzenAdj?"
+msgstr "Disinstallare RyzenAdj?"
+
+msgid "This will stop and remove the RyzenAdj service, binary and Ryzen Master Commander.\n\nContinue?"
+msgstr "Questo fermerà e rimuoverà il servizio, il binario di RyzenAdj e Ryzen Master Commander.\n\nContinuare?"
+
+msgid "Install RyzenAdj?"
+msgstr "Installare RyzenAdj?"
+
+msgid "Compiles and installs RyzenAdj to fix AMD Mini PC overheating, and installs Ryzen Master Commander (GUI).\n\nRequires: cmake, libpci-dev, git (will be installed automatically).\n\nApplies on every boot via systemd:\n• Max temperature: 85°C\n• Power limit: 35W\n\nContinue?"
+msgstr "Compila e installa RyzenAdj per risolvere il surriscaldamento dei Mini PC AMD e installa Ryzen Master Commander (GUI).\n\nRichiede: cmake, libpci-dev, git (verranno installati automaticamente).\n\nApplicato ad ogni avvio tramite systemd:\n• Temperatura massima: 85°C\n• Limite di potenza: 35W\n\nContinuare?"
+
+msgid "RyzenAdj uninstalled successfully!"
+msgstr "RyzenAdj disinstallato con successo!"
+
+msgid "RyzenAdj installed successfully!\n\nThe service is active and will apply thermal limits on every boot.\nRyzen Master Commander is available in your application menu."
+msgstr "RyzenAdj installato con successo!\n\nIl servizio è attivo e applicherà i limiti termici ad ogni avvio.\nRyzen Master Commander è disponibile nel menu delle applicazioni."
+
+msgid "Lutris Vulkan Fix"
+msgstr "Fix Vulkan Lutris"
+
+msgid "Fix Lutris GPU detection"
+msgstr "Correggere il rilevamento GPU di Lutris"
+
+msgid "Patches Lutris Flatpak to use the correct vulkaninfo path inside the container.\n\nRequired if Lutris fails to detect your GPU or shows graphics errors.\n\nIMPORTANT: Launch Lutris at least once before applying this fix."
+msgstr "Corregge il Flatpak di Lutris per usare il percorso corretto di vulkaninfo nel contenitore.\n\nNecessario se Lutris non rileva la GPU o mostra errori grafici.\n\nIMPORTANTE: Avvia Lutris almeno una volta prima di applicare questa correzione."
+
+msgid "Lutris not found"
+msgstr "Lutris non trovato"
+
+msgid "Launch Lutris at least once before applying this fix."
+msgstr "Avvia Lutris almeno una volta prima di applicare questa correzione."
+
+msgid "Lutris Vulkan fix applied successfully!"
+msgstr "Correzione Vulkan di Lutris applicata con successo!"

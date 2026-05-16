@@ -46,6 +46,7 @@ class KernelsTab(Gtk.ScrolledWindow):
         self.liquorix_row = None
         self.xanmod_row = None
         self.current_kernel_info = None
+        self.kernel_installer_row = None
         
         self._create_ui()
     
@@ -235,7 +236,28 @@ class KernelsTab(Gtk.ScrolledWindow):
         
         # Separator
         self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
-        
+
+        # Frame for Soplos Kernel Installer
+        ski_frame = Gtk.Frame()
+        ski_frame.set_label(_("Soplos Kernel Installer"))
+        ski_frame.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
+        self.main_box.pack_start(ski_frame, False, False, 5)
+
+        ski_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        ski_container.set_border_width(10)
+        ski_frame.add(ski_container)
+
+        ski_desc = Gtk.Label(label=_("Graphical tool to manage and install kernels from the Soplos repository."))
+        ski_desc.set_line_wrap(True)
+        ski_desc.set_xalign(0)
+        ski_container.pack_start(ski_desc, False, False, 0)
+
+        self.kernel_installer_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        ski_container.pack_start(self.kernel_installer_row, False, False, 5)
+
+        # Separator
+        self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
+
         # Frame for maintenance
         maintenance_frame = Gtk.Frame()
         maintenance_frame.set_label(_("System Maintenance"))
@@ -431,6 +453,7 @@ class KernelsTab(Gtk.ScrolledWindow):
         self._clear_container(self.xanmod_v4_row)
         self._clear_container(self.xanmod_edge_row)
         self._clear_container(self.xanmod_lts_row)
+        self._clear_container(self.kernel_installer_row)
         
         # Check for NVIDIA GPU
         gpu_info = detect_gpu()
@@ -479,7 +502,10 @@ class KernelsTab(Gtk.ScrolledWindow):
         
         # Update XanMod LTS button
         self._update_xanmod_variant_button("xanmod-lts", self.xanmod_lts_row, "LTS")
-        
+
+        # Update Soplos Kernel Installer button
+        self._update_kernel_installer_button()
+
         # Show new buttons
         self.microcode_row.show_all()
         self.liquorix_row.show_all()
@@ -487,6 +513,7 @@ class KernelsTab(Gtk.ScrolledWindow):
         self.xanmod_v4_row.show_all()
         self.xanmod_edge_row.show_all()
         self.xanmod_lts_row.show_all()
+        self.kernel_installer_row.show_all()
 
     def _update_microcode_button(self):
         """Update microcode button based on CPU vendor"""
@@ -546,6 +573,74 @@ class KernelsTab(Gtk.ScrolledWindow):
             install_button.get_style_context().add_class("suggested-action")
             install_button.connect("clicked", lambda w: self.on_install_xanmod_clicked(w, kernel_type))
             row.pack_start(install_button, False, False, 0)
+
+    def _is_package_installed(self, package):
+        """Check if a dpkg package is installed"""
+        try:
+            result = subprocess.run(['dpkg', '-s', package], capture_output=True, text=True)
+            return result.returncode == 0 and 'Status: install ok installed' in result.stdout
+        except Exception:
+            return False
+
+    def _update_kernel_installer_button(self):
+        """Update Soplos Kernel Installer button based on installation status"""
+        if self._is_package_installed('soplos-kernel-installer'):
+            uninstall_btn = Gtk.Button(label=_("Uninstall"))
+            uninstall_btn.connect('clicked', lambda w: self._on_uninstall_kernel_installer())
+            self.kernel_installer_row.pack_start(uninstall_btn, False, False, 0)
+
+            installed_label = Gtk.Label(label=_("Installed"))
+            installed_label.get_style_context().add_class("success")
+            self.kernel_installer_row.pack_start(installed_label, False, False, 10)
+
+            open_btn = Gtk.Button(label=_("Open Soplos Kernel Installer"))
+            open_btn.connect('clicked', lambda w: self._on_open_kernel_installer())
+            self.kernel_installer_row.pack_start(open_btn, False, False, 0)
+        else:
+            install_btn = Gtk.Button(label=_("Install"))
+            install_btn.connect('clicked', lambda w: self._on_install_kernel_installer())
+            self.kernel_installer_row.pack_start(install_btn, False, False, 0)
+
+    def _on_install_kernel_installer(self):
+        """Install soplos-kernel-installer via apt"""
+        script_content = f"""#!/bin/bash
+echo "{_('Installing Soplos Kernel Installer...')}"
+pkexec apt install -y soplos-kernel-installer
+echo "{_('Installation complete.')}"
+"""
+        script_path = "/tmp/install-soplos-kernel-installer.sh"
+        with open(script_path, "w") as f:
+            f.write(script_content)
+        import os
+        os.chmod(script_path, 0o755)
+        self.command_runner.run_command(
+            f"bash {script_path}",
+            on_complete=self._on_operation_complete
+        )
+
+    def _on_uninstall_kernel_installer(self):
+        """Uninstall soplos-kernel-installer via apt"""
+        script_content = f"""#!/bin/bash
+echo "{_('Uninstalling Soplos Kernel Installer...')}"
+pkexec apt remove -y soplos-kernel-installer
+echo "{_('Uninstallation complete.')}"
+"""
+        script_path = "/tmp/uninstall-soplos-kernel-installer.sh"
+        with open(script_path, "w") as f:
+            f.write(script_content)
+        import os
+        os.chmod(script_path, 0o755)
+        self.command_runner.run_command(
+            f"bash {script_path}",
+            on_complete=self._on_operation_complete
+        )
+
+    def _on_open_kernel_installer(self):
+        """Launch Soplos Kernel Installer"""
+        try:
+            subprocess.Popen(['soplos-kernel-installer'])
+        except Exception as e:
+            print(f"Error launching soplos-kernel-installer: {e}")
 
     def _clear_container(self, container):
         """Clear all widgets from a container"""

@@ -244,11 +244,11 @@ class MainWindow(Gtk.ApplicationWindow):
         # Tab definitions (name, class_name, icon_name) - CORRECT ORDER
         tab_definitions = [
             (_("Welcome"), "WelcomeTab", "user-home"),
-            (_("Software"), "SoftwareTab", "system-software-install"), 
-            (_("Drivers"), "DriversTab", "preferences-system"),
-            (_("Kernels"), "KernelsTab", "applications-system"),
+            (_("Software"), "SoftwareTab", "package-x-generic"),
+            (_("Drivers"), "DriversTab", "preferences-desktop-peripherals"),
+            (_("Kernels"), "KernelsTab", "utilities-system-monitor"),
             (_("Security"), "SecurityTab", "security-high"),
-            (_("Recommended"), "RecommendedTab", "starred"),
+            (_("Recommended"), "RecommendedTab", "gnome-software"),
             (_("Customization"), "CustomizationTab", "preferences-desktop-theme")
         ]
         
@@ -484,7 +484,7 @@ class MainWindow(Gtk.ApplicationWindow):
         }
         
         desc_label = Gtk.Label()
-        desc_label.set_text(descriptions.get(tab_name.replace("", ""), _("Tab content coming soon...")))
+        desc_label.set_text(descriptions.get(tab_name, _("Tab content coming soon...")))
         desc_label.get_style_context().add_class(CSS_CLASSES['welcome_subtitle'])
         desc_label.set_line_wrap(True)
         desc_label.set_justify(Gtk.Justification.CENTER)
@@ -493,16 +493,6 @@ class MainWindow(Gtk.ApplicationWindow):
         # Environment info card
         if tab_name == _("Welcome"):
             self._add_environment_info_card(content_box)
-        
-        # Demo buttons for software tab
-        if tab_name == _("Software"):
-            self._add_software_demo_buttons(content_box)
-        
-        # Coming soon message
-        coming_soon = Gtk.Label()
-        coming_soon.set_markup(f"<span style='italic'>{_('Full implementation coming soon...')}</span>")
-        coming_soon.get_style_context().add_class('dim-label')
-        content_box.pack_start(coming_soon, False, False, 0)
         
         scrolled.add(content_box)
         scrolled.show_all()
@@ -551,25 +541,6 @@ class MainWindow(Gtk.ApplicationWindow):
         info_card.add(info_grid)
         content_box.pack_start(info_card, False, False, 0)
     
-    def _add_software_demo_buttons(self, content_box):
-        """Add demo buttons to software tab."""
-        button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        button_box.set_halign(Gtk.Align.CENTER)
-        
-        # Demo install button
-        install_btn = Gtk.Button(label=_("Install Demo Package"))
-        install_btn.get_style_context().add_class(CSS_CLASSES['button_install'])
-        install_btn.connect('clicked', self._on_demo_install)
-        button_box.pack_start(install_btn, False, False, 0)
-        
-        # Demo uninstall button
-        uninstall_btn = Gtk.Button(label=_("Uninstall Demo Package"))
-        uninstall_btn.get_style_context().add_class(CSS_CLASSES['button_uninstall'])
-        uninstall_btn.connect('clicked', self._on_demo_uninstall)
-        button_box.pack_start(uninstall_btn, False, False, 0)
-        
-        content_box.pack_start(button_box, False, False, 0)
-    
     def _create_status_bar(self, main_vbox):
         """Create a clean status bar with system info and version."""
         # Create simple horizontal box for status bar
@@ -584,10 +555,7 @@ class MainWindow(Gtk.ApplicationWindow):
         desktop_name = self._translate_desktop_name(env_info['desktop_environment'])
         protocol_name = self._translate_protocol_name(env_info['display_protocol'])
         
-        status_text = _("Ready - {desktop} on {protocol}").format(
-            desktop=desktop_name,
-            protocol=protocol_name
-        )
+        status_text = f"{desktop_name}  ·  {protocol_name}"
         
         self.status_label = Gtk.Label(label=status_text)
         self.status_label.set_halign(Gtk.Align.START)
@@ -661,7 +629,7 @@ class MainWindow(Gtk.ApplicationWindow):
         dialog.set_modal(True)
         
         dialog.set_program_name(_("Soplos Welcome"))
-        dialog.set_version("2.0.1")
+        dialog.set_version(__version__)
         dialog.set_comments(_("The world's most advanced welcome application for Linux"))
         dialog.set_copyright("Copyright © 2025 Sergi Perich")
         dialog.set_license_type(Gtk.License.GPL_3_0)
@@ -691,26 +659,35 @@ class MainWindow(Gtk.ApplicationWindow):
         """Handle key press events."""
         keyval = event.keyval
         state = event.state
-        
+
+        # F1 → About dialog
+        if keyval == Gdk.KEY_F1:
+            self.show_about_dialog()
+            return True
+
         # Check for Ctrl+Q to quit
         if state & Gdk.ModifierType.CONTROL_MASK:
             if keyval == Gdk.KEY_q:
                 self.close()
                 return True
-            
-            # Ctrl+Tab to switch tabs
-            elif keyval == Gdk.KEY_Tab:
+
+            # Ctrl+Tab → next tab, Ctrl+Shift+Tab → previous tab
+            elif keyval in (Gdk.KEY_Tab, Gdk.KEY_ISO_Left_Tab):
                 current_page = self.notebook.get_current_page()
                 total_pages = self.notebook.get_n_pages()
-                next_page = (current_page + 1) % total_pages
-                self.notebook.set_current_page(next_page)
+                if state & Gdk.ModifierType.SHIFT_MASK or keyval == Gdk.KEY_ISO_Left_Tab:
+                    prev_page = (current_page - 1) % total_pages
+                    self.notebook.set_current_page(prev_page)
+                else:
+                    next_page = (current_page + 1) % total_pages
+                    self.notebook.set_current_page(next_page)
                 return True
-                
+
             # Easter Egg: Ctrl+G for Gaming Tab
             elif keyval == Gdk.KEY_g:
                 self._toggle_gaming_tab()
                 return True
-            
+
         return False
 
     def _toggle_gaming_tab(self):
@@ -787,95 +764,6 @@ class MainWindow(Gtk.ApplicationWindow):
     def _on_about_clicked(self, button):
         """Handle about button click."""
         self.show_about_dialog()
-    
-    def _on_demo_install(self, button):
-        """Demo install operation with realistic progress."""
-        # Disable button during installation
-        button.set_sensitive(False)
-        
-        # Simulate realistic installation progress
-        self.show_progress(_("Preparing installation..."), 0.0)
-        
-        def update_progress():
-            steps = [
-                (_("Downloading package..."), 0.2),
-                (_("Verifying dependencies..."), 0.4),
-                (_("Installing files..."), 0.6),
-                (_("Configuring application..."), 0.8),
-                (_("Finalizing installation..."), 0.9),
-                (_("Installation completed!"), 1.0)
-            ]
-            
-            def run_step(step_index):
-                if step_index < len(steps):
-                    message, fraction = steps[step_index]
-                    self.show_progress(message, fraction)
-                    
-                    # Schedule next step
-                    if step_index < len(steps) - 1:
-                        GLib.timeout_add(800, lambda: run_step(step_index + 1))
-                    else:
-                        # Installation complete
-                        GLib.timeout_add(1500, lambda: self._finish_demo_install(button))
-                
-                return False
-            
-            run_step(0)
-            return False
-        
-        GLib.timeout_add(500, update_progress)
-    
-    def _finish_demo_install(self, button):
-        """Finish demo installation."""
-        self.hide_progress()
-        button.set_sensitive(True)
-        
-        # Show success notification
-        self.show_progress(_("✅ Installation successful"), 1.0)
-        GLib.timeout_add(2000, self.hide_progress)
-        
-        return False
-    
-    def _on_demo_uninstall(self, button):
-        """Demo uninstall operation with progress."""
-        button.set_sensitive(False)
-        
-        self.show_progress(_("Uninstalling package..."), 0.0)
-        
-        def update_uninstall_progress():
-            steps = [
-                (_("Stopping services..."), 0.3),
-                (_("Removing files..."), 0.7),
-                (_("Cleaning configuration..."), 0.9),
-                (_("Uninstallation completed!"), 1.0)
-            ]
-            
-            def run_step(step_index):
-                if step_index < len(steps):
-                    message, fraction = steps[step_index]
-                    self.show_progress(message, fraction)
-                    
-                    if step_index < len(steps) - 1:
-                        GLib.timeout_add(600, lambda: run_step(step_index + 1))
-                    else:
-                        GLib.timeout_add(1000, lambda: self._finish_demo_uninstall(button))
-                
-                return False
-            
-            run_step(0)
-            return False
-        
-        GLib.timeout_add(300, update_uninstall_progress)
-    
-    def _finish_demo_uninstall(self, button):
-        """Finish demo uninstallation."""
-        self.hide_progress()
-        button.set_sensitive(True)
-        
-        self.show_progress(_("✅ Uninstallation successful"), 1.0)
-        GLib.timeout_add(2000, self.hide_progress)
-        
-        return False
     
     # Window control button callbacks
     def _on_minimize_window(self, button):

@@ -6,6 +6,7 @@ Handles desktop customization using Soplos tools.
 import gi
 import os
 import subprocess
+import threading
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GdkPixbuf, GLib
 
@@ -104,31 +105,27 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 'label': _('Theme Manager'),
                 'description': _('Customize GTK themes, icons, cursors and XFCE panel'),
                 'tooltip': _('Launch Soplos Theme Manager'),
-                'command': '/usr/bin/soplos-theme-manager'
-            },
-            {
-                'icon': 'soplos-docklike.png',
-                'label': _('Docklike'),
-                'description': _('Configure dock and panel plugins'),
-                'tooltip': _('Launch Soplos Docklike'),
-                'command': '/usr/bin/soplos-docklike'
+                'command': '/usr/bin/soplos-theme-manager',
+                'package': 'soplos-theme-manager'
             },
             {
                 'icon': 'soplos-grub-editor.png',
                 'label': _('GRUB Editor'),
                 'description': _('Edit boot menu (GRUB configuration)'),
                 'tooltip': _('Launch Soplos GRUB Editor'),
-                'command': '/usr/bin/soplos-grub-editor'
+                'command': '/usr/bin/soplos-grub-editor',
+                'package': 'soplos-grub-editor'
             },
             {
                 'icon': 'soplos-plymouth-manager.png',
                 'label': _('Plymouth Manager'),
                 'description': _('Customize boot splash screen'),
                 'tooltip': _('Launch Soplos Plymouth Manager'),
-                'command': '/usr/bin/soplos-plymouth-manager'
+                'command': '/usr/bin/soplos-plymouth-manager',
+                'package': 'soplos-plymouth-manager'
             }
         ]
-        
+
         # Create buttons for Soplos tools
         for tool in soplos_tools:
             button = self._create_tool_button(
@@ -136,7 +133,8 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 tool['label'],
                 tool['description'],
                 tool['tooltip'],
-                tool['command']
+                tool['command'],
+                tool['package']
             )
             flowbox_soplos.add(button)
         
@@ -254,30 +252,32 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 'label': _('GRUB Editor'),
                 'description': _('Edit boot menu (GRUB configuration)'),
                 'tooltip': _('Launch Soplos GRUB Editor'),
-                'command': '/usr/bin/soplos-grub-editor'
+                'command': '/usr/bin/soplos-grub-editor',
+                'package': 'soplos-grub-editor'
             },
             {
                 'icon': 'soplos-plymouth-manager.png',
                 'label': _('Plymouth Manager'),
                 'description': _('Customize boot splash screen'),
                 'tooltip': _('Launch Soplos Plymouth Manager'),
-                'command': '/usr/bin/soplos-plymouth-manager'
+                'command': '/usr/bin/soplos-plymouth-manager',
+                'package': 'soplos-plymouth-manager'
             }
         ]
-        
+
         for tool in soplos_tools:
             button = self._create_tool_button(
                 tool['icon'], tool['label'], tool['description'],
-                tool['tooltip'], tool['command']
+                tool['tooltip'], tool['command'], tool['package']
             )
             flowbox_soplos.add(button)
-        
+
         # Separator
         separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
         separator.set_margin_top(15)
         separator.set_margin_bottom(15)
         container.pack_start(separator, False, False, 0)
-        
+
         # === SECTION 2: GNOME Settings ===
         gnome_label = Gtk.Label()
         gnome_label.set_markup(f"<span size='13000' weight='bold'>{_('GNOME Settings')}</span>")
@@ -389,30 +389,32 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 'label': _('GRUB Editor'),
                 'description': _('Edit boot menu (GRUB configuration)'),
                 'tooltip': _('Launch Soplos GRUB Editor'),
-                'command': '/usr/bin/soplos-grub-editor'
+                'command': '/usr/bin/soplos-grub-editor',
+                'package': 'soplos-grub-editor'
             },
             {
                 'icon': 'soplos-plymouth-manager.png',
                 'label': _('Plymouth Manager'),
                 'description': _('Customize boot splash screen'),
                 'tooltip': _('Launch Soplos Plymouth Manager'),
-                'command': '/usr/bin/soplos-plymouth-manager'
+                'command': '/usr/bin/soplos-plymouth-manager',
+                'package': 'soplos-plymouth-manager'
             }
         ]
-        
+
         for tool in soplos_tools:
             button = self._create_tool_button(
                 tool['icon'], tool['label'], tool['description'],
-                tool['tooltip'], tool['command']
+                tool['tooltip'], tool['command'], tool['package']
             )
             flowbox_soplos.add(button)
-        
+
         # Separator
         separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
         separator.set_margin_top(15)
         separator.set_margin_bottom(15)
         container.pack_start(separator, False, False, 0)
-        
+
         # === SECTION 2: KDE Settings ===
         kde_label = Gtk.Label()
         kde_label.set_markup(f"<span size='13000' weight='bold'>{_('KDE Settings')}</span>")
@@ -504,7 +506,7 @@ class CustomizationTab(Gtk.ScrolledWindow):
             flowbox_kde.add(button)
     
     
-    def _create_tool_button(self, icon_filename, label_text, description_text, tooltip_text, command):
+    def _create_tool_button(self, icon_filename, label_text, description_text, tooltip_text, command, package=None):
         """Create a button with icon, label and description for a customization tool."""
         # Container for the button content
         tool_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
@@ -513,7 +515,7 @@ class CustomizationTab(Gtk.ScrolledWindow):
         tool_box.set_margin_end(10)
         tool_box.set_margin_top(10)
         tool_box.set_margin_bottom(10)
-        
+
         # Load icon
         icon_path = os.path.join(self.icons_path, icon_filename)
         try:
@@ -527,15 +529,14 @@ class CustomizationTab(Gtk.ScrolledWindow):
             tool_box.pack_start(icon, False, False, 5)
         except Exception as e:
             print(f"Error loading icon {icon_path}: {e}")
-            # Fallback to generic icon
             icon = Gtk.Image.new_from_icon_name("preferences-desktop", Gtk.IconSize.DIALOG)
             tool_box.pack_start(icon, False, False, 5)
-        
+
         # Add title label (bold)
         title_label = Gtk.Label()
         title_label.set_markup(f"<b>{label_text}</b>")
         tool_box.pack_start(title_label, False, False, 0)
-        
+
         # Add description label (dim, smaller, wrapped)
         desc_label = Gtk.Label(label=description_text)
         desc_label.set_line_wrap(True)
@@ -543,13 +544,13 @@ class CustomizationTab(Gtk.ScrolledWindow):
         desc_label.set_xalign(0.5)
         desc_label.get_style_context().add_class('dim-label')
         tool_box.pack_start(desc_label, False, False, 0)
-        
+
         # Create button
         button = Gtk.Button()
         button.add(tool_box)
         button.set_tooltip_text(tooltip_text)
-        button.connect('clicked', self._on_tool_clicked, command)
-        
+        button.connect('clicked', self._on_tool_clicked, command, label_text, package)
+
         return button
     
     def _create_xfce_button(self, icon_name, label_text, description_text, tooltip_text, command):
@@ -673,36 +674,128 @@ class CustomizationTab(Gtk.ScrolledWindow):
         
         container.pack_start(content_area, True, True, 0)
     
-    def _on_tool_clicked(self, button, command):
+    def _on_tool_clicked(self, button, command, label_text='', package=None):
         """Launch a Soplos customization tool with debounce."""
+        import shlex
+        import shutil
+
         # Generate debounce flag name from command
         tool_name = os.path.basename(command).replace('-', '_')
         flag_name = f"_{tool_name}_running"
-        
+
         # Debounce check
         if getattr(self, flag_name, False):
             return
-        
-        # Set flag
+
         setattr(self, flag_name, True)
-        
-        # Launch tool
+
         try:
-            import shlex
-            import shutil
-            
-            # Split command into args
             args = shlex.split(command)
             executable = args[0]
-            
-            if os.path.exists(executable):
+
+            if os.path.exists(executable) or shutil.which(executable):
                 subprocess.Popen(args)
-            elif shutil.which(executable):
-                subprocess.Popen(args)
+            elif package:
+                # Tool not installed — ask user
+                GLib.idle_add(self._ask_install_tool, label_text, package, command)
+                setattr(self, flag_name, False)
+                return
             else:
                 print(f"Tool not found: {command}")
         except Exception as e:
             print(f"Error launching {command}: {e}")
-        
-        # Reset flag after 2 seconds
+
         GLib.timeout_add_seconds(2, lambda: setattr(self, flag_name, False) or False)
+
+    def _ask_install_tool(self, label_text, package, command):
+        """Show dialog asking the user to install a missing Soplos tool."""
+        parent = self.get_toplevel()
+        dialog = Gtk.MessageDialog(
+            transient_for=parent,
+            modal=True,
+            message_type=Gtk.MessageType.QUESTION,
+            buttons=Gtk.ButtonsType.NONE,
+            text=_("{tool} is not installed").format(tool=label_text)
+        )
+        dialog.format_secondary_text(
+            _("Would you like to install it now?")
+        )
+        dialog.add_button(_("Cancel"), Gtk.ResponseType.CANCEL)
+        install_btn = dialog.add_button(_("Install"), Gtk.ResponseType.OK)
+        install_btn.get_style_context().add_class('suggested-action')
+
+        response = dialog.run()
+        dialog.destroy()
+
+        if response == Gtk.ResponseType.OK:
+            self._install_and_launch(label_text, package, command)
+
+        return False
+
+    def _install_and_launch(self, label_text, package, command):
+        """Install a Soplos tool via pkexec apt-get, then launch it."""
+        parent = self.get_toplevel()
+
+        # Progress dialog with spinner
+        progress_dialog = Gtk.Dialog(
+            title=_("Installing {tool}").format(tool=label_text),
+            transient_for=parent,
+            modal=True
+        )
+        progress_dialog.set_deletable(False)
+        progress_dialog.set_default_size(320, -1)
+
+        content = progress_dialog.get_content_area()
+        content.set_spacing(12)
+        content.set_margin_start(20)
+        content.set_margin_end(20)
+        content.set_margin_top(20)
+        content.set_margin_bottom(20)
+
+        spinner = Gtk.Spinner()
+        spinner.set_size_request(40, 40)
+        spinner.start()
+        content.pack_start(spinner, False, False, 0)
+
+        status_label = Gtk.Label(label=_("Installing {tool}…").format(tool=label_text))
+        content.pack_start(status_label, False, False, 0)
+
+        progress_dialog.show_all()
+
+        def do_install():
+            try:
+                result = subprocess.run(
+                    ['pkexec', 'apt-get', 'install', '-y', package],
+                    capture_output=True, text=True
+                )
+                success = result.returncode == 0
+            except Exception as e:
+                print(f"Install error: {e}")
+                success = False
+            GLib.idle_add(on_install_done, success)
+
+        def on_install_done(success):
+            spinner.stop()
+            progress_dialog.destroy()
+            if success:
+                try:
+                    import shlex
+                    subprocess.Popen(shlex.split(command))
+                except Exception as e:
+                    print(f"Error launching {command} after install: {e}")
+            else:
+                err_dialog = Gtk.MessageDialog(
+                    transient_for=parent,
+                    modal=True,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=_("Installation failed")
+                )
+                err_dialog.format_secondary_text(
+                    _("Could not install {tool}. Check your internet connection and try again.").format(tool=label_text)
+                )
+                err_dialog.run()
+                err_dialog.destroy()
+            return False
+
+        threading.Thread(target=do_install, daemon=True).start()

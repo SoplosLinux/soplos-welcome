@@ -41,6 +41,7 @@ class RecommendedTab(Gtk.Box):
         self.batch_mode = False
         self.selected_apt = []
         self.selected_flatpak = []
+        self.selected_flatpak_packages = {}  # flatpak_id → package dict (for post_install_script lookup)
         self.selected_deb_urls = []  # List of (url, package_name) tuples
         self.selected_custom = []  # List of (commands_list, package_name) tuples
         
@@ -582,9 +583,14 @@ rm -f /tmp/{pkg_name}.deb"""
         """Create and execute installation/removal scripts."""
         script_path = f"/tmp/{script_name}"
         try:
+            app_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             with open(script_path, "w") as f:
                 f.write("#!/bin/bash\n")
                 f.write(script_content)
+                if is_install and package.get('post_install_script'):
+                    patch = os.path.join(app_root, 'services', package['post_install_script'])
+                    if os.path.exists(patch):
+                        f.write(f"\nbash '{patch}'\n")
                 f.write(f"\necho '{_('Operation completed successfully')}'\n")
             os.chmod(script_path, 0o755)
             
@@ -627,19 +633,33 @@ rm -f /tmp/{pkg_name}.deb"""
         # Invalidate cache
         if package['name'] in self.package_status_cache:
             del self.package_status_cache[package['name']]
-            
-        # Clear installing set - we need to remove by ID. 
+
+        # Clear installing set - we need to remove by ID.
         to_remove = set()
         for pid in self.installing_packages:
             if pid.endswith(f":{package['name']}"):
                 to_remove.add(pid)
-        
+
         for pid in to_remove:
             self.installing_packages.discard(pid)
-            
+
+        if is_install and package.get('post_install_script'):
+            app_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            script_path = os.path.join(app_root, 'services', package['post_install_script'])
+            if os.path.exists(script_path):
+                self.command_runner.run_command(
+                    f"bash '{script_path}'",
+                    lambda: self._finish_package_complete(package)
+                )
+                return
+
+        self._finish_package_complete(package)
+
+    def _finish_package_complete(self, package: dict):
+        """Finalize package completion: refresh UI and sync tabs."""
         # Refresh UI
         GLib.idle_add(self._refresh_content)
-        
+
         # Targeted synchronization with Gaming tab
         if self.parent_window and hasattr(self.parent_window, 'gaming_tab') and self.parent_window.gaming_tab:
             GLib.idle_add(self.parent_window.gaming_tab.refresh)
@@ -656,6 +676,7 @@ rm -f /tmp/{pkg_name}.deb"""
             # Clear selections when exiting batch mode
             self.selected_apt.clear()
             self.selected_flatpak.clear()
+            self.selected_flatpak_packages.clear()
             self.selected_deb_urls.clear()
             self.selected_custom.clear()
             self.batch_bar.hide()
@@ -675,6 +696,7 @@ rm -f /tmp/{pkg_name}.deb"""
             elif install_method == 'flatpak' and package.get('flatpak'):
                 if package['flatpak'] not in self.selected_flatpak:
                     self.selected_flatpak.append(package['flatpak'])
+                    self.selected_flatpak_packages[package['flatpak']] = package
             elif install_method == 'deb' and package.get('deb_url'):
                 deb_info = (package['deb_url'], package['package'])
                 if deb_info not in self.selected_deb_urls:
@@ -689,6 +711,7 @@ rm -f /tmp/{pkg_name}.deb"""
                 self.selected_apt.remove(package['package'])
             elif install_method == 'flatpak' and package['flatpak'] in self.selected_flatpak:
                 self.selected_flatpak.remove(package['flatpak'])
+                self.selected_flatpak_packages.pop(package['flatpak'], None)
             elif install_method == 'deb':
                 deb_info = (package['deb_url'], package['package'])
                 if deb_info in self.selected_deb_urls:
@@ -764,6 +787,7 @@ rm -f /tmp/{pkg_name}.deb"""
                 elif install_method == 'flatpak' and package.get('flatpak'):
                     if package['flatpak'] not in self.selected_flatpak:
                         self.selected_flatpak.append(package['flatpak'])
+                        self.selected_flatpak_packages[package['flatpak']] = package
                 elif install_method == 'deb' and package.get('deb_url'):
                     deb_info = (package['deb_url'], package['package'])
                     if deb_info not in self.selected_deb_urls:
@@ -780,6 +804,7 @@ rm -f /tmp/{pkg_name}.deb"""
         """Deselect all packages."""
         self.selected_apt.clear()
         self.selected_flatpak.clear()
+        self.selected_flatpak_packages.clear()
         self.selected_deb_urls.clear()
         self.selected_custom.clear()
         
@@ -863,8 +888,18 @@ rm -f /tmp/{pkg_name}.deb"""
             return
         
         flatpak_id = self.selected_flatpak[index]
-        cmd = f"flatpak install -y flathub {flatpak_id}"
-        self.command_runner.run_command(cmd, lambda: self._install_next_flatpak(index + 1))
+        package = self.selected_flatpak_packages.get(flatpak_id, {})
+        script_path = f"/tmp/batch-flatpak-{flatpak_id.replace('.', '-')}.sh"
+        app_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        with open(script_path, "w") as f:
+            f.write("#!/bin/bash\n")
+            f.write(f"flatpak install -y flathub {flatpak_id}\n")
+            if package.get('post_install_script'):
+                patch = os.path.join(app_root, 'services', package['post_install_script'])
+                if os.path.exists(patch):
+                    f.write(f"bash '{patch}'\n")
+        os.chmod(script_path, 0o755)
+        self.command_runner.run_command(script_path, lambda: self._install_next_flatpak(index + 1))
     
     def _install_batch_step_3_deb(self):
         """Step 3: Install all .deb packages in single consolidated script."""
@@ -1104,7 +1139,7 @@ rm -f /tmp/{pkg_name}.deb"""
         current_file = os.path.abspath(__file__)
         # Go up to the main application directory (ui/tabs -> ui -> root)
         app_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file)))
-        src_script = os.path.join(app_root, "services", "makeresolvedeb_1.8.3_multi.sh")
+        src_script = os.path.join(app_root, "services", "makeresolvedeb_1.9.0_multi.sh")
         
         if not os.path.exists(src_script):
             self._on_package_operation_complete(package_data, False)
@@ -1145,7 +1180,96 @@ rm -f /tmp/{pkg_name}.deb"""
         
         # Install
         cmd = f"pkexec apt-get install -y '{full_deb_path}'"
-        self.command_runner.run_command(cmd, lambda: self._davinci_cleanup(work_dir, package_data))
+        self.command_runner.run_command(cmd, lambda: self._davinci_step_5_patches(work_dir, package_data))
+
+    def _davinci_step_5_patches(self, work_dir, package_data):
+        """Step 5: Offer optional patches via dialog."""
+
+        dialog = Gtk.Dialog(
+            title=_("Optional Patches for DaVinci Resolve"),
+            transient_for=self.parent_window,
+            flags=0
+        )
+        dialog.add_buttons(
+            _("Skip"), Gtk.ResponseType.CANCEL,
+            _("Apply Selected"), Gtk.ResponseType.OK
+        )
+        dialog.set_default_size(480, -1)
+
+        content = dialog.get_content_area()
+        content.set_spacing(12)
+        content.set_border_width(16)
+
+        label = Gtk.Label()
+        label.set_markup(
+            _("<b>DaVinci Resolve is installed.</b>\n"
+              "The following optional patches can fix common issues on certain hardware.\n"
+              "Select the ones you want to apply:")
+        )
+        label.set_line_wrap(True)
+        label.set_xalign(0)
+        content.pack_start(label, False, False, 0)
+
+        check_mic = Gtk.CheckButton(
+            label=_("Virtual microphone (for systems without audio capture device)")
+        )
+        check_mic.set_tooltip_text(
+            _("Creates a virtual PipeWire microphone so DaVinci Resolve can start "
+              "when no physical capture device is present.")
+        )
+        content.pack_start(check_mic, False, False, 0)
+
+        check_gpu = Gtk.CheckButton(
+            label=_("Integrated GPU patch (AMD / Intel iGPU, mini PCs)")
+        )
+        check_gpu.set_tooltip_text(
+            _("Installs OpenCL drivers, firmware and patches the launcher so "
+              "DaVinci Resolve works on systems with integrated AMD or Intel graphics.")
+        )
+        content.pack_start(check_gpu, False, False, 0)
+
+        dialog.show_all()
+        response = dialog.run()
+        apply_mic = check_mic.get_active()
+        apply_gpu = check_gpu.get_active()
+        dialog.destroy()
+
+        if response != Gtk.ResponseType.OK or (not apply_mic and not apply_gpu):
+            self._davinci_cleanup(work_dir, package_data)
+            return
+
+        self._davinci_run_patches(work_dir, package_data, apply_mic, apply_gpu)
+
+    def _davinci_run_patches(self, work_dir, package_data, apply_mic, apply_gpu):
+        """Run selected patches sequentially, then cleanup."""
+
+        current_file = os.path.abspath(__file__)
+        app_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file)))
+
+        def after_patches():
+            self._davinci_cleanup(work_dir, package_data)
+
+        def run_gpu():
+            script = os.path.join(app_root, "services", "davinci-gpu-patch.sh")
+            self.command_runner.run_command(
+                f"pkexec bash '{script}'",
+                after_patches
+            )
+
+        if apply_mic and apply_gpu:
+            mic_script = os.path.join(app_root, "services", "davinci-virtual-mic.sh")
+            self.command_runner.run_command(
+                f"pkexec bash '{mic_script}'",
+                run_gpu
+            )
+        elif apply_mic:
+            mic_script = os.path.join(app_root, "services", "davinci-virtual-mic.sh")
+            self.command_runner.run_command(
+                f"pkexec bash '{mic_script}'",
+                after_patches
+            )
+        elif apply_gpu:
+            run_gpu()
 
     def _davinci_cleanup(self, work_dir, package_data):
         """Step 5: Cleanup."""

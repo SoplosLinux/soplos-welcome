@@ -8,18 +8,11 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('GdkPixbuf', '2.0')
 from gi.repository import Gtk, GdkPixbuf
 import webbrowser
-from pathlib import Path
-
-from core.i18n_manager import _
-
-import gi
-gi.require_version('Gtk', '3.0')
-gi.require_version('GdkPixbuf', '2.0')
-from gi.repository import Gtk, GdkPixbuf
-import webbrowser
 import subprocess
 import os
 from pathlib import Path
+
+from core.i18n_manager import _
 
 
 class WelcomeTab(Gtk.Box):
@@ -157,10 +150,11 @@ class WelcomeTab(Gtk.Box):
         
         features = [
             (_("• Install essential software"), "package-x-generic"),
-            (_("• Configure system drivers"), "preferences-desktop-peripherals"), 
-            (_("• Customize your desktop"), "preferences-desktop-theme"),
+            (_("• Configure system drivers"), "preferences-desktop-peripherals"),
             (_("• Manage system kernels"), "utilities-system-monitor"),
-            (_("• View recommended applications"), "gnome-software")
+            (_("• Manage system security"), "security-high"),
+            (_("• View recommended applications"), "gnome-software"),
+            (_("• Customize your desktop"), "preferences-desktop-theme"),
         ]
         
         for i, feature_data in enumerate(features):

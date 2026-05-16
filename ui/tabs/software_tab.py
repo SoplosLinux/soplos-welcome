@@ -65,7 +65,7 @@ class SoftwareTab(Gtk.Box):
                     self.progress_bar,
                     self.progress_label
                 )
-                print("🌊 Loading GNOME software interface")
+                print("Loading GNOME software interface")
                 
             elif self.desktop_environment == DesktopEnvironment.KDE:
                 from .software_plasma_tab import SoftwarePlasmaTab
@@ -76,7 +76,7 @@ class SoftwareTab(Gtk.Box):
                     self.progress_bar,
                     self.progress_label
                 )
-                print("🔷 Loading Plasma software interface")
+                print("Loading Plasma software interface")
                 
             else:  # XFCE or unknown
                 from .software_xfce_tab import SoftwareXfceTab
@@ -87,7 +87,7 @@ class SoftwareTab(Gtk.Box):
                     self.progress_bar, 
                     self.progress_label
                 )
-                print("🖥️ Loading XFCE software interface")
+                print("Loading XFCE software interface")
             
             # Add the desktop-specific tab to this container
             self.pack_start(software_tab, True, True, 0)

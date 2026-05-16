@@ -5,6 +5,8 @@ Handles hardware driver detection and installation.
 
 import gi
 import os
+import subprocess
+import threading
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GLib
 
@@ -30,7 +32,10 @@ class DriversTab(Gtk.ScrolledWindow):
         
         # Create CommandRunner
         self.command_runner = CommandRunner(self.progress_bar, self.progress_label, self.parent_window)
-        
+
+        # key → {'button', 'handler_id', 'base_label', 'install_fn', 'uninstall_fn', 'check_fn'}
+        self._driver_buttons = {}
+
         # Main container
         self.drivers_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=15)
         self.drivers_box.set_margin_left(20)
@@ -40,6 +45,7 @@ class DriversTab(Gtk.ScrolledWindow):
         
         self.add(self.drivers_box)
         self._create_ui()
+        self._refresh_driver_status()
     
     def _create_ui(self):
         """Create the drivers tab interface."""
@@ -50,7 +56,7 @@ class DriversTab(Gtk.ScrolledWindow):
         self.drivers_box.pack_start(header, False, False, 0)
         
         subtitle = Gtk.Label()
-        subtitle.set_markup(f'<span size="12000">{_("Install and manage graphics drivers and hardware support")}</span>')
+        subtitle.set_markup(f'<span size="12000">{_("Install and manage all hardware drivers: graphics, Wi-Fi, audio, Bluetooth, printers and more")}</span>')
         subtitle.set_halign(Gtk.Align.START)
         subtitle.get_style_context().add_class('dim-label')
         self.drivers_box.pack_start(subtitle, False, False, 0)
@@ -112,7 +118,7 @@ class DriversTab(Gtk.ScrolledWindow):
         
         # --- VM Tools Section ---
         self._create_vm_section()
-        
+
         self.show_all()
     
     def _create_nvidia_section(self):
@@ -121,66 +127,107 @@ class DriversTab(Gtk.ScrolledWindow):
         label.set_markup(f'<span weight="bold" size="14000">{_("NVIDIA Graphics Drivers")}</span>')
         label.set_halign(Gtk.Align.START)
         self.drivers_box.pack_start(label, False, False, 5)
-        
-        # Grid for NVIDIA buttons
+
         grid = Gtk.Grid()
         grid.set_column_spacing(10)
         grid.set_row_spacing(10)
         grid.set_column_homogeneous(True)
         self.drivers_box.pack_start(grid, False, False, 5)
-        
-        # Row 0: Latest drivers (590, 580)
+
+        # Row 0
         nvidia_590 = self._create_button(
             _("NVIDIA 590 (Latest)"),
             _("Turing and newer: GTX 1650/1660, RTX 20/30/40/50 series")
         )
-        nvidia_590.connect("clicked", self._on_nvidia_cuda_repo_clicked, "590")
         grid.attach(nvidia_590, 0, 0, 1, 1)
+        self._driver_buttons['nvidia_590'] = {
+            'button': nvidia_590, 'handler_id': None,
+            'base_label': _("NVIDIA 590 (Latest)"),
+            'install_fn': lambda b: self._on_nvidia_cuda_repo_clicked(b, '590'),
+            'uninstall_fn': lambda b: self._on_uninstall_nvidia_clicked(b),
+            'check_fn': lambda: self._get_nvidia_active_version() == '590',
+        }
 
         nvidia_580 = self._create_button(
             _("NVIDIA 580 (Production)"),
             _("Universal driver: Maxwell to Blackwell (GTX 900 → RTX 5000)")
         )
-        nvidia_580.connect("clicked", self._on_nvidia_cuda_repo_clicked, "580")
         grid.attach(nvidia_580, 1, 0, 1, 1)
+        self._driver_buttons['nvidia_580'] = {
+            'button': nvidia_580, 'handler_id': None,
+            'base_label': _("NVIDIA 580 (Production)"),
+            'install_fn': lambda b: self._on_nvidia_cuda_repo_clicked(b, '580'),
+            'uninstall_fn': lambda b: self._on_uninstall_nvidia_clicked(b),
+            'check_fn': lambda: self._get_nvidia_active_version() == '580',
+        }
 
-        # Row 1: Repository driver + Legacy 470
+        # Row 1
         nvidia_550 = self._create_button(
             _("NVIDIA 550 (Repo)"),
             _("Maxwell to Ada Lovelace (GTX 900, GTX 10xx/16xx, RTX 20/30/40)")
         )
-        nvidia_550.connect("clicked", self._on_nvidia_repo_clicked, "nvidia-driver")
         grid.attach(nvidia_550, 0, 1, 1, 1)
+        self._driver_buttons['nvidia_550'] = {
+            'button': nvidia_550, 'handler_id': None,
+            'base_label': _("NVIDIA 550 (Repo)"),
+            'install_fn': lambda b: self._on_nvidia_repo_clicked(b, 'nvidia-driver'),
+            'uninstall_fn': lambda b: self._on_uninstall_nvidia_clicked(b),
+            'check_fn': lambda: self._is_package_installed('nvidia-driver'),
+        }
 
         nvidia_470 = self._create_button(
             _("NVIDIA 470 (Legacy)"),
             _("Kepler to Ampere (GTX 600/700/900/10xx, RTX 20/30 series)")
         )
-        nvidia_470.connect("clicked", self._on_legacy_nvidia_clicked, "nvidia-tesla-470-driver")
         grid.attach(nvidia_470, 1, 1, 1, 1)
+        self._driver_buttons['nvidia_470'] = {
+            'button': nvidia_470, 'handler_id': None,
+            'base_label': _("NVIDIA 470 (Legacy)"),
+            'install_fn': lambda b: self._on_legacy_nvidia_clicked(b, 'nvidia-tesla-470-driver'),
+            'uninstall_fn': lambda b: self._on_uninstall_nvidia_clicked(b),
+            'check_fn': lambda: self._is_package_installed('nvidia-tesla-470-driver'),
+        }
 
-        # Row 2: Older legacy drivers (390, 340)
+        # Row 2
         nvidia_390 = self._create_button(
             _("NVIDIA 390 (Legacy)"),
             _("Fermi and Kepler (GTX 400/500/600/700 series)")
         )
-        nvidia_390.connect("clicked", self._on_legacy_nvidia_clicked, "nvidia-legacy-390xx-driver")
         grid.attach(nvidia_390, 0, 2, 1, 1)
+        self._driver_buttons['nvidia_390'] = {
+            'button': nvidia_390, 'handler_id': None,
+            'base_label': _("NVIDIA 390 (Legacy)"),
+            'install_fn': lambda b: self._on_legacy_nvidia_clicked(b, 'nvidia-legacy-390xx-driver'),
+            'uninstall_fn': lambda b: self._on_uninstall_nvidia_clicked(b),
+            'check_fn': lambda: self._is_package_installed('nvidia-legacy-390xx-driver'),
+        }
 
         nvidia_340 = self._create_button(
             _("NVIDIA 340 (Legacy)"),
             _("Tesla architecture (GeForce 8/9/100/200/300 series)")
         )
-        nvidia_340.connect("clicked", self._on_legacy_nvidia_clicked, "nvidia-legacy-340xx-driver")
         grid.attach(nvidia_340, 1, 2, 1, 1)
-        
-        # Row 3: Open source driver + Uninstall
+        self._driver_buttons['nvidia_340'] = {
+            'button': nvidia_340, 'handler_id': None,
+            'base_label': _("NVIDIA 340 (Legacy)"),
+            'install_fn': lambda b: self._on_legacy_nvidia_clicked(b, 'nvidia-legacy-340xx-driver'),
+            'uninstall_fn': lambda b: self._on_uninstall_nvidia_clicked(b),
+            'check_fn': lambda: self._is_package_installed('nvidia-legacy-340xx-driver'),
+        }
+
+        # Row 3
         nouveau = self._create_button(
             _("Nouveau (Open Source)"),
             _("Free and open source NVIDIA driver")
         )
-        nouveau.connect("clicked", self._on_driver_clicked, "xserver-xorg-video-nouveau")
         grid.attach(nouveau, 0, 3, 1, 1)
+        self._driver_buttons['nouveau'] = {
+            'button': nouveau, 'handler_id': None,
+            'base_label': _("Nouveau (Open Source)"),
+            'install_fn': lambda b: self._on_driver_clicked(b, 'xserver-xorg-video-nouveau'),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'xserver-xorg-video-nouveau'),
+            'check_fn': lambda: self._is_package_installed('xserver-xorg-video-nouveau'),
+        }
 
         uninstall_nvidia = self._create_button(
             _("Uninstall NVIDIA Drivers"),
@@ -261,14 +308,33 @@ class DriversTab(Gtk.ScrolledWindow):
         label.set_markup(f'<span weight="bold" size="14000">{_("AMD Graphics Drivers")}</span>')
         label.set_halign(Gtk.Align.START)
         self.drivers_box.pack_start(label, False, False, 5)
-        
+
+        amd_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        amd_box.set_homogeneous(True)
+        self.drivers_box.pack_start(amd_box, False, False, 5)
+
+        amd_pkgs = "firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all"
         amd_btn = self._create_button(
             _("AMD Radeon (Open Source)"),
             _("Free drivers for all AMD GPUs")
         )
-        amd_btn.connect("clicked", self._on_driver_clicked, 
-                       "firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all")
-        self.drivers_box.pack_start(amd_btn, False, False, 5)
+        amd_box.pack_start(amd_btn, True, True, 0)
+        self._driver_buttons['amd'] = {
+            'button': amd_btn, 'handler_id': None,
+            'base_label': _("AMD Radeon (Open Source)"),
+            'install_fn': lambda b: self._on_driver_clicked(b, amd_pkgs),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, amd_pkgs),
+            'check_fn': lambda: self._is_package_installed('firmware-amd-graphics'),
+        }
+
+        lact_btn = self._create_button(
+            _("LACT — GPU Control Center"),
+            _("Overclocking, fan control and monitoring for AMD and NVIDIA GPUs")
+        )
+        lact_btn.connect("clicked", self._on_install_lact)
+        amd_box.pack_start(lact_btn, True, True, 0)
+        self._lact_btn = lact_btn
+        self._refresh_lact_button()
     
     def _create_wifi_section(self):
         """Create Wi-Fi drivers section."""
@@ -276,22 +342,40 @@ class DriversTab(Gtk.ScrolledWindow):
         label.set_markup(f'<span weight="bold" size="14000">{_("Wi-Fi Drivers")}</span>')
         label.set_halign(Gtk.Align.START)
         self.drivers_box.pack_start(label, False, False, 5)
-        
+
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         box.set_homogeneous(True)
         self.drivers_box.pack_start(box, False, False, 5)
-        
+
         intel_wifi = self._create_button(_("Intel Wi-Fi"), _("Intel wireless cards"))
-        intel_wifi.connect("clicked", self._on_driver_clicked, "firmware-iwlwifi")
         box.pack_start(intel_wifi, True, True, 0)
-        
+        self._driver_buttons['wifi_intel'] = {
+            'button': intel_wifi, 'handler_id': None,
+            'base_label': _("Intel Wi-Fi"),
+            'install_fn': lambda b: self._on_driver_clicked(b, 'firmware-iwlwifi'),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'firmware-iwlwifi'),
+            'check_fn': lambda: self._is_package_installed('firmware-iwlwifi'),
+        }
+
         realtek_wifi = self._create_button(_("Realtek Wi-Fi"), _("Realtek wireless cards"))
-        realtek_wifi.connect("clicked", self._on_driver_clicked, "firmware-realtek")
         box.pack_start(realtek_wifi, True, True, 0)
-        
+        self._driver_buttons['wifi_realtek'] = {
+            'button': realtek_wifi, 'handler_id': None,
+            'base_label': _("Realtek Wi-Fi"),
+            'install_fn': lambda b: self._on_driver_clicked(b, 'firmware-realtek'),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'firmware-realtek'),
+            'check_fn': lambda: self._is_package_installed('firmware-realtek'),
+        }
+
         broadcom_wifi = self._create_button(_("Broadcom Wi-Fi"), _("Broadcom wireless cards"))
-        broadcom_wifi.connect("clicked", self._on_driver_clicked, "firmware-b43-installer")
         box.pack_start(broadcom_wifi, True, True, 0)
+        self._driver_buttons['wifi_broadcom'] = {
+            'button': broadcom_wifi, 'handler_id': None,
+            'base_label': _("Broadcom Wi-Fi"),
+            'install_fn': lambda b: self._on_driver_clicked(b, 'firmware-b43-installer'),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'firmware-b43-installer'),
+            'check_fn': lambda: self._is_package_installed('firmware-b43-installer'),
+        }
     
     def _create_other_section(self):
         """Create other drivers section."""
@@ -299,18 +383,31 @@ class DriversTab(Gtk.ScrolledWindow):
         label.set_markup(f'<span weight="bold" size="14000">{_("Other Drivers")}</span>')
         label.set_halign(Gtk.Align.START)
         self.drivers_box.pack_start(label, False, False, 5)
-        
+
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         box.set_homogeneous(True)
         self.drivers_box.pack_start(box, False, False, 5)
-        
+
         printer_btn = self._create_button(_("Printers"), _("Printer drivers"))
-        printer_btn.connect("clicked", self._on_driver_clicked, "printer-driver-all")
         box.pack_start(printer_btn, True, True, 0)
-        
+        self._driver_buttons['printers'] = {
+            'button': printer_btn, 'handler_id': None,
+            'base_label': _("Printers"),
+            'install_fn': lambda b: self._on_driver_clicked(b, 'printer-driver-all'),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'printer-driver-all'),
+            'check_fn': lambda: self._is_package_installed('printer-driver-all'),
+        }
+
+        bt_pkgs = "bluetooth bluez bluez-tools blueman"
         bluetooth_btn = self._create_button(_("Bluetooth"), _("Bluetooth support"))
-        bluetooth_btn.connect("clicked", self._on_driver_clicked, "bluetooth bluez bluez-tools blueman")
         box.pack_start(bluetooth_btn, True, True, 0)
+        self._driver_buttons['bluetooth'] = {
+            'button': bluetooth_btn, 'handler_id': None,
+            'base_label': _("Bluetooth"),
+            'install_fn': lambda b: self._on_driver_clicked(b, bt_pkgs),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, bt_pkgs),
+            'check_fn': lambda: self._is_package_installed('bluetooth'),
+        }
     
     def _create_vm_section(self):
         """Create VM tools section."""
@@ -318,24 +415,124 @@ class DriversTab(Gtk.ScrolledWindow):
         label.set_markup(f'<span weight="bold" size="14000">{_("Virtual Machine Tools")}</span>')
         label.set_halign(Gtk.Align.START)
         self.drivers_box.pack_start(label, False, False, 5)
-        
+
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         box.set_homogeneous(True)
         self.drivers_box.pack_start(box, False, False, 5)
-        
+
         vmware_btn = self._create_button(_("VMware Tools"), _("For VMware virtual machines"))
-        vmware_btn.connect("clicked", self._on_driver_clicked, "open-vm-tools-desktop")
         box.pack_start(vmware_btn, True, True, 0)
-        
+        self._driver_buttons['vmware'] = {
+            'button': vmware_btn, 'handler_id': None,
+            'base_label': _("VMware Tools"),
+            'install_fn': lambda b: self._on_driver_clicked(b, 'open-vm-tools-desktop'),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'open-vm-tools-desktop'),
+            'check_fn': lambda: self._is_package_installed('open-vm-tools-desktop'),
+        }
+
+        qemu_pkgs = "qemu-guest-agent spice-vdagent spice-webdavd xserver-xspice"
         qemu_btn = self._create_button(_("QEMU/KVM Tools"), _("For QEMU/KVM virtual machines"))
-        qemu_btn.connect("clicked", self._on_driver_clicked, 
-                        "qemu-guest-agent spice-vdagent spice-webdavd xserver-xspice")
         box.pack_start(qemu_btn, True, True, 0)
-        
+        self._driver_buttons['qemu'] = {
+            'button': qemu_btn, 'handler_id': None,
+            'base_label': _("QEMU/KVM Tools"),
+            'install_fn': lambda b: self._on_driver_clicked(b, qemu_pkgs),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, qemu_pkgs),
+            'check_fn': lambda: self._is_package_installed('qemu-guest-agent'),
+        }
+
+        def _check_vbox():
+            try:
+                r = subprocess.run(['systemctl', 'is-enabled', 'vboxadd'],
+                                   capture_output=True, text=True)
+                return r.returncode == 0
+            except Exception:
+                return False
+
         vbox_btn = self._create_button(_("VirtualBox Guest"), _("For VirtualBox virtual machines"))
-        vbox_btn.connect("clicked", self._on_vbox_clicked)
         box.pack_start(vbox_btn, True, True, 0)
+        self._driver_buttons['vbox'] = {
+            'button': vbox_btn, 'handler_id': None,
+            'base_label': _("VirtualBox Guest"),
+            'install_fn': lambda b: self._on_vbox_clicked(b),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'virtualbox-guest-utils virtualbox-guest-x11'),
+            'check_fn': _check_vbox,
+        }
     
+    # === DRIVER DETECTION ===
+
+    def _is_package_installed(self, package):
+        """Check if a dpkg package is installed."""
+        try:
+            result = subprocess.run(
+                ['dpkg', '-s', package],
+                capture_output=True, text=True
+            )
+            return 'Status: install ok installed' in result.stdout
+        except Exception:
+            return False
+
+    def _get_nvidia_active_version(self):
+        """Return major version string of active NVIDIA driver (e.g. '590'), or None."""
+        # nvidia-smi: works regardless of how the driver was installed
+        try:
+            result = subprocess.run(
+                ['nvidia-smi', '--query-gpu=driver_version', '--format=csv,noheader'],
+                capture_output=True, text=True, timeout=5
+            )
+            if result.returncode == 0:
+                ver = result.stdout.strip().split('.')[0]
+                if ver.isdigit():
+                    return ver
+        except Exception:
+            pass
+        # Fallback: scan dpkg for exact nvidia-driver-XXX package name
+        try:
+            import re
+            result = subprocess.run(['dpkg', '-l'], capture_output=True, text=True)
+            for line in result.stdout.split('\n'):
+                if not line.startswith('ii'):
+                    continue
+                parts = line.split()
+                if len(parts) >= 2 and re.fullmatch(r'nvidia-driver-(\d+)', parts[1]):
+                    return re.search(r'\d+', parts[1]).group()
+        except Exception:
+            pass
+        return None
+
+    def _apply_driver_state(self, key, installed):
+        """Update button label, style and signal handler. Runs on GTK thread."""
+        info = self._driver_buttons.get(key)
+        if not info:
+            return
+        button = info['button']
+
+        # Disconnect previous handler
+        if info.get('handler_id') is not None:
+            try:
+                button.disconnect(info['handler_id'])
+            except Exception:
+                pass
+
+        if installed:
+            button.set_label(f"✓  {info['base_label']}")
+            info['handler_id'] = button.connect('clicked', info['uninstall_fn'])
+        else:
+            button.set_label(info['base_label'])
+            info['handler_id'] = button.connect('clicked', info['install_fn'])
+
+    def _refresh_driver_status(self):
+        """Check all registered driver buttons in background and update their state."""
+        def _check():
+            for key, info in list(self._driver_buttons.items()):
+                try:
+                    installed = info['check_fn']()
+                    GLib.idle_add(self._apply_driver_state, key, installed)
+                except Exception as e:
+                    print(f"Error checking driver {key}: {e}")
+
+        threading.Thread(target=_check, daemon=True).start()
+
     def _create_button(self, label, tooltip):
         """Create a driver button with tooltip."""
         button = Gtk.Button(label=label)
@@ -351,7 +548,19 @@ apt update
 apt install -y {packages}
 echo "Installation completed successfully."
 """
-        self._run_script_as_root(script, f"install-{packages.split()[0]}.sh")
+        self._run_script_as_root(script, f"install-{packages.split()[0]}.sh",
+                                 self._refresh_driver_status)
+
+    def _on_remove_driver_clicked(self, button, packages):
+        """Remove driver packages."""
+        script = f"""#!/bin/bash
+set -e
+apt remove -y {packages}
+apt autoremove -y
+echo "Removal completed successfully."
+"""
+        self._run_script_as_root(script, f"uninstall-{packages.split()[0]}.sh",
+                                 self._refresh_driver_status)
     
     def _on_legacy_nvidia_clicked(self, button, package_name):
         """Show warning about Debian Sid requirement before installing legacy drivers."""
@@ -448,9 +657,9 @@ apt purge -y 'nvidia-driver*' 'nvidia-kernel*' 'libnvidia*' 'nvidia-modprobe' \
     'cuda-drivers*' 'xserver-xorg-video-nvidia*' 2>/dev/null || true
 apt autoremove -y 2>/dev/null || true
 
-# Install kernel headers
+# Install kernel headers and DKMS build dependencies
 apt update
-apt install -y linux-headers-$(uname -r)
+apt install -y dkms build-essential linux-headers-$(uname -r)
 
 # Install NVIDIA driver + auxiliary packages
 apt install -y {package} nvidia-smi nvidia-settings nvidia-modprobe libglu1-mesa
@@ -487,7 +696,7 @@ echo "NVIDIA driver installed successfully."
 echo "Auxiliary tools installed: nvidia-smi, nvidia-settings, nvidia-modprobe"
 echo "IMPORTANT: Restart the system to apply the changes."
 """
-        self._run_script_as_root(script, f"install-{package}.sh")
+        self._run_script_as_root(script, f"install-{package}.sh", self._refresh_driver_status)
 
     
     def _on_nvidia_cuda_repo_clicked(self, button, version):
@@ -537,7 +746,7 @@ if [ ! -s "$TEMP_DIR/cuda-keyring.deb" ]; then
 fi
 dpkg -i "$TEMP_DIR/cuda-keyring.deb"
 rm -rf "$TEMP_DIR\""""
-            install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y cuda-drivers"
+            install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y cuda-drivers-590"
             repo_cleanup = ""
 
         script = f"""#!/bin/bash
@@ -561,7 +770,8 @@ apt purge -y 'nvidia*' 'cuda*' 'libnvidia*' 2>/dev/null || true
 apt autoremove -y 2>/dev/null || true
 apt -f install -y 2>/dev/null || true
 
-echo "[2/5] Installing kernel headers..."
+echo "[2/5] Installing kernel headers and DKMS build dependencies..."
+apt install -y dkms build-essential
 if apt-cache show linux-headers-$(uname -r) &>/dev/null; then
     apt install -y linux-headers-$(uname -r)
 else
@@ -592,11 +802,17 @@ elif command -v update-initramfs >/dev/null 2>&1; then
     update-initramfs -u
 fi
 
+echo "[+] Configuring GRUB with nvidia-drm.modeset=1..."
+if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
+    sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\\([^"]*\\)"/GRUB_CMDLINE_LINUX_DEFAULT="\\1 nvidia-drm.modeset=1"/' /etc/default/grub
+fi
+update-grub
+
 echo ""
 echo "=== Installation completed successfully ==="
 echo "NVIDIA driver $NVIDIA_VERSION installed. Restart to apply changes."
 """
-        self._run_script_as_root(script, f"install-nvidia-cuda-{version}.sh")
+        self._run_script_as_root(script, f"install-nvidia-cuda-{version}.sh", self._refresh_driver_status)
 
     
     def _on_nvidia_extras_clicked(self, button, mode):
@@ -652,7 +868,7 @@ echo "=== Installation completed ==="
 echo "VirtualBox Guest Additions installed."
 echo "IMPORTANT: Restart the system to apply the changes."
 """
-        self._run_script_as_root(script, "install-vbox-guest.sh")
+        self._run_script_as_root(script, "install-vbox-guest.sh", self._refresh_driver_status)
     
     def _run_script(self, script_content, script_name):
         """Create and run installation script (no root)."""
@@ -665,247 +881,433 @@ echo "IMPORTANT: Restart the system to apply the changes."
         except Exception as e:
             print(f"Error creating script {script_name}: {e}")
     
-    def _run_script_as_root(self, script_content, script_name):
+    def _run_script_as_root(self, script_content, script_name, on_complete=None):
         """Create and run installation script with root privileges (single pkexec)."""
         script_path = f"/tmp/{script_name}"
         try:
             with open(script_path, "w") as f:
                 f.write(script_content)
             os.chmod(script_path, 0o755)
-            # Single pkexec authentication for entire script
-            self.command_runner.run_command(f"pkexec bash {script_path}")
+            self.command_runner.run_command(f"pkexec bash {script_path}", on_complete)
         except Exception as e:
             print(f"Error creating script {script_name}: {e}")
     
+    def _is_flatpak_installed(self, flatpak_id):
+        """Check if a Flatpak app is installed."""
+        try:
+            result = subprocess.run(['flatpak', 'info', flatpak_id],
+                                    capture_output=True, text=True)
+            return result.returncode == 0
+        except Exception:
+            return False
+
+    def _refresh_lact_button(self):
+        """Update LACT button label based on install state."""
+        def _check():
+            installed = self._is_flatpak_installed('io.github.ilya_zlobintsev.LACT')
+            GLib.idle_add(self._apply_lact_state, installed)
+        threading.Thread(target=_check, daemon=True).start()
+
+    def _apply_lact_state(self, installed):
+        """Update LACT button label and handler."""
+        btn = self._lact_btn
+        try:
+            if hasattr(self, '_lact_handler_id') and self._lact_handler_id:
+                btn.disconnect(self._lact_handler_id)
+        except Exception:
+            pass
+        if installed:
+            btn.set_label(f"✓  {_('LACT — GPU Control Center')}")
+            self._lact_handler_id = btn.connect('clicked', self._on_uninstall_lact)
+        else:
+            btn.set_label(_("LACT — GPU Control Center"))
+            self._lact_handler_id = btn.connect('clicked', self._on_install_lact)
+
+    def _on_install_lact(self, button):
+        """Install LACT via Flatpak."""
+        script_path = "/tmp/install-lact.sh"
+        with open(script_path, "w") as f:
+            f.write("#!/bin/bash\nflatpak install -y flathub io.github.ilya_zlobintsev.LACT\necho 'Done'\n")
+        os.chmod(script_path, 0o755)
+        self.command_runner.run_command(f"bash {script_path}", self._refresh_lact_button)
+
+    def _on_uninstall_lact(self, button):
+        """Uninstall LACT via Flatpak."""
+        script_path = "/tmp/uninstall-lact.sh"
+        with open(script_path, "w") as f:
+            f.write("#!/bin/bash\nflatpak uninstall -y io.github.ilya_zlobintsev.LACT\necho 'Done'\n")
+        os.chmod(script_path, 0o755)
+        self.command_runner.run_command(f"bash {script_path}", self._refresh_lact_button)
+
     def _on_scan_hardware(self, button):
         """Scan hardware and show results."""
         from utils.hardware_detector import scan_hardware
-        
+
         def update_status(text):
             self.progress_label.set_text(text)
-        
+
         def update_progress(fraction):
             self.progress_bar.set_fraction(fraction)
-        
+
+        def _make_frame(title):
+            frame = Gtk.Frame(label=title)
+            box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+            box.set_margin_left(15)
+            box.set_margin_right(15)
+            box.set_margin_top(10)
+            box.set_margin_bottom(10)
+            frame.add(box)
+            return frame, box
+
+        def _driver_action_buttons(parent_box, driver_status, missing_packages,
+                                    recommended_driver, install_cb, uninstall_cb=None):
+            """Add Install/Uninstall button row based on driver_status."""
+            if driver_status == 'installed':
+                lbl = Gtk.Label()
+                lbl.set_markup(f"<span foreground='green'>✓ {_('Driver installed')}</span>")
+                lbl.set_xalign(0)
+                parent_box.pack_start(lbl, False, False, 0)
+                if uninstall_cb:
+                    btn = Gtk.Button(label=_("Uninstall"))
+                    btn.connect('clicked', uninstall_cb)
+                    parent_box.pack_start(btn, False, False, 2)
+            elif driver_status == 'different_version':
+                lbl = Gtk.Label()
+                lbl.set_markup(f"<span foreground='orange'>⚠ {_('Different version installed')}</span>")
+                lbl.set_xalign(0)
+                parent_box.pack_start(lbl, False, False, 0)
+                btn = Gtk.Button(label=f"{_('Switch to')} {recommended_driver}")
+                btn.connect('clicked', install_cb)
+                parent_box.pack_start(btn, False, False, 2)
+            elif driver_status == 'partial':
+                lbl = Gtk.Label()
+                lbl.set_markup(f"<span foreground='orange'>⚠ {_('Partially installed — missing:')} {', '.join(missing_packages)}</span>")
+                lbl.set_xalign(0)
+                lbl.set_line_wrap(True)
+                parent_box.pack_start(lbl, False, False, 0)
+                btn = Gtk.Button(label=_("Complete installation"))
+                btn.connect('clicked', install_cb)
+                parent_box.pack_start(btn, False, False, 2)
+            else:  # missing
+                lbl = Gtk.Label()
+                lbl.set_markup(f"<span foreground='red'>✗ {_('Not installed')}</span>")
+                lbl.set_xalign(0)
+                parent_box.pack_start(lbl, False, False, 0)
+                btn = Gtk.Button(label=f"{_('Install')} {recommended_driver}")
+                btn.connect('clicked', install_cb)
+                parent_box.pack_start(btn, False, False, 2)
+
         def show_results(results):
-            # Hide progress
             self.progress_bar.set_fraction(0.0)
-            
-            # Create dialog
+
             dialog = Gtk.Dialog(
-                title=_("System Information"),
+                title=_("Hardware Detection"),
                 parent=self.parent_window,
                 flags=0
             )
-            dialog.set_default_size(700, 600)
-            
-            # Scrolled window
+            dialog.set_default_size(700, 650)
+
             scrolled = Gtk.ScrolledWindow()
-            scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-            content_box = dialog.get_content_area()
-            content_box.pack_start(scrolled, True, True, 0)
-            
-            # Main container
-            main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=15)
+            scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+            dialog.get_content_area().pack_start(scrolled, True, True, 0)
+
+            main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
             main_box.set_margin_left(20)
             main_box.set_margin_right(20)
             main_box.set_margin_top(20)
-            main_box.set_margin_bottom(20)
+            main_box.set_margin_bottom(10)
             scrolled.add(main_box)
-            
-            # CPU Section
+
+            # ── CPU ──
             if results.get('cpu'):
-                cpu_frame = Gtk.Frame(label=f"🖥️ {_('Processor')}")
-                cpu_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
-                cpu_box.set_margin_left(15)
-                cpu_box.set_margin_right(15)
-                cpu_box.set_margin_top(10)
-                cpu_box.set_margin_bottom(10)
-                
+                frame, box = _make_frame(_('Processor'))
                 cpu = results['cpu']
-                cpu_label = Gtk.Label()
-                cpu_label.set_markup(f"<b>{_('Model:')}</b> {cpu.get('model', 'N/A')}\n<b>{_('Cores:')}</b> {cpu.get('cores', 0)} | <b>{_('Threads:')}</b> {cpu.get('threads', 0)}")
-                cpu_label.set_line_wrap(True)
-                cpu_label.set_xalign(0)
-                cpu_box.pack_start(cpu_label, False, False, 0)
-                
-                cpu_frame.add(cpu_box)
-                main_box.pack_start(cpu_frame, False, False, 5)
-            
-            # GPU Section
-            if results.get('gpu'):
-                gpu_frame = Gtk.Frame(label=f"🎮 {_('Graphics Card')}")
-                gpu_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-                gpu_box.set_margin_left(15)
-                gpu_box.set_margin_right(15)
-                gpu_box.set_margin_top(10)
-                gpu_box.set_margin_bottom(10)
-                
-                gpu = results['gpu']
-                gpu_label = Gtk.Label()
-                gpu_label.set_markup(f"<b>{_('Vendor:')}</b> {gpu.get('vendor', 'N/A')}\n<b>{_('Model:')}</b> {gpu.get('model', 'N/A')}\n<b>{_('Type:')}</b> {gpu.get('type', 'N/A')}")
-                gpu_label.set_line_wrap(True)
-                gpu_label.set_xalign(0)
-                gpu_box.pack_start(gpu_label, False, False, 0)
-                
-                # Recommended driver
-                if gpu.get('recommended_driver'):
-                    driver_label = Gtk.Label()
-                    driver_label.set_markup(f"<b>{_('Recommended driver:')}</b> {gpu['recommended_driver']}")
-                    driver_label.set_xalign(0)
-                    driver_label.get_style_context().add_class("suggested-action")
-                    gpu_box.pack_start(driver_label, False, False, 0)
-                    
-                    # Install button for recommended driver
-                    install_gpu_btn = Gtk.Button(label=f"{_('Install')} {gpu['recommended_driver']}")
-                    install_gpu_btn.get_style_context().add_class("suggested-action")
-                    install_gpu_btn.connect("clicked", self._on_install_recommended_driver, 
-                                           gpu['recommended_driver'], dialog)
-                    gpu_box.pack_start(install_gpu_btn, False, False, 5)
-                
-                gpu_frame.add(gpu_box)
-                main_box.pack_start(gpu_frame, False, False, 5)
-            
-            # Hybrid GPU Section
-            if results.get('hybrid_gpu', {}).get('is_hybrid'):
-                hybrid_frame = Gtk.Frame(label=f"🔀 {_('Hybrid Graphics Detected')}")
-                hybrid_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-                hybrid_box.set_margin_left(15)
-                hybrid_box.set_margin_right(15)
-                hybrid_box.set_margin_top(10)
-                hybrid_box.set_margin_bottom(10)
-                
-                hybrid = results['hybrid_gpu']
-                hybrid_label = Gtk.Label()
-                hybrid_label.set_markup(
-                    f"<b>{_('Integrated:')}</b> {hybrid.get('integrated', 'N/A')}\n"
-                    f"<b>{_('Dedicated:')}</b> {hybrid.get('dedicated', 'N/A')}"
+                lbl = Gtk.Label()
+                lbl.set_markup(
+                    f"<b>{_('Model:')}</b> {cpu.get('model', 'N/A')}\n"
+                    f"<b>{_('Cores:')}</b> {cpu.get('cores', 0)}  "
+                    f"<b>{_('Threads:')}</b> {cpu.get('threads', 0)}"
                 )
-                hybrid_label.set_xalign(0)
-                hybrid_box.pack_start(hybrid_label, False, False, 0)
-                
-                hybrid_info = Gtk.Label()
-                hybrid_info.set_markup(f"<i>{_('Configure how your GPUs work together:')}</i>")
-                hybrid_info.set_xalign(0)
-                hybrid_box.pack_start(hybrid_info, False, False, 5)
-                
-                # Buttons box
-                hybrid_btn_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-                
-                # PRIME Offload button
+                lbl.set_xalign(0)
+                lbl.set_line_wrap(True)
+                box.pack_start(lbl, False, False, 0)
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── RAM ──
+            if results.get('memory'):
+                frame, box = _make_frame(_('RAM Memory'))
+                mem = results['memory']
+                lbl = Gtk.Label()
+                lbl.set_markup(
+                    f"<b>{_('Total:')}</b> {mem.get('total', '?')}  "
+                    f"<b>{_('Available:')}</b> {mem.get('available', '?')}"
+                )
+                lbl.set_xalign(0)
+                box.pack_start(lbl, False, False, 0)
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── VM ──
+            vm = results.get('vm_detection', {})
+            if vm.get('is_vm'):
+                frame, box = _make_frame(_("Virtual Machine"))
+                lbl = Gtk.Label()
+                lbl.set_markup(f"<b>{_('Type:')}</b> {vm.get('type', '?')}")
+                lbl.set_xalign(0)
+                box.pack_start(lbl, False, False, 0)
+
+                required = vm.get('required_packages', [])
+                if required:
+                    pkgs_str = ' '.join(required)
+                    rec_lbl = Gtk.Label()
+                    rec_lbl.set_markup(f"<b>{_('Recommended tools:')}</b> {pkgs_str}")
+                    rec_lbl.set_xalign(0)
+                    box.pack_start(rec_lbl, False, False, 0)
+
+                    def _install_vm(b, p=pkgs_str):
+                        dialog.destroy()
+                        self._on_driver_clicked(b, p)
+
+                    def _uninstall_vm(b, p=pkgs_str):
+                        dialog.destroy()
+                        self._on_remove_driver_clicked(b, p)
+
+                    _driver_action_buttons(
+                        box,
+                        vm.get('driver_status', 'missing'),
+                        vm.get('missing_packages', []),
+                        pkgs_str,
+                        _install_vm,
+                        _uninstall_vm
+                    )
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── GPUs ──
+            for gpu in results.get('gpus', []):
+                title = f"{_('Graphics Card')} — {gpu.get('vendor', '?')} {gpu.get('model', '')}"
+                frame, box = _make_frame(title)
+
+                type_lbl = Gtk.Label()
+                type_lbl.set_markup(f"<b>{_('Type:')}</b> {gpu.get('type', '?')}")
+                type_lbl.set_xalign(0)
+                box.pack_start(type_lbl, False, False, 0)
+
+                rec = gpu.get('recommended_driver')
+                if rec:
+                    rec_lbl = Gtk.Label()
+                    rec_lbl.set_markup(f"<b>{_('Recommended driver:')}</b> {rec}")
+                    rec_lbl.set_xalign(0)
+                    box.pack_start(rec_lbl, False, False, 0)
+
+                    def _install_gpu(b, driver=rec):
+                        dialog.destroy()
+                        self._on_install_recommended_driver(b, driver, dialog)
+
+                    def _uninstall_gpu(b):
+                        dialog.destroy()
+                        self._on_uninstall_nvidia_clicked(b)
+
+                    _driver_action_buttons(
+                        box,
+                        gpu.get('driver_status', 'missing'),
+                        gpu.get('missing_packages', []),
+                        rec,
+                        _install_gpu,
+                        _uninstall_gpu if gpu.get('vendor') == 'NVIDIA' else None
+                    )
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── Hybrid Graphics ──
+            hybrid = results.get('hybrid_gpu', {})
+            if hybrid.get('is_hybrid'):
+                frame, box = _make_frame(_('Hybrid Graphics'))
+                lbl = Gtk.Label()
+                lbl.set_markup(
+                    f"<b>{_('Integrated:')}</b> {hybrid.get('integrated', '?')}\n"
+                    f"<b>{_('Dedicated:')}</b> {hybrid.get('dedicated', '?')}"
+                )
+                lbl.set_xalign(0)
+                box.pack_start(lbl, False, False, 0)
+
+                btn_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
                 offload_btn = Gtk.Button(label=_("PRIME Render Offload"))
                 offload_btn.set_tooltip_text(_("Use NVIDIA on demand (saves battery)"))
                 offload_btn.connect("clicked", self._on_hybrid_clicked, "offload")
                 offload_btn.connect("clicked", lambda x: dialog.destroy())
-                hybrid_btn_box.pack_start(offload_btn, True, True, 0)
-                
-                # NVIDIA Primary button
-                nvidia_btn = Gtk.Button(label=_("NVIDIA Primary"))
-                nvidia_btn.set_tooltip_text(_("Always use NVIDIA (max performance)"))
-                nvidia_btn.connect("clicked", self._on_hybrid_clicked, "nvidia")
-                nvidia_btn.connect("clicked", lambda x: dialog.destroy())
-                hybrid_btn_box.pack_start(nvidia_btn, True, True, 0)
-                
-                hybrid_box.pack_start(hybrid_btn_box, False, False, 5)
-                hybrid_frame.add(hybrid_box)
-                main_box.pack_start(hybrid_frame, False, False, 5)
-            
-            # Memory Section
-            if results.get('memory'):
-                mem_frame = Gtk.Frame(label=f"💾 {_('RAM Memory')}")
-                mem_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
-                mem_box.set_margin_left(15)
-                mem_box.set_margin_right(15)
-                mem_box.set_margin_top(10)
-                mem_box.set_margin_bottom(10)
-               
-                mem = results['memory']
-                mem_label = Gtk.Label()
-                mem_label.set_markup(f"<b>{_('Total:')}</b> {mem.get('total', '0 GB')} | <b>{_('Available:')}</b> {mem.get('available', '0 GB')}")
-                mem_label.set_xalign(0)
-                mem_box.pack_start(mem_label, False, False, 0)
-                
-                mem_frame.add(mem_box)
-                main_box.pack_start(mem_frame, False, False, 5)
-            
-            # VM Detection
-            if results.get('vm_detection', {}).get('is_vm'):
-                vm_frame = Gtk.Frame(label="🖥️ " + _("Virtual Machine"))
-                vm_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-                vm_box.set_margin_left(15)
-                vm_box.set_margin_right(15)
-                vm_box.set_margin_top(10)
-                vm_box.set_margin_bottom(10)
-                
-                vm = results['vm_detection']
-                vm_label = Gtk.Label()
-                vm_label.set_markup(f"<b>{_('Type:')}</b> {vm.get('type', _('N/A'))}")
-                vm_label.set_xalign(0)
-                vm_box.pack_start(vm_label, False, False, 0)
-                
-                if vm.get('recommended_tools'):
-                    tools_label = Gtk.Label()
-                    tools_label.set_markup(f"<b>{_('Recommended tools:')}</b> {vm['recommended_tools']}")
-                    tools_label.set_xalign(0)
-                    vm_box.pack_start(tools_label, False, False, 0)
-                    
-                    # Install button for VM tools
-                    install_vm_btn = Gtk.Button(label=f"{_('Install')} {vm['recommended_tools']}")
-                    install_vm_btn.get_style_context().add_class("suggested-action")
-                    install_vm_btn.connect("clicked", self._on_driver_clicked, vm['recommended_tools'])
-                    install_vm_btn.connect("clicked", lambda x: dialog.destroy())
-                    vm_box.pack_start(install_vm_btn, False, False, 5)
-                
-                vm_frame.add(vm_box)
-                main_box.pack_start(vm_frame, False, False, 5)
-            
-            # Storage
+                btn_box.pack_start(offload_btn, True, True, 0)
+
+                primary_btn = Gtk.Button(label=_("NVIDIA Primary"))
+                primary_btn.set_tooltip_text(_("Always use NVIDIA (max performance)"))
+                primary_btn.connect("clicked", self._on_hybrid_clicked, "nvidia")
+                primary_btn.connect("clicked", lambda x: dialog.destroy())
+                btn_box.pack_start(primary_btn, True, True, 0)
+
+                box.pack_start(btn_box, False, False, 4)
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── Wi-Fi ──
+            wifi_list = results.get('wifi', [])
+            if wifi_list:
+                frame, box = _make_frame(_('Wi-Fi'))
+                for adapter in wifi_list:
+                    sep_lbl = Gtk.Label()
+                    sep_lbl.set_markup(
+                        f"<b>{adapter.get('vendor', '?')}</b> — {adapter.get('model', '')}"
+                    )
+                    sep_lbl.set_xalign(0)
+                    sep_lbl.set_line_wrap(True)
+                    box.pack_start(sep_lbl, False, False, 0)
+
+                    pkg = adapter.get('firmware_package')
+                    if pkg:
+                        def _install_wifi(b, p=pkg):
+                            dialog.destroy()
+                            self._on_driver_clicked(b, p)
+
+                        def _uninstall_wifi(b, p=pkg):
+                            dialog.destroy()
+                            self._on_remove_driver_clicked(b, p)
+
+                        _driver_action_buttons(
+                            box,
+                            adapter.get('driver_status', 'missing'),
+                            adapter.get('missing_packages', []),
+                            pkg,
+                            _install_wifi,
+                            _uninstall_wifi
+                        )
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── Audio ──
+            audio_list = results.get('audio', [])
+            if audio_list:
+                frame, box = _make_frame(_('Audio'))
+                for device in audio_list:
+                    dev_lbl = Gtk.Label()
+                    dev_lbl.set_markup(f"• {device.get('model', '?')}")
+                    dev_lbl.set_xalign(0)
+                    dev_lbl.set_line_wrap(True)
+                    box.pack_start(dev_lbl, False, False, 0)
+
+                    pkgs = device.get('required_packages', [])
+                    if pkgs:
+                        pkgs_str = ' '.join(pkgs)
+
+                        def _install_audio(b, p=pkgs_str):
+                            dialog.destroy()
+                            self._on_driver_clicked(b, p)
+
+                        def _uninstall_audio(b, p=pkgs_str):
+                            dialog.destroy()
+                            self._on_remove_driver_clicked(b, p)
+
+                        _driver_action_buttons(
+                            box,
+                            device.get('driver_status', 'missing'),
+                            device.get('missing_packages', []),
+                            pkgs_str,
+                            _install_audio,
+                            _uninstall_audio
+                        )
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── Bluetooth ──
+            bt = results.get('bluetooth')
+            if bt:
+                frame, box = _make_frame(_('Bluetooth'))
+                bt_lbl = Gtk.Label()
+                bt_lbl.set_markup(f"• {bt.get('model', '?')}")
+                bt_lbl.set_xalign(0)
+                box.pack_start(bt_lbl, False, False, 0)
+
+                pkgs = bt.get('required_packages', [])
+                if pkgs:
+                    pkgs_str = ' '.join(pkgs)
+
+                    def _install_bt(b, p=pkgs_str):
+                        dialog.destroy()
+                        self._on_driver_clicked(b, p)
+
+                    def _uninstall_bt(b, p=pkgs_str):
+                        dialog.destroy()
+                        self._on_remove_driver_clicked(b, p)
+
+                    _driver_action_buttons(
+                        box,
+                        bt.get('driver_status', 'missing'),
+                        bt.get('missing_packages', []),
+                        pkgs_str,
+                        _install_bt,
+                        _uninstall_bt
+                    )
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── Printers ──
+            pr = results.get('printers')
+            if pr:
+                frame, box = _make_frame(_('Printers'))
+                pr_lbl = Gtk.Label()
+                pr_lbl.set_markup(f"• {pr.get('model', '?')}")
+                pr_lbl.set_xalign(0)
+                box.pack_start(pr_lbl, False, False, 0)
+
+                pkgs = pr.get('required_packages', [])
+                if pkgs:
+                    pkgs_str = ' '.join(pkgs)
+
+                    def _install_pr(b, p=pkgs_str):
+                        dialog.destroy()
+                        self._on_driver_clicked(b, p)
+
+                    def _uninstall_pr(b, p=pkgs_str):
+                        dialog.destroy()
+                        self._on_remove_driver_clicked(b, p)
+
+                    _driver_action_buttons(
+                        box,
+                        pr.get('driver_status', 'missing'),
+                        pr.get('missing_packages', []),
+                        pkgs_str,
+                        _install_pr,
+                        _uninstall_pr
+                    )
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── Storage ──
             if results.get('storage'):
-                storage_frame = Gtk.Frame(label=f"💿 {_('Storage')}")
-                storage_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
-                storage_box.set_margin_left(15)
-                storage_box.set_margin_right(15)
-                storage_box.set_margin_top(10)
-                storage_box.set_margin_bottom(10)
-                
+                frame, box = _make_frame(_('Storage'))
                 for device in results['storage']:
-                    dev_label = Gtk.Label()
-                    dev_label.set_markup(f"• <b>{device.get('name', 'N/A')}:</b> {device.get('size', 'N/A')}")
-                    dev_label.set_xalign(0)
-                    storage_box.pack_start(dev_label, False, False, 0)
-                
-                storage_frame.add(storage_box)
-                main_box.pack_start(storage_frame, False, False, 5)
-            
-            # Network
+                    lbl = Gtk.Label()
+                    lbl.set_markup(f"• <b>{device.get('name', '?')}:</b> {device.get('size', '?')}")
+                    lbl.set_xalign(0)
+                    box.pack_start(lbl, False, False, 0)
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── Network ──
             if results.get('network'):
-                net_frame = Gtk.Frame(label=f"🌐 {_('Network')}")
-                net_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
-                net_box.set_margin_left(15)
-                net_box.set_margin_right(15)
-                net_box.set_margin_top(10)
-                net_box.set_margin_bottom(10)
-                
+                frame, box = _make_frame(_('Network'))
                 for iface in results['network']:
-                    iface_label = Gtk.Label()
-                    iface_text = f"• <b>{iface.get('name', 'N/A')}:</b> {iface.get('type', 'N/A')}"
+                    text = f"• <b>{iface.get('name', '?')}:</b> {iface.get('type', '?')}"
                     if iface.get('status'):
-                        iface_text += f" - {iface['status']}"
-                    iface_label.set_markup(iface_text)
-                    iface_label.set_xalign(0)
-                    net_box.pack_start(iface_label, False, False, 0)
-                
-                net_frame.add(net_box)
-                main_box.pack_start(net_frame, False, False, 5)
-            
-            # Close button
+                        text += f" — {iface['status']}"
+                    lbl = Gtk.Label()
+                    lbl.set_markup(text)
+                    lbl.set_xalign(0)
+                    box.pack_start(lbl, False, False, 0)
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── Close button ──
             close_btn = Gtk.Button(label=_("Close"))
             close_btn.connect("clicked", lambda x: dialog.destroy())
-            dialog.get_action_area().pack_start(close_btn, False, False, 0)
-            
+            btn_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+            btn_row.set_halign(Gtk.Align.END)
+            btn_row.set_margin_top(8)
+            btn_row.set_margin_bottom(10)
+            btn_row.set_margin_end(10)
+            btn_row.pack_start(close_btn, False, False, 0)
+            dialog.get_content_area().pack_start(btn_row, False, False, 0)
+
             dialog.show_all()
-        
-        # Start scan
+
         scan_hardware(update_status, update_progress, show_results)
     
     def _on_install_recommended_driver(self, button, driver, dialog):
@@ -1031,15 +1433,16 @@ echo ""
 echo "=== NVIDIA drivers removed completely ==="
 echo "Restart the system before installing a new driver version."
 """
-        self._run_script_as_root(script, "uninstall-nvidia.sh")
+        self._run_script_as_root(script, "uninstall-nvidia.sh", self._refresh_driver_status)
 
     def _on_hybrid_clicked(self, button, mode):
         """Configure hybrid graphics."""
         if mode == "offload":
-            # PRIME Render Offload - Use NVIDIA on demand (works on Xorg and Wayland)
-            script = """#!/bin/bash
+            de = self.environment_detector.desktop_environment.value
+            script = f"""#!/bin/bash
 set -e
 
+DESKTOP_ENV="{de}"
 echo "Configuring PRIME Render Offload..."
 
 # Check if NVIDIA driver is installed
@@ -1093,6 +1496,57 @@ Terminal=false
 Type=Application
 NoDisplay=true
 DESKTOP
+
+# Generate kwinoutputconfig.json for KDE Plasma to fix wallpaper/icons loss on reboot
+if [ "$DESKTOP_ENV" = "kde" ]; then
+    echo "KDE Plasma detected - generating kwinoutputconfig.json..."
+
+    INTEL_CONNECTOR=$(ls /sys/class/drm/ | grep -E "^card[0-9]+-eDP" | head -1 | sed 's/card[0-9]*-//')
+    if [ -z "$INTEL_CONNECTOR" ]; then
+        INTEL_CONNECTOR=$(ls /sys/class/drm/ | grep -E "^card[0-9]+-LVDS" | head -1 | sed 's/card[0-9]*-//')
+    fi
+
+    if [ -n "$INTEL_CONNECTOR" ]; then
+        echo "Detected connector: $INTEL_CONNECTOR"
+        if [ -n "$SUDO_USER" ]; then
+            REAL_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
+        else
+            REAL_HOME="$HOME"
+        fi
+
+        KWIN_CONFIG_DIR="$REAL_HOME/.config/kdedefaults"
+        mkdir -p "$KWIN_CONFIG_DIR"
+
+        cat > "$KWIN_CONFIG_DIR/kwinoutputconfig.json" << EOF
+[
+    {{
+        "data": [{{"connectorName": "$INTEL_CONNECTOR"}}],
+        "name": "outputs"
+    }},
+    {{
+        "data": [
+            {{
+                "lidClosed": false,
+                "outputs": [
+                    {{
+                        "enabled": true,
+                        "outputIndex": 0,
+                        "position": {{"x": 0, "y": 0}},
+                        "priority": 0
+                    }}
+                ]
+            }}
+        ],
+        "name": "setups"
+    }}
+]
+EOF
+        chown -R "$SUDO_USER:$SUDO_USER" "$KWIN_CONFIG_DIR" 2>/dev/null
+        echo "kwinoutputconfig.json created for user $SUDO_USER."
+    else
+        echo "No eDP/LVDS connector detected, skipping kwinoutputconfig.json."
+    fi
+fi
 
 echo ""
 echo "=== Configuration complete ==="
@@ -1197,9 +1651,17 @@ Section "OutputClass"
 EndSection
 XORGCONF
 
-# Regenerate initramfs
-echo "Regenerating initramfs..."
-dracut --force 2>/dev/null || update-initramfs -u 2>/dev/null || true
+# Ensure NVIDIA modules are included in initramfs
+if command -v dracut >/dev/null 2>&1; then
+    mkdir -p /etc/dracut.conf.d
+    echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
+    echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
+    echo "Regenerating initramfs with NVIDIA modules..."
+    dracut --force
+elif command -v update-initramfs >/dev/null 2>&1; then
+    echo "Regenerating initramfs..."
+    update-initramfs -u
+fi
 
 echo ""
 echo "=== Configuration complete ==="

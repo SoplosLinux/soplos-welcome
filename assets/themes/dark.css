@@ -42,7 +42,7 @@ messagedialog>box {
 }
 
 .dialog-action-area {
-    background-color: @soplos_darker_bg;
+    background-color: @soplos_dark_bg;
     border-top: 1px solid @soplos_border;
 }
 

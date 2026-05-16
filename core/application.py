@@ -262,8 +262,7 @@ class SoplosWelcomeApplication(Gtk.Application):
     
     def _on_preferences(self, action, parameter):
         """Handle preferences action."""
-        # TODO: Implement preferences dialog
-        print("Preferences dialog not yet implemented")
+        pass
     
     def _on_about(self, action, parameter):
         """Handle about action."""

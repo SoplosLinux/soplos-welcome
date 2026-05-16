@@ -71,13 +71,26 @@ class GamingTab(Gtk.Box):
         
         # 1. Optimizations Section
         self._create_section(content_box, _("Optimizations"), [
-            (_("GameMode"), _("Install Feral GameMode"), "gaming/gamemode.png"),
-            (_("Performance Mode"), _("Install CPU performance script"), "gaming/performance.png"),
-            (_("Gaming Sysctl"), _("Apply kernel gaming tweaks"), "preferences-system"),
-            (_("Optimize GPU"), _("Configure GPU drivers for gaming"), "display"),
-            (_("Disk I/O"), _("Optimize disk schedulers"), "drive-harddisk"),
-            (_("MangoHud"), _("Install FPS overlay + Goverlay"), "utilities-system-monitor"),
-            (_("Revert All"), _("Undo all gaming optimizations"), "edit-undo")
+            (_("GameMode"), _("Install Feral GameMode"), "gaming/gamemode.png",
+             _("Feral GameMode automatically sets CPU governor to performance, raises game process priority and notifies the kernel while a game is running.\n\nUsage: add 'gamemoderun %command%' to Steam launch options or enable it in Lutris.")),
+            (_("Performance Mode"), _("Install CPU performance script"), "gaming/performance.png",
+             _("Installs the soplos-game-performance script to /usr/local/bin. When used as a game prefix, it switches the CPU to performance mode while the game runs and restores it on exit.\n\nUsage: add 'soplos-game-performance %command%' to Steam launch options.")),
+            (_("Gaming Sysctl"), _("Apply kernel gaming tweaks"), "preferences-system",
+             _("Applies kernel parameter tweaks optimised for gaming:\n• vm.max_map_count = 2147483642 (required for Proton/Steam)\n• vm.swappiness = 10 (prefer RAM over swap)\n• Reduced system latency\n\nClick again to revert all tweaks.")),
+            (_("Optimize GPU"), _("Configure GPU drivers for gaming"), "display",
+             _("Detects your GPU (NVIDIA / AMD / Intel) and applies driver-specific performance tweaks.\n\nFor hybrid laptops it configures PRIME correctly. For NVIDIA it adjusts driver power settings. For AMD/Intel it tunes Mesa/DRI parameters.")),
+            (_("Disk I/O"), _("Optimize disk schedulers"), "drive-harddisk",
+             _("Installs udev rules that assign the best I/O scheduler per disk type:\n• HDD → BFQ (lowest latency)\n• SSD → mq-deadline\n• NVMe → none (maximum throughput)\n\nClick again to remove the rules.")),
+            (_("MangoHud"), _("Install FPS overlay + Goverlay"), "utilities-system-monitor",
+             _("Installs via Flatpak:\n• MangoHud — in-game overlay for FPS, CPU/GPU temp and load\n• GOverlay — graphical configuration tool for MangoHud\n• VulkanInfo, gamescope, DXVK, vkBasalt\n\nUsage: add 'mangohud %command%' to Steam launch options.")),
+            (_("CPU Power"), _("Install CPU Power GUI"), "gaming/cpupower.png",
+             _("Installs linux-cpupower and cpupower-gui to control the CPU frequency governor.\n\nAllows switching between powersave, performance and other governors from a graphical interface.")),
+            (_("RyzenAdj"), _("AMD thermal fix for Mini PCs"), "gaming/ryzenadj.png",
+             _("Fixes overheating on AMD Ryzen Mini PCs (GenMachine, Beelink, Minisforum, CWWK) with proprietary EC firmware.\n\nThe EC controller is invisible to Linux and triggers PROCHOT at ~100°C, cutting the fan and USB ports.\n\nRyzenAdj bypasses the EC and limits TDP/temperature via the CPU SMU:\n• Max temperature: 85°C\n• Power limit: 35W sustained/fast/slow\n\nInstalls as a systemd service that applies limits on every boot.\n\nRecommended for: Ryzen 6000H/7000H Mini PCs with fan issues under Linux.")),
+            (_("Lutris Vulkan Fix"), _("Fix Lutris GPU detection"), "gaming/lutris.png",
+             _("Patches Lutris Flatpak to use the correct vulkaninfo path inside the container.\n\nRequired if Lutris fails to detect your GPU or shows graphics errors.\n\nIMPORTANT: Launch Lutris at least once before applying this fix.")),
+            (_("Revert All"), _("Undo all gaming optimizations"), "edit-undo",
+             _("Removes all optimizations applied from this tab:\n• Uninstalls GameMode and the performance script\n• Reverts Gaming Sysctl kernel tweaks\n• Removes GPU tweaks\n• Removes Disk I/O scheduler rules"))
         ])
         
         # 2. Launchers Section (dynamic from config)
@@ -119,8 +132,10 @@ class GamingTab(Gtk.Box):
         # Add items
         col = 0
         row = 0
-        for name, desc, icon_name in items:
-            button = self._create_item_button(name, desc, icon_name)
+        for item in items:
+            name, desc, icon_name = item[0], item[1], item[2]
+            tooltip = item[3] if len(item) > 3 else None
+            button = self._create_item_button(name, desc, icon_name, tooltip)
             grid.attach(button, col, row, 1, 1)
             
             col += 1
@@ -128,11 +143,13 @@ class GamingTab(Gtk.Box):
                 col = 0
                 row += 1
                 
-    def _create_item_button(self, name, desc, icon_name):
+    def _create_item_button(self, name, desc, icon_name, tooltip=None):
         """Create a button for an item."""
         button = Gtk.Button()
         button.set_relief(Gtk.ReliefStyle.NONE)
         button.get_style_context().add_class("flat")
+        if tooltip:
+            button.set_tooltip_text(tooltip)
         
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         hbox.set_margin_top(10)
@@ -201,6 +218,9 @@ class GamingTab(Gtk.Box):
             _("Optimize GPU"): "Optimize GPU",
             _("Disk I/O"): "Disk I/O",
             _("MangoHud"): "MangoHud",
+            _("CPU Power"): "CPU Power",
+            _("RyzenAdj"): "RyzenAdj",
+            _("Lutris Vulkan Fix"): "Lutris Vulkan Fix",
             _("Gaming Wallpapers"): "Gaming Wallpapers",
             _("RGB Theme"): "RGB Theme",
             _("Revert All"): "Revert All"
@@ -222,6 +242,12 @@ class GamingTab(Gtk.Box):
             self._optimize_disk_io()
         elif english_name == "MangoHud":
             self._install_mangohud()
+        elif english_name == "CPU Power":
+            self._install_cpu_power()
+        elif english_name == "RyzenAdj":
+            self._install_ryzenadj()
+        elif english_name == "Lutris Vulkan Fix":
+            self._apply_lutris_vulkan_fix()
         elif english_name == "Gaming Wallpapers":
             self._install_gaming_wallpapers()
         elif english_name == "RGB Theme":
@@ -229,20 +255,274 @@ class GamingTab(Gtk.Box):
         elif english_name == "Revert All":
             self._revert_all_optimizations()
         else:
-            # Placeholder for other launchers
-            dialog = Gtk.MessageDialog(
-                transient_for=self.parent_window,
-                flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.OK,
-                text=_(f"Gaming Feature: {name}")
-            )
-            dialog.format_secondary_text(_("This feature is coming soon!"))
-            dialog.run()
-            dialog.destroy()
+            print(f"Unknown gaming feature: {name}")
     
     # === OPTIMIZATION IMPLEMENTATIONS ===
     
+    def _install_cpu_power(self):
+        """Install or remove CPU Power tools."""
+        import subprocess
+        import os
+
+        is_installed = subprocess.run(
+            ["dpkg-query", "-W", "-f=${Status}", "cpupower-gui"],
+            capture_output=True, text=True
+        ).stdout.strip() == "install ok installed"
+
+        if is_installed:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Uninstall CPU Power?")
+            )
+            dialog.format_secondary_text(_("This will remove linux-cpupower and cpupower-gui.\n\nContinue?"))
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+            script = "apt remove -y linux-cpupower cpupower-gui"
+        else:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Install CPU Power?")
+            )
+            dialog.format_secondary_text(
+                _("Installs linux-cpupower and cpupower-gui to control the CPU frequency governor.\n\nContinue?")
+            )
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+            script = "apt install -y linux-cpupower cpupower-gui"
+
+        import tempfile
+        try:
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                tf.write("#!/bin/bash\nset -e\n" + script + "\n")
+                script_path = tf.name
+            os.chmod(script_path, 0o755)
+
+            def on_complete():
+                try:
+                    os.unlink(script_path)
+                except:
+                    pass
+                msg = _("CPU Power uninstalled successfully!") if is_installed else _("CPU Power installed successfully!")
+                d = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=msg
+                )
+                d.run()
+                d.destroy()
+
+            self.command_runner.run_command(f"pkexec bash {script_path}", on_complete)
+
+        except Exception as e:
+            d = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text=_("Operation failed")
+            )
+            d.format_secondary_text(str(e))
+            d.run()
+            d.destroy()
+
+    def _apply_lutris_vulkan_fix(self):
+        """Apply Lutris Flatpak vulkaninfo path patch."""
+        import subprocess
+        import os
+
+        app_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        patch_script = os.path.join(app_root, 'services', 'lutris-vulkan-patch.sh')
+
+        gpu_py = subprocess.run(
+            ['find', os.path.expanduser('~/.local/share/flatpak/app/net.lutris.Lutris'), '-name', 'gpu.py'],
+            capture_output=True, text=True
+        ).stdout.strip()
+
+        if not gpu_py:
+            d = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text=_("Lutris not found")
+            )
+            d.format_secondary_text(_("Launch Lutris at least once before applying this fix."))
+            d.run()
+            d.destroy()
+            return
+
+        import tempfile
+        try:
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                tf.write(f"#!/bin/bash\nbash '{patch_script}'\n")
+                script_path = tf.name
+            os.chmod(script_path, 0o755)
+
+            def on_complete():
+                try:
+                    os.unlink(script_path)
+                except:
+                    pass
+                d = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=_("Lutris Vulkan fix applied successfully!")
+                )
+                d.run()
+                d.destroy()
+
+            self.command_runner.run_command(f"bash {script_path}", on_complete)
+
+        except Exception as e:
+            d = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text=_("Operation failed")
+            )
+            d.format_secondary_text(str(e))
+            d.run()
+            d.destroy()
+
+    def _install_ryzenadj(self):
+        """Install or remove RyzenAdj thermal fix for AMD Mini PCs."""
+        import subprocess
+        import os
+        import tempfile
+
+        is_installed = (
+            os.path.exists("/usr/local/bin/ryzenadj") or
+            os.path.exists("/etc/systemd/system/ryzenadj.service")
+        )
+
+        if is_installed:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Uninstall RyzenAdj?")
+            )
+            dialog.format_secondary_text(
+                _("This will stop and remove the RyzenAdj service and binary.\n\nContinue?")
+            )
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+
+            script = """#!/bin/bash
+set -e
+systemctl stop ryzenadj || true
+systemctl disable ryzenadj || true
+rm -f /etc/systemd/system/ryzenadj.service
+systemctl daemon-reload
+rm -f /usr/local/bin/ryzenadj
+rm -f /usr/local/lib/libryzenadj.so
+ldconfig
+echo "RyzenAdj removed."
+"""
+            success_msg = _("RyzenAdj uninstalled successfully!")
+        else:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Install RyzenAdj?")
+            )
+            dialog.format_secondary_text(
+                _("Compiles and installs RyzenAdj to fix AMD Mini PC overheating.\n\nRequires: cmake, libpci-dev, git (will be installed automatically).\n\nApplies on every boot via systemd:\n• Max temperature: 85°C\n• Power limit: 35W\n\nContinue?")
+            )
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+
+            script = """#!/bin/bash
+set -e
+apt install -y cmake libpci-dev git
+rm -rf /tmp/ryzenadj-src
+git clone https://github.com/FlyGoat/RyzenAdj.git /tmp/ryzenadj-src
+cd /tmp/ryzenadj-src
+mkdir build && cd build
+cmake ..
+make
+cp ryzenadj /usr/local/bin/ryzenadj
+find /tmp/ryzenadj-src/build -name "libryzenadj.so" -exec cp {} /usr/local/lib/libryzenadj.so \\;
+ldconfig
+tee /etc/systemd/system/ryzenadj.service > /dev/null << 'EOF'
+[Unit]
+Description=RyzenAdj thermal limits for AMD Mini PCs
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/local/bin/ryzenadj --tctl-temp=85 --stapm-limit=35000 --fast-limit=35000 --slow-limit=35000
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl enable --now ryzenadj
+rm -rf /tmp/ryzenadj-src
+test -f /usr/local/bin/ryzenadj || { echo "ERROR: ryzenadj binary not found"; exit 1; }
+test -f /usr/local/lib/libryzenadj.so || { echo "ERROR: libryzenadj.so not found"; exit 1; }
+test -f /etc/systemd/system/ryzenadj.service || { echo "ERROR: ryzenadj.service not found"; exit 1; }
+echo "RyzenAdj installed."
+"""
+            success_msg = _("RyzenAdj installed successfully!\n\nThe service is active and will apply thermal limits on every boot.")
+
+        try:
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
+                tf.write(script)
+                script_path = tf.name
+            os.chmod(script_path, 0o755)
+
+            def on_complete():
+                try:
+                    os.unlink(script_path)
+                except:
+                    pass
+                d = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=success_msg
+                )
+                d.run()
+                d.destroy()
+
+            self.command_runner.run_command(f"pkexec bash {script_path}", on_complete)
+
+        except Exception as e:
+            d = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text=_("Operation failed")
+            )
+            d.format_secondary_text(str(e))
+            d.run()
+            d.destroy()
+
     def _install_gamemode(self):
         """Install GameMode."""
         import subprocess
@@ -746,20 +1026,20 @@ echo "Sysctl tweaks applied successfully!"
         # Confirm with user
         optimizations_text = {
             'nvidia': (
-                "• Shader disk cache enabled\\n"
-                "• Threaded optimization enabled\\n"
-                "• VSync disabled (lower input lag)\\n"
-                "• NVAPI enabled for Proton"
+                _("• Shader disk cache enabled") + "\n" +
+                _("• Threaded optimization enabled") + "\n" +
+                _("• VSync disabled (lower input lag)") + "\n" +
+                _("• NVAPI enabled for Proton")
             ),
             'amd': (
-                "• GPL shader pipeline enabled\\n"
-                "• RADV driver forced\\n"
-                "• OpenGL threading enabled\\n"
-                "• Radeonsi driver optimization"
+                _("• GPL shader pipeline enabled") + "\n" +
+                _("• RADV driver forced") + "\n" +
+                _("• OpenGL threading enabled") + "\n" +
+                _("• Radeonsi driver optimization")
             ),
             'intel': (
-                "• OpenGL threading enabled\\n"
-                "• Iris driver optimization (Gen9+)"
+                _("• OpenGL threading enabled") + "\n" +
+                _("• Iris driver optimization (Gen9+)")
             )
         }
         
@@ -768,7 +1048,7 @@ echo "Sysctl tweaks applied successfully!"
             flags=0,
             message_type=Gtk.MessageType.QUESTION,
             buttons=Gtk.ButtonsType.YES_NO,
-            text=_(f"Optimize {gpu_vendor.upper()} GPU for Gaming?")
+            text=_("Optimize {} GPU for Gaming?").format(gpu_vendor.upper())
         )
         dialog.format_secondary_text(
             _("Detected GPU:") + f" {gpu_model}\n\n" +
@@ -829,33 +1109,33 @@ chmod +x '{prime_run_dest}'
                 if is_hybrid and has_nvidia:
                     # Hybrid graphics message
                     integrated_gpu = next((m for v, m in gpus if v in ['intel', 'amd']), "Unknown")
-                    
+
                     success_msg = (
-                        f"✅ Hybrid Graphics Optimized!\n\n"
-                        f"GPU Dedicada: {gpu_model}\n"
-                        f"GPU Integrada: {integrated_gpu}\n\n"
+                        _("Hybrid Graphics Optimized!") + "\n\n" +
+                        _("Dedicated GPU:") + f" {gpu_model}\n" +
+                        _("Integrated GPU:") + f" {integrated_gpu}\n\n"
                     )
-                    
+
                     if prime_run_installed:
                         success_msg += (
-                            f"✅ prime-run script installed to /usr/local/bin/prime-run\n\n"
-                            f"Usage for hybrid graphics:\n"
-                            f"• Steam: Add 'prime-run %command%' to game launch options\n"
-                            f"• Lutris: Add 'prime-run' as a prefix\n"
-                            f"• Terminal: prime-run <application>\n\n"
-                            f"This forces games to use your NVIDIA GPU.\n\n"
+                            _("prime-run script installed to /usr/local/bin/prime-run") + "\n\n" +
+                            _("Usage for hybrid graphics:") + "\n" +
+                            _("• Steam: Add 'prime-run %command%' to game launch options") + "\n" +
+                            _("• Lutris: Add 'prime-run' as a prefix") + "\n" +
+                            _("• Terminal: prime-run <application>") + "\n\n" +
+                            _("This forces games to use your NVIDIA GPU.") + "\n\n"
                         )
-                    
+
                     success_msg += (
-                        f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\n\n"
-                        f"Configuration saved to: {dest_file}"
+                        _("IMPORTANT: You must log out and log back in for changes to take effect.") + "\n\n" +
+                        _("Configuration saved to:") + f" {dest_file}"
                     )
                 else:
                     # Single GPU message
                     success_msg = (
-                        f"Gaming optimizations applied for {gpu_model}.\n\n"
-                        f"⚠️  IMPORTANT: You must LOG OUT and log back in for changes to take effect.\n\n"
-                        f"Configuration saved to:\n{dest_file}"
+                        _("Gaming optimizations applied for {}.").format(gpu_model) + "\n\n" +
+                        _("IMPORTANT: You must log out and log back in for changes to take effect.") + "\n\n" +
+                        _("Configuration saved to:") + f"\n{dest_file}"
                     )
                 
                 # Show success
@@ -864,7 +1144,7 @@ chmod +x '{prime_run_dest}'
                     flags=0,
                     message_type=Gtk.MessageType.INFO,
                     buttons=Gtk.ButtonsType.OK,
-                    text=_(f"{gpu_vendor.upper()} GPU Optimized!")
+                    text=_("{} GPU Optimized!").format(gpu_vendor.upper())
                 )
                 success_dialog.format_secondary_text(success_msg)
                 success_dialog.run()
@@ -1055,11 +1335,19 @@ echo "Disk I/O optimized successfully!"
                 error_dialog.destroy()
     
     def _install_mangohud(self):
-        """Install MangoHud + Goverlay."""
-        import subprocess
+        """Install MangoHud and gaming overlay tools via Flatpak."""
         import tempfile
         import os
-        
+
+        FLATPAK_PACKAGES = [
+            'io.github.benjamimgois.goverlay//stable',
+            'org.freedesktop.Platform.VulkanLayer.MangoHud//25.08',
+            'org.freedesktop.Platform.VulkanInfo//25.08',
+            'org.freedesktop.Platform.VulkanLayer.gamescope//25.08',
+            'org.winehq.Wine.DLLs.dxvk//stable-23.08',
+            'org.freedesktop.Platform.VulkanLayer.vkBasalt//25.08',
+        ]
+
         dialog = Gtk.MessageDialog(
             transient_for=self.parent_window,
             flags=0,
@@ -1071,40 +1359,40 @@ echo "Disk I/O optimized successfully!"
             _("MangoHud is a Vulkan/OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more.") + "\n\n" +
             _("Packages to install:") + "\n"
             "- mangohud\n"
-            "- goverlay\n\n" +
+            "- goverlay\n"
+            "- vulkaninfo\n"
+            "- dxvk\n"
+            "- gamescope\n"
+            "- vkbasalt\n\n" +
             _("Continue?")
         )
-        
+
         response = dialog.run()
         dialog.destroy()
-        
+
         if response != Gtk.ResponseType.YES:
             return
-        
+
         try:
-            # Create temporary script
-            script_content = """#!/bin/bash
+            packages_str = ' '.join(FLATPAK_PACKAGES)
+            script_content = f"""#!/bin/bash
 set -e
-echo "Installing MangoHud and dependencies..."
-/usr/bin/apt update
-/usr/bin/apt install -y mangohud goverlay
-echo "MangoHud + Goverlay installed successfully!"
+echo "Installing MangoHud and gaming overlay tools via Flatpak..."
+flatpak install -y flathub {packages_str}
+echo "MangoHud + tools installed successfully!"
 """
-            
             with tempfile.NamedTemporaryFile(mode='w', suffix='.sh', delete=False) as tf:
                 tf.write(script_content)
                 temp_script = tf.name
-            
+
             os.chmod(temp_script, 0o755)
-            
-            # Success callback
+
             def on_complete():
-                # Clean up
                 try:
                     os.unlink(temp_script)
                 except:
                     pass
-                
+
                 success_dialog = Gtk.MessageDialog(
                     transient_for=self.parent_window,
                     flags=0,
@@ -1120,10 +1408,9 @@ echo "MangoHud + Goverlay installed successfully!"
                 )
                 success_dialog.run()
                 success_dialog.destroy()
-            
-            # Run with CommandRunner
+
             self.command_runner.run_command(
-                f"pkexec bash {temp_script}",
+                f"bash {temp_script}",
                 on_complete
             )
             
@@ -1299,7 +1586,7 @@ echo "MangoHud + Goverlay installed successfully!"
         else:
             # Default to backgrounds for unknown DEs
             dest_dir = "/usr/share/backgrounds/soplos"
-            de_name = "your desktop environment"
+            de_name = _("your desktop environment")
         
         # Confirmation dialog
         dialog = Gtk.MessageDialog(
@@ -1448,8 +1735,8 @@ done
                 text=_("Installation failed")
             )
             error_dialog.format_secondary_text(
-                f"Failed to install wallpapers: {str(e)}\n\n"
-                "Please check your internet connection and try again."
+                _("Failed to install wallpapers: {}").format(str(e)) + "\n\n" +
+                _("Please check your internet connection and try again.")
             )
             error_dialog.run()
             error_dialog.destroy()
@@ -1647,9 +1934,29 @@ done
                 'icon': 'protonup.png',
                 'description': _('Install and manage GE-Proton, Wine-GE and more for Steam and Lutris'),
                 'official': False
+            },
+            {
+                'name': 'PPSSPP',
+                'package': None,
+                'flatpak': 'org.ppsspp.PPSSPP',
+                'icon': 'ppsspp.png',
+                'description': _('PSP emulator with high-quality rendering'),
+                'official': False,
+                'post_install_script': 'ppsspp-lutris-runner.sh'
+            },
+            {
+                'name': 'GeForce NOW',
+                'package': None,
+                'flatpak': None,
+                'icon': 'geforcenow.png',
+                'description': _('NVIDIA cloud gaming — stream games from the cloud'),
+                'official': False,
+                'webapp_url': 'https://play.geforcenow.com/',
+                'webapp_id': 'geforcenow-play',
+                'webapp_icon': os.path.join(ICONS_DIR, 'gaming', 'geforcenow.png'),
             }
         ]
-        
+
         # Section Frame
         section_frame = Gtk.Frame()
         section_frame.set_label_align(0.02, 0.5)
@@ -1724,13 +2031,23 @@ done
         name_label.set_halign(Gtk.Align.START)
         name_box.pack_start(name_label, False, False, 0)
         
-        # Add Flatpak badge ONLY when using flatpak (same style as recommended tab)
+        # Install method badge
         install_method = self._get_install_method(launcher)
         if install_method == 'flatpak':
-            flatpak_badge = Gtk.Label()
-            flatpak_badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> {_("Flatpak")} </span>')
-            flatpak_badge.set_valign(Gtk.Align.CENTER)
-            name_box.pack_start(flatpak_badge, False, False, 0)
+            badge = Gtk.Label()
+            badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> {_("Flatpak")} </span>')
+            badge.set_valign(Gtk.Align.CENTER)
+            name_box.pack_start(badge, False, False, 0)
+        elif install_method == 'custom' or launcher.get('check_path'):
+            badge = Gtk.Label()
+            badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> AppImage </span>')
+            badge.set_valign(Gtk.Align.CENTER)
+            name_box.pack_start(badge, False, False, 0)
+        elif install_method == 'webapp':
+            badge = Gtk.Label()
+            badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> WebApp </span>')
+            badge.set_valign(Gtk.Align.CENTER)
+            name_box.pack_start(badge, False, False, 0)
         
         # Official badge
         if launcher.get('official', False):
@@ -1759,12 +2076,12 @@ done
         button_box.set_valign(Gtk.Align.CENTER)
         
         if self._is_launcher_installed(launcher):
-            button = Gtk.Button.new_with_label("Desinstalar")
+            button = Gtk.Button.new_with_label(_("Uninstall"))
             button.get_style_context().add_class('destructive-action')
             button.set_size_request(110, -1)
             button.connect('clicked', self._on_uninstall_launcher, launcher)
         else:
-            button = Gtk.Button.new_with_label("Instalar")
+            button = Gtk.Button.new_with_label(_("Install"))
             button.get_style_context().add_class('suggested-action')
             button.set_size_request(110, -1)
             button.connect('clicked', self._on_install_launcher, launcher)
@@ -1796,8 +2113,72 @@ done
         
         return None
     
+    def _build_webapp_install_command(self, launcher):
+        """Build bash command to create a Soplos WebApp Manager .desktop entry."""
+        wid = launcher['webapp_id']
+        url = launcher['webapp_url']
+        name = launcher['name']
+        icon = launcher.get('webapp_icon', '')
+        profile = f"$HOME/.local/share/soplos-webapps/{wid}"
+
+        return f"""
+mkdir -p "{profile}"
+mkdir -p "$HOME/.local/share/applications"
+
+# Detect browser
+BROWSER_CMD=""
+EXEC_LINE=""
+STARTUP_CLASS="soplos-webapp-{wid}"
+
+for b in chromium chromium-browser brave-browser google-chrome vivaldi; do
+    if command -v "$b" &>/dev/null; then
+        BROWSER_CMD="$b"
+        break
+    fi
+done
+
+if [ -n "$BROWSER_CMD" ]; then
+    EXEC_LINE="env CHROME_DESKTOP=soplos-webapp-{wid}.desktop $BROWSER_CMD --ozone-platform-hint=auto --wayland-app-id=soplos-webapp-{wid} --class=soplos-webapp-{wid} --name=soplos-webapp-{wid} --wm-class=soplos-webapp-{wid} --user-data-dir={profile} --app={url}"
+    STARTUP_CLASS="chrome-$(echo '{url}' | sed 's|https\\?://||;s|/.*||')__-Default"
+elif flatpak info org.chromium.Chromium &>/dev/null; then
+    EXEC_LINE="env CHROME_DESKTOP=soplos-webapp-{wid}.desktop flatpak run org.chromium.Chromium --ozone-platform-hint=auto --wayland-app-id=soplos-webapp-{wid} --class=soplos-webapp-{wid} --name=soplos-webapp-{wid} --wm-class=soplos-webapp-{wid} --user-data-dir={profile} --app={url}"
+    STARTUP_CLASS="chrome-$(echo '{url}' | sed 's|https\\?://||;s|/.*||')__-Default"
+elif command -v firefox &>/dev/null; then
+    EXEC_LINE="env MOZ_APP_REMOTINGNAME=soplos-webapp-{wid} firefox -no-remote -new-instance -profile {profile} -class soplos-webapp-{wid} -name soplos-webapp-{wid} {url}"
+elif flatpak info org.mozilla.firefox &>/dev/null; then
+    EXEC_LINE="env MOZ_APP_REMOTINGNAME=soplos-webapp-{wid} flatpak run org.mozilla.firefox -no-remote -new-instance -profile {profile} -class soplos-webapp-{wid} -name soplos-webapp-{wid} {url}"
+else
+    EXEC_LINE="xdg-open {url}"
+fi
+
+cat > "$HOME/.local/share/applications/soplos-webapp-{wid}.desktop" << DESKTOP
+[Desktop Entry]
+Version=1.0
+Name={name}
+Comment=Soplos WebApp for {name}
+Exec=$EXEC_LINE
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon={icon}
+Categories=Game;
+StartupWMClass=$STARTUP_CLASS
+StartupNotify=true
+X-Soplos-Navbar=false
+X-Soplos-ExtraParams=
+X-Soplos-Incognito=false
+DESKTOP
+
+update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
+echo "WebApp {name} created."
+"""
+
     def _get_install_method(self, launcher):
         """Get preferred install method for launcher."""
+        # WebApp (Soplos WebApp Manager)
+        if launcher.get('webapp_url'):
+            return 'webapp'
+
         # Custom install commands (AppImages)
         if launcher.get('install_commands'):
             return 'custom'
@@ -1831,6 +2212,15 @@ done
         if name in self.launcher_status_cache:
             return self.launcher_status_cache[name]
         
+        # WebApp: check for soplos-webapp .desktop file
+        if launcher.get('webapp_url') and launcher.get('webapp_id'):
+            desktop = os.path.expanduser(
+                f"~/.local/share/applications/soplos-webapp-{launcher['webapp_id']}.desktop"
+            )
+            is_installed = os.path.exists(desktop)
+            self.launcher_status_cache[name] = is_installed
+            return is_installed
+
         # Check by file path (for AppImages)
         if launcher.get('check_path'):
             check_path = os.path.expanduser(launcher['check_path'])
@@ -1867,7 +2257,10 @@ done
         command = ""
         script_name = ""
         
-        if method == 'apt' and launcher.get('package'):
+        if method == 'webapp' and launcher.get('webapp_url') and launcher.get('webapp_id'):
+            command = self._build_webapp_install_command(launcher)
+            script_name = f"install-webapp-{launcher['webapp_id']}.sh"
+        elif method == 'apt' and launcher.get('package'):
             command = f"pkexec apt install -y {launcher['package']}"
             script_name = f"install-{launcher['package']}.sh"
         elif method == 'deb_url' and launcher.get('deb_url'):
@@ -1898,10 +2291,18 @@ done
         command = ""
         script_name = ""
         
-        if method == 'apt' and launcher.get('package'):
+        if method == 'webapp' and launcher.get('webapp_id'):
+            wid = launcher['webapp_id']
+            command = (
+                f"rm -f ~/.local/share/applications/soplos-webapp-{wid}.desktop && "
+                f"rm -rf ~/.local/share/soplos-webapps/{wid} && "
+                f"update-desktop-database ~/.local/share/applications 2>/dev/null || true"
+            )
+            script_name = f"uninstall-webapp-{wid}.sh"
+        elif method == 'apt' and launcher.get('package'):
             command = f"pkexec apt remove -y {launcher['package']}"
             script_name = f"uninstall-{launcher['package']}.sh"
-            
+
         elif method == 'deb_url' and launcher.get('package'):
             command = f"pkexec apt remove -y {launcher['package']}"
             script_name = f"uninstall-{launcher['package']}.sh"
@@ -1921,14 +2322,19 @@ done
         """Create and run installation script."""
         script_path = f"/tmp/{script_name}"
         try:
+            app_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             with open(script_path, "w") as f:
                 f.write("#!/bin/bash\n")
                 f.write(command + "\n")
+                if is_install and launcher.get('post_install_script'):
+                    patch = os.path.join(app_root, 'services', launcher['post_install_script'])
+                    if os.path.exists(patch):
+                        f.write(f"\nbash '{patch}'\n")
                 f.write(f"echo '{_('Operation completed successfully')}'\n")
             os.chmod(script_path, 0o755)
-            
-            # Do not use pkexec for AppImages (custom install/uninstall), install in user home
-            if launcher.get('install_commands') or launcher.get('uninstall_commands'):
+
+            # WebApps and AppImages run as user (no pkexec)
+            if launcher.get('webapp_url') or launcher.get('install_commands') or launcher.get('uninstall_commands'):
                 final_command = f"bash {script_path}"
             else:
                 final_command = script_path
@@ -1946,17 +2352,31 @@ done
         self.launcher_status_cache.clear()
         self._populate_launchers_grid()
 
-    def _on_launcher_operation_complete(self, launcher):
+    def _on_launcher_operation_complete(self, launcher, is_install=True):
         """Handle launcher operation completion."""
         # Clear cache for this specific launcher
         if launcher['name'] in self.launcher_status_cache:
             del self.launcher_status_cache[launcher['name']]
-        
+
         print(f"Operación completada para {launcher['name']}. Actualizando UI...")
-        
+
+        if is_install and launcher.get('post_install_script'):
+            app_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            script_path = os.path.join(app_root, 'services', launcher['post_install_script'])
+            if os.path.exists(script_path):
+                self.command_runner.run_command(
+                    f"bash '{script_path}'",
+                    lambda: self._finish_launcher_complete(launcher)
+                )
+                return
+
+        self._finish_launcher_complete(launcher)
+
+    def _finish_launcher_complete(self, launcher):
+        """Finalize launcher completion: refresh UI and sync tabs."""
         # Schedule grid refresh on main thread
         GLib.idle_add(self._populate_launchers_grid)
-        
+
         # Targeted synchronization with Recommended tab
         if self.parent_window and hasattr(self.parent_window, 'recommended_tab') and self.parent_window.recommended_tab:
             GLib.idle_add(self.parent_window.recommended_tab.refresh)
@@ -2005,7 +2425,7 @@ done
                         buttons=Gtk.ButtonsType.OK,
                         text=_("Error")
                     )
-                    dialog.format_secondary_text(f"RGB theme file not found:\n{rgb_css_path}")
+                    dialog.format_secondary_text(_("RGB theme file not found:") + f"\n{rgb_css_path}")
                     dialog.run()
                     dialog.destroy()
                     return
@@ -2049,6 +2469,6 @@ done
                     buttons=Gtk.ButtonsType.OK,
                     text=_("Error Activating RGB Theme")
                 )
-                dialog.format_secondary_text(f"Failed to load RGB theme:\n{str(e)}")
+                dialog.format_secondary_text(_("Failed to load RGB theme:") + f"\n{str(e)}")
                 dialog.run()
                 dialog.destroy()
