@@ -273,6 +273,96 @@
   </developer>
 
   <releases>
+      <release version="2.0.8-3" date="2026-05-18">
+        <description>
+          <p>Gaming tab optimizations, Lutris Vulkan Fix button, and bug fixes:</p>
+          <ul>
+            <li>Gaming Tab: added RyzenAdj to Optimizations — compiles from source, installs binary and systemd service with AMD thermal limits for mini PCs with proprietary EC firmware</li>
+            <li>Gaming Tab: added Lutris Vulkan Fix manual button — patches gpu.py inside the Lutris Flatpak to fix the broken vulkaninfo path</li>
+            <li>Gaming Tab: removed Ryzen Master Commander (incompatible with proprietary EC firmware — requires NBFC)</li>
+            <li>Gaming Tab: removed automatic Lutris Vulkan patch from post_install_script, replaced by the new manual button</li>
+            <li>Fixed: Ctrl+Shift+Tab backward tab navigation (GTK sends KEY_ISO_Left_Tab, now handled correctly)</li>
+            <li>Translations: added RyzenAdj and Lutris Vulkan Fix strings in all 8 languages</li>
+          </ul>
+        </description>
+        <description xml:lang="es">
+          <p>Optimizaciones en la pestaña Gaming, botón Lutris Vulkan Fix y correcciones:</p>
+          <ul>
+            <li>Pestaña Gaming: añadido RyzenAdj a Optimizaciones — compila desde el código fuente, instala el binario y un servicio systemd con límites térmicos AMD para mini PCs con firmware EC propietario</li>
+            <li>Pestaña Gaming: añadido botón manual Lutris Vulkan Fix — parchea gpu.py dentro del sandbox Flatpak de Lutris para corregir la ruta rota de vulkaninfo</li>
+            <li>Pestaña Gaming: eliminado Ryzen Master Commander (incompatible con firmware EC propietario — requiere NBFC)</li>
+            <li>Pestaña Gaming: eliminado el parche automático de Lutris Vulkan del post_install_script, sustituido por el nuevo botón manual</li>
+            <li>Corregido: navegación hacia atrás con Ctrl+Mayús+Tab (GTK envía KEY_ISO_Left_Tab, ahora gestionado correctamente)</li>
+            <li>Traducciones: añadidas cadenas de RyzenAdj y Lutris Vulkan Fix en los 8 idiomas</li>
+          </ul>
+        </description>
+        <description xml:lang="fr">
+          <p>Optimisations de l'onglet Gaming, bouton Lutris Vulkan Fix et corrections de bogues :</p>
+          <ul>
+            <li>Onglet Gaming : RyzenAdj ajouté aux Optimisations — compile depuis les sources, installe le binaire et un service systemd avec des limites thermiques AMD pour les mini PC avec firmware EC propriétaire</li>
+            <li>Onglet Gaming : bouton manuel Lutris Vulkan Fix ajouté — corrige gpu.py dans le sandbox Flatpak de Lutris pour réparer le chemin vulkaninfo cassé</li>
+            <li>Onglet Gaming : Ryzen Master Commander supprimé (incompatible avec le firmware EC propriétaire — nécessite NBFC)</li>
+            <li>Onglet Gaming : correctif automatique Lutris Vulkan supprimé du post_install_script, remplacé par le nouveau bouton manuel</li>
+            <li>Corrigé : navigation arrière avec Ctrl+Maj+Tab (GTK envoie KEY_ISO_Left_Tab, maintenant géré correctement)</li>
+            <li>Traductions : chaînes RyzenAdj et Lutris Vulkan Fix ajoutées dans les 8 langues</li>
+          </ul>
+        </description>
+        <description xml:lang="de">
+          <p>Gaming-Tab-Optimierungen, Lutris Vulkan Fix-Schaltfläche und Fehlerbehebungen:</p>
+          <ul>
+            <li>Gaming-Tab: RyzenAdj zu Optimierungen hinzugefügt — kompiliert aus dem Quellcode, installiert das Binary und einen systemd-Dienst mit AMD-Thermallimits für Mini-PCs mit proprietärer EC-Firmware</li>
+            <li>Gaming-Tab: Manueller Lutris Vulkan Fix-Button hinzugefügt — patcht gpu.py in der Lutris Flatpak-Sandbox, um den defekten vulkaninfo-Pfad zu beheben</li>
+            <li>Gaming-Tab: Ryzen Master Commander entfernt (inkompatibel mit proprietärer EC-Firmware — erfordert NBFC)</li>
+            <li>Gaming-Tab: Automatischer Lutris Vulkan-Patch aus post_install_script entfernt, durch neuen manuellen Button ersetzt</li>
+            <li>Behoben: Rückwärts-Tab-Navigation mit Strg+Umschalt+Tab (GTK sendet KEY_ISO_Left_Tab, wird jetzt korrekt behandelt)</li>
+            <li>Übersetzungen: RyzenAdj- und Lutris Vulkan Fix-Strings in allen 8 Sprachen hinzugefügt</li>
+          </ul>
+        </description>
+        <description xml:lang="pt">
+          <p>Otimizações da aba Gaming, botão Lutris Vulkan Fix e correções de erros:</p>
+          <ul>
+            <li>Aba Gaming: RyzenAdj adicionado às Otimizações — compila a partir do código-fonte, instala o binário e um serviço systemd com limites térmicos AMD para mini PCs com firmware EC proprietário</li>
+            <li>Aba Gaming: botão manual Lutris Vulkan Fix adicionado — aplica patch no gpu.py dentro do sandbox Flatpak do Lutris para corrigir o caminho vulkaninfo quebrado</li>
+            <li>Aba Gaming: Ryzen Master Commander removido (incompatível com firmware EC proprietário — requer NBFC)</li>
+            <li>Aba Gaming: patch automático Lutris Vulkan removido do post_install_script, substituído pelo novo botão manual</li>
+            <li>Corrigido: navegação para trás com Ctrl+Shift+Tab (GTK envia KEY_ISO_Left_Tab, agora tratado corretamente)</li>
+            <li>Traduções: strings de RyzenAdj e Lutris Vulkan Fix adicionadas em todos os 8 idiomas</li>
+          </ul>
+        </description>
+        <description xml:lang="it">
+          <p>Ottimizzazioni della scheda Gaming, pulsante Lutris Vulkan Fix e correzioni di bug:</p>
+          <ul>
+            <li>Scheda Gaming: RyzenAdj aggiunto alle Ottimizzazioni — compila dal codice sorgente, installa il binario e un servizio systemd con limiti termici AMD per mini PC con firmware EC proprietario</li>
+            <li>Scheda Gaming: pulsante manuale Lutris Vulkan Fix aggiunto — applica patch a gpu.py nel sandbox Flatpak di Lutris per correggere il percorso vulkaninfo non funzionante</li>
+            <li>Scheda Gaming: Ryzen Master Commander rimosso (incompatibile con il firmware EC proprietario — richiede NBFC)</li>
+            <li>Scheda Gaming: patch automatica Lutris Vulkan rimossa dal post_install_script, sostituita dal nuovo pulsante manuale</li>
+            <li>Corretto: navigazione all'indietro con Ctrl+Maiusc+Tab (GTK invia KEY_ISO_Left_Tab, ora gestito correttamente)</li>
+            <li>Traduzioni: stringhe RyzenAdj e Lutris Vulkan Fix aggiunte in tutte le 8 lingue</li>
+          </ul>
+        </description>
+        <description xml:lang="ru">
+          <p>Оптимизации вкладки Gaming, кнопка Lutris Vulkan Fix и исправления ошибок:</p>
+          <ul>
+            <li>Вкладка Gaming: RyzenAdj добавлен в Оптимизации — компилируется из исходного кода, устанавливает бинарный файл и службу systemd с тепловыми ограничениями AMD для мини-ПК с проприетарной прошивкой EC</li>
+            <li>Вкладка Gaming: добавлена ручная кнопка Lutris Vulkan Fix — патчит gpu.py внутри Flatpak-среды Lutris для исправления неверного пути vulkaninfo</li>
+            <li>Вкладка Gaming: Ryzen Master Commander удалён (несовместим с проприетарной прошивкой EC — требует NBFC)</li>
+            <li>Вкладка Gaming: автоматический патч Lutris Vulkan удалён из post_install_script, заменён новой ручной кнопкой</li>
+            <li>Исправлено: навигация назад по вкладкам с Ctrl+Shift+Tab (GTK отправляет KEY_ISO_Left_Tab, теперь обрабатывается корректно)</li>
+            <li>Переводы: строки RyzenAdj и Lutris Vulkan Fix добавлены на все 8 языков</li>
+          </ul>
+        </description>
+        <description xml:lang="ro">
+          <p>Optimizări în fila Gaming, buton Lutris Vulkan Fix și remedieri de erori:</p>
+          <ul>
+            <li>Fila Gaming: RyzenAdj adăugat la Optimizări — compilat din sursă, instalează binarul și un serviciu systemd cu limite termice AMD pentru mini PC-uri cu firmware EC proprietar</li>
+            <li>Fila Gaming: buton manual Lutris Vulkan Fix adăugat — aplică patch la gpu.py în sandbox-ul Flatpak al Lutris pentru a corecta calea vulkaninfo defectă</li>
+            <li>Fila Gaming: Ryzen Master Commander eliminat (incompatibil cu firmware-ul EC proprietar — necesită NBFC)</li>
+            <li>Fila Gaming: patch-ul automat Lutris Vulkan eliminat din post_install_script, înlocuit de noul buton manual</li>
+            <li>Remediat: navigarea înapoi cu Ctrl+Shift+Tab (GTK trimite KEY_ISO_Left_Tab, acum gestionat corect)</li>
+            <li>Traduceri: șiruri RyzenAdj și Lutris Vulkan Fix adăugate în toate cele 8 limbi</li>
+          </ul>
+        </description>
+      </release>
       <release version="2.0.8-2" date="2026-04-30">
         <description>
           <p>Software tab — Snap Store and Bazaar added; new tools; bug fixes:</p>

@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.8-3] - 2026-05-18
+
+### 🎮 Gaming Tab — Optimizations
+
+- **Added RyzenAdj** to the Optimizations section: compiles from source, installs the binary and shared library, and creates a systemd service that applies AMD thermal limits (`--tctl-temp=85`, `--stapm-limit=35000`, `--fast-limit=35000`, `--slow-limit=35000`) at boot. Ideal for AMD mini PCs with proprietary EC firmware that blocks NBFC-based tools.
+- **Added Lutris Vulkan Fix** button to the Optimizations section: patches `gpu.py` inside the Lutris Flatpak sandbox to use `/app/bin/vulkaninfo` instead of the broken `/usr/bin/vulkaninfo` path. Replaces the unreliable automatic post-install hook — must be run manually after Lutris has been launched at least once.
+- **Removed Ryzen Master Commander**: eliminated from the Optimizations section as it requires NBFC for fan control, which is incompatible with the proprietary EC firmware on AMD mini PCs.
+- **Removed Lutris Vulkan patch from post_install_script**: the automatic patch after Lutris install was unreliable (Flatpak sandbox not yet initialised at that point); replaced by the manual button above.
+
+### 🔧 Fixes
+
+- **Ctrl+Shift+Tab**: backward tab navigation was silently ignored because GTK sends `KEY_ISO_Left_Tab` for that combination, not `KEY_Tab`. The key handler now checks for `KEY_ISO_Left_Tab` explicitly and navigates to the previous tab correctly.
+
+### 🌍 Translations
+
+- Added strings for RyzenAdj (install/uninstall labels, description, confirmation dialogs) in all 8 languages.
+- Added strings for Lutris Vulkan Fix (label, description, warning dialog) in all 8 languages.
+
 ## [2.0.8-2] - 2026-04-30
 
 ### 🛍️ Software Tab — Snap Store & Bazaar

@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.8--1-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.8--3-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,13 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.8-3 (18/05/2026)
+- **Gaming Tab**: Added RyzenAdj to Optimizations — compiles from source, installs binary + shared library + systemd service with AMD thermal limits. Ideal for AMD mini PCs with proprietary EC firmware.
+- **Gaming Tab**: Added Lutris Vulkan Fix button — manual patch for `gpu.py` inside the Lutris Flatpak to fix broken `vulkaninfo` path. Replaces unreliable post-install auto-hook.
+- **Gaming Tab**: Removed Ryzen Master Commander (incompatible with proprietary EC firmware on AMD mini PCs — requires NBFC).
+- **Fixed**: Ctrl+Shift+Tab backward tab navigation (GTK sends `KEY_ISO_Left_Tab`, now handled correctly).
+- **Translations**: Added RyzenAdj and Lutris Vulkan Fix strings in all 8 languages.
 
 ### v2.0.8-2 (30/04/2026)
 - **Software Tab — Snap Store & Bazaar**: Added to all three DEs (XFCE, GNOME, KDE/Plasma) in a 4-column × 2-row grid layout. Snap Store installs via `snap:snap-store`; Bazaar installs via `flatpak:io.github.kolunmi.Bazaar`.
