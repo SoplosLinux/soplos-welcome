@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.8--3-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.8--4-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,13 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.8-4 (22/05/2026)
+- **Drivers Tab**: Fixed false "installed" state on Nouveau button — now checks `/etc/modprobe.d/` for `blacklist nouveau`.
+- **Drivers Tab**: Fixed false "installed" state on AMD button — now requires all three packages (`firmware-amd-graphics`, `mesa-vulkan-drivers`, `xserver-xorg-video-all`).
+- **Drivers Tab**: Fixed false "installed" state on Wi-Fi Intel/Realtek buttons — now combines package presence with `lsmod` module check.
+- **Recommended Tab — Utilities**: Added Syncthing Tray (`io.github.martchus.syncthingtray`) — tray application for Syncthing, sync files between devices.
+- **Translations**: Added Syncthing Tray description string in all 8 languages.
 
 ### v2.0.8-3 (18/05/2026)
 - **Gaming Tab**: Added RyzenAdj to Optimizations — compiles from source, installs binary + shared library + systemd service with AMD thermal limits. Ideal for AMD mini PCs with proprietary EC firmware.
@@ -320,62 +327,121 @@ Contact: info@soploslinux.com
 - **Complete Russian Dictionary**: Full revision and 100% translation (565 messages), 14 missing translations added, 23 fuzzy fixed, typo "интерфейфейс" corrected.
 - **Translation Quality**: All 8 languages (EN, ES, DE, FR, IT, PT, RO, RU) now at 100% with 565 messages each.
 
-### v1.1.5 (08/09/2025) *(Tyson only)*
+### Tyson (v1.0.0 – v1.1.5)
+
+#### v1.1.5 (08/09/2025)
 - Updated website, forum and wiki URL buttons to soplos.org.
 - Removed deprecated `on_website_clicked` and `on_wiki_clicked` handlers (replaced by inline lambdas).
 - Updated Blender icon.
 
-### v1.1.4 (08/09/2025)
+#### v1.1.4 (08/09/2025)
 - Updated Blender icon and fixed link buttons in the welcome tab.
 
-### v1.1.3 (28/07/2025)
+#### v1.1.3 (02/08/2025)
 - Updated all translation dictionaries.
 - Fixed several functions in the hardware detector.
 - Updated all program icons.
 
-### v1.1.2 (27/07/2025)
+#### v1.1.2 (27/07/2025)
 - Changed program icon to a new design.
 
-### v1.1.1 (27/07/2025)
+#### v1.1.1 (27/07/2025)
 - Fixed office install/uninstall button logic in the Recommended tab.
 - Fixed hardware detector.
 
-### v1.1.0 (25/07/2025)
+#### v1.1.0 (24/07/2025)
 - Fixed Flatpak/Flathub installation bug.
 
-### v1.0.9 (24/07/2025)
+#### v1.0.9 (18/07/2025)
 - Fixed install buttons in the Software Center.
 
-### v1.0.8 (21/07/2025)
+#### v1.0.8 (15/07/2025)
 - Improvements in QEMU/KVM integration.
 - Enhanced management and installation of NVIDIA drivers.
 - Translation dictionary fragmentation completed.
 - Full internationalization.
 
-### v1.0.7 (18/07/2025)
+#### v1.0.7 (13/07/2025)
 - Metainfo update to comply with AppStream/DEP-11.
 
-### v1.0.6 (20/05/2025)
+#### v1.0.6 (24/06/2025)
 - Internationalization improvements.
 - Minor bug fixes.
 
-### v1.0.5 (08/05/2025)
+#### v1.0.5 (14/06/2025)
 - Reverted App ID to `com.soplos.welcome` (dot notation restored).
 - Soplos Packager block removed from `main.py`.
 - Assets renamed back to `com.soplos.welcome` convention.
 
-### v1.0.4 (07/05/2025)
+#### v1.0.4 (09/06/2025)
 - Autostart updated: copies system `.desktop` file instead of writing inline content.
 - Desktop file references updated to `com.soploswelcome` (ID, icon, StartupWMClass).
 
-### v1.0.3 (06/05/2025)
+#### v1.0.3 (05/06/2025)
 - Soplos Packager App ID block injected into `main.py` for correct window manager integration.
 
-### v1.0.2 (05/05/2025)
+#### v1.0.2 (04/06/2025)
 - Renamed all assets from `com.soplos.welcome` to `com.soploswelcome` (dot removed).
 
-### v1.0.1 (xx/04/2025)
+#### v1.0.1 (28/05/2025)
 - Fixed welcome tab website URL to use distro-specific link.
 
-### v1.0.0 (08/04/2025)
+#### v1.0.0 (20/05/2025)
+- Port of Tyron 1.0.0 to Soplos Tyson. Initial release of Soplos Welcome for Tyson.
+
+### Tyron (v1.0.0 – v1.1.4)
+
+#### v1.1.4 (08/09/2025)
+- Updated Blender icon and fixed link buttons in the welcome tab.
+
+#### v1.1.3 (03/08/2025)
+- Updated all translation dictionaries.
+- Fixed several functions in the hardware detector.
+- Updated all program icons.
+
+#### v1.1.2 (27/07/2025)
+- Changed program icon to a new design.
+
+#### v1.1.1 (27/07/2025)
+- Fixed office install/uninstall button logic in the Recommended tab.
+- Fixed hardware detector.
+
+#### v1.1.0 (25/07/2025)
+- Fixed Flatpak/Flathub installation bug.
+
+#### v1.0.9 (24/07/2025)
+- Fixed install buttons in the Software Center.
+
+#### v1.0.8 (24/07/2025)
+- Improvements in QEMU/KVM integration.
+- Enhanced management and installation of NVIDIA drivers.
+- Translation dictionary fragmentation completed.
+- Full internationalization.
+
+#### v1.0.7 (18/07/2025)
+- Metainfo update to comply with AppStream/DEP-11.
+
+#### v1.0.6 (20/05/2025)
+- Internationalization improvements.
+- Minor bug fixes.
+
+#### v1.0.5 (08/05/2025)
+- Reverted App ID to `com.soplos.welcome` (dot notation restored).
+- Soplos Packager block removed from `main.py`.
+- Assets renamed back to `com.soplos.welcome` convention.
+
+#### v1.0.4 (07/05/2025)
+- Autostart updated: copies system `.desktop` file instead of writing inline content.
+- Desktop file references updated to `com.soploswelcome` (ID, icon, StartupWMClass).
+
+#### v1.0.3 (06/05/2025)
+- Soplos Packager App ID block injected into `main.py` for correct window manager integration.
+
+#### v1.0.2 (05/05/2025)
+- Renamed all assets from `com.soplos.welcome` to `com.soploswelcome` (dot removed).
+
+#### v1.0.1 (25/04/2025)
+- Fixed welcome tab website URL to use distro-specific link.
+
+#### v1.0.0 (08/04/2025)
 - Initial release.

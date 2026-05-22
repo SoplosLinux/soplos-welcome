@@ -226,7 +226,7 @@ class DriversTab(Gtk.ScrolledWindow):
             'base_label': _("Nouveau (Open Source)"),
             'install_fn': lambda b: self._on_driver_clicked(b, 'xserver-xorg-video-nouveau'),
             'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'xserver-xorg-video-nouveau'),
-            'check_fn': lambda: self._is_package_installed('xserver-xorg-video-nouveau'),
+            'check_fn': lambda: self._is_nouveau_active(),
         }
 
         uninstall_nvidia = self._create_button(
@@ -324,7 +324,7 @@ class DriversTab(Gtk.ScrolledWindow):
             'base_label': _("AMD Radeon (Open Source)"),
             'install_fn': lambda b: self._on_driver_clicked(b, amd_pkgs),
             'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, amd_pkgs),
-            'check_fn': lambda: self._is_package_installed('firmware-amd-graphics'),
+            'check_fn': lambda: self._is_amd_driver_installed(),
         }
 
         lact_btn = self._create_button(
@@ -354,7 +354,7 @@ class DriversTab(Gtk.ScrolledWindow):
             'base_label': _("Intel Wi-Fi"),
             'install_fn': lambda b: self._on_driver_clicked(b, 'firmware-iwlwifi'),
             'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'firmware-iwlwifi'),
-            'check_fn': lambda: self._is_package_installed('firmware-iwlwifi'),
+            'check_fn': lambda: self._is_package_installed('firmware-iwlwifi') and self._is_module_loaded('iwlwifi'),
         }
 
         realtek_wifi = self._create_button(_("Realtek Wi-Fi"), _("Realtek wireless cards"))
@@ -364,7 +364,7 @@ class DriversTab(Gtk.ScrolledWindow):
             'base_label': _("Realtek Wi-Fi"),
             'install_fn': lambda b: self._on_driver_clicked(b, 'firmware-realtek'),
             'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'firmware-realtek'),
-            'check_fn': lambda: self._is_package_installed('firmware-realtek'),
+            'check_fn': lambda: self._is_package_installed('firmware-realtek') and self._is_module_loaded('r8169', 'rtl8xxxu', 'r8188eu', 'rtw88_8822be', 'rtw89_pci'),
         }
 
         broadcom_wifi = self._create_button(_("Broadcom Wi-Fi"), _("Broadcom wireless cards"))
@@ -460,6 +460,42 @@ class DriversTab(Gtk.ScrolledWindow):
         }
     
     # === DRIVER DETECTION ===
+
+    def _is_nouveau_active(self):
+        """Return True only if nouveau package is installed AND not blacklisted."""
+        if not self._is_package_installed('xserver-xorg-video-nouveau'):
+            return False
+        import glob
+        try:
+            for conf in glob.glob('/etc/modprobe.d/*.conf'):
+                try:
+                    with open(conf) as f:
+                        if 'blacklist nouveau' in f.read():
+                            return False
+                except Exception:
+                    pass
+        except Exception:
+            pass
+        return True
+
+    def _is_amd_driver_installed(self):
+        """Return True only if the full AMD driver stack installed by this app is present."""
+        return (
+            self._is_package_installed('firmware-amd-graphics') and
+            self._is_package_installed('mesa-vulkan-drivers') and
+            self._is_package_installed('xserver-xorg-video-all')
+        )
+
+    def _is_module_loaded(self, *module_names):
+        """Return True if any of the given kernel modules are currently loaded."""
+        try:
+            result = subprocess.run(['lsmod'], capture_output=True, text=True)
+            for name in module_names:
+                if name in result.stdout:
+                    return True
+        except Exception:
+            pass
+        return False
 
     def _is_package_installed(self, package):
         """Check if a dpkg package is installed."""

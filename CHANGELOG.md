@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.8-4] - 2026-05-22
+
+### 🖥️ Drivers Tab — Detection Fixes
+
+- **Fixed false "installed" state on Nouveau button**: now checks `/etc/modprobe.d/*.conf` for `blacklist nouveau` — if blacklisted the button correctly shows as not active, even though the package is present on the system.
+- **Fixed false "installed" state on AMD button**: now requires all three packages (`firmware-amd-graphics`, `mesa-vulkan-drivers`, `xserver-xorg-video-all`) to be installed simultaneously, instead of just one.
+- **Fixed false "installed" state on Wi-Fi Intel/Realtek buttons**: now combines package presence with `lsmod` module check, so the button only shows as installed when the firmware package is present AND the corresponding kernel module is actually loaded.
+
+### 📦 Recommended Tab — Utilities
+
+- **Added Syncthing Tray** (`io.github.martchus.syncthingtray`): tray application for Syncthing — sync files between devices. Available as Flatpak from Flathub.
+
+### 🌍 Translations
+
+- Added Syncthing Tray description string in all 8 languages.
+
 ## [2.0.8-3] - 2026-05-18
 
 ### 🎮 Gaming Tab — Optimizations
@@ -527,7 +543,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - **Updated English/Spanish Dictionary Headers**: Corrected Last-Translator and Language-Team metadata.
 - **Translation Quality**: All 8 languages (EN, ES, DE, FR, IT, PT, RO, RU) now at 100% with 565 messages each.
 
-## [1.1.5] - 2025-09-08 *(Tyson only)*
+---
+
+## Tyson Branch
+
+## [1.1.5] - 2025-09-08
 
 ### 🆕 Changed / Fixed
 - Updated all welcome tab link buttons to soplos.org: website (`https://soplos.org`), forum (`https://soplos.org/forums/`) and wiki (`https://soplos.org/wiki/`).
@@ -540,7 +560,113 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - Updated Blender icon to the requested image.
 - Fixed welcome tab link buttons (website, forums, wiki).
 
-## [1.1.3] - 2025-07-28
+## [1.1.3] - 2025-08-02
+
+### 🆕 Added / Improved
+- Updated all translation dictionaries.
+- Fixed several functions in the hardware detector.
+- Updated all program icons.
+
+## [1.1.2] - 2025-07-27
+
+### 🆕 Changed
+- Changed program icon to a new design.
+
+## [1.1.1] - 2025-07-27
+
+### 🛠️ Fixed
+- Fixed office install/uninstall button logic in the Recommended tab (now works like other categories).
+- Fixed hardware detector: now always returns the correct recommended driver for NVIDIA and other hardware.
+
+## [1.1.0] - 2025-07-24
+
+### 🛠️ Fixed
+- Fixed Flatpak/Flathub installation bug: Now Flatpak applications can be installed from Flathub without requiring administrator privileges. The Software Center correctly adds Flathub for the current user.
+
+## [1.0.9] - 2025-07-18
+
+### 🛠️ Fixed
+- Fixed install buttons in the Software Center (now work correctly).
+
+## [1.0.8] - 2025-07-15
+
+### 🆕 Added / Improved
+- Improvements in QEMU/KVM integration and operation for virtual machines.
+- Enhanced management and installation of NVIDIA drivers (detection, recommendation, and a more robust installation process).
+- **Translation dictionary fragmentation completed:** Interface texts are now organized by language in separate files for Spanish, English, French, Portuguese, German, Italian, Russian, and Romanian.
+- **Internationalization:** The program has been fully internationalized to facilitate global collaboration and translation contributions.
+- **Recommended Tab:** Improved logic for install/uninstall buttons, now updates state and action dynamically after each operation.
+- **LibreWolf:** Installation now uses Flatpak (Flathub) instead of APT or external repositories, avoiding conflicts and simplifying maintenance.
+
+## [1.0.7] - 2025-07-13
+
+### 🛠️ Improved - Metainfo and AppStream/DEP-11 compatibility
+- Metainfo updated to comply with AppStream/DEP-11.
+- Minor improvements in integration and documentation.
+- No functional changes in the application.
+
+## [1.0.6] - 2025-06-24
+
+### 🆕 Added
+- Improvements to the Software Center and browser updates.
+- Software Center now detects if programs are installed.
+- Midori replaced with Epiphany (GNOME Web) as lightweight browser.
+- DaVinci Resolve replaced with Shotcut for video editing.
+- Driver Center improved with optimized hardware detection.
+- Enhanced hardware scanning functionality.
+
+## [1.0.5] - 2025-06-14
+
+### 🔧 Fixed
+- Reverted App ID to `com.soplos.welcome` (dot notation restored after 1.0.2 change).
+- Soplos Packager injection block removed from `main.py` (reverted to clean entry point).
+- Assets renamed back to `com.soplos.welcome` convention (desktop file, icons, metainfo, pixmaps).
+
+## [1.0.4] - 2025-06-09
+
+### 🔧 Fixed
+- Autostart updated: now copies `com.soploswelcome.desktop` from `/usr/share/applications/` instead of writing inline content, ensuring the autostart entry always matches the installed desktop file.
+- Desktop file references updated (`X-GNOME-Application-ID`, `X-AppStream-Metadata`, `Icon`, `StartupWMClass`) to use `com.soploswelcome`.
+
+## [1.0.3] - 2025-06-05
+
+### 🔧 Fixed
+- Soplos Packager App ID initialization block injected into `main.py`: sets `GLib.set_prgname`, `GLib.set_application_name` and `Gtk.Window.set_default_icon_name` to `com.soploswelcome` for correct window manager integration.
+
+## [1.0.2] - 2025-06-04
+
+### 🔄 Changed
+- Renamed all assets from `com.soplos.welcome` to `com.soploswelcome` (dot removed) for Soplos Packager compatibility: desktop file, icons (all sizes), metainfo and pixmaps.
+- App ID changed from `com.soplos.welcome` to `com.soploswelcome`.
+
+## [1.0.1] - 2025-05-28
+
+### 🔧 Fixed
+- Welcome tab: corrected website button URL from `soploslinux.com/distro` to the distro-specific URL (`soploslinux.com/tyson`).
+
+## [1.0.0] - 2025-05-20
+
+### 🎉 Initial Release
+- Port of Tyron 1.0.0 to Soplos Tyson. Initial release of Soplos Welcome for Tyson.
+- Welcome screen for Soplos Linux.
+- Initial system setup.
+- Installation of recommended software.
+- Desktop customization.
+- Access to help and support resources.
+- Intuitive and user-friendly interface.
+- Support for multiple languages.
+
+---
+
+## Tyron Branch
+
+## [1.1.4] - 2025-09-08
+
+### 🆕 Added / Fixed
+- Updated Blender icon to the requested image.
+- Fixed welcome tab link buttons (website, forums, wiki).
+
+## [1.1.3] - 2025-08-03
 
 ### 🆕 Added / Improved
 - Updated all translation dictionaries.
@@ -568,7 +694,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 ### 🛠️ Fixed
 - Fixed install buttons in the Software Center (now work correctly).
 
-## [1.0.8] - 2025-07-21
+## [1.0.8] - 2025-07-24
 
 ### 🆕 Added / Improved
 - Improvements in QEMU/KVM integration and operation for virtual machines.
@@ -619,10 +745,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 - Renamed all assets from `com.soplos.welcome` to `com.soploswelcome` (dot removed) for Soplos Packager compatibility: desktop file, icons (all sizes), metainfo and pixmaps.
 - App ID changed from `com.soplos.welcome` to `com.soploswelcome`.
 
-## [1.0.1] - 2025-04-xx
+## [1.0.1] - 2025-04-25
 
 ### 🔧 Fixed
-- Welcome tab: corrected website button URL from `soploslinux.com/distro` to the distro-specific URL (`soploslinux.com/tyron` for Tyron, `soploslinux.com/tyson` for Tyson).
+- Welcome tab: corrected website button URL from `soploslinux.com/distro` to the distro-specific URL (`soploslinux.com/tyron`).
 
 ## [1.0.0] - 2025-04-08
 

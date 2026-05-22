@@ -2805,6 +2805,10 @@ msgid "PSP emulator with high-quality rendering"
 msgstr "Emulador de PSP com renderização de alta qualidade"
 
 #: config/software.py
+msgid "Tray application for Syncthing — sync files between devices"
+msgstr "Aplicativo de bandeja para Syncthing — sincronize arquivos entre dispositivos"
+
+#: config/software.py
 msgid "GPU control center for AMD and NVIDIA on Linux"
 msgstr "Centro de controle de GPU para AMD e NVIDIA no Linux"
 

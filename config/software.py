@@ -738,6 +738,14 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
+                'name': 'Syncthing Tray',
+                'package': None,
+                'flatpak': 'io.github.martchus.syncthingtray',
+                'icon': 'syncthing.png',
+                'description': _('Tray application for Syncthing — sync files between devices'),
+                'official': False
+            },
+            {
                 'name': 'LACT',
                 'package': None,
                 'flatpak': 'io.github.ilya_zlobintsev.LACT',
