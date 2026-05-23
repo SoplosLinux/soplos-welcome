@@ -542,6 +542,30 @@ msgstr "Broadcom Wi-Fi"
 msgid "Broadcom wireless cards"
 msgstr "Plăci wireless Broadcom"
 
+#: ui/tabs/drivers_tab.py
+msgid "Repair Wi-Fi"
+msgstr "Repară Wi-Fi"
+
+#: ui/tabs/drivers_tab.py
+msgid "Reload Wi-Fi driver and restart NetworkManager — fixes connection lost after reboot"
+msgstr "Reîncarcă driverul Wi-Fi și repornește NetworkManager — rezolvă pierderea conexiunii după repornire"
+
+#: ui/tabs/drivers_tab.py
+msgid "No Wi-Fi Interface Found"
+msgstr "Nu s-a găsit nicio interfață Wi-Fi"
+
+#: ui/tabs/drivers_tab.py
+msgid "No active Wi-Fi interface was detected.\nMake sure your Wi-Fi card is connected and recognized by the system."
+msgstr "Nu a fost detectată nicio interfață Wi-Fi activă.\nAsigură-te că placa Wi-Fi este conectată și recunoscută de sistem."
+
+#: ui/tabs/drivers_tab.py
+msgid "Repair Wi-Fi Connection"
+msgstr "Repară conexiunea Wi-Fi"
+
+#: ui/tabs/drivers_tab.py
+msgid "Detected driver: {driver}  |  Interface: {iface}\n\nThis will:\n  • Unload and reload the Wi-Fi kernel module\n  • Restart NetworkManager\n\nYour network connection will be briefly interrupted.\nProceed?"
+msgstr "Driver detectat: {driver}  |  Interfață: {iface}\n\nAceasta va:\n  • Descărca și reîncărca modulul Wi-Fi al kernelului\n  • Reporni NetworkManager\n\nConexiunea de rețea va fi întreruptă pentru scurt timp.\nContinuați?"
+
 #: ui/tabs/drivers_tab.py:292
 msgid "Other Drivers"
 msgstr "Alte Drivere"

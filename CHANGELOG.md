@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.8-5] - 2026-05-23
+
+### 🔧 Drivers Tab — Wi-Fi Repair
+
+- **Added "Repair Wi-Fi" button**: Automatically detects the active Wi-Fi driver by reading `/sys/class/net/*/wireless` (no external commands needed). Shows a confirmation dialog with the detected driver and interface name. On confirmation runs `modprobe -r <driver>`, waits 1 second, `modprobe <driver>` and `systemctl restart NetworkManager`. Works with any brand — Intel (`iwlwifi`), Realtek, Atheros, MediaTek, Broadcom, etc. If no Wi-Fi interface is found, shows a warning dialog instead.
+
+### 🌍 Translations
+
+- Added Wi-Fi Repair strings (button label, tooltip, dialogs) in all 8 languages.
+
 ## [2.0.8-4] - 2026-05-22
 
 ### 🖥️ Drivers Tab — Detection Fixes

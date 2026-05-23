@@ -542,6 +542,30 @@ msgstr "Broadcom Wi-Fi"
 msgid "Broadcom wireless cards"
 msgstr "Беспроводные карты Broadcom"
 
+#: ui/tabs/drivers_tab.py
+msgid "Repair Wi-Fi"
+msgstr "Починить Wi-Fi"
+
+#: ui/tabs/drivers_tab.py
+msgid "Reload Wi-Fi driver and restart NetworkManager — fixes connection lost after reboot"
+msgstr "Перезагружает драйвер Wi-Fi и перезапускает NetworkManager — устраняет потерю соединения после перезагрузки"
+
+#: ui/tabs/drivers_tab.py
+msgid "No Wi-Fi Interface Found"
+msgstr "Интерфейс Wi-Fi не найден"
+
+#: ui/tabs/drivers_tab.py
+msgid "No active Wi-Fi interface was detected.\nMake sure your Wi-Fi card is connected and recognized by the system."
+msgstr "Активный интерфейс Wi-Fi не обнаружен.\nУбедитесь, что ваша карта Wi-Fi подключена и распознана системой."
+
+#: ui/tabs/drivers_tab.py
+msgid "Repair Wi-Fi Connection"
+msgstr "Починить подключение Wi-Fi"
+
+#: ui/tabs/drivers_tab.py
+msgid "Detected driver: {driver}  |  Interface: {iface}\n\nThis will:\n  • Unload and reload the Wi-Fi kernel module\n  • Restart NetworkManager\n\nYour network connection will be briefly interrupted.\nProceed?"
+msgstr "Обнаруженный драйвер: {driver}  |  Интерфейс: {iface}\n\nЭто выполнит:\n  • Выгрузку и повторную загрузку модуля Wi-Fi ядра\n  • Перезапуск NetworkManager\n\nСетевое соединение будет кратковременно прервано.\nПродолжить?"
+
 #: ui/tabs/drivers_tab.py:292
 msgid "Other Drivers"
 msgstr "Другие драйверы"

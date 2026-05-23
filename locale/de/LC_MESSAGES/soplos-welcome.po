@@ -540,6 +540,30 @@ msgstr "Broadcom WLAN"
 msgid "Broadcom wireless cards"
 msgstr "Broadcom WLAN-Karten"
 
+#: ui/tabs/drivers_tab.py
+msgid "Repair Wi-Fi"
+msgstr "Wi-Fi reparieren"
+
+#: ui/tabs/drivers_tab.py
+msgid "Reload Wi-Fi driver and restart NetworkManager — fixes connection lost after reboot"
+msgstr "Wi-Fi-Treiber neu laden und NetworkManager neu starten — behebt Verbindungsverlust nach dem Neustart"
+
+#: ui/tabs/drivers_tab.py
+msgid "No Wi-Fi Interface Found"
+msgstr "Keine Wi-Fi-Schnittstelle gefunden"
+
+#: ui/tabs/drivers_tab.py
+msgid "No active Wi-Fi interface was detected.\nMake sure your Wi-Fi card is connected and recognized by the system."
+msgstr "Es wurde keine aktive Wi-Fi-Schnittstelle erkannt.\nStellen Sie sicher, dass Ihre Wi-Fi-Karte angeschlossen und vom System erkannt wird."
+
+#: ui/tabs/drivers_tab.py
+msgid "Repair Wi-Fi Connection"
+msgstr "Wi-Fi-Verbindung reparieren"
+
+#: ui/tabs/drivers_tab.py
+msgid "Detected driver: {driver}  |  Interface: {iface}\n\nThis will:\n  • Unload and reload the Wi-Fi kernel module\n  • Restart NetworkManager\n\nYour network connection will be briefly interrupted.\nProceed?"
+msgstr "Erkannter Treiber: {driver}  |  Schnittstelle: {iface}\n\nDies wird:\n  • Das Wi-Fi-Kernelmodul entladen und neu laden\n  • NetworkManager neu starten\n\nIhre Netzwerkverbindung wird kurz unterbrochen.\nFortfahren?"
+
 #: ui/tabs/drivers_tab.py:292
 msgid "Other Drivers"
 msgstr "Andere Treiber"

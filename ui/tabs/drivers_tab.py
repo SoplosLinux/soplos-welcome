@@ -376,6 +376,13 @@ class DriversTab(Gtk.ScrolledWindow):
             'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'firmware-b43-installer'),
             'check_fn': lambda: self._is_package_installed('firmware-b43-installer'),
         }
+
+        repair_btn = self._create_button(
+            _("Repair Wi-Fi"),
+            _("Reload Wi-Fi driver and restart NetworkManager — fixes connection lost after reboot")
+        )
+        repair_btn.connect("clicked", self._on_repair_wifi_clicked)
+        self.drivers_box.pack_start(repair_btn, False, False, 0)
     
     def _create_other_section(self):
         """Create other drivers section."""
@@ -460,6 +467,67 @@ class DriversTab(Gtk.ScrolledWindow):
         }
     
     # === DRIVER DETECTION ===
+
+    def _detect_wifi_driver(self):
+        """Return (iface, driver) for the first active wireless interface, or (None, None)."""
+        import glob
+        for path in glob.glob('/sys/class/net/*/wireless'):
+            iface = os.path.basename(os.path.dirname(path))
+            driver_link = f'/sys/class/net/{iface}/device/driver'
+            try:
+                if os.path.islink(driver_link):
+                    driver = os.path.basename(os.readlink(driver_link))
+                    return iface, driver
+            except Exception:
+                pass
+        return None, None
+
+    def _on_repair_wifi_clicked(self, button):
+        """Reload the active Wi-Fi driver and restart NetworkManager."""
+        iface, driver = self._detect_wifi_driver()
+
+        if not driver:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text=_("No Wi-Fi Interface Found")
+            )
+            dialog.format_secondary_text(
+                _("No active Wi-Fi interface was detected.\nMake sure your Wi-Fi card is connected and recognized by the system.")
+            )
+            dialog.run()
+            dialog.destroy()
+            return
+
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.QUESTION,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Repair Wi-Fi Connection")
+        )
+        dialog.format_secondary_text(
+            _("Detected driver: {driver}  |  Interface: {iface}\n\n"
+              "This will:\n"
+              "  • Unload and reload the Wi-Fi kernel module\n"
+              "  • Restart NetworkManager\n\n"
+              "Your network connection will be briefly interrupted.\n"
+              "Proceed?").format(driver=driver, iface=iface)
+        )
+        response = dialog.run()
+        dialog.destroy()
+
+        if response == Gtk.ResponseType.YES:
+            script = f"""#!/bin/bash
+modprobe -r {driver} 2>/dev/null || true
+sleep 1
+modprobe {driver}
+systemctl restart NetworkManager
+echo "Wi-Fi repair completed. Driver: {driver}, Interface: {iface}"
+"""
+            self._run_script_as_root(script, "repair-wifi.sh")
 
     def _is_nouveau_active(self):
         """Return True only if nouveau package is installed AND not blacklisted."""

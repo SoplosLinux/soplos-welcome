@@ -542,6 +542,30 @@ msgstr "Wi-Fi Broadcom"
 msgid "Broadcom wireless cards"
 msgstr "Placas sem fios Broadcom"
 
+#: ui/tabs/drivers_tab.py
+msgid "Repair Wi-Fi"
+msgstr "Reparar Wi-Fi"
+
+#: ui/tabs/drivers_tab.py
+msgid "Reload Wi-Fi driver and restart NetworkManager — fixes connection lost after reboot"
+msgstr "Recarrega o controlador Wi-Fi e reinicia o NetworkManager — corrige a perda de ligação após reiniciar"
+
+#: ui/tabs/drivers_tab.py
+msgid "No Wi-Fi Interface Found"
+msgstr "Nenhuma interface Wi-Fi encontrada"
+
+#: ui/tabs/drivers_tab.py
+msgid "No active Wi-Fi interface was detected.\nMake sure your Wi-Fi card is connected and recognized by the system."
+msgstr "Nenhuma interface Wi-Fi ativa foi detetada.\nCertifique-se de que a sua placa Wi-Fi está ligada e reconhecida pelo sistema."
+
+#: ui/tabs/drivers_tab.py
+msgid "Repair Wi-Fi Connection"
+msgstr "Reparar ligação Wi-Fi"
+
+#: ui/tabs/drivers_tab.py
+msgid "Detected driver: {driver}  |  Interface: {iface}\n\nThis will:\n  • Unload and reload the Wi-Fi kernel module\n  • Restart NetworkManager\n\nYour network connection will be briefly interrupted.\nProceed?"
+msgstr "Controlador detetado: {driver}  |  Interface: {iface}\n\nIsto irá:\n  • Descarregar e recarregar o módulo Wi-Fi do kernel\n  • Reiniciar o NetworkManager\n\nA sua ligação de rede será brevemente interrompida.\nContinuar?"
+
 #: ui/tabs/drivers_tab.py:292
 msgid "Other Drivers"
 msgstr "Outros Drivers"
