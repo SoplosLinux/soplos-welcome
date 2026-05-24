@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.8--5-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.8--6-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -121,25 +121,28 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
-### v2.0.8-5 (23/05/2026)
+### v2.0.8-6 (2026-05-24)
+- **Drivers Tab — Wi-Fi Repair detection improved**: Triple detection strategy — (1) sysfs `/sys/class/net/*/wireless`, (2) `iw dev` when interface is down, (3) `lspci -k` when module is not loaded at all (the exact broken-WiFi-after-reboot case). Now repairs WiFi even when the kernel module failed to initialize at boot.
+
+### v2.0.8-5 (2026-05-23)
 - **Drivers Tab — Wi-Fi Repair**: New "Repair Wi-Fi" button automatically detects the active Wi-Fi driver (reads `/sys/class/net/*/wireless`) and reloads it via `modprobe -r` + `modprobe` + `systemctl restart NetworkManager`. Works with any brand (Intel, Realtek, Atheros, MediaTek, etc.).
 - **Translations**: Added Wi-Fi Repair strings in all 8 languages.
 
-### v2.0.8-4 (22/05/2026)
+### v2.0.8-4 (2026-05-22)
 - **Drivers Tab**: Fixed false "installed" state on Nouveau button — now checks `/etc/modprobe.d/` for `blacklist nouveau`.
 - **Drivers Tab**: Fixed false "installed" state on AMD button — now requires all three packages (`firmware-amd-graphics`, `mesa-vulkan-drivers`, `xserver-xorg-video-all`).
 - **Drivers Tab**: Fixed false "installed" state on Wi-Fi Intel/Realtek buttons — now combines package presence with `lsmod` module check.
 - **Recommended Tab — Utilities**: Added Syncthing Tray (`io.github.martchus.syncthingtray`) — tray application for Syncthing, sync files between devices.
 - **Translations**: Added Syncthing Tray description string in all 8 languages.
 
-### v2.0.8-3 (18/05/2026)
+### v2.0.8-3 (2026-05-18)
 - **Gaming Tab**: Added RyzenAdj to Optimizations — compiles from source, installs binary + shared library + systemd service with AMD thermal limits. Ideal for AMD mini PCs with proprietary EC firmware.
 - **Gaming Tab**: Added Lutris Vulkan Fix button — manual patch for `gpu.py` inside the Lutris Flatpak to fix broken `vulkaninfo` path. Replaces unreliable post-install auto-hook.
 - **Gaming Tab**: Removed Ryzen Master Commander (incompatible with proprietary EC firmware on AMD mini PCs — requires NBFC).
 - **Fixed**: Ctrl+Shift+Tab backward tab navigation (GTK sends `KEY_ISO_Left_Tab`, now handled correctly).
 - **Translations**: Added RyzenAdj and Lutris Vulkan Fix strings in all 8 languages.
 
-### v2.0.8-2 (30/04/2026)
+### v2.0.8-2 (2026-04-30)
 - **Software Tab — Snap Store & Bazaar**: Added to all three DEs (XFCE, GNOME, KDE/Plasma) in a 4-column × 2-row grid layout. Snap Store installs via `snap:snap-store`; Bazaar installs via `flatpak:io.github.kolunmi.Bazaar`.
 - **Security Tab — VPN**: Added Surfshark (`com.surfshark.Surfshark`) and Mozilla VPN (`org.mozilla.vpn`) as Flatpak entries in the VPN section, with Install/Uninstall/Open buttons and state detection.
 - **Gaming Tab — Optimizations**: Added CPU Power tool (installs `linux-cpupower` + `cpupower-gui`) to control the CPU frequency governor from a graphical interface.
@@ -151,7 +154,7 @@ Contact: info@soploslinux.com
 - **Fixed: program no longer hangs after installing Bazaar**: `flatpak install` now uses `--user --noninteractive` to avoid interactive prompts.
 - **Translations**: Added new strings for all new features in all 8 languages.
 
-### v2.0.8-1 (04/04/2026)
+### v2.0.8-1 (2026-04-04)
 - **DaVinci Resolve**: Updated MakeResolveDeb script to 1.9.0 (adds DaVinci Resolve 21 support, xz compression).
 - **DaVinci Resolve**: New optional post-install patches dialog with virtual microphone patch (for systems without audio capture device) and integrated GPU patch for AMD/Intel iGPU (OpenCL stack, i915 firmware, libProResRAW stub, launcher patching, render group membership).
 - **Drivers Tab**: Fixed crash on startup (uninitialized button registry and missing subprocess import).
@@ -177,7 +180,7 @@ Contact: info@soploslinux.com
 - **Hybrid Graphics — NVIDIA Primary fix**: Dracut config files were not created before initramfs regeneration, causing the system to boot without NVIDIA modules loaded. Now creates `/etc/dracut.conf.d/nvidia.conf` and `blacklist-nouveau.conf` before calling `dracut --force`.
 - **Hybrid Graphics — PRIME Offload KDE fix**: Script now generates `~/.config/kdedefaults/kwinoutputconfig.json` with the Intel display connector detected dynamically from `/sys/class/drm/` (eDP or LVDS), setting output priority without hardcoding resolution, refresh rate or scale. Only runs on KDE Plasma (detected via EnvironmentDetector at launch).
 
-### v2.0.8 (31/03/2026)
+### v2.0.8 (2026-03-31)
 - **Customization Tab**: Soplos tool buttons now detect if the tool is installed and offer an install dialog with auto-launch on success.
 - **Recommended Tab**: Added 6 new Flatpak apps: Bitwig Studio, Reaper, Zrythm, Ardour, Warehouse, PeaZip.
 - **Keyboard Navigation**: Ctrl+Shift+Tab for backward tab navigation; F1 opens the About dialog.
@@ -185,7 +188,7 @@ Contact: info@soploslinux.com
 - **Code Audit**: Removed demo code, fixed deprecated get_action_area(), fixed duplicate imports, removed "coming soon" placeholder text.
 - **Translations**: Updated all 8 languages with new strings for install flow, 6 new apps, and Security feature.
 
-### v2.0.7-3 (24/03/2026)
+### v2.0.7-3 (2026-03-24)
 - **NVIDIA 580 Fix**: Resolved SHA1/sqv rejection on Debian 13 using `[trusted=yes]` repo entry, version pinning with `nvidia-driver-pinning-580`, and `--allow-downgrades` to handle newer package versions.
 - **Hardware Detection**: GTX 16xx/MX550/MX450 correctly mapped to driver 590; Maxwell GPUs (GTX 9xx/8xx, 9xxM) correctly mapped to driver 580. Added lspci caching to avoid duplicate system calls.
 - **Security Tab**: Added Soplos Sys Cleaner to the Cleaning section with install/uninstall and launch button.
@@ -193,32 +196,32 @@ Contact: info@soploslinux.com
 - **Gaming Tab**: Lutris switched to Flatpak installation in both Recommended and Gaming tabs.
 - **Translations**: Updated all 8 languages with 4 new strings (AppImage Manager description, AppImage badge, Sys Cleaner description, Open Sys Cleaner button).
 
-### v2.0.7-2 (13/03/2026)
+### v2.0.7-2 (2026-03-13)
 - **NVIDIA Driver Logic Fixes**: Corrected mapping for MacBook Kepler GPUs (650M/750M) and improved driver detection for MX/GT series.
 - **Improved Installation Workflow**: Added confirmation dialogs for all NVIDIA installation paths, explicit installation of auxiliary tools (nvidia-smi, settings, modprobe), and pre-installation driver cleanup.
 - **Translations**: Updated all 8 supported languages with 4 new confirmation dialog strings.
 
-### v2.0.7-1 (12/03/2026)
+### v2.0.7-1 (2026-03-12)
 - **NVIDIA Driver Improvements**: Improved official repository installation logic for Debian 12/13.
 - **Keyring Management**: Switched to official `cuda-keyring` package for more robust GPG handling.
 
-### v2.0.7 (11/03/2026)
+### v2.0.7 (2026-03-11)
 - **NVIDIA Legacy Drivers**: Legacy drivers (340, 390, 470) now install via APT from Debian Sid instead of `.run` files.
 - **Debian Sid Workflow**: Two-step dialog guides users to enable Sid via Soplos Repo Selector before installing legacy drivers.
 - **Automatic Repo Selector Launch**: Legacy driver buttons now automatically open Soplos Repo Selector and wait for the user to finish.
 - **Correct APT Packages**: Updated to `nvidia-legacy-340xx-driver`, `nvidia-legacy-390xx-driver`, `nvidia-tesla-470-driver`.
 - **Translations**: Added 4 new legacy driver dialog strings in all 8 languages.
 
-### v2.0.6-3 (08/03/2026)
+### v2.0.6-3 (2026-03-08)
 - **AppImages**: Fixed `Errno 13 Permission denied` when creating web apps by installing all AppImages (Affinity Suite, ES-DE, Stacer) to `~/AppImage` instead of `/opt` or `~/.local`, and removing the use of `pkexec` for their installation to prevent root ownership of user directories.
 
-### v2.0.6-2 (07/03/2026)
+### v2.0.6-2 (2026-03-07)
 - **Gaming Tab**: Fixed an issue where installing gaming wallpapers on GNOME (Boro) would duplicate existing Soplos wallpapers in the background settings.
 
-### v2.0.5 (02/03/2026)
+### v2.0.5 (2026-03-02)
 - **Recommended Tab**: Fixed batch installation collision logic with custom script applications (e.g., ES-DE and Affinity Suite).
 
-### v2.0.4 (24/02/2026)
+### v2.0.4 (2026-02-24)
 - **Gaming Tab**: Added Sober (Roblox) and EmulationStation-DE (AppImage) launchers.
 - **Gaming Tab**: Internationalized all 14 launcher descriptions with `_()` and 8-language translations.
 - **Gaming Tab**: Fixed launcher alignment with uniform height (60px) and consistent layout.
@@ -227,15 +230,15 @@ Contact: info@soploslinux.com
 - **Security Tab**: Stacer converted from broken `.deb` to stable AppImage (`/opt/stacer/`).
 - **Translations**: Added 15+ new translation strings across all 8 languages.
 
-### v2.0.3 (09/01/2026)
+### v2.0.3 (2026-01-09)
 - **Documentation**: Added manual page and copyright file.
 
-### v2.0.2 (04/01/2026)
+### v2.0.2 (2026-01-04)
 - **Security Tab**: Added **Grub BTRFS** management (Automatically add BTRFS snapshots to GRUB menu).
 - **Security Tab**: Fixed TimeShift integration to work seamlessly with grub-btrfs.
 - **Languages**: Updated all translation dictionaries with new strings.
 
-### v2.0.1 (27/12/2025)
+### v2.0.1 (2025-12-27)
 - **NVIDIA Driver Improvements**: Added NVIDIA 580 Production driver (580.119.02) for RTX 40/50 series
 - **RTX 50/40 Detection**: Proper GPU detection for Blackwell and Ada Lovelace architectures
 - **GTX 10xx Fix**: Pascal GPUs now correctly use latest driver instead of legacy 470
@@ -245,7 +248,7 @@ Contact: info@soploslinux.com
 - **Quadro/Tesla cards**: Professional GPUs now properly detected and recommended repo driver
 - **Safer fallback**: Unknown GPUs now default to `nvidia-driver` (repo) instead of 580
 
-### v2.0.0 (06/12/2025)
+### v2.0.0 (2025-12-06)
 - **Complete Rewrite**: New modular architecture for better maintainability.
 - **Universal Support**: Unified codebase for GNOME, KDE, and XFCE.
 - **Improved UI**: Modernized interface with better theming support.
@@ -333,119 +336,119 @@ Contact: info@soploslinux.com
 
 ### Tyson (v1.0.0 – v1.1.5)
 
-#### v1.1.5 (08/09/2025)
+#### v1.1.5 (2025-09-08)
 - Updated website, forum and wiki URL buttons to soplos.org.
 - Removed deprecated `on_website_clicked` and `on_wiki_clicked` handlers (replaced by inline lambdas).
 - Updated Blender icon.
 
-#### v1.1.4 (08/09/2025)
+#### v1.1.4 (2025-09-08)
 - Updated Blender icon and fixed link buttons in the welcome tab.
 
-#### v1.1.3 (02/08/2025)
+#### v1.1.3 (2025-08-02)
 - Updated all translation dictionaries.
 - Fixed several functions in the hardware detector.
 - Updated all program icons.
 
-#### v1.1.2 (27/07/2025)
+#### v1.1.2 (2025-07-27)
 - Changed program icon to a new design.
 
-#### v1.1.1 (27/07/2025)
+#### v1.1.1 (2025-07-27)
 - Fixed office install/uninstall button logic in the Recommended tab.
 - Fixed hardware detector.
 
-#### v1.1.0 (24/07/2025)
+#### v1.1.0 (2025-07-24)
 - Fixed Flatpak/Flathub installation bug.
 
-#### v1.0.9 (18/07/2025)
+#### v1.0.9 (2025-07-18)
 - Fixed install buttons in the Software Center.
 
-#### v1.0.8 (15/07/2025)
+#### v1.0.8 (2025-07-15)
 - Improvements in QEMU/KVM integration.
 - Enhanced management and installation of NVIDIA drivers.
 - Translation dictionary fragmentation completed.
 - Full internationalization.
 
-#### v1.0.7 (13/07/2025)
+#### v1.0.7 (2025-07-13)
 - Metainfo update to comply with AppStream/DEP-11.
 
-#### v1.0.6 (24/06/2025)
+#### v1.0.6 (2025-06-24)
 - Internationalization improvements.
 - Minor bug fixes.
 
-#### v1.0.5 (14/06/2025)
+#### v1.0.5 (2025-06-14)
 - Reverted App ID to `com.soplos.welcome` (dot notation restored).
 - Soplos Packager block removed from `main.py`.
 - Assets renamed back to `com.soplos.welcome` convention.
 
-#### v1.0.4 (09/06/2025)
+#### v1.0.4 (2025-06-09)
 - Autostart updated: copies system `.desktop` file instead of writing inline content.
 - Desktop file references updated to `com.soploswelcome` (ID, icon, StartupWMClass).
 
-#### v1.0.3 (05/06/2025)
+#### v1.0.3 (2025-06-05)
 - Soplos Packager App ID block injected into `main.py` for correct window manager integration.
 
-#### v1.0.2 (04/06/2025)
+#### v1.0.2 (2025-06-04)
 - Renamed all assets from `com.soplos.welcome` to `com.soploswelcome` (dot removed).
 
-#### v1.0.1 (28/05/2025)
+#### v1.0.1 (2025-05-28)
 - Fixed welcome tab website URL to use distro-specific link.
 
-#### v1.0.0 (20/05/2025)
+#### v1.0.0 (2025-05-20)
 - Port of Tyron 1.0.0 to Soplos Tyson. Initial release of Soplos Welcome for Tyson.
 
 ### Tyron (v1.0.0 – v1.1.4)
 
-#### v1.1.4 (08/09/2025)
+#### v1.1.4 (2025-09-08)
 - Updated Blender icon and fixed link buttons in the welcome tab.
 
-#### v1.1.3 (03/08/2025)
+#### v1.1.3 (2025-08-03)
 - Updated all translation dictionaries.
 - Fixed several functions in the hardware detector.
 - Updated all program icons.
 
-#### v1.1.2 (27/07/2025)
+#### v1.1.2 (2025-07-27)
 - Changed program icon to a new design.
 
-#### v1.1.1 (27/07/2025)
+#### v1.1.1 (2025-07-27)
 - Fixed office install/uninstall button logic in the Recommended tab.
 - Fixed hardware detector.
 
-#### v1.1.0 (25/07/2025)
+#### v1.1.0 (2025-07-25)
 - Fixed Flatpak/Flathub installation bug.
 
-#### v1.0.9 (24/07/2025)
+#### v1.0.9 (2025-07-24)
 - Fixed install buttons in the Software Center.
 
-#### v1.0.8 (24/07/2025)
+#### v1.0.8 (2025-07-24)
 - Improvements in QEMU/KVM integration.
 - Enhanced management and installation of NVIDIA drivers.
 - Translation dictionary fragmentation completed.
 - Full internationalization.
 
-#### v1.0.7 (18/07/2025)
+#### v1.0.7 (2025-07-18)
 - Metainfo update to comply with AppStream/DEP-11.
 
-#### v1.0.6 (20/05/2025)
+#### v1.0.6 (2025-05-20)
 - Internationalization improvements.
 - Minor bug fixes.
 
-#### v1.0.5 (08/05/2025)
+#### v1.0.5 (2025-05-08)
 - Reverted App ID to `com.soplos.welcome` (dot notation restored).
 - Soplos Packager block removed from `main.py`.
 - Assets renamed back to `com.soplos.welcome` convention.
 
-#### v1.0.4 (07/05/2025)
+#### v1.0.4 (2025-05-07)
 - Autostart updated: copies system `.desktop` file instead of writing inline content.
 - Desktop file references updated to `com.soploswelcome` (ID, icon, StartupWMClass).
 
-#### v1.0.3 (06/05/2025)
+#### v1.0.3 (2025-05-06)
 - Soplos Packager App ID block injected into `main.py` for correct window manager integration.
 
-#### v1.0.2 (05/05/2025)
+#### v1.0.2 (2025-05-05)
 - Renamed all assets from `com.soplos.welcome` to `com.soploswelcome` (dot removed).
 
-#### v1.0.1 (25/04/2025)
+#### v1.0.1 (2025-04-25)
 - Fixed welcome tab website URL to use distro-specific link.
 
-#### v1.0.0 (08/04/2025)
+#### v1.0.0 (2025-04-08)
 - Initial release.

@@ -469,8 +469,17 @@ class DriversTab(Gtk.ScrolledWindow):
     # === DRIVER DETECTION ===
 
     def _detect_wifi_driver(self):
-        """Return (iface, driver) for the first active wireless interface, or (None, None)."""
+        """Return (iface, driver) detecting the Wi-Fi module by any available method.
+
+        Strategy 1 — sysfs: works when the interface is up and driver loaded normally.
+        Strategy 2 — iw dev: works when the interface is down but module is loaded.
+        Strategy 3 — lspci -k: works even when the module is NOT loaded (broken state
+                     after reboot), which is exactly the case this button is meant to fix.
+        Returns (iface_or_None, driver) — driver is always set if hardware is found.
+        """
         import glob
+
+        # Strategy 1: sysfs wireless subdir + device/driver symlink
         for path in glob.glob('/sys/class/net/*/wireless'):
             iface = os.path.basename(os.path.dirname(path))
             driver_link = f'/sys/class/net/{iface}/device/driver'
@@ -480,10 +489,53 @@ class DriversTab(Gtk.ScrolledWindow):
                     return iface, driver
             except Exception:
                 pass
+
+        # Strategy 2: iw dev (interface exists but may be down)
+        try:
+            result = subprocess.run(['iw', 'dev'], capture_output=True, text=True)
+            for line in result.stdout.splitlines():
+                line = line.strip()
+                if line.startswith('Interface '):
+                    iface = line.split()[1]
+                    driver_link = f'/sys/class/net/{iface}/device/driver'
+                    try:
+                        if os.path.islink(driver_link):
+                            driver = os.path.basename(os.readlink(driver_link))
+                            return iface, driver
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
+        # Strategy 3: lspci -k — detects the module even when not loaded
+        # This is the critical fallback for the "no WiFi after reboot" case
+        try:
+            result = subprocess.run(['lspci', '-k'], capture_output=True, text=True)
+            lines = result.stdout.splitlines()
+            in_wifi = False
+            for line in lines:
+                lower = line.lower()
+                if any(k in lower for k in ('network controller', 'wireless', 'wifi', 'wi-fi')):
+                    in_wifi = True
+                elif line and not line.startswith('\t') and not line.startswith(' '):
+                    in_wifi = False
+                if in_wifi:
+                    if 'kernel modules:' in lower:
+                        modules = line.split(':', 1)[1].strip().split(',')
+                        driver = modules[0].strip()
+                        if driver:
+                            return None, driver
+                    elif 'kernel driver in use:' in lower:
+                        driver = line.split(':', 1)[1].strip()
+                        if driver:
+                            return None, driver
+        except Exception:
+            pass
+
         return None, None
 
     def _on_repair_wifi_clicked(self, button):
-        """Reload the active Wi-Fi driver and restart NetworkManager."""
+        """Reload the Wi-Fi driver and restart NetworkManager."""
         iface, driver = self._detect_wifi_driver()
 
         if not driver:
@@ -501,6 +553,7 @@ class DriversTab(Gtk.ScrolledWindow):
             dialog.destroy()
             return
 
+        iface_info = f"  |  Interface: {iface}" if iface else ""
         dialog = Gtk.MessageDialog(
             transient_for=self.parent_window,
             flags=0,
@@ -514,7 +567,7 @@ class DriversTab(Gtk.ScrolledWindow):
               "  • Unload and reload the Wi-Fi kernel module\n"
               "  • Restart NetworkManager\n\n"
               "Your network connection will be briefly interrupted.\n"
-              "Proceed?").format(driver=driver, iface=iface)
+              "Proceed?").format(driver=driver, iface=iface if iface else _("not loaded"))
         )
         response = dialog.run()
         dialog.destroy()
@@ -525,7 +578,7 @@ modprobe -r {driver} 2>/dev/null || true
 sleep 1
 modprobe {driver}
 systemctl restart NetworkManager
-echo "Wi-Fi repair completed. Driver: {driver}, Interface: {iface}"
+echo "Wi-Fi repair completed. Driver: {driver}"
 """
             self._run_script_as_root(script, "repair-wifi.sh")
 

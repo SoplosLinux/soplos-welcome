@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.8-6] - 2026-05-24
+
+### 🔧 Drivers Tab — Wi-Fi Repair Detection Improved
+
+- **Triple detection strategy**: (1) sysfs `/sys/class/net/*/wireless` — works when interface is active; (2) `iw dev` — works when interface is down but module is loaded; (3) `lspci -k` — works when the module is not loaded at all, which is the exact case of broken WiFi after reboot (module loads but fails to find firmware → circular dependency). Now the button can always identify the driver and repair WiFi regardless of the system state.
+
 ## [2.0.8-5] - 2026-05-23
 
 ### 🔧 Drivers Tab — Wi-Fi Repair
