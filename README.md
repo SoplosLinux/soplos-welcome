@@ -123,6 +123,7 @@ Contact: info@soploslinux.com
 
 ### v2.0.8-7 (2026-05-25)
 - **Recommended Tab — DaVinci Resolve**: Updated MakeResolveDeb to 1.10.0 — adds split `-data` package for Resolve 21+ (plugins folder in a separate `.deb`), drops slow xz compression in favour of default gzip. Install step now handles both `.deb` files automatically.
+- **Recommended Tab — Icons**: Updated Calligra icon.
 
 ### v2.0.8-6 (2026-05-24)
 - **Drivers Tab — Wi-Fi Repair detection improved**: Triple detection strategy — (1) sysfs `/sys/class/net/*/wireless`, (2) `iw dev` when interface is down, (3) `lspci -k` when module is not loaded at all (the exact broken-WiFi-after-reboot case). Now repairs WiFi even when the kernel module failed to initialize at boot.
