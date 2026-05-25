@@ -1139,7 +1139,7 @@ rm -f /tmp/{pkg_name}.deb"""
         current_file = os.path.abspath(__file__)
         # Go up to the main application directory (ui/tabs -> ui -> root)
         app_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file)))
-        src_script = os.path.join(app_root, "services", "makeresolvedeb_1.9.0_multi.sh")
+        src_script = os.path.join(app_root, "services", "makeresolvedeb_1.10.0_multi.sh")
         
         if not os.path.exists(src_script):
             self._on_package_operation_complete(package_data, False)
@@ -1163,23 +1163,18 @@ rm -f /tmp/{pkg_name}.deb"""
         self.command_runner.run_command(cmd, lambda: self._davinci_step_4_install(work_dir, package_data))
 
     def _davinci_step_4_install(self, work_dir, package_data):
-        """Step 4: Install generated .deb (requires root)."""
-        
-        # Find .deb file
-        deb_file = None
-        for f in os.listdir(work_dir):
-            if f.endswith(".deb"):
-                deb_file = f
-                break
-        
-        if not deb_file:
+        """Step 4: Install generated .deb(s) (requires root).
+        MakeResolveDeb 1.10+ generates a separate -data package for Resolve 21+.
+        """
+        deb_files = sorted(f for f in os.listdir(work_dir) if f.endswith(".deb"))
+
+        if not deb_files:
             self._on_package_operation_complete(package_data, False)
             return
 
-        full_deb_path = os.path.join(work_dir, deb_file)
-        
-        # Install
-        cmd = f"pkexec apt-get install -y '{full_deb_path}'"
+        deb_paths = " ".join(f"'{os.path.join(work_dir, f)}'" for f in deb_files)
+
+        cmd = f"pkexec apt-get install -y {deb_paths}"
         self.command_runner.run_command(cmd, lambda: self._davinci_step_5_patches(work_dir, package_data))
 
     def _davinci_step_5_patches(self, work_dir, package_data):

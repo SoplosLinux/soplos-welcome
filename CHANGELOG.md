@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.8-7] - 2026-05-25
+
+### 🎬 Recommended Tab — DaVinci Resolve
+
+- **Updated MakeResolveDeb to 1.10.0** (release 2026-05-15 by Daniel Tufvesson): adds split `-data` package for DaVinci Resolve 21+ (plugins folder separated into `davinci-resolve-data` package). Drops slow `xz -9` compression in favour of default gzip — significantly faster build.
+- **Install step now handles two `.deb` files**: for Resolve 21+ MakeResolveDeb generates a main package and a `-data` package; both are now installed in sequence automatically.
+
 ## [2.0.8-6] - 2026-05-24
 
 ### 🔧 Drivers Tab — Wi-Fi Repair Detection Improved

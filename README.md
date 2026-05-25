@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.8--6-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.8--7-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,9 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.8-7 (2026-05-25)
+- **Recommended Tab — DaVinci Resolve**: Updated MakeResolveDeb to 1.10.0 — adds split `-data` package for Resolve 21+ (plugins folder in a separate `.deb`), drops slow xz compression in favour of default gzip. Install step now handles both `.deb` files automatically.
 
 ### v2.0.8-6 (2026-05-24)
 - **Drivers Tab — Wi-Fi Repair detection improved**: Triple detection strategy — (1) sysfs `/sys/class/net/*/wireless`, (2) `iw dev` when interface is down, (3) `lspci -k` when module is not loaded at all (the exact broken-WiFi-after-reboot case). Now repairs WiFi even when the kernel module failed to initialize at boot.
