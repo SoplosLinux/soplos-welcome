@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.8--7-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.8--8-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,10 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.8-8 (2026-05-26)
+- **Fixed — DaVinci GPU Patch**: `davinci-gpu-patch.sh` created `~/.local/share/applications/` as root (via pkexec), causing Soplos WebApp Manager and Soplos AppImage Manager to fail with `PermissionError: [Errno 13]` when writing `.desktop` files. Fixed by using `sudo -u "$REAL_USER"` for the directory creation.
+- **Fixed — Lutris Vulkan Patch**: `lutris-vulkan-patch.sh` could patch an outdated `gpu.py` from a stale Flatpak deployment. After a Flatpak update the new deployment had the unpatched file, causing Lutris to send a repeated vulkaninfo error notification. The script now targets the `active` deployment symlink only.
 
 ### v2.0.8-7 (2026-05-25)
 - **Recommended Tab — DaVinci Resolve**: Updated MakeResolveDeb to 1.10.0 — adds split `-data` package for Resolve 21+ (plugins folder in a separate `.deb`), drops slow xz compression in favour of default gzip. Install step now handles both `.deb` files automatically.

@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.8-8] - 2026-05-26
+
+### Fixed — DaVinci GPU Patch
+
+- **Fixed permission error in `davinci-gpu-patch.sh`**: the `mkdir -p ~/.local/share/applications/` call was running as root (via pkexec), causing that directory to be owned by root. Subsequent writes from Soplos WebApp Manager and Soplos AppImage Manager failed with `PermissionError: [Errno 13]`. The command now uses `sudo -u "$REAL_USER"` to create the directory with the correct ownership.
+
+### Fixed — Lutris Vulkan Patch
+
+- **Fixed Lutris Vulkan fix targeting wrong deployment**: `lutris-vulkan-patch.sh` used a plain `find` that could pick up `gpu.py` from an old Flatpak deployment instead of the active one. After a Flatpak update, the new deployment had the unpatched file and Lutris kept sending a GPU/vulkaninfo error notification repeatedly. The script now searches under the `active` symlink (`x86_64/stable/active`) with `-L` to follow symlinks, with a fallback that searches any `*/active/*` path for non-standard architectures or branches.
+
 ## [2.0.8-7] - 2026-05-25
 
 ### 🎬 Recommended Tab — DaVinci Resolve

@@ -207,7 +207,7 @@ elif [ "$GPU_VENDOR" = "intel" ]; then
     echo "[INFO] Using Intel NEO stack (OCL_ICD_VENDORS=intel.icd)."
 fi
 
-mkdir -p "$REAL_HOME/.local/share/applications/"
+sudo -u "$REAL_USER" mkdir -p "$REAL_HOME/.local/share/applications/"
 
 if [ -f "$DESKTOP_SYS" ]; then
     cp "$DESKTOP_SYS" "$DESKTOP_LOCAL"
