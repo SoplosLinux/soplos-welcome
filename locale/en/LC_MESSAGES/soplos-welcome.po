@@ -1663,7 +1663,7 @@ msgstr "DaVinci Resolve has been installed successfully."
 
 #: ui/tabs/security_tab.py:69
 msgid "Security &amp; System Protection"
-msgstr "Security & System Protection"
+msgstr "Security &amp; System Protection"
 
 #: ui/tabs/security_tab.py:73
 msgid "Protect your system with backups, firewall, and security tools"
