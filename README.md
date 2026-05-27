@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.8--8-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.8--9-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,15 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.8-9 (2026-05-27)
+- **Fixed — Recommended Tab (Affinity)**: Updated AppImage URL to 3.2.0 (3.0.2 was returning HTTP 404). Fixed `printf >` writing `.desktop` file as root under pkexec — now uses `sudo -u $REAL_USER tee` to keep correct ownership.
+- **Fixed — Recommended Tab (ES-DE)**: Same `tee` fix applied to the ES-DE `.desktop` file creation under pkexec.
+- **Fixed — Recommended Tab (RapidRAW)**: Reverted to Flatpak (`io.github.CyberTimon.RapidRAW`) — a previous session had incorrectly switched it to a Debian `.deb`.
+- **Fixed — Recommended Tab (Batch Install)**: `set -e` in the consolidated batch script caused the entire installation chain to abort when one package failed. Each package is now isolated in its own subshell — a failure is reported as a warning and the next package continues normally.
+- **Kernels Tab**: Removed the NVIDIA/Liquorix warning notice.
+- **Kernels Tab**: Moved Soplos Kernel Installer above Liquorix (below Microcodes).
+- **Kernels Tab**: Added Soplos Kernel Installer icon to its section.
 
 ### v2.0.8-8 (2026-05-26)
 - **Fixed — DaVinci GPU Patch**: `davinci-gpu-patch.sh` created `~/.local/share/applications/` as root (via pkexec), causing Soplos WebApp Manager and Soplos AppImage Manager to fail with `PermissionError: [Errno 13]` when writing `.desktop` files. Fixed by using `sudo -u "$REAL_USER"` for the directory creation.

@@ -8,9 +8,11 @@ import os
 import subprocess
 import logging
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, GLib
+gi.require_version('GdkPixbuf', '2.0')
+from gi.repository import Gtk, GLib, GdkPixbuf
 
 from core.i18n_manager import _
+from config.paths import ICONS_DIR
 from utils.command_runner import CommandRunner
 from utils.hardware_detector import detect_gpu
 
@@ -98,30 +100,61 @@ class KernelsTab(Gtk.ScrolledWindow):
         # Detect CPU vendor and show appropriate microcode
         self.microcode_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         microcode_container.pack_start(self.microcode_row, False, False, 5)
-        
-        # NVIDIA compatibility warning
-        compat_label = Gtk.Label()
-        compat_label.set_markup(f"<span color='#ff5555' weight='bold'>{_('Warning: Liquorix kernel is NOT compatible with proprietary NVIDIA drivers.')}</span>")
-        compat_label.set_line_wrap(True)
-        compat_label.set_xalign(0)
-        self.main_box.pack_start(compat_label, False, False, 5)
 
         # Separator
         self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 5)
-        
+
+        # Frame for Soplos Kernel Installer
+        ski_frame = Gtk.Frame()
+        ski_frame.set_label(_("Soplos Kernel Installer"))
+        ski_frame.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
+        self.main_box.pack_start(ski_frame, False, False, 5)
+
+        ski_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        ski_row.set_border_width(10)
+        ski_frame.add(ski_row)
+
+        ski_icon_path = os.path.join(ICONS_DIR, "kernels", "org.soplos.kernel-installer.png")
+        if os.path.exists(ski_icon_path):
+            try:
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(ski_icon_path, 48, 48, True)
+                ski_icon = Gtk.Image.new_from_pixbuf(pixbuf)
+                ski_row.pack_start(ski_icon, False, False, 0)
+            except Exception:
+                pass
+
+        ski_info_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        ski_row.pack_start(ski_info_box, True, True, 0)
+
+        ski_name = Gtk.Label()
+        ski_name.set_markup('<span weight="bold">Soplos Kernel Installer</span>')
+        ski_name.set_halign(Gtk.Align.START)
+        ski_info_box.pack_start(ski_name, False, False, 0)
+
+        ski_desc = Gtk.Label(label=_("Graphical tool to manage and install kernels from the Soplos repository."))
+        ski_desc.set_line_wrap(True)
+        ski_desc.set_xalign(0)
+        ski_info_box.pack_start(ski_desc, False, False, 0)
+
+        self.kernel_installer_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        ski_row.pack_start(self.kernel_installer_row, False, False, 0)
+
+        # Separator
+        self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 5)
+
         # Section for kernels
         kernel_label = Gtk.Label()
         kernel_label.set_markup(f"<b>{_('Available Kernels')}</b>")
         kernel_label.set_halign(Gtk.Align.START)
         self.main_box.pack_start(kernel_label, False, False, 5)
-        
+
         kernel_desc_label = Gtk.Label(
             label=_("Manage your system kernels. You can install optimized kernels for better performance or latency.")
         )
         kernel_desc_label.set_line_wrap(True)
         kernel_desc_label.set_xalign(0)
         self.main_box.pack_start(kernel_desc_label, False, False, 5)
-        
+
         # Frame for Liquorix
         liquorix_frame = Gtk.Frame()
         liquorix_frame.set_label(_("Liquorix Kernel"))
@@ -234,27 +267,6 @@ class KernelsTab(Gtk.ScrolledWindow):
         self.xanmod_lts_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         xanmod_lts_box.pack_start(self.xanmod_lts_row, False, False, 2)
         
-        # Separator
-        self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
-
-        # Frame for Soplos Kernel Installer
-        ski_frame = Gtk.Frame()
-        ski_frame.set_label(_("Soplos Kernel Installer"))
-        ski_frame.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
-        self.main_box.pack_start(ski_frame, False, False, 5)
-
-        ski_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
-        ski_container.set_border_width(10)
-        ski_frame.add(ski_container)
-
-        ski_desc = Gtk.Label(label=_("Graphical tool to manage and install kernels from the Soplos repository."))
-        ski_desc.set_line_wrap(True)
-        ski_desc.set_xalign(0)
-        ski_container.pack_start(ski_desc, False, False, 0)
-
-        self.kernel_installer_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        ski_container.pack_start(self.kernel_installer_row, False, False, 5)
-
         # Separator
         self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
 

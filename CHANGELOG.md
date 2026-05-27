@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.8-9] - 2026-05-27
+
+### Fixed — Recommended Tab
+
+- **Affinity AppImage URL updated to 3.2.0**: the previous URL pointing to 3.0.2 returned HTTP 404, causing `wget` to exit with code 8 and aborting the entire batch install chain due to `set -e`. URL now points to the 3.2.0 release.
+- **Affinity `.desktop` file ownership**: `printf '...' > file` under pkexec wrote the file as root. Replaced with `sudo -u $REAL_USER tee` so the file is owned by the real user. Also ensured the parent directory is created with `sudo -u $REAL_USER mkdir -p` before writing.
+- **ES-DE `.desktop` file ownership**: same `tee` fix applied — `.desktop` file was being created as root under pkexec.
+- **RapidRAW reverted to Flatpak**: a previous session had incorrectly changed RapidRAW from `flatpak install flathub io.github.CyberTimon.RapidRAW` to a Debian `.deb` install. Reverted to Flatpak.
+- **Batch install chain failure with `set -e`**: the consolidated batch script used a global `set -e`, so a single failed package (e.g. Affinity 404) would abort all remaining packages in the selection. Each package is now wrapped in its own subshell with `set -e` isolated inside — a failure prints a warning and the script continues with the next package.
+
+### Changed — Kernels Tab
+
+- **Removed NVIDIA/Liquorix warning**: the notice advising against using Liquorix with NVIDIA has been removed from the tab.
+- **Soplos Kernel Installer repositioned**: moved from after XanMod to between Microcodes and the Available Kernels section (below Liquorix was before).
+- **Soplos Kernel Installer icon added**: the section now displays the application icon (`org.soplos.kernel-installer.png`) with the same layout as packages in the Recommended tab — icon on the left, bold name and description stacked to the right, action buttons at the end of the row.
+
 ## [2.0.8-8] - 2026-05-26
 
 ### Fixed — DaVinci GPU Patch

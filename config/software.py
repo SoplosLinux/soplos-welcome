@@ -325,12 +325,8 @@ SOFTWARE_CATEGORIES = {
             },
             {
                 'name': 'RapidRAW',
-                'package': 'rapid-raw',
-                'install_commands': [
-                    'wget -q -O /tmp/rapidraw.deb https://github.com/CyberTimon/RapidRAW/releases/download/v1.4.6/03_RapidRAW_v1.4.6_ubuntu-24.04_amd64.deb',
-                    'apt install -y /tmp/rapidraw.deb',
-                    'rm /tmp/rapidraw.deb'
-                ],
+                'package': None,
+                'flatpak': 'io.github.CyberTimon.RapidRAW',
                 'icon': 'rapidraw.png',
                 'description': _('Fast and modern RAW photo editor'),
                 'official': False
@@ -356,22 +352,21 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'affinity.png',
                 'description': _('Professional photo editing, design and publishing suite'),
                 'official': False,
-                'check_path': '~/AppImages/Affinity-3.0.2-x86_64.AppImage',
+                'check_path': '~/AppImages/Affinity-3.2.0-x86_64.AppImage',
                 'install_commands': [
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
                     'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
                     'sudo -u $REAL_USER mkdir -p "$REAL_HOME/AppImages/.icons"',
-                    'wget -q -O "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage" "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.0.2/Affinity-3.0.2-x86_64.AppImage"',
-                    'chmod +x "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
+                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/.local/share/applications"',
+                    'wget -q -O "$REAL_HOME/AppImages/Affinity-3.2.0-x86_64.AppImage" "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.2.0/Affinity-3.2.0-x86_64.AppImage"',
+                    'chmod +x "$REAL_HOME/AppImages/Affinity-3.2.0-x86_64.AppImage"',
                     f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "graphics", "affinity.png")} "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
                     'chown -R $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/AppImages"',
-                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/.local/share/applications"',
-                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec='\"$REAL_HOME\"'/AppImages/Affinity-3.0.2-x86_64.AppImage\\nIcon='\"$REAL_HOME\"'/AppImages/.icons/AffinitySuite.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' > \"$REAL_HOME/.local/share/applications/affinity.desktop\"",
-                    'chown $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/.local/share/applications/affinity.desktop"'
+                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=%s/AppImages/Affinity-3.2.0-x86_64.AppImage\\nIcon=%s/AppImages/.icons/AffinitySuite.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' \"$REAL_HOME\" \"$REAL_HOME\" | sudo -u $REAL_USER tee \"$REAL_HOME/.local/share/applications/affinity.desktop\" > /dev/null",
                 ],
                 'uninstall_commands': [
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'rm -f "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
+                    'rm -f "$REAL_HOME/AppImages/Affinity-3.2.0-x86_64.AppImage"',
                     'rm -f "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
                     'rm -f "$REAL_HOME/.local/share/applications/affinity.desktop"'
                 ]
@@ -641,8 +636,7 @@ SOFTWARE_CATEGORIES = {
                     f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "gaming", "ES-DE.png")} "$REAL_HOME/AppImages/.icons/ES-DE.png"',
                     'chown -R $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/AppImages"',
                     'sudo -u $REAL_USER mkdir -p "$REAL_HOME/.local/share/applications"',
-                    "printf '[Desktop Entry]\\nName=ES-DE\\nExec='\"$REAL_HOME\"'/AppImages/ES-DE_x64.AppImage\\nIcon='\"$REAL_HOME\"'/AppImages/.icons/ES-DE.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' > \"$REAL_HOME/.local/share/applications/es-de.desktop\"",
-                    'chown $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/.local/share/applications/es-de.desktop"'
+                    "printf '[Desktop Entry]\\nName=ES-DE\\nExec=%s/AppImages/ES-DE_x64.AppImage\\nIcon=%s/AppImages/.icons/ES-DE.png\\nType=Application\\nCategories=Game;\\nComment=Frontend for emulators with a modern interface\\n' \"$REAL_HOME\" \"$REAL_HOME\" | sudo -u $REAL_USER tee \"$REAL_HOME/.local/share/applications/es-de.desktop\" > /dev/null"
                 ],
                 'uninstall_commands': [
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',

@@ -957,16 +957,17 @@ rm -f /tmp/{pkg_name}.deb"""
         try:
             with open(script_path, "w") as f:
                 f.write("#!/bin/bash\n")
-                f.write("# Batch installation of custom script packages\n")
-                f.write("set -e  # Exit on error\n\n")
-                
+                f.write("# Batch installation of custom script packages\n\n")
+
                 for commands_list, pkg_name in self.selected_custom:
                     f.write(f"# Installing {pkg_name}\n")
                     f.write(f"echo 'Installing {pkg_name}...'\n")
+                    f.write("(\n")
+                    f.write("set -e\n")
                     f.write("\n".join(commands_list))
-                    f.write("\n\n")
-                
-                f.write("echo 'All custom scripts completed successfully'\n")
+                    f.write(f"\n) || echo 'WARNING: {pkg_name} installation failed, continuing...'\n\n")
+
+                f.write("echo 'All custom scripts completed'\n")
             
             os.chmod(script_path, 0o755)
             
