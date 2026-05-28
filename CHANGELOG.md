@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.9] - 2026-05-28
+
+### Changed — Drivers Tab — VirtualBox Guest Additions
+
+- **Updated to VirtualBox Guest Additions 7.2.8**: first release with official Linux 7.0 kernel support. The previous script downloaded the obsolete 7.0.20 ISO from Oracle's servers. The `VBoxLinuxAdditions.run` installer is now bundled directly in the package under `assets/vbox/` — no internet connection required at install time.
+- **Compiles `vboxguest`, `vboxsf` and `vboxvideo`** for kernel 7.0.9-soplos via DKMS. The "unable to load vboxguest kernel module" message is expected when the system runs in VMware/QEMU (not in VirtualBox) — the modules load correctly when booted inside VirtualBox.
+
+### Fixed — Pango Markup
+
+- **"Security & System Protection" header**: the `&` character was unescaped in the `en` and `de` `.po` translations, causing a GTK warning (`Error on line 1: Entity did not end with a semicolon`) when the Security tab was created. Fixed by using `&amp;` in the `msgstr` of both locales.
+
 ## [2.0.8-9] - 2026-05-27
 
 ### Fixed — Recommended Tab

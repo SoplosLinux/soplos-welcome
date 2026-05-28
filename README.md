@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.8--9-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.9-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,10 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.9 (2026-05-28)
+- **Drivers Tab — VirtualBox Guest Additions**: Updated to 7.2.8 (first version with Linux 7.0 kernel support). The `.run` installer is now bundled directly in the package (`assets/vbox/`) — no download required. Compiles `vboxguest`, `vboxsf` and `vboxvideo` modules via DKMS.
+- **Fixed — Pango markup**: "Security & System Protection" header caused a GTK warning on English and German locales due to unescaped `&` inside a `set_markup()` call. Fixed in the `.po` files for `en` and `de`.
 
 ### v2.0.8-9 (2026-05-27)
 - **Fixed — Recommended Tab (Affinity)**: Updated AppImage URL to 3.2.0 (3.0.2 was returning HTTP 404). Fixed `printf >` writing `.desktop` file as root under pkexec — now uses `sudo -u $REAL_USER tee` to keep correct ownership.

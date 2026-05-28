@@ -11,6 +11,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GLib
 
 from core.i18n_manager import _
+from config.paths import ASSETS_DIR
 from utils.command_runner import CommandRunner
 
 
@@ -993,8 +994,8 @@ echo "Installation completed successfully."
     
     def _on_vbox_clicked(self, button):
         """Install VirtualBox Guest Additions."""
-        script = """#!/bin/bash
-set -e
+        vbox_run = os.path.join(ASSETS_DIR, "vbox", "VBoxLinuxAdditions.run")
+        script = f"""#!/bin/bash
 
 echo "Installing VirtualBox Guest Additions..."
 
@@ -1002,23 +1003,8 @@ echo "Installing VirtualBox Guest Additions..."
 apt update
 apt install -y build-essential dkms linux-headers-$(uname -r)
 
-# Create temp directory
-TEMP_DIR=$(mktemp -d)
-cd "$TEMP_DIR"
-
-# Download Guest Additions
-wget -O VBoxGuestAdditions.iso "https://download.virtualbox.org/virtualbox/7.0.20/VBoxGuestAdditions_7.0.20.iso"
-
-# Mount ISO
-mkdir -p /tmp/vbox-mount
-mount -o loop VBoxGuestAdditions.iso /tmp/vbox-mount
-
-# Run installer
-/tmp/vbox-mount/VBoxLinuxAdditions.run --nox11 || true
-
-# Cleanup
-umount /tmp/vbox-mount || true
-rm -rf "$TEMP_DIR"
+# Run installer (non-zero exit expected when not running inside VirtualBox)
+"{vbox_run}" || true
 
 echo ""
 echo "=== Installation completed ==="
