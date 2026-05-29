@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.9-1] - 2026-05-29
+
+### Fixed — App icon in GNOME Software
+
+- **Removed `slide1.png` from `assets/icons/`**: this file was being picked up by the repo manager and packaged as the application icon, causing GNOME Software to display the wrong image instead of the correct `org.soplos.welcome.png` icon.
+
 ## [2.0.9] - 2026-05-28
 
 ### Changed — Drivers Tab — VirtualBox Guest Additions
