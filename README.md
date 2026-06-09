@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.9--2-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.9--3-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,10 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.9-3 (2026-06-09)
+- **Fixed — Recommended Tab (Brave Origin icon)**: moved to `brave-origin.png` at the browsers icons root — same flat structure as all other browser icons.
+- **Fixed — Recommended Tab (Affinity Suite)**: reverted to 3.0.2 AppImage — the 3.2.0 build switched to Wine 11 and fails on most systems. The 3.0.2 AppImage (Wine 10) is hosted at the same upstream release tag.
 
 ### v2.0.9-2 (2026-06-09)
 - **Recommended Tab — Brave Origin**: privacy-focused browser by Brave with integrated AI assistant. Installed via official Brave script. Black icon patch applied at install time (patches both hicolor and `/opt` to survive updates).

@@ -119,7 +119,7 @@ SOFTWARE_CATEGORIES = {
             {
                 'name': 'Brave Origin',
                 'package': 'brave-origin',
-                'icon': 'brave-origin-icons/48x48/apps/brave-origin.png',
+                'icon': 'brave-origin.png',
                 'description': _('Privacy-focused browser by Brave with integrated AI assistant'),
                 'official': False,
                 'install_commands': [
@@ -384,21 +384,21 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'affinity.png',
                 'description': _('Professional photo editing, design and publishing suite'),
                 'official': False,
-                'check_path': '~/AppImages/Affinity-3.2.0-x86_64.AppImage',
+                'check_path': '~/AppImages/Affinity-3.0.2-x86_64.AppImage',
                 'install_commands': [
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
                     'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
                     'sudo -u $REAL_USER mkdir -p "$REAL_HOME/AppImages/.icons"',
                     'sudo -u $REAL_USER mkdir -p "$REAL_HOME/.local/share/applications"',
-                    'wget -q -O "$REAL_HOME/AppImages/Affinity-3.2.0-x86_64.AppImage" "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.2.0/Affinity-3.2.0-x86_64.AppImage"',
-                    'chmod +x "$REAL_HOME/AppImages/Affinity-3.2.0-x86_64.AppImage"',
+                    'wget -q -O "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage" "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.2.0/Affinity-3.0.2-x86_64.AppImage"',
+                    'chmod +x "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
                     f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "graphics", "affinity.png")} "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
                     'chown -R $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/AppImages"',
-                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=%s/AppImages/Affinity-3.2.0-x86_64.AppImage\\nIcon=%s/AppImages/.icons/AffinitySuite.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' \"$REAL_HOME\" \"$REAL_HOME\" | sudo -u $REAL_USER tee \"$REAL_HOME/.local/share/applications/affinity.desktop\" > /dev/null",
+                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=%s/AppImages/Affinity-3.0.2-x86_64.AppImage\\nIcon=%s/AppImages/.icons/AffinitySuite.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' \"$REAL_HOME\" \"$REAL_HOME\" | sudo -u $REAL_USER tee \"$REAL_HOME/.local/share/applications/affinity.desktop\" > /dev/null",
                 ],
                 'uninstall_commands': [
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'rm -f "$REAL_HOME/AppImages/Affinity-3.2.0-x86_64.AppImage"',
+                    'rm -f "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
                     'rm -f "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
                     'rm -f "$REAL_HOME/.local/share/applications/affinity.desktop"'
                 ]

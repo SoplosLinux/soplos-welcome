@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.9-3] - 2026-06-09
+
+### Fixed — Recommended Tab
+
+- **Brave Origin icon**: moved from `brave-origin-icons/48x48/apps/brave-origin.png` to `brave-origin.png` at the browsers icons root — same flat structure as all other browser icons, avoids packaging issues with nested subdirectories.
+- **Affinity Suite reverted to 3.0.2**: the 3.2.0 AppImage switched to Wine 11 and fails on most systems. Reverted to the 3.0.2 AppImage (Wine 10), available at the same release tag (`3.2.0`) of the upstream repo. Updated `check_path`, wget URL, chmod target, and `.desktop` `Exec` entry accordingly.
+
 ## [2.0.9-2] - 2026-06-09
 
 ### Added — Recommended Tab — New browsers
