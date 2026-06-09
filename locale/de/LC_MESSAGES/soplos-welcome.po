@@ -2014,6 +2014,15 @@ msgstr "Firefox-Fork mit Fokus auf Privatsphäre, Sicherheit und Freiheit"
 msgid "Lightweight, fast and secure web browser"
 msgstr "Leichtgewichtiger, schneller und sicherer Webbrowser"
 
+msgid "Privacy-focused browser by Brave with integrated AI assistant"
+msgstr "Datenschutzorientierter Browser von Brave mit integriertem KI-Assistenten"
+
+msgid "Feature-rich browser with built-in VPN and ad blocker"
+msgstr "Funktionsreicher Browser mit integriertem VPN und Werbeblocker"
+
+msgid "Privacy-focused Firefox-based browser with beautiful design"
+msgstr "Datenschutzorientierter Firefox-basierter Browser mit elegantem Design"
+
 #: config/software.py:86
 msgid "Communication"
 msgstr "Kommunikation"

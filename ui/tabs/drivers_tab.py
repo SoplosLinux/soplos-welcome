@@ -173,7 +173,7 @@ class DriversTab(Gtk.ScrolledWindow):
             'base_label': _("NVIDIA 550 (Repo)"),
             'install_fn': lambda b: self._on_nvidia_repo_clicked(b, 'nvidia-driver'),
             'uninstall_fn': lambda b: self._on_uninstall_nvidia_clicked(b),
-            'check_fn': lambda: self._is_package_installed('nvidia-driver'),
+            'check_fn': lambda: self._get_nvidia_active_version() == '550',
         }
 
         nvidia_470 = self._create_button(
@@ -644,7 +644,13 @@ echo "Wi-Fi repair completed. Driver: {driver}"
                     return ver
         except Exception:
             pass
-        # Fallback: scan dpkg for exact nvidia-driver-XXX package name
+        # Fallback: scan dpkg only if NVIDIA hardware is present (e.g. first boot with nouveau)
+        try:
+            lspci = subprocess.run(['lspci'], capture_output=True, text=True)
+            if not any(k in lspci.stdout for k in ('NVIDIA', 'GeForce', 'Quadro', 'Tesla')):
+                return None
+        except Exception:
+            return None
         try:
             import re
             result = subprocess.run(['dpkg', '-l'], capture_output=True, text=True)

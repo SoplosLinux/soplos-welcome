@@ -2019,6 +2019,15 @@ msgstr "Fork Firefox axat pe confidențialitate, securitate și libertate"
 msgid "Lightweight, fast and secure web browser"
 msgstr "Navigator web ușor, rapid și sigur"
 
+msgid "Privacy-focused browser by Brave with integrated AI assistant"
+msgstr "Browser axat pe confidențialitate de Brave cu asistent AI integrat"
+
+msgid "Feature-rich browser with built-in VPN and ad blocker"
+msgstr "Browser bogat în funcții cu VPN integrat și blocant de reclame"
+
+msgid "Privacy-focused Firefox-based browser with beautiful design"
+msgstr "Browser bazat pe Firefox axat pe confidențialitate cu design elegant"
+
 #: config/software.py:86
 msgid "Communication"
 msgstr "Comunicare"

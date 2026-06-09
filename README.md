@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.9--1-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.9--2-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,13 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.0.9-2 (2026-06-09)
+- **Recommended Tab — Brave Origin**: privacy-focused browser by Brave with integrated AI assistant. Installed via official Brave script. Black icon patch applied at install time (patches both hicolor and `/opt` to survive updates).
+- **Recommended Tab — Opera**: feature-rich browser with built-in VPN and ad blocker. Installed as Flatpak.
+- **Recommended Tab — Zen Browser**: Firefox-based privacy browser. Installed from latest GitHub release `.deb` with dynamic URL.
+- **Fixed — Drivers Tab (NVIDIA 550)**: `check_fn` changed from package check to `_get_nvidia_active_version() == '550'` — having the 580 driver installed no longer also marks 550.
+- **Fixed — Drivers Tab (NVIDIA false positives on AMD)**: dpkg fallback in `_get_nvidia_active_version()` now gated by `lspci` hardware check — leftover NVIDIA packages no longer trigger false positives on AMD systems.
 
 ### v2.0.9-1 (2026-05-29)
 - **Fixed — App icon in GNOME Software**: `slide1.png` was being packaged as the application icon, causing GNOME Software to display the wrong image. Removed `slide1.png` from `assets/icons/` — the correct icon (`org.soplos.welcome.png`) is now the only icon file in the repository.

@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.0.9-2] - 2026-06-09
+
+### Added — Recommended Tab — New browsers
+
+- **Brave Origin**: privacy-focused browser by Brave with integrated AI assistant. Installed via Brave's official script (`FLAVOR=origin`). Icon patch replaces the bundled orange icon with a black version in all sizes, patching both `/usr/share/icons/hicolor/` and `/opt/brave.com/brave-origin/` (postinst source) to survive updates.
+- **Opera**: feature-rich browser with built-in VPN and ad blocker. Installed as Flatpak (`com.opera.Opera`).
+- **Zen Browser**: privacy-focused Firefox-based browser with beautiful design. Installed from the latest GitHub release `.deb` via dynamic URL.
+
+### Fixed — Drivers Tab — NVIDIA false positives
+
+- **NVIDIA 550 detection**: `check_fn` now uses `_get_nvidia_active_version() == '550'` instead of `_is_package_installed('nvidia-driver')`. Previously, having any NVIDIA driver installed (e.g. 580) also marked 550 as installed because both share the `nvidia-driver` meta-package.
+- **NVIDIA false positives on AMD systems**: the dpkg fallback in `_get_nvidia_active_version()` now only runs when `lspci` detects NVIDIA hardware. On AMD-only systems, leftover NVIDIA packages in dpkg no longer trigger false-positive driver checkmarks.
+
 ## [2.0.9-1] - 2026-05-29
 
 ### Fixed — App icon in GNOME Software

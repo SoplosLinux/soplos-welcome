@@ -84,6 +84,27 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
+                'name': 'Opera',
+                'package': None,
+                'flatpak': 'com.opera.Opera',
+                'icon': 'opera.png',
+                'description': _('Feature-rich browser with built-in VPN and ad blocker'),
+                'official': False
+            },
+            {
+                'name': 'Zen Browser',
+                'package': 'zen-browser',
+                'icon': 'zen-browser.png',
+                'description': _('Privacy-focused Firefox-based browser with beautiful design'),
+                'official': False,
+                'install_commands': [
+                    'ZEN_URL=$(curl -s https://api.github.com/repos/sh4r10/zen-browser-debian/releases/latest | grep browser_download_url | grep -v zip | grep -v tar | cut -d\\" -f4)',
+                    'wget -q --show-progress -O /tmp/zen-browser.deb "$ZEN_URL"',
+                    'apt install -y /tmp/zen-browser.deb',
+                    'rm -f /tmp/zen-browser.deb'
+                ]
+            },
+            {
                 'name': 'Midori',
                 'package': 'midori',
                 'icon': 'midori.png',
@@ -93,6 +114,17 @@ SOFTWARE_CATEGORIES = {
                     'wget -q -O /tmp/midori.deb https://github.com/goastian/midori-desktop/releases/download/v11.6/midori_11.6-1_amd64.deb',
                     'apt install -y /tmp/midori.deb',
                     'rm /tmp/midori.deb'
+                ]
+            },
+            {
+                'name': 'Brave Origin',
+                'package': 'brave-origin',
+                'icon': 'brave-origin-icons/48x48/apps/brave-origin.png',
+                'description': _('Privacy-focused browser by Brave with integrated AI assistant'),
+                'official': False,
+                'install_commands': [
+                    'curl -fsS https://dl.brave.com/install.sh | FLAVOR=origin sh',
+                    f'bash \'{os.path.join(PROJECT_ROOT, "services", "brave-origin-icon-patch.sh")}\' \'{os.path.join(PROJECT_ROOT, "assets", "icons", "browsers", "brave-origin-icons")}\'',
                 ]
             },
         ]

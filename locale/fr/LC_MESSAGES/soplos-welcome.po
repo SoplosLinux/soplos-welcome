@@ -2029,6 +2029,15 @@ msgstr "Fork de Firefox axé sur la confidentialité, la sécurité et la libert
 msgid "Lightweight, fast and secure web browser"
 msgstr "Navigateur web léger, rapide et sécurisé"
 
+msgid "Privacy-focused browser by Brave with integrated AI assistant"
+msgstr "Navigateur axé sur la confidentialité par Brave avec assistant IA intégré"
+
+msgid "Feature-rich browser with built-in VPN and ad blocker"
+msgstr "Navigateur riche en fonctionnalités avec VPN intégré et bloqueur de publicités"
+
+msgid "Privacy-focused Firefox-based browser with beautiful design"
+msgstr "Navigateur basé sur Firefox axé sur la confidentialité avec un beau design"
+
 #: config/software.py:86
 msgid "Communication"
 msgstr "Communication"

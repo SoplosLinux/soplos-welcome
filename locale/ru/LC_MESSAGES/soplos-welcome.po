@@ -2021,6 +2021,15 @@ msgstr ""
 msgid "Lightweight, fast and secure web browser"
 msgstr "Легкий, быстрый и безопасный веб-браузер"
 
+msgid "Privacy-focused browser by Brave with integrated AI assistant"
+msgstr "Браузер Brave с акцентом на конфиденциальность и встроенным ИИ-ассистентом"
+
+msgid "Feature-rich browser with built-in VPN and ad blocker"
+msgstr "Многофункциональный браузер со встроенным VPN и блокировщиком рекламы"
+
+msgid "Privacy-focused Firefox-based browser with beautiful design"
+msgstr "Основанный на Firefox браузер с акцентом на конфиденциальность и красивым дизайном"
+
 #: config/software.py:86
 msgid "Communication"
 msgstr "Общение"

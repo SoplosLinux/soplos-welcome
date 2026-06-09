@@ -2053,6 +2053,15 @@ msgstr "Bifurcación de Firefox centrada en privacidad, seguridad y libertad"
 msgid "Lightweight, fast and secure web browser"
 msgstr "Navegador web ligero, rápido y seguro"
 
+msgid "Privacy-focused browser by Brave with integrated AI assistant"
+msgstr "Navegador centrado en la privacidad de Brave con asistente de IA integrado"
+
+msgid "Feature-rich browser with built-in VPN and ad blocker"
+msgstr "Navegador repleto de funciones con VPN integrada y bloqueador de anuncios"
+
+msgid "Privacy-focused Firefox-based browser with beautiful design"
+msgstr "Navegador basado en Firefox centrado en la privacidad con diseño elegante"
+
 #: config/software.py:86
 msgid "Communication"
 msgstr "Comunicación"
