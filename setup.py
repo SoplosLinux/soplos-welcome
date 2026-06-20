@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="soplos-welcome",
-    version="2.0.9-3",
+    version="2.1.0",
     packages=find_packages(),
     install_requires=[
         'PyGObject>=3.40.0',

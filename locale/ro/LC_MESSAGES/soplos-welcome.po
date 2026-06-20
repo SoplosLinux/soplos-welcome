@@ -387,8 +387,16 @@ msgid "NVIDIA Graphics Drivers"
 msgstr "Drivere Grafice NVIDIA"
 
 #: ui/tabs/drivers_tab.py:134
-msgid "NVIDIA 590 (Latest)"
-msgstr "NVIDIA 590 (Cel mai recent)"
+msgid "NVIDIA 610 (Latest)"
+msgstr "NVIDIA 610 (Cel mai recent)"
+
+#: ui/tabs/drivers_tab.py:135
+msgid "Blackwell and newer: RTX 50/60 series and latest hardware"
+msgstr "Blackwell și mai noi: seria RTX 50/60 și hardware de ultimă generație"
+
+#: ui/tabs/drivers_tab.py:141
+msgid "NVIDIA 590 (Stable)"
+msgstr "NVIDIA 590 (Stabil)"
 
 #: ui/tabs/drivers_tab.py:135
 msgid "Turing and newer: GTX 1650/1660, RTX 20/30/40/50 series"
@@ -1921,6 +1929,10 @@ msgstr "• Configurează drivere de sistem"
 #: ui/tabs/welcome_tab.py:161
 msgid "• Customize your desktop"
 msgstr "• Personalizează desktop-ul"
+
+#: ui/tabs/welcome_tab.py:163
+msgid "• Activate Gaming Mode"
+msgstr "• Activați Modul Gaming"
 
 #: ui/tabs/welcome_tab.py:162
 msgid "• Manage system kernels"

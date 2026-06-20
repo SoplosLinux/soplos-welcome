@@ -387,8 +387,16 @@ msgid "NVIDIA Graphics Drivers"
 msgstr "Pilotes graphiques NVIDIA"
 
 #: ui/tabs/drivers_tab.py:134
-msgid "NVIDIA 590 (Latest)"
-msgstr "NVIDIA 590 (Dernier)"
+msgid "NVIDIA 610 (Latest)"
+msgstr "NVIDIA 610 (Dernier)"
+
+#: ui/tabs/drivers_tab.py:135
+msgid "Blackwell and newer: RTX 50/60 series and latest hardware"
+msgstr "Blackwell et plus récent : séries RTX 50/60 et matériel dernier cri"
+
+#: ui/tabs/drivers_tab.py:141
+msgid "NVIDIA 590 (Stable)"
+msgstr "NVIDIA 590 (Stable)"
 
 #: ui/tabs/drivers_tab.py:135
 msgid "Turing and newer: GTX 1650/1660, RTX 20/30/40/50 series"
@@ -1931,6 +1939,10 @@ msgstr "• Configurer les pilotes système"
 #: ui/tabs/welcome_tab.py:161
 msgid "• Customize your desktop"
 msgstr "• Personnaliser votre bureau"
+
+#: ui/tabs/welcome_tab.py:163
+msgid "• Activate Gaming Mode"
+msgstr "• Activer le mode Gaming"
 
 #: ui/tabs/welcome_tab.py:162
 msgid "• Manage system kernels"

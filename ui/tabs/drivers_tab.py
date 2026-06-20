@@ -136,24 +136,38 @@ class DriversTab(Gtk.ScrolledWindow):
         self.drivers_box.pack_start(grid, False, False, 5)
 
         # Row 0
+        nvidia_610 = self._create_button(
+            _("NVIDIA 610 (Latest)"),
+            _("Blackwell and newer: RTX 50/60 series and latest hardware")
+        )
+        grid.attach(nvidia_610, 0, 0, 1, 1)
+        self._driver_buttons['nvidia_610'] = {
+            'button': nvidia_610, 'handler_id': None,
+            'base_label': _("NVIDIA 610 (Latest)"),
+            'install_fn': lambda b: self._on_nvidia_cuda_repo_clicked(b, '610'),
+            'uninstall_fn': lambda b: self._on_uninstall_nvidia_clicked(b),
+            'check_fn': lambda: self._get_nvidia_active_version() == '610',
+        }
+
         nvidia_590 = self._create_button(
-            _("NVIDIA 590 (Latest)"),
+            _("NVIDIA 590 (Stable)"),
             _("Turing and newer: GTX 1650/1660, RTX 20/30/40/50 series")
         )
-        grid.attach(nvidia_590, 0, 0, 1, 1)
+        grid.attach(nvidia_590, 1, 0, 1, 1)
         self._driver_buttons['nvidia_590'] = {
             'button': nvidia_590, 'handler_id': None,
-            'base_label': _("NVIDIA 590 (Latest)"),
+            'base_label': _("NVIDIA 590 (Stable)"),
             'install_fn': lambda b: self._on_nvidia_cuda_repo_clicked(b, '590'),
             'uninstall_fn': lambda b: self._on_uninstall_nvidia_clicked(b),
             'check_fn': lambda: self._get_nvidia_active_version() == '590',
         }
 
+        # Row 1
         nvidia_580 = self._create_button(
             _("NVIDIA 580 (Production)"),
             _("Universal driver: Maxwell to Blackwell (GTX 900 → RTX 5000)")
         )
-        grid.attach(nvidia_580, 1, 0, 1, 1)
+        grid.attach(nvidia_580, 0, 1, 1, 1)
         self._driver_buttons['nvidia_580'] = {
             'button': nvidia_580, 'handler_id': None,
             'base_label': _("NVIDIA 580 (Production)"),
@@ -162,12 +176,11 @@ class DriversTab(Gtk.ScrolledWindow):
             'check_fn': lambda: self._get_nvidia_active_version() == '580',
         }
 
-        # Row 1
         nvidia_550 = self._create_button(
             _("NVIDIA 550 (Repo)"),
             _("Maxwell to Ada Lovelace (GTX 900, GTX 10xx/16xx, RTX 20/30/40)")
         )
-        grid.attach(nvidia_550, 0, 1, 1, 1)
+        grid.attach(nvidia_550, 1, 1, 1, 1)
         self._driver_buttons['nvidia_550'] = {
             'button': nvidia_550, 'handler_id': None,
             'base_label': _("NVIDIA 550 (Repo)"),
@@ -176,11 +189,12 @@ class DriversTab(Gtk.ScrolledWindow):
             'check_fn': lambda: self._get_nvidia_active_version() == '550',
         }
 
+        # Row 2
         nvidia_470 = self._create_button(
             _("NVIDIA 470 (Legacy)"),
             _("Kepler to Ampere (GTX 600/700/900/10xx, RTX 20/30 series)")
         )
-        grid.attach(nvidia_470, 1, 1, 1, 1)
+        grid.attach(nvidia_470, 0, 2, 1, 1)
         self._driver_buttons['nvidia_470'] = {
             'button': nvidia_470, 'handler_id': None,
             'base_label': _("NVIDIA 470 (Legacy)"),
@@ -189,12 +203,11 @@ class DriversTab(Gtk.ScrolledWindow):
             'check_fn': lambda: self._is_package_installed('nvidia-tesla-470-driver'),
         }
 
-        # Row 2
         nvidia_390 = self._create_button(
             _("NVIDIA 390 (Legacy)"),
             _("Fermi and Kepler (GTX 400/500/600/700 series)")
         )
-        grid.attach(nvidia_390, 0, 2, 1, 1)
+        grid.attach(nvidia_390, 1, 2, 1, 1)
         self._driver_buttons['nvidia_390'] = {
             'button': nvidia_390, 'handler_id': None,
             'base_label': _("NVIDIA 390 (Legacy)"),
@@ -203,11 +216,12 @@ class DriversTab(Gtk.ScrolledWindow):
             'check_fn': lambda: self._is_package_installed('nvidia-legacy-390xx-driver'),
         }
 
+        # Row 3
         nvidia_340 = self._create_button(
             _("NVIDIA 340 (Legacy)"),
             _("Tesla architecture (GeForce 8/9/100/200/300 series)")
         )
-        grid.attach(nvidia_340, 1, 2, 1, 1)
+        grid.attach(nvidia_340, 0, 3, 1, 1)
         self._driver_buttons['nvidia_340'] = {
             'button': nvidia_340, 'handler_id': None,
             'base_label': _("NVIDIA 340 (Legacy)"),
@@ -216,12 +230,11 @@ class DriversTab(Gtk.ScrolledWindow):
             'check_fn': lambda: self._is_package_installed('nvidia-legacy-340xx-driver'),
         }
 
-        # Row 3
         nouveau = self._create_button(
             _("Nouveau (Open Source)"),
             _("Free and open source NVIDIA driver")
         )
-        grid.attach(nouveau, 0, 3, 1, 1)
+        grid.attach(nouveau, 1, 3, 1, 1)
         self._driver_buttons['nouveau'] = {
             'button': nouveau, 'handler_id': None,
             'base_label': _("Nouveau (Open Source)"),
@@ -230,12 +243,13 @@ class DriversTab(Gtk.ScrolledWindow):
             'check_fn': lambda: self._is_nouveau_active(),
         }
 
+        # Row 4
         uninstall_nvidia = self._create_button(
             _("Uninstall NVIDIA Drivers"),
             _("Remove all NVIDIA packages completely before switching drivers")
         )
         uninstall_nvidia.connect("clicked", self._on_uninstall_nvidia_clicked)
-        grid.attach(uninstall_nvidia, 1, 3, 1, 1)
+        grid.attach(uninstall_nvidia, 0, 4, 2, 1)
     
     def _create_nvidia_hybrid_section(self):
         """Create NVIDIA hybrid graphics section for laptops."""
@@ -899,7 +913,7 @@ trap 'rm -f /etc/apt/sources.list.d/cuda-debian12-x86_64.list' EXIT"""
             repo_cleanup = """trap - EXIT
 rm -f /etc/apt/sources.list.d/cuda-debian12-x86_64.list
 apt update -q"""
-        else:
+        elif version == "590":
             repo_setup = """TEMP_DIR=$(mktemp -d)
 wget -q -O "$TEMP_DIR/cuda-keyring.deb" \\
     https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb
@@ -911,6 +925,19 @@ fi
 dpkg -i "$TEMP_DIR/cuda-keyring.deb"
 rm -rf "$TEMP_DIR\""""
             install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y cuda-drivers-590"
+            repo_cleanup = ""
+        else:
+            repo_setup = """TEMP_DIR=$(mktemp -d)
+wget -q -O "$TEMP_DIR/cuda-keyring.deb" \\
+    https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb
+if [ ! -s "$TEMP_DIR/cuda-keyring.deb" ]; then
+    echo "ERROR: Failed to download cuda-keyring."
+    rm -rf "$TEMP_DIR"
+    exit 1
+fi
+dpkg -i "$TEMP_DIR/cuda-keyring.deb"
+rm -rf "$TEMP_DIR\""""
+            install_driver = "apt install -y nvidia-driver-pinning-610\napt install -y cuda-drivers-610"
             repo_cleanup = ""
 
         script = f"""#!/bin/bash
@@ -1463,7 +1490,7 @@ echo "IMPORTANT: Restart the system to apply the changes."
         """Install recommended driver from hardware scan."""
         dialog.destroy()
 
-        cuda_drivers = {"nvidia-driver-580": "580", "nvidia-driver-590": "590"}
+        cuda_drivers = {"nvidia-driver-580": "580", "nvidia-driver-590": "590", "nvidia-driver-610": "610"}
         legacy_drivers = {"nvidia-tesla-470-driver", "nvidia-legacy-390xx-driver", "nvidia-legacy-340xx-driver"}
 
         if driver in cuda_drivers:

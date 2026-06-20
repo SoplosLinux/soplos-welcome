@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.0.9--3-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.0-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.0 (2026-06-20)
+- **Drivers Tab — NVIDIA 610 (Latest)**: new driver button for Blackwell and newer hardware (RTX 50/60 series). Installed via NVIDIA CUDA repo for Debian 13 (`nvidia-driver-pinning-610` + `cuda-drivers-610`).
+- **Drivers Tab — NVIDIA 590 renamed to Stable**: label updated from "Latest" to "Stable" now that 610 is the most recent branch.
+- **Welcome Tab — Gaming Mode link**: new row below "Customize your desktop" with a clickable link that activates the Gaming tab (same as Ctrl+G).
 
 ### v2.0.9-3 (2026-06-09)
 - **Fixed — Recommended Tab (Brave Origin icon)**: moved to `brave-origin.png` at the browsers icons root — same flat structure as all other browser icons.

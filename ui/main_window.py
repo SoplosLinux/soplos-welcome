@@ -257,7 +257,8 @@ class MainWindow(Gtk.ApplicationWindow):
                 # Create appropriate tab content
                 if tab_class == "WelcomeTab":
                     from .tabs.welcome_tab import WelcomeTab
-                    tab_content = WelcomeTab(self.i18n_manager, self.theme_manager, self.application.assets_path)
+                    tab_content = WelcomeTab(self.i18n_manager, self.theme_manager, self.application.assets_path,
+                                             on_gaming_activate=self._toggle_gaming_tab)
                 elif tab_class == "SoftwareTab":
                     from .tabs.software_tab import SoftwareTab
                     tab_content = SoftwareTab(

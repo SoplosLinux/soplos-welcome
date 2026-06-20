@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.0] - 2026-06-20
+
+### Added — Drivers Tab — NVIDIA 610
+
+- **NVIDIA 610 (Latest)**: new driver button for Blackwell and newer hardware (RTX 50/60 series). Installed from the official NVIDIA CUDA repository for Debian 13 (`nvidia-driver-pinning-610` + `cuda-drivers-610`). Verified present in the CUDA debian13 repo (`nvidia-driver-pinning-610_610-2`).
+- **NVIDIA 590 renamed to Stable**: the 590 button label has been updated from "Latest" to "Stable" to reflect that 610 is now the most recent branch.
+- **Grid layout updated**: 610 occupies row 0 col 0, 590 moves to row 0 col 1. All other drivers shift one row down. Uninstall button now spans both columns in row 4.
+
+### Added — Welcome Tab — Gaming Mode link
+
+- **Gaming Mode link on home screen**: a new row below "Customize your desktop" shows the gaming controller icon and a clickable link ("Activate Gaming Mode") that triggers `_toggle_gaming_tab()` — identical to Ctrl+G. The row only renders if the Gaming tab loaded correctly.
+
 ## [2.0.9-3] - 2026-06-09
 
 ### Fixed — Recommended Tab
