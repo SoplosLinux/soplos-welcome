@@ -3233,3 +3233,40 @@ msgstr "Starten Sie Lutris mindestens einmal, bevor Sie diesen Fix anwenden."
 
 msgid "Lutris Vulkan fix applied successfully!"
 msgstr "Lutris Vulkan-Fix erfolgreich angewendet!"
+
+msgid "AMD Extras"
+msgstr "AMD Extras"
+
+msgid "ROCm OpenCL"
+msgstr "ROCm OpenCL"
+
+msgid "OpenCL runtime for AMD GPUs (RDNA1+) — DaVinci Resolve, Blender HIP, GPU compute"
+msgstr "OpenCL-Laufzeit für AMD-GPUs (RDNA1+) — DaVinci Resolve, Blender HIP, GPU-Berechnung"
+
+msgid "ROCm Full Suite"
+msgstr "ROCm Full Suite"
+
+msgid "Complete ROCm platform for AI/ML development with PyTorch and TensorFlow on AMD GPU"
+msgstr "Vollständige ROCm-Plattform für KI/ML-Entwicklung mit PyTorch und TensorFlow auf AMD-GPU"
+
+msgid "Remove ROCm"
+msgstr "ROCm entfernen"
+
+msgid "This will remove all ROCm packages and the AMD ROCm repository.\n\nDo you want to continue?"
+msgstr "Dadurch werden alle ROCm-Pakete und das AMD-ROCm-Repository entfernt.\n\nMöchten Sie fortfahren?"
+
+msgid "Confirm ROCm Installation — {label}"
+msgstr "ROCm-Installation bestätigen — {label}"
+
+msgid "This will:\n\n1. Add the official AMD ROCm repository.\n2. Install {label}.\n3. Add your user to the render and video groups.\n\nRequires an AMD GPU (RDNA1 or newer: RX 5000+, Radeon 600M/700M series).\nNot compatible with older GCN GPUs.\n\n{size}\n\nA session restart will be required after installation.\n\nDo you want to continue?"
+msgstr "Dies wird:\n\n1. Das offizielle AMD-ROCm-Repository hinzufügen.\n2. {label} installieren.\n3. Ihren Benutzer zu den Gruppen render und video hinzufügen.\n\nErfordert eine AMD-GPU (RDNA1 oder neuer: RX 5000+, Radeon 600M/700M-Serie).\nNicht kompatibel mit älteren GCN-GPUs.\n\n{size}\n\nNach der Installation ist ein Neustart der Sitzung erforderlich.\n\nMöchten Sie fortfahren?"
+
+msgid "~200 MB download."
+msgstr "~200 MB Download."
+
+msgid "Several GB download — this may take a while."
+msgstr "Mehrere GB Download — dies kann eine Weile dauern."
+
+
+msgid "Privacy-focused browser built on Chromium with YouTube integration"
+msgstr ""

@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.0-1] - 2026-06-24
+
+### Added — Drivers Tab — AMD Extras (ROCm)
+
+- **ROCm OpenCL**: new section "AMD Extras" with OpenCL runtime for AMD GPUs (RDNA1+). Installs `rocm-opencl-runtime` from the official AMD ROCm 6.4 repository. Adds the user to `render` and `video` groups automatically. For DaVinci Resolve, Blender HIP and general GPU compute.
+- **ROCm Full Suite**: full ROCm platform (`rocm`) for AI/ML development with PyTorch and TensorFlow on AMD GPU. Several GB download.
+- Both buttons support install/uninstall with checkmark detection via `_driver_buttons`.
+
+### Added — Recommended Tab — Helium browser
+
+- **Helium**: privacy-focused browser built on Chromium with YouTube integration. Installed from the latest GitHub release `.deb` (`imputnet/helium-linux`) via dynamic URL — package `helium-bin`.
+
+### Fixed — Drivers Tab
+
+- **NVIDIA Extras checkmarks**: DaVinci Resolve Extras and Blender CUDA Toolkit buttons now show a checkmark when their packages (`nvidia-opencl-icd`, `nvidia-cuda-toolkit`) are installed. Previously they had no state detection.
+- **LACT removed**: LACT GPU Control Center was duplicated in both Drivers and Recommended tabs. Removed from Drivers — it belongs in Recommended only.
+
+### Changed — Drivers Tab — VirtualBox Guest Additions
+
+- **Updated to 7.2.10**: replaced bundled `VBoxLinuxAdditions.run` with the 7.2.10 release.
+
+### Fixed — Assets permissions
+
+- **Normalized to 644/755**: all files under `assets/` set to 644, all directories to 755, `VBoxLinuxAdditions.run` kept at 755.
+
 ## [2.1.0] - 2026-06-20
 
 ### Added — Drivers Tab — NVIDIA 610

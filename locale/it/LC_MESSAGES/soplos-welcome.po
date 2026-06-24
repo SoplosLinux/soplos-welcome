@@ -3239,3 +3239,40 @@ msgstr "Avvia Lutris almeno una volta prima di applicare questa correzione."
 
 msgid "Lutris Vulkan fix applied successfully!"
 msgstr "Correzione Vulkan di Lutris applicata con successo!"
+
+msgid "AMD Extras"
+msgstr "Extra AMD"
+
+msgid "ROCm OpenCL"
+msgstr "ROCm OpenCL"
+
+msgid "OpenCL runtime for AMD GPUs (RDNA1+) — DaVinci Resolve, Blender HIP, GPU compute"
+msgstr "Runtime OpenCL per GPU AMD (RDNA1+) — DaVinci Resolve, Blender HIP, calcolo GPU"
+
+msgid "ROCm Full Suite"
+msgstr "ROCm Full Suite"
+
+msgid "Complete ROCm platform for AI/ML development with PyTorch and TensorFlow on AMD GPU"
+msgstr "Piattaforma ROCm completa per lo sviluppo IA/ML con PyTorch e TensorFlow su GPU AMD"
+
+msgid "Remove ROCm"
+msgstr "Rimuovi ROCm"
+
+msgid "This will remove all ROCm packages and the AMD ROCm repository.\n\nDo you want to continue?"
+msgstr "Questo rimuoverà tutti i pacchetti ROCm e il repository AMD ROCm.\n\nVuoi continuare?"
+
+msgid "Confirm ROCm Installation — {label}"
+msgstr "Conferma installazione ROCm — {label}"
+
+msgid "This will:\n\n1. Add the official AMD ROCm repository.\n2. Install {label}.\n3. Add your user to the render and video groups.\n\nRequires an AMD GPU (RDNA1 or newer: RX 5000+, Radeon 600M/700M series).\nNot compatible with older GCN GPUs.\n\n{size}\n\nA session restart will be required after installation.\n\nDo you want to continue?"
+msgstr "Questo farà:\n\n1. Aggiungere il repository ufficiale AMD ROCm.\n2. Installare {label}.\n3. Aggiungere l'utente ai gruppi render e video.\n\nRichiede una GPU AMD (RDNA1 o più recente: RX 5000+, serie Radeon 600M/700M).\nNon compatibile con GPU GCN più vecchie.\n\n{size}\n\nSarà necessario riavviare la sessione dopo l'installazione.\n\nVuoi continuare?"
+
+msgid "~200 MB download."
+msgstr "Download di ~200 MB."
+
+msgid "Several GB download — this may take a while."
+msgstr "Download di diversi GB — potrebbe richiedere un po' di tempo."
+
+
+msgid "Privacy-focused browser built on Chromium with YouTube integration"
+msgstr ""

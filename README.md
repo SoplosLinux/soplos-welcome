@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.0-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.0--1-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,14 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.0-1 (2026-06-24)
+- **Drivers Tab — AMD Extras**: new section with ROCm OpenCL (`rocm-opencl-runtime`) and ROCm Full Suite (`rocm`) from AMD's official repo. Adds user to `render` and `video` groups. For RDNA1+ GPUs (RX 5000+, Radeon 600M/700M series).
+- **Drivers Tab — NVIDIA Extras checkmarks**: DaVinci Resolve Extras and Blender CUDA Toolkit now show a checkmark when installed.
+- **Drivers Tab — LACT removed**: duplicated in Recommended tab, removed from Drivers.
+- **Drivers Tab — VirtualBox Guest Additions 7.2.10**: updated bundled installer.
+- **Recommended Tab — Helium**: added privacy-focused Chromium-based browser with YouTube integration, installed from latest GitHub release `.deb`.
+- **Assets permissions**: normalized to 644 (files) / 755 (dirs) across the entire assets folder.
 
 ### v2.1.0 (2026-06-20)
 - **Drivers Tab — NVIDIA 610 (Latest)**: new driver button for Blackwell and newer hardware (RTX 50/60 series). Installed via NVIDIA CUDA repo for Debian 13 (`nvidia-driver-pinning-610` + `cuda-drivers-610`).

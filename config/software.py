@@ -105,6 +105,19 @@ SOFTWARE_CATEGORIES = {
                 ]
             },
             {
+                'name': 'Helium',
+                'package': 'helium-bin',
+                'icon': 'helium.png',
+                'description': _('Privacy-focused browser built on Chromium with YouTube integration'),
+                'official': False,
+                'install_commands': [
+                    'HELIUM_URL=$(curl -s https://api.github.com/repos/imputnet/helium-linux/releases/latest | grep browser_download_url | grep amd64.deb | cut -d\\" -f4)',
+                    'wget -q --show-progress -O /tmp/helium.deb "$HELIUM_URL"',
+                    'apt install -y /tmp/helium.deb',
+                    'rm -f /tmp/helium.deb'
+                ]
+            },
+            {
                 'name': 'Midori',
                 'package': 'midori',
                 'icon': 'midori.png',

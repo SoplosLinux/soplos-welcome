@@ -3272,3 +3272,40 @@ msgstr "Ejecuta Lutris al menos una vez antes de aplicar este parche."
 
 msgid "Lutris Vulkan fix applied successfully!"
 msgstr "¡Parche Vulkan de Lutris aplicado correctamente!"
+
+msgid "AMD Extras"
+msgstr "Extras de AMD"
+
+msgid "ROCm OpenCL"
+msgstr "ROCm OpenCL"
+
+msgid "OpenCL runtime for AMD GPUs (RDNA1+) — DaVinci Resolve, Blender HIP, GPU compute"
+msgstr "Runtime OpenCL para GPUs AMD (RDNA1+) — DaVinci Resolve, Blender HIP, cómputo en GPU"
+
+msgid "ROCm Full Suite"
+msgstr "ROCm Full Suite"
+
+msgid "Complete ROCm platform for AI/ML development with PyTorch and TensorFlow on AMD GPU"
+msgstr "Plataforma ROCm completa para desarrollo de IA/ML con PyTorch y TensorFlow en GPU AMD"
+
+msgid "Remove ROCm"
+msgstr "Eliminar ROCm"
+
+msgid "This will remove all ROCm packages and the AMD ROCm repository.\n\nDo you want to continue?"
+msgstr "Esto eliminará todos los paquetes ROCm y el repositorio AMD ROCm.\n\n¿Deseas continuar?"
+
+msgid "Confirm ROCm Installation — {label}"
+msgstr "Confirmar instalación de ROCm — {label}"
+
+msgid "This will:\n\n1. Add the official AMD ROCm repository.\n2. Install {label}.\n3. Add your user to the render and video groups.\n\nRequires an AMD GPU (RDNA1 or newer: RX 5000+, Radeon 600M/700M series).\nNot compatible with older GCN GPUs.\n\n{size}\n\nA session restart will be required after installation.\n\nDo you want to continue?"
+msgstr "Esto hará lo siguiente:\n\n1. Añadir el repositorio oficial AMD ROCm.\n2. Instalar {label}.\n3. Añadir tu usuario a los grupos render y video.\n\nRequiere una GPU AMD (RDNA1 o superior: RX 5000+, serie Radeon 600M/700M).\nNo compatible con GPUs GCN antiguas.\n\n{size}\n\nSe necesitará reiniciar la sesión tras la instalación.\n\n¿Deseas continuar?"
+
+msgid "~200 MB download."
+msgstr "Descarga de ~200 MB."
+
+msgid "Several GB download — this may take a while."
+msgstr "Descarga de varios GB — esto puede tardar un tiempo."
+
+
+msgid "Privacy-focused browser built on Chromium with YouTube integration"
+msgstr ""

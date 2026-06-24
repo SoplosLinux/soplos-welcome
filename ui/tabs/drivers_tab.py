@@ -101,10 +101,16 @@ class DriversTab(Gtk.ScrolledWindow):
         
         # --- AMD Section ---
         self._create_amd_section()
-        
+
         # Separator
         self.drivers_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
-        
+
+        # --- AMD Extras Section ---
+        self._create_amd_extras_section()
+
+        # Separator
+        self.drivers_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
+
         # --- Wi-Fi Section ---
         self._create_wifi_section()
         
@@ -303,19 +309,32 @@ class DriversTab(Gtk.ScrolledWindow):
         box.set_homogeneous(True)
         self.drivers_box.pack_start(box, False, False, 5)
         
+        davinci_pkgs = "nvidia-opencl-icd libcuda1 libglu1-mesa libnvidia-encode1"
         davinci_btn = self._create_button(
             _("DaVinci Resolve Extras"),
             _("OpenCL and CUDA libraries for DaVinci Resolve")
         )
-        davinci_btn.connect("clicked", self._on_nvidia_extras_clicked, "davinci")
         box.pack_start(davinci_btn, True, True, 0)
-        
+        self._driver_buttons['nvidia_davinci'] = {
+            'button': davinci_btn, 'handler_id': None,
+            'base_label': _("DaVinci Resolve Extras"),
+            'install_fn': lambda b: self._on_nvidia_extras_clicked(b, 'davinci'),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, davinci_pkgs),
+            'check_fn': lambda: self._is_package_installed('nvidia-opencl-icd'),
+        }
+
         blender_btn = self._create_button(
             _("Blender CUDA Toolkit"),
             _("CUDA toolkit for Blender GPU rendering")
         )
-        blender_btn.connect("clicked", self._on_nvidia_extras_clicked, "blender")
         box.pack_start(blender_btn, True, True, 0)
+        self._driver_buttons['nvidia_blender'] = {
+            'button': blender_btn, 'handler_id': None,
+            'base_label': _("Blender CUDA Toolkit"),
+            'install_fn': lambda b: self._on_nvidia_extras_clicked(b, 'blender'),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'nvidia-cuda-toolkit'),
+            'check_fn': lambda: self._is_package_installed('nvidia-cuda-toolkit'),
+        }
     
     def _create_amd_section(self):
         """Create AMD drivers section."""
@@ -342,15 +361,44 @@ class DriversTab(Gtk.ScrolledWindow):
             'check_fn': lambda: self._is_amd_driver_installed(),
         }
 
-        lact_btn = self._create_button(
-            _("LACT — GPU Control Center"),
-            _("Overclocking, fan control and monitoring for AMD and NVIDIA GPUs")
-        )
-        lact_btn.connect("clicked", self._on_install_lact)
-        amd_box.pack_start(lact_btn, True, True, 0)
-        self._lact_btn = lact_btn
-        self._refresh_lact_button()
     
+    def _create_amd_extras_section(self):
+        """Create AMD Extras section (ROCm OpenCL and full ROCm suite)."""
+        label = Gtk.Label()
+        label.set_markup(f'<span weight="bold" size="14000">{_("AMD Extras")}</span>')
+        label.set_halign(Gtk.Align.START)
+        self.drivers_box.pack_start(label, False, False, 5)
+
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        box.set_homogeneous(True)
+        self.drivers_box.pack_start(box, False, False, 5)
+
+        rocm_opencl_btn = self._create_button(
+            _("ROCm OpenCL"),
+            _("OpenCL runtime for AMD GPUs (RDNA1+) — DaVinci Resolve, Blender HIP, GPU compute")
+        )
+        box.pack_start(rocm_opencl_btn, True, True, 0)
+        self._driver_buttons['rocm_opencl'] = {
+            'button': rocm_opencl_btn, 'handler_id': None,
+            'base_label': _("ROCm OpenCL"),
+            'install_fn': lambda b: self._on_rocm_clicked(b, 'opencl'),
+            'uninstall_fn': lambda b: self._on_rocm_clicked(b, 'uninstall'),
+            'check_fn': lambda: self._is_package_installed('rocm-opencl-runtime'),
+        }
+
+        rocm_full_btn = self._create_button(
+            _("ROCm Full Suite"),
+            _("Complete ROCm platform for AI/ML development with PyTorch and TensorFlow on AMD GPU")
+        )
+        box.pack_start(rocm_full_btn, True, True, 0)
+        self._driver_buttons['rocm_full'] = {
+            'button': rocm_full_btn, 'handler_id': None,
+            'base_label': _("ROCm Full Suite"),
+            'install_fn': lambda b: self._on_rocm_clicked(b, 'full'),
+            'uninstall_fn': lambda b: self._on_rocm_clicked(b, 'uninstall'),
+            'check_fn': lambda: self._is_package_installed('rocm'),
+        }
+
     def _create_wifi_section(self):
         """Create Wi-Fi drivers section."""
         label = Gtk.Label()
@@ -1023,8 +1071,105 @@ apt update
 apt install -y {packages}
 echo "Installation completed successfully."
 """
-        self._run_script_as_root(script, script_name)
-    
+        self._run_script_as_root(script, script_name, self._refresh_driver_status)
+
+    def _on_rocm_clicked(self, button, mode):
+        """Install or remove ROCm from the official AMD repository."""
+        if mode == 'uninstall':
+            confirm_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Remove ROCm")
+            )
+            confirm_dialog.format_secondary_text(
+                _("This will remove all ROCm packages and the AMD ROCm repository.\n\n"
+                  "Do you want to continue?")
+            )
+            response = confirm_dialog.run()
+            confirm_dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+
+            script = """#!/bin/bash
+set -e
+echo "=== Removing ROCm ==="
+apt purge -y 'rocm*' 'hip*' 'hsa*' 'comgr*' 'rocblas*' 'rocsolver*' 2>/dev/null || true
+apt autoremove -y 2>/dev/null || true
+rm -f /etc/apt/sources.list.d/rocm.list
+rm -f /etc/apt/keyrings/rocm.gpg
+apt update -q
+echo "[+] ROCm removed successfully."
+"""
+            self._run_script_as_root(script, "remove-rocm.sh", self._refresh_driver_status)
+            return
+
+        pkg = 'rocm-opencl-runtime' if mode == 'opencl' else 'rocm'
+        label = _("ROCm OpenCL") if mode == 'opencl' else _("ROCm Full Suite")
+        size_note = _("~200 MB download.") if mode == 'opencl' else _("Several GB download — this may take a while.")
+
+        confirm_dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Confirm ROCm Installation — {label}").format(label=label)
+        )
+        confirm_dialog.format_secondary_text(
+            _("This will:\n\n"
+              "1. Add the official AMD ROCm repository.\n"
+              "2. Install {label}.\n"
+              "3. Add your user to the render and video groups.\n\n"
+              "Requires an AMD GPU (RDNA1 or newer: RX 5000+, Radeon 600M/700M series).\n"
+              "Not compatible with older GCN GPUs.\n\n"
+              "{size}\n\n"
+              "A session restart will be required after installation.\n\n"
+              "Do you want to continue?").format(label=label, size=size_note)
+        )
+        response = confirm_dialog.run()
+        confirm_dialog.destroy()
+        if response != Gtk.ResponseType.YES:
+            return
+
+        script = f"""#!/bin/bash
+set -e
+LOG="/tmp/rocm-install.log"
+exec > >(tee -a "$LOG") 2>&1
+
+echo "=== AMD ROCm Installation ({label}) ==="
+echo ""
+
+echo "[1/4] Setting up AMD ROCm repository..."
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc/apt/keyrings/rocm.gpg
+
+CODENAME=$(. /etc/os-release && echo "$VERSION_CODENAME")
+case "$CODENAME" in
+    bookworm) ROCM_DISTRO="bookworm" ;;
+    trixie)   ROCM_DISTRO="trixie"   ;;
+    *)        ROCM_DISTRO="trixie"   ;;
+esac
+
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.4 $ROCM_DISTRO main" \\
+    > /etc/apt/sources.list.d/rocm.list
+
+echo "[2/4] Updating package lists..."
+apt update
+
+echo "[3/4] Installing {label}..."
+apt install -y {pkg}
+
+echo "[4/4] Adding user to render and video groups..."
+REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)
+usermod -aG render,video "$REAL_USER"
+
+echo ""
+echo "=== Installation completed successfully ==="
+echo "ROCm installed. Please restart your session to apply group membership."
+"""
+        self._run_script_as_root(script, f"install-rocm-{mode}.sh", self._refresh_driver_status)
+
     def _on_vbox_clicked(self, button):
         """Install VirtualBox Guest Additions."""
         vbox_run = os.path.join(ASSETS_DIR, "vbox", "VBoxLinuxAdditions.run")
@@ -1077,43 +1222,6 @@ echo "IMPORTANT: Restart the system to apply the changes."
         except Exception:
             return False
 
-    def _refresh_lact_button(self):
-        """Update LACT button label based on install state."""
-        def _check():
-            installed = self._is_flatpak_installed('io.github.ilya_zlobintsev.LACT')
-            GLib.idle_add(self._apply_lact_state, installed)
-        threading.Thread(target=_check, daemon=True).start()
-
-    def _apply_lact_state(self, installed):
-        """Update LACT button label and handler."""
-        btn = self._lact_btn
-        try:
-            if hasattr(self, '_lact_handler_id') and self._lact_handler_id:
-                btn.disconnect(self._lact_handler_id)
-        except Exception:
-            pass
-        if installed:
-            btn.set_label(f"✓  {_('LACT — GPU Control Center')}")
-            self._lact_handler_id = btn.connect('clicked', self._on_uninstall_lact)
-        else:
-            btn.set_label(_("LACT — GPU Control Center"))
-            self._lact_handler_id = btn.connect('clicked', self._on_install_lact)
-
-    def _on_install_lact(self, button):
-        """Install LACT via Flatpak."""
-        script_path = "/tmp/install-lact.sh"
-        with open(script_path, "w") as f:
-            f.write("#!/bin/bash\nflatpak install -y flathub io.github.ilya_zlobintsev.LACT\necho 'Done'\n")
-        os.chmod(script_path, 0o755)
-        self.command_runner.run_command(f"bash {script_path}", self._refresh_lact_button)
-
-    def _on_uninstall_lact(self, button):
-        """Uninstall LACT via Flatpak."""
-        script_path = "/tmp/uninstall-lact.sh"
-        with open(script_path, "w") as f:
-            f.write("#!/bin/bash\nflatpak uninstall -y io.github.ilya_zlobintsev.LACT\necho 'Done'\n")
-        os.chmod(script_path, 0o755)
-        self.command_runner.run_command(f"bash {script_path}", self._refresh_lact_button)
 
     def _on_scan_hardware(self, button):
         """Scan hardware and show results."""

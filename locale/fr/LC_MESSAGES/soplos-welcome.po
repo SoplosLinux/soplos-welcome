@@ -3247,3 +3247,41 @@ msgstr "Lancez Lutris au moins une fois avant d'appliquer ce correctif."
 
 msgid "Lutris Vulkan fix applied successfully!"
 msgstr "Correctif Vulkan Lutris appliqué avec succès !"
+
+msgid "AMD Extras"
+msgstr "Extras AMD"
+
+
+msgid "ROCm OpenCL"
+msgstr "ROCm OpenCL"
+
+msgid "OpenCL runtime for AMD GPUs (RDNA1+) — DaVinci Resolve, Blender HIP, GPU compute"
+msgstr "Runtime OpenCL pour GPU AMD (RDNA1+) — DaVinci Resolve, Blender HIP, calcul GPU"
+
+msgid "ROCm Full Suite"
+msgstr "ROCm Full Suite"
+
+msgid "Complete ROCm platform for AI/ML development with PyTorch and TensorFlow on AMD GPU"
+msgstr "Plateforme ROCm complète pour le développement IA/ML avec PyTorch et TensorFlow sur GPU AMD"
+
+msgid "Remove ROCm"
+msgstr "Supprimer ROCm"
+
+msgid "This will remove all ROCm packages and the AMD ROCm repository.\n\nDo you want to continue?"
+msgstr "Cela supprimera tous les paquets ROCm et le dépôt AMD ROCm.\n\nVoulez-vous continuer ?"
+
+msgid "Confirm ROCm Installation — {label}"
+msgstr "Confirmer l'installation de ROCm — {label}"
+
+msgid "This will:\n\n1. Add the official AMD ROCm repository.\n2. Install {label}.\n3. Add your user to the render and video groups.\n\nRequires an AMD GPU (RDNA1 or newer: RX 5000+, Radeon 600M/700M series).\nNot compatible with older GCN GPUs.\n\n{size}\n\nA session restart will be required after installation.\n\nDo you want to continue?"
+msgstr "Cela va :\n\n1. Ajouter le dépôt officiel AMD ROCm.\n2. Installer {label}.\n3. Ajouter votre utilisateur aux groupes render et video.\n\nNécessite un GPU AMD (RDNA1 ou plus récent : RX 5000+, série Radeon 600M/700M).\nNon compatible avec les anciens GPU GCN.\n\n{size}\n\nUn redémarrage de session sera requis après l'installation.\n\nVoulez-vous continuer ?"
+
+msgid "~200 MB download."
+msgstr "Téléchargement de ~200 Mo."
+
+msgid "Several GB download — this may take a while."
+msgstr "Téléchargement de plusieurs Go — cela peut prendre un moment."
+
+
+msgid "Privacy-focused browser built on Chromium with YouTube integration"
+msgstr ""
