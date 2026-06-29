@@ -871,10 +871,21 @@ echo "Removal completed successfully."
             return
 
         script = f"""#!/bin/bash
-        
+
 set -e
 
 echo "Installing NVIDIA driver from repository..."
+
+# === CLEANUP DKMS MODULES ===
+echo "Removing NVIDIA DKMS modules from all kernels..."
+for entry in $(dkms status | grep -i nvidia | awk -F'[:,]' '{{print $1"/"$2}}' | tr -d ' '); do
+    dkms remove --force "$entry" --all 2>/dev/null || true
+done
+for kver in $(ls /lib/modules/); do
+    rm -f /lib/modules/$kver/updates/dkms/nvidia*.ko*
+    depmod -a "$kver" 2>/dev/null || true
+done
+rm -rf /var/lib/dkms/nvidia*
 
 # === CLEANUP EXISTING NVIDIA PACKAGES ===
 echo "Removing existing NVIDIA packages to prevent conflicts..."
@@ -962,8 +973,8 @@ trap 'rm -f /etc/apt/sources.list.d/cuda-debian12-x86_64.list' EXIT"""
 rm -f /etc/apt/sources.list.d/cuda-debian12-x86_64.list
 apt update -q"""
         elif version == "590":
-            repo_setup = """TEMP_DIR=$(mktemp -d)
-wget -q -O "$TEMP_DIR/cuda-keyring.deb" \\
+            repo_setup = r"""TEMP_DIR=$(mktemp -d)
+wget -q -O "$TEMP_DIR/cuda-keyring.deb" \
     https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb
 if [ ! -s "$TEMP_DIR/cuda-keyring.deb" ]; then
     echo "ERROR: Failed to download cuda-keyring."
@@ -971,12 +982,13 @@ if [ ! -s "$TEMP_DIR/cuda-keyring.deb" ]; then
     exit 1
 fi
 dpkg -i "$TEMP_DIR/cuda-keyring.deb"
-rm -rf "$TEMP_DIR\""""
+rm -rf "$TEMP_DIR"
+"""
             install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y cuda-drivers-590"
             repo_cleanup = ""
         else:
-            repo_setup = """TEMP_DIR=$(mktemp -d)
-wget -q -O "$TEMP_DIR/cuda-keyring.deb" \\
+            repo_setup = r"""TEMP_DIR=$(mktemp -d)
+wget -q -O "$TEMP_DIR/cuda-keyring.deb" \
     https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb
 if [ ! -s "$TEMP_DIR/cuda-keyring.deb" ]; then
     echo "ERROR: Failed to download cuda-keyring."
@@ -984,7 +996,8 @@ if [ ! -s "$TEMP_DIR/cuda-keyring.deb" ]; then
     exit 1
 fi
 dpkg -i "$TEMP_DIR/cuda-keyring.deb"
-rm -rf "$TEMP_DIR\""""
+rm -rf "$TEMP_DIR"
+"""
             install_driver = "apt install -y nvidia-driver-pinning-610\napt install -y cuda-drivers-610"
             repo_cleanup = ""
 
@@ -999,8 +1012,17 @@ exec > >(tee -a "$LOG") 2>&1
 echo "=== NVIDIA $NVIDIA_VERSION Official CUDA Repository ($DISTRO) ==="
 echo ""
 
-echo "[1/5] Removing existing NVIDIA/CUDA packages..."
+echo "[0/6] Removing NVIDIA DKMS modules from all kernels..."
+for entry in $(dkms status | grep -i nvidia | awk -F'[:,]' '{{print $1"/"$2}}' | tr -d ' '); do
+    dkms remove --force "$entry" --all 2>/dev/null || true
+done
+for kver in $(ls /lib/modules/); do
+    rm -f /lib/modules/$kver/updates/dkms/nvidia*.ko*
+    depmod -a "$kver" 2>/dev/null || true
+done
 rm -rf /var/lib/dkms/nvidia*
+
+echo "[1/6] Removing existing NVIDIA/CUDA packages..."
 rm -f /etc/dracut.conf.d/nvidia.conf
 rm -f /etc/dracut.conf.d/blacklist-nouveau.conf
 rm -f /etc/modprobe.d/blacklist-nouveau.conf
@@ -1009,7 +1031,7 @@ apt purge -y 'nvidia*' 'cuda*' 'libnvidia*' 2>/dev/null || true
 apt autoremove -y 2>/dev/null || true
 apt -f install -y 2>/dev/null || true
 
-echo "[2/5] Installing kernel headers and DKMS build dependencies..."
+echo "[2/6] Installing kernel headers and DKMS build dependencies..."
 apt install -y dkms build-essential
 if apt-cache show linux-headers-$(uname -r) &>/dev/null; then
     apt install -y linux-headers-$(uname -r)
@@ -1017,15 +1039,15 @@ else
     echo "Custom kernel detected, headers already present, skipping."
 fi
 
-echo "[3/5] Setting up NVIDIA CUDA repository ($DISTRO)..."
+echo "[3/6] Setting up NVIDIA CUDA repository ($DISTRO)..."
 {repo_setup}
 
-echo "[4/5] Installing NVIDIA Driver $NVIDIA_VERSION..."
+echo "[4/6] Installing NVIDIA Driver $NVIDIA_VERSION..."
 apt update
 {install_driver}
 {repo_cleanup}
 
-echo "[5/5] Blacklisting nouveau and regenerating initramfs..."
+echo "[5/6] Blacklisting nouveau and regenerating initramfs..."
 mkdir -p /etc/modprobe.d
 cat > /etc/modprobe.d/blacklist-nouveau.conf << 'MODPROBE'
 blacklist nouveau
@@ -1048,6 +1070,7 @@ fi
 update-grub
 
 echo ""
+echo "[6/6] Done."
 echo "=== Installation completed successfully ==="
 echo "NVIDIA driver $NVIDIA_VERSION installed. Restart to apply changes."
 """
@@ -1146,9 +1169,9 @@ curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc/apt
 
 CODENAME=$(. /etc/os-release && echo "$VERSION_CODENAME")
 case "$CODENAME" in
-    bookworm) ROCM_DISTRO="bookworm" ;;
-    trixie)   ROCM_DISTRO="trixie"   ;;
-    *)        ROCM_DISTRO="trixie"   ;;
+    trixie) ROCM_DISTRO="trixie" ;;
+    forky)  ROCM_DISTRO="forky"  ;;
+    *)      ROCM_DISTRO="trixie" ;;
 esac
 
 echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.4 $ROCM_DISTRO main" \\
@@ -1676,10 +1699,21 @@ echo "IMPORTANT: Restart the system to apply the changes."
 echo "=== Removing all NVIDIA drivers ==="
 echo ""
 
-echo "[1/6] Fixing any interrupted dpkg state..."
+echo "[0/7] Removing NVIDIA DKMS modules from all kernels..."
+for entry in $(dkms status | grep -i nvidia | awk -F'[:,]' '{print $1"/"$2}' | tr -d ' '); do
+    dkms remove --force "$entry" --all 2>/dev/null || true
+done
+for kver in $(ls /lib/modules/); do
+    rm -f /lib/modules/$kver/updates/dkms/nvidia*.ko*
+    rm -f /lib/modules/$kver/updates/dkms/nvidia-*.ko*
+    depmod -a "$kver" 2>/dev/null || true
+done
+rm -rf /var/lib/dkms/nvidia*
+
+echo "[1/7] Fixing any interrupted dpkg state..."
 dpkg --configure -a 2>/dev/null || true
 
-echo "[2/6] Removing NVIDIA and CUDA packages..."
+echo "[2/7] Removing NVIDIA and CUDA packages..."
 NVIDIA_PKGS=$(dpkg -l | grep -iE '^[a-z]+[[:space:]]+(nvidia|libnvidia|cuda)' | awk '{print $2}' | tr '\n' ' ')
 if [ -n "$NVIDIA_PKGS" ]; then
     echo "Packages to remove: $NVIDIA_PKGS"
@@ -1689,24 +1723,24 @@ else
 fi
 apt autoremove -y 2>/dev/null || true
 
-echo "[3/6] Removing NVIDIA CUDA repository sources..."
+echo "[3/7] Removing NVIDIA CUDA repository sources..."
 rm -f /etc/apt/sources.list.d/cuda-*.list
 rm -f /etc/apt/sources.list.d/nvidia*.list
 rm -f /usr/share/keyrings/cuda-*.gpg
 rm -f /usr/share/keyrings/nvidia*.gpg
 apt update -q
 
-echo "[4/6] Removing NVIDIA modprobe/dracut configuration..."
+echo "[4/7] Removing NVIDIA modprobe/dracut configuration..."
 rm -f /etc/modprobe.d/blacklist-nouveau.conf
 rm -f /etc/dracut.conf.d/nvidia.conf
 rm -f /etc/dracut.conf.d/blacklist-nouveau.conf
 rm -f /etc/apt/apt.conf.d/99nvidia-sha1-exception
 
-echo "[5/6] Restoring GRUB defaults..."
+echo "[5/7] Restoring GRUB defaults..."
 sed -i 's/ nvidia-drm.modeset=1//' /etc/default/grub 2>/dev/null || true
 update-grub 2>/dev/null || true
 
-echo "[6/6] Regenerating initramfs..."
+echo "[6/7] Regenerating initramfs..."
 if command -v dracut >/dev/null 2>&1; then
     dracut --force
 elif command -v update-initramfs >/dev/null 2>&1; then
@@ -1714,6 +1748,7 @@ elif command -v update-initramfs >/dev/null 2>&1; then
 fi
 
 echo ""
+echo "[7/7] Done."
 echo "=== NVIDIA drivers removed completely ==="
 echo "Restart the system before installing a new driver version."
 """

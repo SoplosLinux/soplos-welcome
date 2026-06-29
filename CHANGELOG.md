@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.0-2] - 2026-06-29
+
+### Fixed — Drivers Tab — NVIDIA and ROCm
+
+- **DKMS not cleaned on uninstall**: `apt purge` leaves compiled `.ko` files in `/lib/modules/`. When reinstalling a different driver version, DKMS refused with "version not newer". Uninstall script now runs `dkms remove --force` on all NVIDIA entries and removes orphaned `.ko` files from every kernel directory before purging packages.
+- **DKMS not cleaned on install**: Same stale DKMS state caused installation failures when switching driver versions. Both the CUDA-repo path (590/610) and the Debian-repo path (550) now perform the same DKMS cleanup before `apt install`.
+- **Escaped quotes in 590 and 610 repo setup**: The `rm -rf "$TEMP_DIR"` line inside Python triple-quoted strings generated an extra trailing quote in the bash output (`"$TEMP_DIR""`), corrupting the cleanup command. Fixed by converting those blocks to raw strings (`r"""..."""`).
+- **ROCm codename**: The `CODENAME` case statement included `bookworm` as a branch, but Soplos is based on Debian Testing/Trixie moving toward Forky — never Debian 12. Replaced with `trixie` and `forky` cases only.
+
 ## [2.1.0-1] - 2026-06-24
 
 ### Added — Drivers Tab — AMD Extras (ROCm)
