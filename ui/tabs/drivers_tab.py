@@ -599,51 +599,61 @@ class DriversTab(Gtk.ScrolledWindow):
 
     def _on_repair_wifi_clicked(self, button):
         """Reload the Wi-Fi driver and restart NetworkManager."""
-        iface, driver = self._detect_wifi_driver()
+        button.set_sensitive(False)
+        self.progress_label.set_text(_("Detecting Wi-Fi hardware..."))
 
-        if not driver:
+        def _detect():
+            iface, driver = self._detect_wifi_driver()
+            GLib.idle_add(_on_detected, iface, driver)
+
+        def _on_detected(iface, driver):
+            button.set_sensitive(True)
+            self.progress_label.set_text("")
+
+            if not driver:
+                dialog = Gtk.MessageDialog(
+                    transient_for=self.parent_window,
+                    flags=0,
+                    message_type=Gtk.MessageType.WARNING,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=_("No Wi-Fi Interface Found")
+                )
+                dialog.format_secondary_text(
+                    _("No active Wi-Fi interface was detected.\nMake sure your Wi-Fi card is connected and recognized by the system.")
+                )
+                dialog.run()
+                dialog.destroy()
+                return
+
             dialog = Gtk.MessageDialog(
                 transient_for=self.parent_window,
                 flags=0,
-                message_type=Gtk.MessageType.WARNING,
-                buttons=Gtk.ButtonsType.OK,
-                text=_("No Wi-Fi Interface Found")
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Repair Wi-Fi Connection")
             )
             dialog.format_secondary_text(
-                _("No active Wi-Fi interface was detected.\nMake sure your Wi-Fi card is connected and recognized by the system.")
+                _("Detected driver: {driver}  |  Interface: {iface}\n\n"
+                  "This will:\n"
+                  "  • Unload and reload the Wi-Fi kernel module\n"
+                  "  • Restart NetworkManager\n\n"
+                  "Your network connection will be briefly interrupted.\n"
+                  "Proceed?").format(driver=driver, iface=iface if iface else _("not loaded"))
             )
-            dialog.run()
+            response = dialog.run()
             dialog.destroy()
-            return
 
-        iface_info = f"  |  Interface: {iface}" if iface else ""
-        dialog = Gtk.MessageDialog(
-            transient_for=self.parent_window,
-            flags=0,
-            message_type=Gtk.MessageType.QUESTION,
-            buttons=Gtk.ButtonsType.YES_NO,
-            text=_("Repair Wi-Fi Connection")
-        )
-        dialog.format_secondary_text(
-            _("Detected driver: {driver}  |  Interface: {iface}\n\n"
-              "This will:\n"
-              "  • Unload and reload the Wi-Fi kernel module\n"
-              "  • Restart NetworkManager\n\n"
-              "Your network connection will be briefly interrupted.\n"
-              "Proceed?").format(driver=driver, iface=iface if iface else _("not loaded"))
-        )
-        response = dialog.run()
-        dialog.destroy()
-
-        if response == Gtk.ResponseType.YES:
-            script = f"""#!/bin/bash
+            if response == Gtk.ResponseType.YES:
+                script = f"""#!/bin/bash
 modprobe -r {driver} 2>/dev/null || true
 sleep 1
 modprobe {driver}
 systemctl restart NetworkManager
 echo "Wi-Fi repair completed. Driver: {driver}"
 """
-            self._run_script_as_root(script, "repair-wifi.sh")
+                self._run_script_as_root(script, "repair-wifi.sh")
+
+        threading.Thread(target=_detect, daemon=True).start()
 
     def _is_nouveau_active(self):
         """Return True only if nouveau package is installed AND not blacklisted."""
@@ -1619,6 +1629,7 @@ echo "IMPORTANT: Restart the system to apply the changes."
     
     def _on_install_recommended_driver(self, button, driver, dialog):
         """Install recommended driver from hardware scan."""
+        button.set_sensitive(False)
         dialog.destroy()
 
         cuda_drivers = {"nvidia-driver-580": "580", "nvidia-driver-590": "590", "nvidia-driver-610": "610"}
@@ -1827,11 +1838,8 @@ if [ "$DESKTOP_ENV" = "kde" ]; then
 
     if [ -n "$INTEL_CONNECTOR" ]; then
         echo "Detected connector: $INTEL_CONNECTOR"
-        if [ -n "$SUDO_USER" ]; then
-            REAL_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
-        else
-            REAL_HOME="$HOME"
-        fi
+        REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)
+        REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)
 
         KWIN_CONFIG_DIR="$REAL_HOME/.config/kdedefaults"
         mkdir -p "$KWIN_CONFIG_DIR"
@@ -1860,8 +1868,8 @@ if [ "$DESKTOP_ENV" = "kde" ]; then
     }}
 ]
 EOF
-        chown -R "$SUDO_USER:$SUDO_USER" "$KWIN_CONFIG_DIR" 2>/dev/null
-        echo "kwinoutputconfig.json created for user $SUDO_USER."
+        chown -R "$REAL_USER:$REAL_USER" "$KWIN_CONFIG_DIR" 2>/dev/null
+        echo "kwinoutputconfig.json created for user $REAL_USER."
     else
         echo "No eDP/LVDS connector detected, skipping kwinoutputconfig.json."
     fi

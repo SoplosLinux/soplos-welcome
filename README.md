@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.0--2-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.0--3-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -181,6 +181,16 @@ Contact: info@soploslinux.com
 ### v2.0.8-5 (2026-05-23)
 - **Drivers Tab — Wi-Fi Repair**: New "Repair Wi-Fi" button automatically detects the active Wi-Fi driver (reads `/sys/class/net/*/wireless`) and reloads it via `modprobe -r` + `modprobe` + `systemctl restart NetworkManager`. Works with any brand (Intel, Realtek, Atheros, MediaTek, etc.).
 - **Translations**: Added Wi-Fi Repair strings in all 8 languages.
+
+### v2.1.0-3 (2026-06-30)
+- **Drivers Tab**: Fixed `$SUDO_USER` empty under pkexec in hybrid graphics — `kwinoutputconfig.json` was written to `/root` instead of the user's home. Replaced with `$PKEXEC_UID` pattern.
+- **Drivers Tab**: Fixed UI freeze on Wi-Fi repair — `lspci` detection moved to background thread via `threading.Thread` + `GLib.idle_add`.
+- **Drivers Tab**: Fixed race condition on recommended driver install — button disabled on first click to prevent multiple concurrent pkexec processes.
+- **Software Tab**: Fixed Flatpak install missing `package-update-indicator` (update tray applet) in all three DEs.
+- **Software Tab**: Bazaar now shows a warning about system-level Flathub conflict before installing. Install/uninstall use `--system` scope and clean up the system remote on removal.
+- **Recommended Tab**: New categories — App Management, Downloads, Hardware, Files (replaces Utilities). Added Transmission, FileZilla, GNOME Commander, Double Commander (AppImage).
+- **Recommended Tab**: Multimedia, Graphics and Design, and Office sections reordered by type (players/video/audio, image/vector/3D/photo, suites/PDF).
+- **Translations**: All new strings added and compiled in 8 languages (en, es, de, fr, it, pt, ro, ru).
 
 ### v2.0.8-4 (2026-05-22)
 - **Drivers Tab**: Fixed false "installed" state on Nouveau button — now checks `/etc/modprobe.d/` for `blacklist nouveau`.

@@ -328,28 +328,13 @@ SOFTWARE_CATEGORIES = {
         'title': _('Graphics and Design'),
         'icon': 'graphics',
         'packages': [
+            # Image editing
             {
                 'name': 'GIMP',
                 'package': 'gimp',
                 'flatpak': 'org.gimp.GIMP',
                 'icon': 'gimp.png',
                 'description': _('Advanced and free image editor'),
-                'official': True
-            },
-            {
-                'name': 'Inkscape',
-                'package': 'inkscape',
-                'flatpak': 'org.inkscape.Inkscape',
-                'icon': 'inkscape.png',
-                'description': _('Professional vector graphics editor'),
-                'official': True
-            },
-            {
-                'name': 'Blender',
-                'package': 'blender',
-                'flatpak': 'org.blender.Blender',
-                'icon': 'blender.png',
-                'description': _('Complete and free 3D creation suite'),
                 'official': True
             },
             {
@@ -360,6 +345,50 @@ SOFTWARE_CATEGORIES = {
                 'description': _('Professional digital painting program'),
                 'official': True
             },
+            {
+                'name': 'Affinity Suite',
+                'package': None,
+                'icon': 'affinity.png',
+                'description': _('Professional photo editing, design and publishing suite'),
+                'official': False,
+                'check_path': '~/AppImages/Affinity-3.0.2-x86_64.AppImage',
+                'install_commands': [
+                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/AppImages/.icons"',
+                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/.local/share/applications"',
+                    'wget -q -O "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage" "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.2.0/Affinity-3.0.2-x86_64.AppImage"',
+                    'chmod +x "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
+                    f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "graphics", "affinity.png")} "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
+                    'chown -R $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/AppImages"',
+                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=%s/AppImages/Affinity-3.0.2-x86_64.AppImage\\nIcon=%s/AppImages/.icons/AffinitySuite.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' \"$REAL_HOME\" \"$REAL_HOME\" | sudo -u $REAL_USER tee \"$REAL_HOME/.local/share/applications/affinity.desktop\" > /dev/null",
+                ],
+                'uninstall_commands': [
+                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'rm -f "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
+                    'rm -f "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
+                    'rm -f "$REAL_HOME/.local/share/applications/affinity.desktop"'
+                ]
+            },
+            # Vector / Design
+            {
+                'name': 'Inkscape',
+                'package': 'inkscape',
+                'flatpak': 'org.inkscape.Inkscape',
+                'icon': 'inkscape.png',
+                'description': _('Professional vector graphics editor'),
+                'official': True
+            },
+            # 3D
+            {
+                'name': 'Blender',
+                'package': 'blender',
+                'flatpak': 'org.blender.Blender',
+                'icon': 'blender.png',
+                'description': _('Complete and free 3D creation suite'),
+                'official': True
+            },
+            # Photography / RAW
             {
                 'name': 'darktable',
                 'package': 'darktable',
@@ -390,31 +419,6 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'hugin.png',
                 'description': _('Panorama photo stitcher'),
                 'official': True
-            },
-            {
-                'name': 'Affinity Suite',
-                'package': None,
-                'icon': 'affinity.png',
-                'description': _('Professional photo editing, design and publishing suite'),
-                'official': False,
-                'check_path': '~/AppImages/Affinity-3.0.2-x86_64.AppImage',
-                'install_commands': [
-                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
-                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/AppImages/.icons"',
-                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/.local/share/applications"',
-                    'wget -q -O "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage" "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/3.2.0/Affinity-3.0.2-x86_64.AppImage"',
-                    'chmod +x "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
-                    f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "graphics", "affinity.png")} "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
-                    'chown -R $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/AppImages"',
-                    "printf '[Desktop Entry]\\nName=Affinity Suite\\nExec=%s/AppImages/Affinity-3.0.2-x86_64.AppImage\\nIcon=%s/AppImages/.icons/AffinitySuite.png\\nType=Application\\nCategories=Graphics;\\nComment=Professional photo editing, design and publishing suite\\n' \"$REAL_HOME\" \"$REAL_HOME\" | sudo -u $REAL_USER tee \"$REAL_HOME/.local/share/applications/affinity.desktop\" > /dev/null",
-                ],
-                'uninstall_commands': [
-                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
-                    'rm -f "$REAL_HOME/AppImages/Affinity-3.0.2-x86_64.AppImage"',
-                    'rm -f "$REAL_HOME/AppImages/.icons/AffinitySuite.png"',
-                    'rm -f "$REAL_HOME/.local/share/applications/affinity.desktop"'
-                ]
             }
         ]
     },
@@ -423,6 +427,7 @@ SOFTWARE_CATEGORIES = {
         'title': _('Multimedia'),
         'icon': 'multimedia',
         'packages': [
+            # Media players
             {
                 'name': 'VLC Media Player',
                 'package': 'vlc',
@@ -431,6 +436,31 @@ SOFTWARE_CATEGORIES = {
                 'description': _('Universal media player'),
                 'official': True
             },
+            {
+                'name': 'MPV',
+                'package': 'mpv',
+                'flatpak': 'io.mpv.Mpv',
+                'icon': 'mpv.png',
+                'description': _('Minimalist and powerful media player'),
+                'official': True
+            },
+            {
+                'name': 'Kodi',
+                'package': 'kodi',
+                'flatpak': 'tv.kodi.Kodi',
+                'icon': 'kodi.png',
+                'description': _('Open-source media center'),
+                'official': True
+            },
+            {
+                'name': 'Spotify',
+                'package': None,
+                'flatpak': 'com.spotify.Client',
+                'icon': 'spotify.png',
+                'description': _('Digital music streaming service'),
+                'official': False
+            },
+            # Video
             {
                 'name': 'OBS Studio',
                 'package': 'obs-studio',
@@ -448,19 +478,37 @@ SOFTWARE_CATEGORIES = {
                 'official': True
             },
             {
+                'name': 'OpenShot',
+                'package': 'openshot-qt',
+                'flatpak': 'org.openshot.OpenShot',
+                'icon': 'openshot.png',
+                'description': _('Easy to use video editor'),
+                'official': True
+            },
+            {
+                'name': 'HandBrake',
+                'package': 'handbrake',
+                'flatpak': 'fr.handbrake.ghb',
+                'icon': 'handbrake.png',
+                'description': _('Open source video transcoder'),
+                'official': True
+            },
+            {
+                'name': 'DaVinci Resolve',
+                'package': None,
+                'flatpak': None,
+                'icon': 'davinci-resolve.png',
+                'description': _('Professional video editing (Script by Daniel Tufvesson)'),
+                'official': False,
+                'custom_install': True
+            },
+            # Audio / DAW
+            {
                 'name': 'Audacity',
                 'package': 'audacity',
                 'flatpak': 'org.audacityteam.Audacity',
                 'icon': 'audacity.png',
                 'description': _('Free and open-source audio editor'),
-                'official': True
-            },
-            {
-                'name': 'MPV',
-                'package': 'mpv',
-                'flatpak': 'io.mpv.Mpv',
-                'icon': 'mpv.png',
-                'description': _('Minimalist and powerful media player'),
                 'official': True
             },
             {
@@ -475,47 +523,6 @@ SOFTWARE_CATEGORIES = {
                 'package': 'mixxx',
                 'icon': 'mixxx.png',
                 'description': _('Professional DJ software'),
-                'official': True
-            },
-            {
-                'name': 'Kodi',
-                'package': 'kodi',
-                'flatpak': 'tv.kodi.Kodi',
-                'icon': 'kodi.png',
-                'description': _('Open-source media center'),
-                'official': True
-            },
-            {
-                'name': 'OpenShot',
-                'package': 'openshot-qt',
-                'flatpak': 'org.openshot.OpenShot',
-                'icon': 'openshot.png',
-                'description': _('Easy to use video editor'),
-                'official': True
-            },
-            {
-                'name': 'DaVinci Resolve',
-                'package': None,
-                'flatpak': None,
-                'icon': 'davinci-resolve.png',
-                'description': _('Professional video editing (Script by Daniel Tufvesson)'),
-                'official': False,
-                'custom_install': True
-            },
-            {
-                'name': 'Spotify',
-                'package': None,
-                'flatpak': 'com.spotify.Client',
-                'icon': 'spotify.png',
-                'description': _('Digital music streaming service'),
-                'official': False
-            },
-            {
-                'name': 'HandBrake',
-                'package': 'handbrake',
-                'flatpak': 'fr.handbrake.ghb',
-                'icon': 'handbrake.png',
-                'description': _('Open source video transcoder'),
                 'official': True
             },
             {
@@ -557,6 +564,7 @@ SOFTWARE_CATEGORIES = {
         'title': _('Office'),
         'icon': 'office',
         'packages': [
+            # Office suites
             {
                 'name': 'LibreOffice',
                 'package': 'libreoffice',
@@ -582,6 +590,23 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
+                'name': 'Calligra',
+                'package': None,
+                'flatpak': 'org.kde.calligra',
+                'icon': 'calligra.png',
+                'description': _('KDE office suite: word processor, spreadsheet and presentation'),
+                'official': True
+            },
+            {
+                'name': 'Collabora Office',
+                'package': None,
+                'flatpak': 'org.collaboraoffice.CollaboraOffice',
+                'icon': 'collabora.png',
+                'description': _('Enterprise-grade LibreOffice fork by Collabora'),
+                'official': True
+            },
+            # PDF
+            {
                 'name': 'Adobe Reader',
                 'package': None,
                 'flatpak': 'com.adobe.Reader',
@@ -601,22 +626,6 @@ SOFTWARE_CATEGORIES = {
                     'apt install -y /tmp/jopdf.deb',
                     'rm /tmp/jopdf.deb'
                 ]
-            },
-            {
-                'name': 'Calligra',
-                'package': None,
-                'flatpak': 'org.kde.calligra',
-                'icon': 'calligra.png',
-                'description': _('KDE office suite: word processor, spreadsheet and presentation'),
-                'official': True
-            },
-            {
-                'name': 'Collabora Office',
-                'package': None,
-                'flatpak': 'org.collaboraoffice.CollaboraOffice',
-                'icon': 'collabora.png',
-                'description': _('Enterprise-grade LibreOffice fork by Collabora'),
-                'official': True
             }
         ]
     },
@@ -702,15 +711,22 @@ SOFTWARE_CATEGORIES = {
         ]
     },
 
-    'utilities': {
-        'title': _('Utilities'),
-        'icon': 'utilities',
+    'app_management': {
+        'title': _('App Management'),
+        'icon': 'app_management',
         'packages': [
             {
                 'name': 'Soplos WebApp Manager',
                 'package': 'soplos-webapp-manager',
                 'icon': 'soplos-webapps-manager.png',
                 'description': _('Manage your web applications with ease'),
+                'official': True
+            },
+            {
+                'name': 'Soplos AppImage Manager',
+                'package': 'soplos-appimage-manager',
+                'icon': 'soplos-appimage-manager.png',
+                'description': _('Manage and integrate AppImages on your system'),
                 'official': True
             },
             {
@@ -730,42 +746,32 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
-                'name': 'Soplos AppImage Manager',
-                'package': 'soplos-appimage-manager',
-                'icon': 'soplos-appimage-manager.png',
-                'description': _('Manage and integrate AppImages on your system'),
-                'official': True
-            },
-            {
                 'name': 'Warehouse',
                 'package': None,
                 'flatpak': 'io.github.flattool.Warehouse',
                 'icon': 'warehouse.png',
                 'description': _('Manage and control your Flatpak apps and runtimes'),
                 'official': False
-            },
-            {
-                'name': 'PeaZip',
-                'package': None,
-                'flatpak': 'io.github.peazip.PeaZip',
-                'icon': 'peazip.png',
-                'description': _('Free file archiver and extractor utility'),
-                'official': False
-            },
-            {
-                'name': 'Resources',
-                'package': None,
-                'flatpak': 'net.nokyan.Resources',
-                'icon': 'resources.png',
-                'description': _('Modern system monitor with detailed resource usage'),
-                'official': False
-            },
+            }
+        ]
+    },
+    'downloads': {
+        'title': _('Downloads'),
+        'icon': 'downloads',
+        'packages': [
             {
                 'name': 'qBittorrent',
                 'package': None,
                 'flatpak': 'org.qbittorrent.qBittorrent',
                 'icon': 'qbittorrent.png',
                 'description': _('Free and open-source BitTorrent client'),
+                'official': False
+            },
+            {
+                'name': 'Transmission',
+                'package': 'transmission-gtk',
+                'icon': 'transmission.png',
+                'description': _('Lightweight and easy-to-use BitTorrent client'),
                 'official': False
             },
             {
@@ -783,6 +789,20 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'syncthing.png',
                 'description': _('Tray application for Syncthing — sync files between devices'),
                 'official': False
+            }
+        ]
+    },
+    'hardware': {
+        'title': _('Hardware'),
+        'icon': 'hardware',
+        'packages': [
+            {
+                'name': 'Resources',
+                'package': None,
+                'flatpak': 'net.nokyan.Resources',
+                'icon': 'resources.png',
+                'description': _('Modern system monitor with detailed resource usage'),
+                'official': False
             },
             {
                 'name': 'LACT',
@@ -790,6 +810,14 @@ SOFTWARE_CATEGORIES = {
                 'flatpak': 'io.github.ilya_zlobintsev.LACT',
                 'icon': 'lact.png',
                 'description': _('GPU control center for AMD and NVIDIA on Linux'),
+                'official': False
+            },
+            {
+                'name': 'CPU Power',
+                'package': 'cpupower-gui',
+                'packages': 'linux-cpupower cpupower-gui',
+                'icon': 'cpupower.png',
+                'description': _('Control the CPU frequency governor from a graphical interface'),
                 'official': False
             },
             {
@@ -801,7 +829,7 @@ SOFTWARE_CATEGORIES = {
                 'official': False,
                 'check_path': '~/AppImages/CoolerControlD-x86_64.AppImage',
                 'install_commands': [
-                    f'bash {os.path.join(PROJECT_ROOT, "services", "coolercontrol-install.sh")} {os.path.join(PROJECT_ROOT, "assets", "icons", "utilities", "coolercontrol.png")}'
+                    f'bash {os.path.join(PROJECT_ROOT, "services", "coolercontrol-install.sh")} {os.path.join(PROJECT_ROOT, "assets", "icons", "hardware", "coolercontrol.png")}'
                 ],
                 'uninstall_commands': [
                     'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
@@ -810,6 +838,62 @@ SOFTWARE_CATEGORIES = {
                     'rm -f "$REAL_HOME/.local/share/applications/soplos-appimage-coolercontrold.desktop"',
                     'rm -f "$REAL_HOME/.local/share/applications/soplos-webapp-coolercontrol-ui-111987.desktop"',
                     'rm -rf "$REAL_HOME/.local/share/soplos-webapps/coolercontrol-ui-111987"'
+                ]
+            }
+        ]
+    },
+    'files': {
+        'title': _('Files'),
+        'icon': 'files',
+        'packages': [
+            {
+                'name': 'PeaZip',
+                'package': None,
+                'flatpak': 'io.github.peazip.PeaZip',
+                'icon': 'peazip.png',
+                'description': _('Free file archiver and extractor utility'),
+                'official': False
+            },
+            {
+                'name': 'FileZilla',
+                'package': 'filezilla',
+                'icon': 'filezilla.png',
+                'description': _('Fast and reliable FTP, FTPS and SFTP client'),
+                'official': False
+            },
+            {
+                'name': 'GNOME Commander',
+                'package': 'gnome-commander',
+                'icon': 'gnome-commander.png',
+                'description': _('Twin-panel file manager for GNOME'),
+                'official': False
+            },
+            {
+                'name': 'Double Commander',
+                'package': None,
+                'flatpak': None,
+                'icon': 'doublecmd.png',
+                'description': _('Twin-panel file manager with advanced features'),
+                'official': False,
+                'check_path': '~/AppImages/doublecmd-gtk-latest-x86_64.AppImage',
+                'install_commands': [
+                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u "$REAL_USER" mkdir -p "$REAL_HOME/AppImages/.icons"',
+                    'sudo -u "$REAL_USER" mkdir -p "$REAL_HOME/.local/share/applications"',
+                    'wget -q --show-progress -O "$REAL_HOME/AppImages/doublecmd-gtk-latest-x86_64.AppImage" "https://download.opensuse.org/repositories/home:/Alexx2000/AppImage/doublecmd-gtk-latest-x86_64.AppImage"',
+                    'chmod +x "$REAL_HOME/AppImages/doublecmd-gtk-latest-x86_64.AppImage"',
+                    f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "files", "doublecmd.png")} "$REAL_HOME/AppImages/.icons/doublecmd.png"',
+                    'chown -R "$PKEXEC_UID:$PKEXEC_UID" "$REAL_HOME/AppImages"',
+                    "printf '[Desktop Entry]\\nType=Application\\nName=Double Commander\\nExec=%s/AppImages/doublecmd-gtk-latest-x86_64.AppImage\\nIcon=%s/AppImages/.icons/doublecmd.png\\nCategories=FileManager;\\nComment=Twin-panel file manager with advanced features\\nX-AppImage-Integrate=true\\n' \"$REAL_HOME\" \"$REAL_HOME\" | sudo -u \"$REAL_USER\" tee \"$REAL_HOME/.local/share/applications/doublecmd.desktop\" > /dev/null",
+                    'chown "$PKEXEC_UID:$PKEXEC_UID" "$REAL_HOME/.local/share/applications/doublecmd.desktop"',
+                    'sudo -u "$REAL_USER" update-desktop-database "$REAL_HOME/.local/share/applications" 2>/dev/null || true'
+                ],
+                'uninstall_commands': [
+                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'rm -f "$REAL_HOME/AppImages/doublecmd-gtk-latest-x86_64.AppImage"',
+                    'rm -f "$REAL_HOME/AppImages/.icons/doublecmd.png"',
+                    'rm -f "$REAL_HOME/.local/share/applications/doublecmd.desktop"'
                 ]
             }
         ]

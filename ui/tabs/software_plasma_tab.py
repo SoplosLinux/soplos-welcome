@@ -304,22 +304,61 @@ class SoftwarePlasmaTab(Gtk.Box):
             dialog.destroy()
             widget.set_sensitive(True)
             return
-        else:
+
+        if app_id == "io.github.kolunmi.Bazaar":
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("System-level Flathub required")
+            )
+            dialog.format_secondary_text(
+                _("Bazaar requires Flathub to be enabled at the system level.\n\n"
+                  "This will add Flathub as a system-wide Flatpak remote.\n\n"
+                  "Warning: after this, the Flatpak apps in this Welcome screen "
+                  "will no longer work because they use the user-level remote.\n\n"
+                  "Do you want to continue?")
+            )
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
             if self.parent_window and hasattr(self.parent_window, 'show_progress'):
-                app_name = app_id.split('.')[-1]
-                self.parent_window.show_progress(_("Installing {}...").format(app_name), 0.0)
-                
+                self.parent_window.show_progress(_("Installing Bazaar..."), 0.0)
             self.command_runner.run_command(
-                f"flatpak install -y flathub {app_id}",
+                "pkexec flatpak remote-add --if-not-exists --system flathub "
+                "https://dl.flathub.org/repo/flathub.flatpakrepo && "
+                "pkexec flatpak install -y --system flathub io.github.kolunmi.Bazaar",
                 lambda: self._schedule_flatpak_update(app_id, container)
             )
+            return
+
+        if self.parent_window and hasattr(self.parent_window, 'show_progress'):
+            app_name = app_id.split('.')[-1]
+            self.parent_window.show_progress(_("Installing {}...").format(app_name), 0.0)
+
+        self.command_runner.run_command(
+            f"flatpak install -y flathub {app_id}",
+            lambda: self._schedule_flatpak_update(app_id, container)
+        )
 
     def _on_flatpak_app_uninstall_clicked(self, widget, app_id, container):
         """Uninstall a Flatpak app."""
+        if app_id == "io.github.kolunmi.Bazaar":
+            if self.parent_window and hasattr(self.parent_window, 'show_progress'):
+                self.parent_window.show_progress(_("Removing Bazaar..."), 0.0)
+            self.command_runner.run_command(
+                "pkexec flatpak uninstall -y --system io.github.kolunmi.Bazaar && "
+                "pkexec flatpak remote-delete --system flathub",
+                lambda: self._schedule_flatpak_update(app_id, container)
+            )
+            return
+
         if self.parent_window and hasattr(self.parent_window, 'show_progress'):
             app_name = app_id.split('.')[-1]
             self.parent_window.show_progress(_("Removing {}...").format(app_name), 0.0)
-            
+
         self.command_runner.run_command(
             f"flatpak uninstall -y {app_id}",
             lambda: self._schedule_flatpak_update(app_id, container)

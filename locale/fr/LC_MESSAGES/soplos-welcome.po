@@ -3285,3 +3285,45 @@ msgstr "Téléchargement de plusieurs Go — cela peut prendre un moment."
 
 msgid "Privacy-focused browser built on Chromium with YouTube integration"
 msgstr ""
+
+msgid "Detecting Wi-Fi hardware..."
+msgstr "Détection du matériel Wi-Fi..."
+
+msgid "System-level Flathub required"
+msgstr "Flathub au niveau système requis"
+
+msgid "Bazaar requires Flathub to be enabled at the system level.\n\nThis will add Flathub as a system-wide Flatpak remote.\n\nWarning: after this, the Flatpak apps in this Welcome screen will no longer work because they use the user-level remote.\n\nDo you want to continue?"
+msgstr "Bazaar nécessite que Flathub soit activé au niveau du système.\n\nCela ajoutera Flathub comme source Flatpak à l'échelle du système.\n\nAvertissement : après cela, les applications Flatpak de cet écran de bienvenue ne fonctionneront plus car elles utilisent la source au niveau utilisateur.\n\nVoulez-vous continuer ?"
+
+msgid "Installing Bazaar..."
+msgstr "Installation de Bazaar..."
+
+msgid "Removing Bazaar..."
+msgstr "Suppression de Bazaar..."
+
+msgid "App Management"
+msgstr "Gestion des applications"
+
+msgid "Downloads"
+msgstr "Téléchargements"
+
+msgid "Hardware"
+msgstr "Matériel"
+
+msgid "Files"
+msgstr "Fichiers"
+
+msgid "Twin-panel file manager with advanced features"
+msgstr "Gestionnaire de fichiers à double panneau avec fonctions avancées"
+
+msgid "Control the CPU frequency governor from a graphical interface"
+msgstr "Contrôler le gouverneur de fréquence CPU depuis une interface graphique"
+
+msgid "Fast and reliable FTP, FTPS and SFTP client"
+msgstr "Client FTP, FTPS et SFTP rapide et fiable"
+
+msgid "Twin-panel file manager for GNOME"
+msgstr "Gestionnaire de fichiers à double panneau pour GNOME"
+
+msgid "Lightweight and easy-to-use BitTorrent client"
+msgstr "Client BitTorrent léger et facile à utiliser"

@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.0-3] - 2026-06-30
+
+### Fixed — Drivers Tab
+
+- **Hybrid graphics — $SUDO_USER empty under pkexec**: `_on_hybrid_clicked` used `$SUDO_USER` to resolve the real user's home directory, but pkexec never sets `$SUDO_USER`. The `kwinoutputconfig.json` fix for KDE Plasma was being written to `/root/.config/kdedefaults/` instead of the actual user's home. Replaced with `$PKEXEC_UID` pattern already used by the ROCm scripts.
+- **UI freeze on Wi-Fi repair**: `_on_repair_wifi_clicked` called `_detect_wifi_driver()` synchronously in the GTK main thread. On degraded hardware, `lspci -k` can block for several seconds, making the window unresponsive. Detection moved to a background thread via `threading.Thread`; result returned to GTK via `GLib.idle_add`.
+- **Race condition on driver install**: Double-clicking the recommended driver install button launched multiple concurrent `pkexec apt install` processes, causing dpkg lock conflicts. Button is now disabled with `set_sensitive(False)` on first click.
+
+### Fixed — Software Tab
+
+- **Flatpak install missing update notifier**: Installing Flatpak pulled in `gnome-software` as a dependency of `gnome-software-plugin-flatpak`, but `package-update-indicator` was not installed. The update tray applet was missing. Added `package-update-indicator` to the Flatpak package list in all three DEs.
+- **Bazaar requires system-level Flathub**: Bazaar (`io.github.kolunmi.Bazaar`) only works with Flathub enabled at the system level, but Welcome uses user-level Flathub for all other Flatpak apps. Installing Bazaar via the standard path left it broken. Now shows a warning dialog explaining the conflict and, if confirmed, adds Flathub `--system` and installs Bazaar `--system` via pkexec. Uninstalling Bazaar also removes the system Flathub remote, leaving no residue.
+
+### Changed — Recommended Tab — Software categories reorganized
+
+- **New category: App Management** — Soplos WebApp Manager, Soplos AppImage Manager, Flatseal, Gear Lever, Warehouse.
+- **New category: Downloads** — qBittorrent, Transmission, JDownloader, Syncthing Tray.
+- **New category: Hardware** — Resources, LACT, CPU Power, CoolerControl.
+- **New category: Files** (replaces Utilities) — PeaZip, FileZilla, GNOME Commander, Double Commander (AppImage from OpenSUSE Build Service, latest GTK version).
+- **Multimedia reordered**: grouped into Media Players (VLC, MPV, Kodi, Spotify), Video (OBS Studio, Kdenlive, OpenShot, HandBrake, DaVinci Resolve) and Audio/DAW (Audacity, LMMS, Mixxx, Bitwig Studio, Reaper, Zrythm, Ardour).
+- **Graphics and Design reordered**: grouped into Image Editing (GIMP, Krita, Affinity Suite), Vector/Design (Inkscape), 3D (Blender) and Photography/RAW (darktable, RapidRAW, RawTherapee, Hugin).
+- **Office reordered**: grouped into Office Suites (LibreOffice, OnlyOffice, WPS Office, Calligra, Collabora Office) and PDF (Adobe Reader, JoPDF).
+- **Icon folders restructured**: icons moved from `assets/icons/utilities/` to their respective new category folders.
+
 ## [2.1.0-2] - 2026-06-29
 
 ### Fixed — Drivers Tab — NVIDIA and ROCm

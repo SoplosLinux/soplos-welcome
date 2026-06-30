@@ -3273,3 +3273,45 @@ msgstr "Descărcare de câțiva GB — aceasta poate dura ceva timp."
 
 msgid "Privacy-focused browser built on Chromium with YouTube integration"
 msgstr ""
+
+msgid "Detecting Wi-Fi hardware..."
+msgstr "Detectare hardware Wi-Fi..."
+
+msgid "System-level Flathub required"
+msgstr "Flathub la nivel de sistem necesar"
+
+msgid "Bazaar requires Flathub to be enabled at the system level.\n\nThis will add Flathub as a system-wide Flatpak remote.\n\nWarning: after this, the Flatpak apps in this Welcome screen will no longer work because they use the user-level remote.\n\nDo you want to continue?"
+msgstr "Bazaar necesită ca Flathub să fie activat la nivel de sistem.\n\nAceasta va adăuga Flathub ca sursă Flatpak la nivel de sistem.\n\nAtenție: după aceasta, aplicațiile Flatpak din acest ecran de bun venit nu vor mai funcționa deoarece folosesc sursa la nivel de utilizator.\n\nDoriți să continuați?"
+
+msgid "Installing Bazaar..."
+msgstr "Se instalează Bazaar..."
+
+msgid "Removing Bazaar..."
+msgstr "Se elimină Bazaar..."
+
+msgid "App Management"
+msgstr "Gestionare aplicații"
+
+msgid "Downloads"
+msgstr "Descărcări"
+
+msgid "Hardware"
+msgstr "Hardware"
+
+msgid "Files"
+msgstr "Fișiere"
+
+msgid "Twin-panel file manager with advanced features"
+msgstr "Manager de fișiere cu panouri duble și funcții avansate"
+
+msgid "Control the CPU frequency governor from a graphical interface"
+msgstr "Controlează regulatorul de frecvență al procesorului dintr-o interfață grafică"
+
+msgid "Fast and reliable FTP, FTPS and SFTP client"
+msgstr "Client FTP, FTPS și SFTP rapid și fiabil"
+
+msgid "Twin-panel file manager for GNOME"
+msgstr "Manager de fișiere cu panouri duble pentru GNOME"
+
+msgid "Lightweight and easy-to-use BitTorrent client"
+msgstr "Client BitTorrent ușor și simplu de utilizat"
