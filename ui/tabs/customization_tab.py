@@ -137,13 +137,15 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 tool['package']
             )
             flowbox_soplos.add(button)
-        
+
+        flowbox_soplos.add(self._create_lucidglyph_button())
+
         # Separator
         separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
         separator.set_margin_top(15)
         separator.set_margin_bottom(15)
         container.pack_start(separator, False, False, 0)
-        
+
         # === SECTION 2: XFCE Settings ===
         xfce_label = Gtk.Label()
         xfce_label.set_markup(f"<span size='13000' weight='bold'>{_('XFCE Settings')}</span>")
@@ -224,7 +226,7 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 tool['command']
             )
             flowbox_xfce.add(button)
-    
+
     def _create_gnome_ui(self, container):
         """Create GNOME customization interface."""
         # === SECTION 1: Soplos Tools ===
@@ -271,6 +273,8 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 tool['tooltip'], tool['command'], tool['package']
             )
             flowbox_soplos.add(button)
+
+        flowbox_soplos.add(self._create_lucidglyph_button())
 
         # Separator
         separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
@@ -361,7 +365,7 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 tool['tooltip'], tool['command']
             )
             flowbox_gnome.add(button)
-    
+
     def _create_plasma_ui(self, container):
         """Create KDE Plasma customization interface."""
         # === SECTION 1: Soplos Tools ===
@@ -408,6 +412,8 @@ class CustomizationTab(Gtk.ScrolledWindow):
                 tool['tooltip'], tool['command'], tool['package']
             )
             flowbox_soplos.add(button)
+
+        flowbox_soplos.add(self._create_lucidglyph_button())
 
         # Separator
         separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
@@ -504,8 +510,8 @@ class CustomizationTab(Gtk.ScrolledWindow):
                     tool['tooltip'], tool['command']
                 )
             flowbox_kde.add(button)
-    
-    
+
+
     def _create_tool_button(self, icon_filename, label_text, description_text, tooltip_text, command, package=None):
         """Create a button with icon, label and description for a customization tool."""
         # Container for the button content
@@ -799,3 +805,305 @@ class CustomizationTab(Gtk.ScrolledWindow):
             return False
 
         threading.Thread(target=do_install, daemon=True).start()
+
+    # -------------------------------------------------------------------------
+    # LucidGlyph system tweak
+    # -------------------------------------------------------------------------
+
+    def _create_lucidglyph_button(self):
+        """Create a tool-style card button for LucidGlyph, matching the Soplos Tools aesthetic."""
+        tool_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        tool_box.set_homogeneous(False)
+        tool_box.set_margin_start(10)
+        tool_box.set_margin_end(10)
+        tool_box.set_margin_top(10)
+        tool_box.set_margin_bottom(10)
+
+        icon = Gtk.Image.new_from_icon_name('preferences-desktop-font', Gtk.IconSize.DIALOG)
+        tool_box.pack_start(icon, False, False, 5)
+
+        title_label = Gtk.Label()
+        title_label.set_markup("<b>LucidGlyph</b>")
+        tool_box.pack_start(title_label, False, False, 0)
+
+        desc_label = Gtk.Label(label=_("Improved font rendering for the system"))
+        desc_label.set_line_wrap(True)
+        desc_label.set_max_width_chars(30)
+        desc_label.set_xalign(0.5)
+        desc_label.get_style_context().add_class('dim-label')
+        tool_box.pack_start(desc_label, False, False, 0)
+
+        button = Gtk.Button()
+        button.add(tool_box)
+        button.set_tooltip_text(_("Install or uninstall LucidGlyph font rendering enhancement"))
+        button.connect('clicked', self._on_lucidglyph_clicked)
+
+        return button
+
+    def _is_lucidglyph_installed(self):
+        """Return True if LucidGlyph installation marker exists."""
+        return os.path.exists('/usr/local/share/lucidglyph/version')
+
+    def _on_lucidglyph_clicked(self, button):
+        """Dispatch to install or uninstall based on current state."""
+        button.set_sensitive(False)
+        if self._is_lucidglyph_installed():
+            self._lucidglyph_do_uninstall(button)
+        else:
+            self._lucidglyph_do_install(button)
+
+    def _lucidglyph_do_install(self, button):
+        """Download the latest LucidGlyph release and install it via pkexec."""
+        import json
+        import glob
+        import tempfile
+        import shutil as _shutil
+        import urllib.request
+
+        parent = self.get_toplevel()
+
+        progress_dialog = Gtk.Dialog(
+            title=_("Installing LucidGlyph"),
+            transient_for=parent,
+            modal=True
+        )
+        progress_dialog.set_deletable(False)
+        progress_dialog.set_default_size(340, -1)
+
+        content = progress_dialog.get_content_area()
+        content.set_spacing(12)
+        content.set_margin_start(20)
+        content.set_margin_end(20)
+        content.set_margin_top(20)
+        content.set_margin_bottom(20)
+
+        spinner = Gtk.Spinner()
+        spinner.set_size_request(40, 40)
+        spinner.start()
+        content.pack_start(spinner, False, False, 0)
+
+        status_label = Gtk.Label(label=_("Downloading LucidGlyph..."))
+        content.pack_start(status_label, False, False, 0)
+
+        progress_dialog.show_all()
+
+        def do_install():
+            tmpdir = None
+            try:
+                tmpdir = tempfile.mkdtemp()
+
+                api_url = 'https://api.github.com/repos/maximilionus/lucidglyph/releases/latest'
+                req = urllib.request.Request(api_url, headers={'User-Agent': 'soplos-welcome'})
+                with urllib.request.urlopen(req, timeout=20) as resp:
+                    release_data = json.loads(resp.read().decode())
+                tarball_url = release_data['tarball_url']
+
+                tarball_path = os.path.join(tmpdir, 'lucidglyph.tar.gz')
+                subprocess.run(
+                    ['wget', '-q', '-O', tarball_path, tarball_url],
+                    check=True, timeout=60
+                )
+                subprocess.run(
+                    ['tar', '-xzf', tarball_path, '-C', tmpdir],
+                    check=True
+                )
+
+                dirs = glob.glob(os.path.join(tmpdir, 'maximilionus-lucidglyph-*'))
+                if not dirs:
+                    raise RuntimeError("Extracted directory not found")
+                src_dir = dirs[0]
+
+                # Write helper script to avoid shell quoting issues with pkexec
+                helper = os.path.join(tmpdir, 'run_install.sh')
+                with open(helper, 'w') as f:
+                    f.write(f'#!/bin/bash\ncd "{src_dir}" && bash ./lucidglyph.sh install\n')
+                os.chmod(helper, 0o755)
+
+                GLib.idle_add(status_label.set_text, _("Installing LucidGlyph..."))
+
+                result = subprocess.run(
+                    ['pkexec', 'bash', helper],
+                    capture_output=True, text=True, timeout=120
+                )
+                success = result.returncode == 0
+            except Exception as e:
+                print(f"LucidGlyph install error: {e}")
+                success = False
+            finally:
+                if tmpdir:
+                    _shutil.rmtree(tmpdir, ignore_errors=True)
+            GLib.idle_add(on_install_done, success)
+
+        def on_install_done(success):
+            spinner.stop()
+            progress_dialog.destroy()
+            button.set_sensitive(True)
+            if success:
+                de = self.environment_detector.desktop_environment.value
+                if de == 'gnome':
+                    try:
+                        subprocess.run(
+                            ['gsettings', 'set', 'org.gnome.desktop.interface',
+                             'font-antialiasing', 'grayscale'],
+                            check=True
+                        )
+                    except Exception as e:
+                        print(f"gsettings font-antialiasing error: {e}")
+                reboot_dialog = Gtk.MessageDialog(
+                    transient_for=parent,
+                    modal=True,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=_("LucidGlyph installed")
+                )
+                if de == 'kde':
+                    reboot_dialog.format_secondary_text(
+                        _("A reboot is required for font rendering changes to take effect.")
+                        + "\n\n"
+                        + _("KDE Plasma: go to System Settings - Text and Fonts and set Sub-pixel rendering to None.")
+                    )
+                else:
+                    reboot_dialog.format_secondary_text(
+                        _("A reboot is required for font rendering changes to take effect.")
+                    )
+                reboot_dialog.run()
+                reboot_dialog.destroy()
+            else:
+                err_dialog = Gtk.MessageDialog(
+                    transient_for=parent,
+                    modal=True,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=_("Installation failed")
+                )
+                err_dialog.format_secondary_text(
+                    _("Could not install LucidGlyph. Check your internet connection and try again.")
+                )
+                err_dialog.run()
+                err_dialog.destroy()
+            return False
+
+        threading.Thread(target=do_install, daemon=True).start()
+
+    def _lucidglyph_do_uninstall(self, button):
+        """Download the latest LucidGlyph release and run uninstall via pkexec."""
+        import json
+        import glob
+        import tempfile
+        import shutil as _shutil
+        import urllib.request
+
+        parent = self.get_toplevel()
+
+        progress_dialog = Gtk.Dialog(
+            title=_("Removing LucidGlyph"),
+            transient_for=parent,
+            modal=True
+        )
+        progress_dialog.set_deletable(False)
+        progress_dialog.set_default_size(340, -1)
+
+        content = progress_dialog.get_content_area()
+        content.set_spacing(12)
+        content.set_margin_start(20)
+        content.set_margin_end(20)
+        content.set_margin_top(20)
+        content.set_margin_bottom(20)
+
+        spinner = Gtk.Spinner()
+        spinner.set_size_request(40, 40)
+        spinner.start()
+        content.pack_start(spinner, False, False, 0)
+
+        status_label = Gtk.Label(label=_("Removing LucidGlyph..."))
+        content.pack_start(status_label, False, False, 0)
+
+        progress_dialog.show_all()
+
+        def do_uninstall():
+            tmpdir = None
+            try:
+                tmpdir = tempfile.mkdtemp()
+
+                api_url = 'https://api.github.com/repos/maximilionus/lucidglyph/releases/latest'
+                req = urllib.request.Request(api_url, headers={'User-Agent': 'soplos-welcome'})
+                with urllib.request.urlopen(req, timeout=20) as resp:
+                    release_data = json.loads(resp.read().decode())
+                tarball_url = release_data['tarball_url']
+
+                tarball_path = os.path.join(tmpdir, 'lucidglyph.tar.gz')
+                subprocess.run(
+                    ['wget', '-q', '-O', tarball_path, tarball_url],
+                    check=True, timeout=60
+                )
+                subprocess.run(
+                    ['tar', '-xzf', tarball_path, '-C', tmpdir],
+                    check=True
+                )
+
+                dirs = glob.glob(os.path.join(tmpdir, 'maximilionus-lucidglyph-*'))
+                if not dirs:
+                    raise RuntimeError("Extracted directory not found")
+                src_dir = dirs[0]
+
+                helper = os.path.join(tmpdir, 'run_uninstall.sh')
+                with open(helper, 'w') as f:
+                    f.write(f'#!/bin/bash\ncd "{src_dir}" && bash ./lucidglyph.sh remove\n')
+                os.chmod(helper, 0o755)
+
+                result = subprocess.run(
+                    ['pkexec', 'bash', helper],
+                    capture_output=True, text=True, timeout=120
+                )
+                success = result.returncode == 0
+            except Exception as e:
+                print(f"LucidGlyph uninstall error: {e}")
+                success = False
+            finally:
+                if tmpdir:
+                    _shutil.rmtree(tmpdir, ignore_errors=True)
+            GLib.idle_add(on_uninstall_done, success)
+
+        def on_uninstall_done(success):
+            spinner.stop()
+            progress_dialog.destroy()
+            button.set_sensitive(True)
+            if success:
+                de = self.environment_detector.desktop_environment.value
+                if de == 'gnome':
+                    try:
+                        subprocess.run(
+                            ['gsettings', 'reset', 'org.gnome.desktop.interface',
+                             'font-antialiasing'],
+                            check=True
+                        )
+                    except Exception as e:
+                        print(f"gsettings reset font-antialiasing error: {e}")
+                reboot_dialog = Gtk.MessageDialog(
+                    transient_for=parent,
+                    modal=True,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=_("LucidGlyph removed")
+                )
+                reboot_dialog.format_secondary_text(
+                    _("A reboot is required for font rendering changes to take effect.")
+                )
+                reboot_dialog.run()
+                reboot_dialog.destroy()
+            else:
+                err_dialog = Gtk.MessageDialog(
+                    transient_for=parent,
+                    modal=True,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text=_("Uninstallation failed")
+                )
+                err_dialog.format_secondary_text(
+                    _("Could not remove LucidGlyph. Try again.")
+                )
+                err_dialog.run()
+                err_dialog.destroy()
+            return False
+
+        threading.Thread(target=do_uninstall, daemon=True).start()

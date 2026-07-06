@@ -307,13 +307,6 @@ SOFTWARE_CATEGORIES = {
                 'official': True
             },
             {
-                'name': 'FileZilla',
-                'package': 'filezilla',
-                'icon': 'filezilla.png',
-                'description': _('Fast and reliable FTP/SFTP client'),
-                'official': True
-            },
-            {
                 'name': 'Postman',
                 'package': None,
                 'flatpak': 'com.getpostman.Postman',
@@ -819,6 +812,26 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'cpupower.png',
                 'description': _('Control the CPU frequency governor from a graphical interface'),
                 'official': False
+            },
+            {
+                'name': 'amdgpu_top',
+                'package': 'amdgpu-top',
+                'icon': 'amdgpu-top.png',
+                'description': _('Real-time AMD GPU usage monitor with detailed metrics'),
+                'official': False,
+                'install_commands': [
+                    'AMDGPU_TOP_URL=$(curl -s https://api.github.com/repos/Umio-Yasuno/amdgpu_top/releases/latest | grep browser_download_url | grep amd64.deb | cut -d\\" -f4)',
+                    'wget -q --show-progress -O /tmp/amdgpu-top.deb "$AMDGPU_TOP_URL"',
+                    'apt install -y /tmp/amdgpu-top.deb',
+                    'rm -f /tmp/amdgpu-top.deb'
+                ]
+            },
+            {
+                'name': 'nvtop',
+                'package': 'nvtop',
+                'icon': 'nvtop.png',
+                'description': _('GPU process monitor for NVIDIA, AMD and Intel'),
+                'official': True
             },
             {
                 'name': 'CoolerControl',

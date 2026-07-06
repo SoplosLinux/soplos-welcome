@@ -3324,3 +3324,51 @@ msgstr "Twin-panel file manager for GNOME"
 
 msgid "Lightweight and easy-to-use BitTorrent client"
 msgstr "Lightweight and easy-to-use BitTorrent client"
+
+msgid "Improved font rendering for the system"
+msgstr "Improved font rendering for the system"
+
+msgid "Install or uninstall LucidGlyph font rendering enhancement"
+msgstr "Install or uninstall LucidGlyph font rendering enhancement"
+
+msgid "Installing LucidGlyph"
+msgstr "Installing LucidGlyph"
+
+msgid "Downloading LucidGlyph..."
+msgstr "Downloading LucidGlyph..."
+
+msgid "Installing LucidGlyph..."
+msgstr "Installing LucidGlyph..."
+
+msgid "Removing LucidGlyph"
+msgstr "Removing LucidGlyph"
+
+msgid "Removing LucidGlyph..."
+msgstr "Removing LucidGlyph..."
+
+msgid "LucidGlyph installed"
+msgstr "LucidGlyph installed"
+
+msgid "A reboot is required for font rendering changes to take effect."
+msgstr "A reboot is required for font rendering changes to take effect."
+
+msgid "Could not install LucidGlyph. Check your internet connection and try again."
+msgstr "Could not install LucidGlyph. Check your internet connection and try again."
+
+msgid "LucidGlyph removed"
+msgstr "LucidGlyph removed"
+
+msgid "Could not remove LucidGlyph. Try again."
+msgstr "Could not remove LucidGlyph. Try again."
+
+msgid "Uninstallation failed"
+msgstr "Uninstallation failed"
+
+msgid "Real-time AMD GPU usage monitor with detailed metrics"
+msgstr "Real-time AMD GPU usage monitor with detailed metrics"
+
+msgid "GPU process monitor for NVIDIA, AMD and Intel"
+msgstr "GPU process monitor for NVIDIA, AMD and Intel"
+
+msgid "KDE Plasma: go to System Settings - Text and Fonts and set Sub-pixel rendering to None."
+msgstr "KDE Plasma: go to System Settings - Text and Fonts and set Sub-pixel rendering to None."

@@ -3315,3 +3315,51 @@ msgstr "Manager de fișiere cu panouri duble pentru GNOME"
 
 msgid "Lightweight and easy-to-use BitTorrent client"
 msgstr "Client BitTorrent ușor și simplu de utilizat"
+
+msgid "Improved font rendering for the system"
+msgstr "Redare îmbunătățită a fonturilor pentru sistem"
+
+msgid "Install or uninstall LucidGlyph font rendering enhancement"
+msgstr "Instalați sau dezinstalați îmbunătățirea redării fonturilor LucidGlyph"
+
+msgid "Installing LucidGlyph"
+msgstr "Se instalează LucidGlyph"
+
+msgid "Downloading LucidGlyph..."
+msgstr "Se descarcă LucidGlyph..."
+
+msgid "Installing LucidGlyph..."
+msgstr "Se instalează LucidGlyph..."
+
+msgid "Removing LucidGlyph"
+msgstr "Se elimină LucidGlyph"
+
+msgid "Removing LucidGlyph..."
+msgstr "Se elimină LucidGlyph..."
+
+msgid "LucidGlyph installed"
+msgstr "LucidGlyph instalat"
+
+msgid "A reboot is required for font rendering changes to take effect."
+msgstr "Este necesar un restart pentru ca modificările de redare a fonturilor să aibă efect."
+
+msgid "Could not install LucidGlyph. Check your internet connection and try again."
+msgstr "Nu s-a putut instala LucidGlyph. Verificați conexiunea la internet și încercați din nou."
+
+msgid "LucidGlyph removed"
+msgstr "LucidGlyph eliminat"
+
+msgid "Could not remove LucidGlyph. Try again."
+msgstr "Nu s-a putut elimina LucidGlyph. Încercați din nou."
+
+msgid "Uninstallation failed"
+msgstr "Dezinstalare eșuată"
+
+msgid "Real-time AMD GPU usage monitor with detailed metrics"
+msgstr "Monitor de utilizare GPU AMD în timp real cu metrici detaliate"
+
+msgid "GPU process monitor for NVIDIA, AMD and Intel"
+msgstr "Monitor de procese GPU pentru NVIDIA, AMD și Intel"
+
+msgid "KDE Plasma: go to System Settings - Text and Fonts and set Sub-pixel rendering to None."
+msgstr "KDE Plasma: mergeți la Setări sistem - Text și fonturi și setați Redare sub-pixel la Niciuna."

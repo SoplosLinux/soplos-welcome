@@ -3322,3 +3322,51 @@ msgstr "Gestor de ficheiros de painel duplo para GNOME"
 
 msgid "Lightweight and easy-to-use BitTorrent client"
 msgstr "Cliente BitTorrent leve e fácil de usar"
+
+msgid "Improved font rendering for the system"
+msgstr "Renderização de fontes melhorada para o sistema"
+
+msgid "Install or uninstall LucidGlyph font rendering enhancement"
+msgstr "Instalar ou desinstalar a melhoria de renderização de fontes LucidGlyph"
+
+msgid "Installing LucidGlyph"
+msgstr "Instalando LucidGlyph"
+
+msgid "Downloading LucidGlyph..."
+msgstr "Baixando LucidGlyph..."
+
+msgid "Installing LucidGlyph..."
+msgstr "Instalando LucidGlyph..."
+
+msgid "Removing LucidGlyph"
+msgstr "Removendo LucidGlyph"
+
+msgid "Removing LucidGlyph..."
+msgstr "Removendo LucidGlyph..."
+
+msgid "LucidGlyph installed"
+msgstr "LucidGlyph instalado"
+
+msgid "A reboot is required for font rendering changes to take effect."
+msgstr "É necessário reiniciar para que as alterações no renderizado de fontes tenham efeito."
+
+msgid "Could not install LucidGlyph. Check your internet connection and try again."
+msgstr "Não foi possível instalar o LucidGlyph. Verifique sua conexão com a Internet e tente novamente."
+
+msgid "LucidGlyph removed"
+msgstr "LucidGlyph removido"
+
+msgid "Could not remove LucidGlyph. Try again."
+msgstr "Não foi possível remover o LucidGlyph. Tente novamente."
+
+msgid "Uninstallation failed"
+msgstr "Falha na desinstalação"
+
+msgid "Real-time AMD GPU usage monitor with detailed metrics"
+msgstr "Monitor de uso de GPU AMD em tempo real com métricas detalhadas"
+
+msgid "GPU process monitor for NVIDIA, AMD and Intel"
+msgstr "Monitor de processos de GPU para NVIDIA, AMD e Intel"
+
+msgid "KDE Plasma: go to System Settings - Text and Fonts and set Sub-pixel rendering to None."
+msgstr "KDE Plasma: vá em Configurações do sistema - Texto e fontes e defina Renderização de subpixel como Nenhum."

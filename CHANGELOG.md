@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.0-4] - 2026-07-06
+
+### Added — Customization Tab
+
+- **LucidGlyph**: New entry in the Soplos Tools section for all three DEs (XFCE, GNOME, KDE). Downloads the latest release tarball from GitHub, extracts it and runs `./lucidglyph.sh install` via pkexec. Uninstall runs `./lucidglyph.sh remove`. Detection via `/usr/local/share/lucidglyph/version` marker file.
+- **LucidGlyph — DE-specific post-install**: On GNOME, `gsettings set org.gnome.desktop.interface font-antialiasing grayscale` is applied automatically after install and reset on removal. On KDE, a manual instruction dialog is shown pointing to System Settings - Text and Fonts - Sub-pixel rendering = None.
+
+### Added — Recommended Tab
+
+- **Hardware — amdgpu_top**: Real-time AMD GPU usage monitor. Installs via GitHub latest release `.deb` (dynamic URL via GitHub API).
+- **Hardware — nvtop**: GPU process monitor for NVIDIA, AMD and Intel. Installs from official Debian repository.
+
+### Fixed — Recommended Tab
+
+- **FileZilla duplicate**: FileZilla was listed in both Developer and Files categories. Removed from Developer; remains only in Files.
+
+### Translations
+
+- Updated all 8 languages (en, es, de, fr, it, pt, ro, ru) with new strings for LucidGlyph install/uninstall flow, amdgpu_top and nvtop descriptions.
+
 ## [2.1.0-3] - 2026-06-30
 
 ### Fixed — Drivers Tab

@@ -3318,3 +3318,51 @@ msgstr "Двухпанельный файловый менеджер для GNOM
 
 msgid "Lightweight and easy-to-use BitTorrent client"
 msgstr "Лёгкий и простой в использовании клиент BitTorrent"
+
+msgid "Improved font rendering for the system"
+msgstr "Улучшенный рендеринг шрифтов для системы"
+
+msgid "Install or uninstall LucidGlyph font rendering enhancement"
+msgstr "Установить или удалить улучшение рендеринга шрифтов LucidGlyph"
+
+msgid "Installing LucidGlyph"
+msgstr "Установка LucidGlyph"
+
+msgid "Downloading LucidGlyph..."
+msgstr "Загрузка LucidGlyph..."
+
+msgid "Installing LucidGlyph..."
+msgstr "Установка LucidGlyph..."
+
+msgid "Removing LucidGlyph"
+msgstr "Удаление LucidGlyph"
+
+msgid "Removing LucidGlyph..."
+msgstr "Удаление LucidGlyph..."
+
+msgid "LucidGlyph installed"
+msgstr "LucidGlyph установлен"
+
+msgid "A reboot is required for font rendering changes to take effect."
+msgstr "Для применения изменений рендеринга шрифтов требуется перезагрузка."
+
+msgid "Could not install LucidGlyph. Check your internet connection and try again."
+msgstr "Не удалось установить LucidGlyph. Проверьте подключение к интернету и повторите попытку."
+
+msgid "LucidGlyph removed"
+msgstr "LucidGlyph удалён"
+
+msgid "Could not remove LucidGlyph. Try again."
+msgstr "Не удалось удалить LucidGlyph. Попробуйте снова."
+
+msgid "Uninstallation failed"
+msgstr "Ошибка удаления"
+
+msgid "Real-time AMD GPU usage monitor with detailed metrics"
+msgstr "Монитор использования GPU AMD в реальном времени с подробными метриками"
+
+msgid "GPU process monitor for NVIDIA, AMD and Intel"
+msgstr "Монитор процессов GPU для NVIDIA, AMD и Intel"
+
+msgid "KDE Plasma: go to System Settings - Text and Fonts and set Sub-pixel rendering to None."
+msgstr "KDE Plasma: перейдите в Параметры системы - Текст и шрифты и установите Субпиксельный рендеринг в Нет."

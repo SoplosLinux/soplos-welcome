@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.0--3-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.0--4-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -181,6 +181,12 @@ Contact: info@soploslinux.com
 ### v2.0.8-5 (2026-05-23)
 - **Drivers Tab — Wi-Fi Repair**: New "Repair Wi-Fi" button automatically detects the active Wi-Fi driver (reads `/sys/class/net/*/wireless`) and reloads it via `modprobe -r` + `modprobe` + `systemctl restart NetworkManager`. Works with any brand (Intel, Realtek, Atheros, MediaTek, etc.).
 - **Translations**: Added Wi-Fi Repair strings in all 8 languages.
+
+### v2.1.0-4 (2026-07-06)
+- **Customization Tab**: Added LucidGlyph font rendering enhancement — install/uninstall from the Soplos Tools section. Uses GitHub latest release via pkexec. On GNOME applies `gsettings font-antialiasing grayscale` automatically. On KDE shows manual instruction for Sub-pixel rendering.
+- **Recommended Tab — Hardware**: Added amdgpu_top (AMD GPU monitor, GitHub .deb) and nvtop (GPU process monitor, official repo).
+- **Recommended Tab**: Removed FileZilla duplicate from Developer category (now only in Files).
+- **Translations**: Updated all 8 languages with LucidGlyph, amdgpu_top and nvtop strings.
 
 ### v2.1.0-3 (2026-06-30)
 - **Drivers Tab**: Fixed `$SUDO_USER` empty under pkexec in hybrid graphics — `kwinoutputconfig.json` was written to `/root` instead of the user's home. Replaced with `$PKEXEC_UID` pattern.
