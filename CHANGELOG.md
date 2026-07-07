@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.0-5] - 2026-07-07
+
+### Changed
+- Build dependency `python3-all` replaced with `python3`.
+
+---
+
 ## [2.1.0-4] - 2026-07-06
 
 ### Added — Customization Tab

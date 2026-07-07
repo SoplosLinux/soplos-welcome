@@ -3,12 +3,12 @@ Section: utils
 Priority: optional
 Maintainer: Sergi Perich <info@soploslinux.com>
 Build-Depends: debhelper-compat (= 13),
-               python3-all,
+               python3,
                dh-python,
                python3-setuptools
 
 Package: soplos-welcome
-Version: 2.1.0-4
+Version: 2.1.0-5
 Architecture: all
 Depends: ${python3:Depends},
          ${misc:Depends},
