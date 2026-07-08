@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
 ## [2.1.0-6] - 2026-07-08
 
 ### Fixed
-- **Environment detection — Qt version**: `_detect_qt_version()` in `core/environment.py` narrowed broad `except Exception` to `except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError)` — only subprocess failures are silenced when `qmake` is not installed or unavailable.
+- **Environment detection — Qt version**: `_detect_qt_version()` in `core/environment.py` added `FileNotFoundError` to the exception catch — previously only `subprocess.SubprocessError` and `subprocess.TimeoutExpired` were handled, so when `qmake` is not installed `subprocess.run` raised `FileNotFoundError` that propagated up through `detect_all()` and crashed the application on startup.
 
 ## [2.1.0-5] - 2026-07-07
 

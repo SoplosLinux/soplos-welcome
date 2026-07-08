@@ -183,7 +183,7 @@ Contact: info@soploslinux.com
 - **Translations**: Added Wi-Fi Repair strings in all 8 languages.
 
 ### v2.1.0-6 (2026-07-08)
-- **Fixed — Environment detection**: `_detect_qt_version()` narrowed broad `except Exception` to `except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError)` — unexpected exceptions no longer silenced when `qmake` is not installed.
+- **Fixed — Environment detection**: `_detect_qt_version()` added `FileNotFoundError` to the exception catch — previously only `subprocess.SubprocessError` and `subprocess.TimeoutExpired` were handled, so when `qmake` is not installed `subprocess.run` raised `FileNotFoundError` that propagated up through `detect_all()` and crashed the application on startup.
 
 ### v2.1.0-5 (2026-07-07)
 - **Build**: Build dependency `python3-all` replaced with `python3`.
