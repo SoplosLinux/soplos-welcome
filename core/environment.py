@@ -287,9 +287,9 @@ class EnvironmentDetector:
                 for line in result.stdout.split('\n'):
                     if 'Qt version' in line:
                         return line.split()[-1]
-        except (subprocess.SubprocessError, subprocess.TimeoutExpired):
+        except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError):
             pass
-        
+
         return 'unknown'
     
     # Public properties for easy access

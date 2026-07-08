@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.0--5-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.0--6-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -181,6 +181,9 @@ Contact: info@soploslinux.com
 ### v2.0.8-5 (2026-05-23)
 - **Drivers Tab — Wi-Fi Repair**: New "Repair Wi-Fi" button automatically detects the active Wi-Fi driver (reads `/sys/class/net/*/wireless`) and reloads it via `modprobe -r` + `modprobe` + `systemctl restart NetworkManager`. Works with any brand (Intel, Realtek, Atheros, MediaTek, etc.).
 - **Translations**: Added Wi-Fi Repair strings in all 8 languages.
+
+### v2.1.0-6 (2026-07-08)
+- **Fixed — Environment detection**: `_detect_qt_version()` narrowed broad `except Exception` to `except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError)` — unexpected exceptions no longer silenced when `qmake` is not installed.
 
 ### v2.1.0-5 (2026-07-07)
 - **Build**: Build dependency `python3-all` replaced with `python3`.

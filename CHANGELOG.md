@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.0-6] - 2026-07-08
+
+### Fixed
+- **Environment detection — Qt version**: `_detect_qt_version()` in `core/environment.py` narrowed broad `except Exception` to `except (subprocess.SubprocessError, subprocess.TimeoutExpired, FileNotFoundError)` — only subprocess failures are silenced when `qmake` is not installed or unavailable.
+
 ## [2.1.0-5] - 2026-07-07
 
 ### Changed
