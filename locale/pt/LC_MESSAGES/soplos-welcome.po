@@ -3370,3 +3370,66 @@ msgstr "Monitor de processos de GPU para NVIDIA, AMD e Intel"
 
 msgid "KDE Plasma: go to System Settings - Text and Fonts and set Sub-pixel rendering to None."
 msgstr "KDE Plasma: vá em Configurações do sistema - Texto e fontes e defina Renderização de subpixel como Nenhum."
+
+msgid "CUDA 12 Toolkit"
+msgstr "Kit de Ferramentas CUDA 12"
+
+msgid "Full CUDA 12 toolkit for PyTorch, TensorFlow and GPU computing"
+msgstr "Kit CUDA 12 completo para PyTorch, TensorFlow e computacao GPU"
+
+msgid "Intel Extras"
+msgstr "Extras Intel"
+
+msgid "Intel oneAPI Base Toolkit"
+msgstr "Intel oneAPI Base Toolkit"
+
+msgid "DPC++ compiler, MKL, TBB, VTune — for Intel Arc GPU and CPU computing"
+msgstr "Compilador DPC++, MKL, TBB, VTune — para GPU Intel Arc e computacao em CPU"
+
+msgid "Remove CUDA 12 Toolkit"
+msgstr "Remover Kit CUDA 12"
+
+msgid "This will remove all CUDA 12 packages and the NVIDIA CUDA repository.\n\nDo you want to continue?"
+msgstr "Isto removera todos os pacotes CUDA 12 e o repositorio NVIDIA CUDA.\n\nDeseja continuar?"
+
+msgid "Confirm CUDA 12 Toolkit Installation"
+msgstr "Confirmar instalacao do Kit CUDA 12"
+
+msgid "This will:\n\n1. Add the NVIDIA CUDA repository.\n2. Install CUDA 12 Toolkit (nvcc, cuBLAS, cuDNN, CUDA libraries).\n\nCompatible with PyTorch and TensorFlow cu12 builds.\nRequires an NVIDIA GPU with a driver already installed.\n\nSeveral GB download — this may take a while.\n\nDo you want to continue?"
+msgstr "Isto ira:\n\n1. Adicionar o repositorio NVIDIA CUDA.\n2. Instalar o Kit CUDA 12 (nvcc, cuBLAS, cuDNN, bibliotecas CUDA).\n\nCompativel com builds cu12 do PyTorch e TensorFlow.\nRequer uma GPU NVIDIA com driver ja instalado.\n\nDownload de varios GB — isto pode demorar algum tempo.\n\nDeseja continuar?"
+
+msgid "Remove Intel oneAPI"
+msgstr "Remover Intel oneAPI"
+
+msgid "This will remove the Intel oneAPI Base Toolkit and its repository.\n\nDo you want to continue?"
+msgstr "Isto removera o Intel oneAPI Base Toolkit e o seu repositorio.\n\nDeseja continuar?"
+
+msgid "Confirm Intel oneAPI Installation"
+msgstr "Confirmar instalacao do Intel oneAPI"
+
+msgid "This will:\n\n1. Add the official Intel oneAPI repository.\n2. Install Intel oneAPI Base Toolkit (DPC++ compiler, MKL, TBB, VTune, Advisor).\n\nRecommended for Intel Arc GPU users and Intel CPU-accelerated computing.\n\nSeveral GB download — this may take a while.\n\nDo you want to continue?"
+msgstr "Isto ira:\n\n1. Adicionar o repositorio oficial Intel oneAPI.\n2. Instalar Intel oneAPI Base Toolkit (compilador DPC++, MKL, TBB, VTune, Advisor).\n\nRecomendado para utilizadores de GPU Intel Arc e computacao acelerada por CPU Intel.\n\nDownload de varios GB — isto pode demorar algum tempo.\n\nDeseja continuar?"
+
+msgid "Open Kernel Modules"
+msgstr "Modulos de kernel abertos"
+
+msgid "Switch to NVIDIA open source kernel modules (Turing+ / RTX 20 and newer)"
+msgstr "Mudar para modulos de kernel open source NVIDIA (Turing+ / RTX 20 e mais recente)"
+
+msgid "Switch to Proprietary Kernel Module"
+msgstr "Mudar para o modulo de kernel proprietario"
+
+msgid "This will replace the open kernel module with the proprietary NVIDIA kernel module.\n\nA system restart will be required.\n\nDo you want to continue?"
+msgstr "O modulo de kernel aberto sera substituido pelo modulo de kernel proprietario NVIDIA.\n\nSera necessario reiniciar o sistema.\n\nDeseja continuar?"
+
+msgid "Incompatible GPU"
+msgstr "GPU incompativel"
+
+msgid "Open kernel modules require a Turing or newer GPU (RTX 20 series, GTX 1650/1660 or newer).\n\nYour GPU is not compatible with this option."
+msgstr "Os modulos de kernel abertos requerem uma GPU Turing ou mais recente (serie RTX 20, GTX 1650/1660 ou mais recente).\n\nA sua GPU nao e compativel com esta opcao."
+
+msgid "Switch to Open Kernel Modules"
+msgstr "Mudar para modulos de kernel abertos"
+
+msgid "This will replace the proprietary NVIDIA kernel module with the official open source version.\n\nRecommended for RTX 30 series and newer. Requires a NVIDIA driver already installed.\n\nA system restart will be required.\n\nDo you want to continue?"
+msgstr "O modulo de kernel proprietario NVIDIA sera substituido pela versao oficial open source.\n\nRecomendado para a serie RTX 30 e mais recente. Requer um driver NVIDIA ja instalado.\n\nSera necessario reiniciar o sistema.\n\nDeseja continuar?"

@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.0--6-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.0--7-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -181,6 +181,13 @@ Contact: info@soploslinux.com
 ### v2.0.8-5 (2026-05-23)
 - **Drivers Tab — Wi-Fi Repair**: New "Repair Wi-Fi" button automatically detects the active Wi-Fi driver (reads `/sys/class/net/*/wireless`) and reloads it via `modprobe -r` + `modprobe` + `systemctl restart NetworkManager`. Works with any brand (Intel, Realtek, Atheros, MediaTek, etc.).
 - **Translations**: Added Wi-Fi Repair strings in all 8 languages.
+
+### v2.1.0-7 (2026-07-10)
+- **Added — Drivers Tab (NVIDIA Extras)**: CUDA 12 Toolkit — installs `cuda-toolkit-12` from the NVIDIA CUDA debian12 repository (compatible with PyTorch and TensorFlow cu12 builds). Requires an NVIDIA driver already installed. Button reflects install state and supports uninstall.
+- **Added — Drivers Tab (NVIDIA Extras)**: Open Kernel Modules — installs `nvidia-kernel-open-dkms` (official open source NVIDIA kernel module). Requires Turing or newer GPU (RTX 20 series, GTX 1650/1660 or newer). GPU compatibility check via `_is_turing_plus()` before proceeding; incompatible GPUs (Maxwell/Pascal) receive an error dialog. Supports switching back to the proprietary module.
+- **Added — Drivers Tab (NVIDIA 590/610)**: `nvidia-kernel-open-dkms` included automatically in the install command for the 590 and 610 driver branches, which target Turing+ hardware exclusively.
+- **Added — Drivers Tab (Intel Extras)**: New section between AMD Extras and Wi-Fi. Intel oneAPI Base Toolkit — adds the official Intel oneAPI apt repository (GPG key from Intel), installs `intel-basekit` (DPC++ compiler, MKL, TBB, VTune, Advisor). Supports uninstall including full repository cleanup.
+- **Translations**: Added CUDA 12, Intel oneAPI and Open Kernel Modules strings in all 8 languages (en, es, de, fr, it, pt, ro, ru).
 
 ### v2.1.0-6 (2026-07-08)
 - **Fixed — Environment detection**: `_detect_qt_version()` added `FileNotFoundError` to the exception catch — previously only `subprocess.SubprocessError` and `subprocess.TimeoutExpired` were handled, so when `qmake` is not installed `subprocess.run` raised `FileNotFoundError` that propagated up through `detect_all()` and crashed the application on startup.

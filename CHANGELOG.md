@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.0-7] - 2026-07-10
+
+### Added — Drivers Tab
+
+- **NVIDIA Extras — CUDA 12 Toolkit**: Installs `cuda-toolkit-12` from the NVIDIA CUDA debian12 repository. Compatible with PyTorch and TensorFlow cu12 builds. Requires an NVIDIA driver already installed. Button reflects install state and supports uninstall with full repository cleanup.
+- **NVIDIA Extras — Open Kernel Modules**: Installs `nvidia-kernel-open-dkms` (official open source NVIDIA kernel module, recommended for RTX 30 series and newer). GPU compatibility is verified via `_is_turing_plus()` before proceeding — Maxwell and Pascal GPUs receive an incompatibility error dialog. Supports switching back to the proprietary `nvidia-kernel-dkms` module.
+- **NVIDIA 590/610 drivers**: `nvidia-kernel-open-dkms` is now included automatically in the install command for the 590 and 610 branches, which target Turing+ hardware exclusively.
+- **Intel Extras section**: New section added between AMD Extras and Wi-Fi. Contains Intel oneAPI Base Toolkit — adds the official Intel oneAPI apt repository (GPG key from `apt.repos.intel.com`) and installs `intel-basekit` (DPC++ compiler, MKL, TBB, VTune, Advisor). Supports full uninstall including repository and keyring removal.
+- **Translations**: CUDA 12 Toolkit, Open Kernel Modules and Intel oneAPI strings added to all 8 languages (en, es, de, fr, it, pt, ro, ru).
+
+---
+
 ## [2.1.0-6] - 2026-07-08
 
 ### Fixed

@@ -111,6 +111,12 @@ class DriversTab(Gtk.ScrolledWindow):
         # Separator
         self.drivers_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
 
+        # --- Intel Extras Section ---
+        self._create_intel_extras_section()
+
+        # Separator
+        self.drivers_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
+
         # --- Wi-Fi Section ---
         self._create_wifi_section()
         
@@ -335,6 +341,32 @@ class DriversTab(Gtk.ScrolledWindow):
             'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'nvidia-cuda-toolkit'),
             'check_fn': lambda: self._is_package_installed('nvidia-cuda-toolkit'),
         }
+
+        cuda12_btn = self._create_button(
+            _("CUDA 12 Toolkit"),
+            _("Full CUDA 12 toolkit for PyTorch, TensorFlow and GPU computing")
+        )
+        box.pack_start(cuda12_btn, True, True, 0)
+        self._driver_buttons['cuda12'] = {
+            'button': cuda12_btn, 'handler_id': None,
+            'base_label': _("CUDA 12 Toolkit"),
+            'install_fn': lambda b: self._on_cuda12_clicked(b, 'install'),
+            'uninstall_fn': lambda b: self._on_cuda12_clicked(b, 'uninstall'),
+            'check_fn': lambda: self._is_cuda12_installed(),
+        }
+
+        open_btn = self._create_button(
+            _("Open Kernel Modules"),
+            _("Switch to NVIDIA open source kernel modules (Turing+ / RTX 20 and newer)")
+        )
+        box.pack_start(open_btn, True, True, 0)
+        self._driver_buttons['nvidia_open'] = {
+            'button': open_btn, 'handler_id': None,
+            'base_label': _("Open Kernel Modules"),
+            'install_fn': lambda b: self._on_nvidia_open_clicked(b, 'install'),
+            'uninstall_fn': lambda b: self._on_nvidia_open_clicked(b, 'uninstall'),
+            'check_fn': lambda: self._is_package_installed('nvidia-kernel-open-dkms'),
+        }
     
     def _create_amd_section(self):
         """Create AMD drivers section."""
@@ -397,6 +429,30 @@ class DriversTab(Gtk.ScrolledWindow):
             'install_fn': lambda b: self._on_rocm_clicked(b, 'full'),
             'uninstall_fn': lambda b: self._on_rocm_clicked(b, 'uninstall'),
             'check_fn': lambda: self._is_package_installed('rocm'),
+        }
+
+    def _create_intel_extras_section(self):
+        """Create Intel Extras section (oneAPI Base Toolkit)."""
+        label = Gtk.Label()
+        label.set_markup(f'<span weight="bold" size="14000">{_("Intel Extras")}</span>')
+        label.set_halign(Gtk.Align.START)
+        self.drivers_box.pack_start(label, False, False, 5)
+
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        box.set_homogeneous(True)
+        self.drivers_box.pack_start(box, False, False, 5)
+
+        oneapi_btn = self._create_button(
+            _("Intel oneAPI Base Toolkit"),
+            _("DPC++ compiler, MKL, TBB, VTune — for Intel Arc GPU and CPU computing")
+        )
+        box.pack_start(oneapi_btn, True, True, 0)
+        self._driver_buttons['oneapi'] = {
+            'button': oneapi_btn, 'handler_id': None,
+            'base_label': _("Intel oneAPI Base Toolkit"),
+            'install_fn': lambda b: self._on_oneapi_clicked(b, 'install'),
+            'uninstall_fn': lambda b: self._on_oneapi_clicked(b, 'uninstall'),
+            'check_fn': lambda: os.path.exists('/opt/intel/oneapi/setvars.sh'),
         }
 
     def _create_wifi_section(self):
@@ -994,7 +1050,7 @@ fi
 dpkg -i "$TEMP_DIR/cuda-keyring.deb"
 rm -rf "$TEMP_DIR"
 """
-            install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y cuda-drivers-590"
+            install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y cuda-drivers-590 nvidia-kernel-open-dkms"
             repo_cleanup = ""
         else:
             repo_setup = r"""TEMP_DIR=$(mktemp -d)
@@ -1008,7 +1064,7 @@ fi
 dpkg -i "$TEMP_DIR/cuda-keyring.deb"
 rm -rf "$TEMP_DIR"
 """
-            install_driver = "apt install -y nvidia-driver-pinning-610\napt install -y cuda-drivers-610"
+            install_driver = "apt install -y nvidia-driver-pinning-610\napt install -y cuda-drivers-610 nvidia-kernel-open-dkms"
             repo_cleanup = ""
 
         script = f"""#!/bin/bash
@@ -1202,6 +1258,260 @@ echo "=== Installation completed successfully ==="
 echo "ROCm installed. Please restart your session to apply group membership."
 """
         self._run_script_as_root(script, f"install-rocm-{mode}.sh", self._refresh_driver_status)
+
+    def _is_turing_plus(self):
+        """Return True if the detected NVIDIA GPU supports open kernel modules (Turing+)."""
+        try:
+            from utils.hardware_detector import detect_all_gpus
+            gpus = detect_all_gpus()
+            for gpu in gpus:
+                if gpu.get('vendor', '').upper() != 'NVIDIA':
+                    continue
+                model = gpu.get('model', '').lower()
+                turing_plus = [
+                    'rtx 20', 'rtx20', 'rtx 30', 'rtx30', 'rtx 40', 'rtx40',
+                    'rtx 50', 'rtx50', 'gtx 16', 'gtx16', 'gtx 1650', 'gtx 1660',
+                    'mx550', 'mx 550', 'mx450', 'mx 450',
+                    'a100', 'a40', 'a30', 'a10', 'rtx a',
+                ]
+                if any(s in model for s in turing_plus):
+                    return True
+        except Exception:
+            pass
+        return False
+
+    def _is_cuda12_installed(self):
+        """Check if CUDA 12 toolkit is installed."""
+        return os.path.exists('/usr/local/cuda/bin/nvcc')
+
+    def _on_nvidia_open_clicked(self, button, mode):
+        """Switch between proprietary and open NVIDIA kernel modules."""
+        if mode == 'uninstall':
+            confirm_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Switch to Proprietary Kernel Module")
+            )
+            confirm_dialog.format_secondary_text(
+                _("This will replace the open kernel module with the proprietary NVIDIA kernel module.\n\n"
+                  "A system restart will be required.\n\n"
+                  "Do you want to continue?")
+            )
+            response = confirm_dialog.run()
+            confirm_dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+
+            script = """#!/bin/bash
+set -e
+echo "=== Switching to proprietary NVIDIA kernel module ==="
+apt install -y nvidia-kernel-dkms
+apt purge -y nvidia-kernel-open-dkms 2>/dev/null || true
+echo "[+] Done. Restart required."
+"""
+            self._run_script_as_root(script, "nvidia-proprietary-module.sh", self._refresh_driver_status)
+            return
+
+        if not self._is_turing_plus():
+            error_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text=_("Incompatible GPU")
+            )
+            error_dialog.format_secondary_text(
+                _("Open kernel modules require a Turing or newer GPU (RTX 20 series, GTX 1650/1660 or newer).\n\n"
+                  "Your GPU is not compatible with this option.")
+            )
+            error_dialog.run()
+            error_dialog.destroy()
+            return
+
+        confirm_dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Switch to Open Kernel Modules")
+        )
+        confirm_dialog.format_secondary_text(
+            _("This will replace the proprietary NVIDIA kernel module with the official open source version.\n\n"
+              "Recommended for RTX 30 series and newer. Requires a NVIDIA driver already installed.\n\n"
+              "A system restart will be required.\n\n"
+              "Do you want to continue?")
+        )
+        response = confirm_dialog.run()
+        confirm_dialog.destroy()
+        if response != Gtk.ResponseType.YES:
+            return
+
+        script = """#!/bin/bash
+set -e
+echo "=== Switching to NVIDIA open kernel modules ==="
+apt install -y nvidia-kernel-open-dkms
+apt purge -y nvidia-kernel-dkms 2>/dev/null || true
+echo "[+] Done. Restart required."
+"""
+        self._run_script_as_root(script, "nvidia-open-module.sh", self._refresh_driver_status)
+
+    def _on_cuda12_clicked(self, button, mode):
+        """Install or remove CUDA 12 Toolkit from the NVIDIA debian12 repository."""
+        if mode == 'uninstall':
+            confirm_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Remove CUDA 12 Toolkit")
+            )
+            confirm_dialog.format_secondary_text(
+                _("This will remove all CUDA 12 packages and the NVIDIA CUDA repository.\n\n"
+                  "Do you want to continue?")
+            )
+            response = confirm_dialog.run()
+            confirm_dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+
+            script = """#!/bin/bash
+set -e
+echo "=== Removing CUDA 12 Toolkit ==="
+apt purge -y 'cuda-toolkit-12*' 'cuda-compiler-12*' 'cuda-libraries-12*' \
+    'cuda-tools-12*' 'cuda-documentation-12*' 'cuda-nvml-dev-12*' 2>/dev/null || true
+apt autoremove -y 2>/dev/null || true
+rm -f /etc/apt/sources.list.d/cuda-debian12-x86_64.list
+apt update -q
+echo "[+] CUDA 12 Toolkit removed successfully."
+"""
+            self._run_script_as_root(script, "remove-cuda12.sh", self._refresh_driver_status)
+            return
+
+        confirm_dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Confirm CUDA 12 Toolkit Installation")
+        )
+        confirm_dialog.format_secondary_text(
+            _("This will:\n\n"
+              "1. Add the NVIDIA CUDA repository.\n"
+              "2. Install CUDA 12 Toolkit (nvcc, cuBLAS, cuDNN, CUDA libraries).\n\n"
+              "Compatible with PyTorch and TensorFlow cu12 builds.\n"
+              "Requires an NVIDIA GPU with a driver already installed.\n\n"
+              "Several GB download — this may take a while.\n\n"
+              "Do you want to continue?")
+        )
+        response = confirm_dialog.run()
+        confirm_dialog.destroy()
+        if response != Gtk.ResponseType.YES:
+            return
+
+        script = """#!/bin/bash
+set -e
+LOG="/tmp/cuda12-install.log"
+exec > >(tee -a "$LOG") 2>&1
+
+echo "=== CUDA 12 Toolkit Installation ==="
+echo ""
+
+echo "[1/3] Setting up NVIDIA CUDA repository..."
+echo "deb [trusted=yes] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /" \\
+    > /etc/apt/sources.list.d/cuda-debian12-x86_64.list
+
+echo "[2/3] Updating package lists..."
+apt update
+
+echo "[3/3] Installing CUDA 12 Toolkit..."
+apt install -y cuda-toolkit-12
+
+echo ""
+echo "=== Installation completed successfully ==="
+echo "CUDA 12 Toolkit installed. Run 'nvcc --version' to verify."
+"""
+        self._run_script_as_root(script, "install-cuda12.sh", self._refresh_driver_status)
+
+    def _on_oneapi_clicked(self, button, mode):
+        """Install or remove Intel oneAPI Base Toolkit."""
+        if mode == 'uninstall':
+            confirm_dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Remove Intel oneAPI")
+            )
+            confirm_dialog.format_secondary_text(
+                _("This will remove the Intel oneAPI Base Toolkit and its repository.\n\n"
+                  "Do you want to continue?")
+            )
+            response = confirm_dialog.run()
+            confirm_dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+
+            script = """#!/bin/bash
+set -e
+echo "=== Removing Intel oneAPI Base Toolkit ==="
+apt purge -y 'intel-basekit*' 'intel-oneapi-*' 2>/dev/null || true
+apt autoremove -y 2>/dev/null || true
+rm -f /etc/apt/sources.list.d/intel-oneapi.list
+rm -f /etc/apt/keyrings/intel-oneapi.gpg
+apt update -q
+echo "[+] Intel oneAPI removed successfully."
+"""
+            self._run_script_as_root(script, "remove-oneapi.sh", self._refresh_driver_status)
+            return
+
+        confirm_dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Confirm Intel oneAPI Installation")
+        )
+        confirm_dialog.format_secondary_text(
+            _("This will:\n\n"
+              "1. Add the official Intel oneAPI repository.\n"
+              "2. Install Intel oneAPI Base Toolkit (DPC++ compiler, MKL, TBB, VTune, Advisor).\n\n"
+              "Recommended for Intel Arc GPU users and Intel CPU-accelerated computing.\n\n"
+              "Several GB download — this may take a while.\n\n"
+              "Do you want to continue?")
+        )
+        response = confirm_dialog.run()
+        confirm_dialog.destroy()
+        if response != Gtk.ResponseType.YES:
+            return
+
+        script = """#!/bin/bash
+set -e
+LOG="/tmp/oneapi-install.log"
+exec > >(tee -a "$LOG") 2>&1
+
+echo "=== Intel oneAPI Base Toolkit Installation ==="
+echo ""
+
+echo "[1/3] Setting up Intel oneAPI repository..."
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB \\
+    | gpg --dearmor -o /etc/apt/keyrings/intel-oneapi.gpg
+echo "deb [signed-by=/etc/apt/keyrings/intel-oneapi.gpg] https://apt.repos.intel.com/oneapi all main" \\
+    > /etc/apt/sources.list.d/intel-oneapi.list
+
+echo "[2/3] Updating package lists..."
+apt update
+
+echo "[3/3] Installing Intel oneAPI Base Toolkit..."
+apt install -y intel-basekit
+
+echo ""
+echo "=== Installation completed successfully ==="
+echo "Run 'source /opt/intel/oneapi/setvars.sh' to activate the environment."
+"""
+        self._run_script_as_root(script, "install-oneapi.sh", self._refresh_driver_status)
 
     def _on_vbox_clicked(self, button):
         """Install VirtualBox Guest Additions."""
