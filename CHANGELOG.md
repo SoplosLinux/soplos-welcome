@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.0-8] - 2026-07-19
+
+### Added — Customization Tab (GNOME)
+
+- **Layout Switcher**: Added to the Soplos Tools section alongside GRUB Editor and Plymouth Manager. Launches `/usr/bin/soplos-layout-switcher` to switch between GNOME Shell layout presets. Uses the existing install-if-missing flow (`pkexec apt-get install soplos-layout-switcher`) when the package is not present.
+
+---
+
 ## [2.1.0-7] - 2026-07-10
 
 ### Added — Drivers Tab

@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.0--7-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.0--8-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -181,6 +181,9 @@ Contact: info@soploslinux.com
 ### v2.0.8-5 (2026-05-23)
 - **Drivers Tab — Wi-Fi Repair**: New "Repair Wi-Fi" button automatically detects the active Wi-Fi driver (reads `/sys/class/net/*/wireless`) and reloads it via `modprobe -r` + `modprobe` + `systemctl restart NetworkManager`. Works with any brand (Intel, Realtek, Atheros, MediaTek, etc.).
 - **Translations**: Added Wi-Fi Repair strings in all 8 languages.
+
+### v2.1.0-8 (2026-07-19)
+- **Customization Tab (GNOME)**: Added Layout Switcher to the Soplos Tools section — launches `soplos-layout-switcher` to switch between GNOME Shell layout presets. Follows the existing install-if-missing pattern (pkexec apt-get) shared with GRUB Editor and Plymouth Manager.
 
 ### v2.1.0-7 (2026-07-10)
 - **Added — Drivers Tab (NVIDIA Extras)**: CUDA 12 Toolkit — installs `cuda-toolkit-12` from the NVIDIA CUDA debian12 repository (compatible with PyTorch and TensorFlow cu12 builds). Requires an NVIDIA driver already installed. Button reflects install state and supports uninstall.

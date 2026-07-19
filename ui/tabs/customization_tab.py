@@ -250,6 +250,14 @@ class CustomizationTab(Gtk.ScrolledWindow):
         # Universal Soplos tools (no Theme Manager, no Docklike)
         soplos_tools = [
             {
+                'icon': 'soplos-layout-switcher.png',
+                'label': _('Layout Switcher'),
+                'description': _('Switch between GNOME Shell layout presets'),
+                'tooltip': _('Launch Soplos Layout Switcher'),
+                'command': '/usr/bin/soplos-layout-switcher',
+                'package': 'soplos-layout-switcher'
+            },
+            {
                 'icon': 'soplos-grub-editor.png',
                 'label': _('GRUB Editor'),
                 'description': _('Edit boot menu (GRUB configuration)'),
