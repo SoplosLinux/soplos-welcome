@@ -3423,3 +3423,12 @@ msgstr "Zu offenen Kernel-Modulen wechseln"
 
 msgid "This will replace the proprietary NVIDIA kernel module with the official open source version.\n\nRecommended for RTX 30 series and newer. Requires a NVIDIA driver already installed.\n\nA system restart will be required.\n\nDo you want to continue?"
 msgstr "Das proprietare NVIDIA Kernel-Modul wird durch die offizielle Open-Source-Version ersetzt.\n\nEmpfohlen fur RTX 30-Serie und neuer. Erfordert einen bereits installierten NVIDIA-Treiber.\n\nEin Neustart des Systems ist erforderlich.\n\nMochten Sie fortfahren?"
+
+msgid "Layout Switcher"
+msgstr "Layout-Umschalter"
+
+msgid "Switch between GNOME Shell layout presets"
+msgstr "Zwischen GNOME-Shell-Layout-Voreinstellungen wechseln"
+
+msgid "Launch Soplos Layout Switcher"
+msgstr "Soplos Layout Switcher starten"
