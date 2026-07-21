@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.0--9-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.1-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,14 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.1 (2026-07-21)
+- **Fixed — Drivers Tab (Wi-Fi repair)**: `_on_repair_wifi_clicked` ran `modprobe -r <driver>` without bringing the interface down first — could fail silently with "device busy" and report success without ever reloading anything. Now runs `ip link set <iface> down` first when an active interface is known.
+- **Fixed — Drivers Tab (VirtualBox Guest uninstall)**: pointed to `apt remove virtualbox-guest-utils virtualbox-guest-x11` — packages never installed via apt, since Guest Additions come from the bundled `.run` installer. The button was a no-op. Now runs the official `uninstall.sh` (or `rcvboxadd cleanup`) from `/opt/VBoxGuestAdditions-*/`.
+- **Fixed — Drivers Tab (generic uninstall)**: `apt remove` replaced with `apt purge` in `_on_remove_driver_clicked`, affecting every AMD/Wi-Fi/Bluetooth/printer/VMware/QEMU uninstall button — conffiles were left behind.
+- **Fixed — Drivers Tab (NVIDIA 610 recommendation)**: RTX 50 series was recommended `nvidia-driver-590` even though the "NVIDIA 610 (Latest)" button explicitly targets that hardware. Now correctly recommends `nvidia-driver-610`.
+- **Added — Drivers Tab (unnecessary software detection)**: the hardware scan now flags installed NVIDIA/CUDA, AMD/ROCm, Broadcom Wi-Fi, VM guest tools and VirtualBox Guest Additions that don't match the hardware actually present, with an "Uninstall" button in the results dialog reusing the existing removal flows.
+- **Fixed — Translations**: 11 new strings from the feature above added to all 8 language files and `.mo` files recompiled.
 
 ### v2.1.0-2 (2026-06-29)
 - **Fixed — Drivers Tab (NVIDIA uninstall)**: `apt purge` leaves compiled `.ko` files in `/lib/modules/`. Reinstalling a different driver version caused DKMS to refuse with "version not newer". Uninstall script now runs `dkms remove --force` on all NVIDIA entries and removes orphaned `.ko` files from every kernel directory before purging.

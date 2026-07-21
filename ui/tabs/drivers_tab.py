@@ -581,7 +581,7 @@ class DriversTab(Gtk.ScrolledWindow):
             'button': vbox_btn, 'handler_id': None,
             'base_label': _("VirtualBox Guest"),
             'install_fn': lambda b: self._on_vbox_clicked(b),
-            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'virtualbox-guest-utils virtualbox-guest-x11'),
+            'uninstall_fn': lambda b: self._on_vbox_uninstall_clicked(b),
             'check_fn': _check_vbox,
         }
     
@@ -701,6 +701,14 @@ class DriversTab(Gtk.ScrolledWindow):
 
             if response == Gtk.ResponseType.YES:
                 script = f"""#!/bin/bash
+IFACE="{iface or ''}"
+# Bring the interface down first so the kernel releases its reference to
+# the module — otherwise "modprobe -r" can fail silently with "device
+# busy" while the interface is still up, and the script would report
+# success without ever having reloaded anything.
+if [ -n "$IFACE" ]; then
+    ip link set "$IFACE" down 2>/dev/null || true
+fi
 modprobe -r {driver} 2>/dev/null || true
 sleep 1
 modprobe {driver}
@@ -844,10 +852,10 @@ echo "Installation completed successfully."
                                  self._refresh_driver_status)
 
     def _on_remove_driver_clicked(self, button, packages):
-        """Remove driver packages."""
+        """Remove driver packages, including their conffiles (apt purge)."""
         script = f"""#!/bin/bash
 set -e
-apt remove -y {packages}
+apt purge -y {packages}
 apt autoremove -y
 echo "Removal completed successfully."
 """
@@ -1513,6 +1521,37 @@ echo "Run 'source /opt/intel/oneapi/setvars.sh' to activate the environment."
 """
         self._run_script_as_root(script, "install-oneapi.sh", self._refresh_driver_status)
 
+    def _on_vbox_uninstall_clicked(self, button):
+        """Uninstall VirtualBox Guest Additions.
+
+        These are installed via the official .run installer (see
+        _on_vbox_clicked), never as an apt package — so `apt remove` on
+        'virtualbox-guest-utils virtualbox-guest-x11' is a no-op that leaves
+        the kernel modules, DKMS entries and /opt/VBoxGuestAdditions-*
+        payload fully in place. Run the official uninstaller instead, with
+        an apt purge as a fallback for the (rare) case any of these were
+        also installed via apt.
+        """
+        script = """#!/bin/bash
+UNINSTALLER=$(ls -d /opt/VBoxGuestAdditions-*/uninstall.sh 2>/dev/null | head -1)
+if [ -n "$UNINSTALLER" ] && [ -x "$UNINSTALLER" ]; then
+    echo "Running official VirtualBox Guest Additions uninstaller..."
+    "$UNINSTALLER" || true
+elif command -v rcvboxadd >/dev/null 2>&1; then
+    echo "Running rcvboxadd cleanup..."
+    rcvboxadd cleanup || true
+else
+    echo "No official VirtualBox Guest Additions uninstaller found on disk."
+fi
+
+# Fallback: purge these too in case any were installed via apt
+apt purge -y virtualbox-guest-utils virtualbox-guest-x11 virtualbox-guest-dkms 2>/dev/null || true
+apt autoremove -y 2>/dev/null || true
+
+echo "VirtualBox Guest Additions removal completed."
+"""
+        self._run_script_as_root(script, "uninstall-vbox-guest.sh", self._refresh_driver_status)
+
     def _on_vbox_clicked(self, button):
         """Install VirtualBox Guest Additions."""
         vbox_run = os.path.join(ASSETS_DIR, "vbox", "VBoxLinuxAdditions.run")
@@ -1920,6 +1959,36 @@ echo "IMPORTANT: Restart the system to apply the changes."
                     lbl.set_markup(text)
                     lbl.set_xalign(0)
                     box.pack_start(lbl, False, False, 0)
+                main_box.pack_start(frame, False, False, 0)
+
+            # ── Unnecessary software ──
+            unnecessary = results.get('unnecessary_software', [])
+            if unnecessary:
+                frame, box = _make_frame(_('Unnecessary Software Detected'))
+                for item in unnecessary:
+                    lbl = Gtk.Label()
+                    lbl.set_markup(
+                        f"<span foreground='orange'>⚠</span> <b>{item.get('name', '?')}</b> — {item.get('detail', '')}"
+                    )
+                    lbl.set_xalign(0)
+                    lbl.set_line_wrap(True)
+                    box.pack_start(lbl, False, False, 0)
+
+                    action = item.get('action')
+                    item_packages = item.get('packages', [])
+
+                    def _uninstall_unnecessary(b, action=action, packages=item_packages):
+                        dialog.destroy()
+                        if action == 'nvidia':
+                            self._on_uninstall_nvidia_clicked(b)
+                        elif action == 'vbox':
+                            self._on_vbox_uninstall_clicked(b)
+                        elif action == 'generic' and packages:
+                            self._on_remove_driver_clicked(b, ' '.join(packages))
+
+                    unin_btn = Gtk.Button(label=_("Uninstall"))
+                    unin_btn.connect('clicked', _uninstall_unnecessary)
+                    box.pack_start(unin_btn, False, False, 2)
                 main_box.pack_start(frame, False, False, 0)
 
             # ── Close button ──

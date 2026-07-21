@@ -2807,6 +2807,50 @@ msgstr "Se dezinstalează Soplos Kernel Installer..."
 msgid "Open Soplos Kernel Installer"
 msgstr "Deschide Soplos Kernel Installer"
 
+#: ui/tabs/drivers_tab.py:1967
+msgid "Unnecessary Software Detected"
+msgstr "Software inutil detectat"
+
+#: utils/hardware_detector.py:715
+msgid "NVIDIA / CUDA packages"
+msgstr "Pachete NVIDIA / CUDA"
+
+#: utils/hardware_detector.py:716
+msgid "{} package(s) installed, no NVIDIA GPU detected"
+msgstr "{} pachet(e) instalat(e), nu s-a detectat nicio GPU NVIDIA"
+
+#: utils/hardware_detector.py:729
+msgid "AMD GPU / ROCm packages"
+msgstr "Pachete GPU AMD / ROCm"
+
+#: utils/hardware_detector.py:730
+msgid "{} package(s) installed, no AMD GPU detected"
+msgstr "{} pachet(e) instalat(e), nu s-a detectat nicio GPU AMD"
+
+#: utils/hardware_detector.py:742
+msgid "Broadcom WiFi driver"
+msgstr "Driver WiFi Broadcom"
+
+#: utils/hardware_detector.py:743
+msgid "{} package(s) installed, no Broadcom WiFi adapter detected"
+msgstr "{} pachet(e) instalat(e), nu s-a detectat niciun adaptor WiFi Broadcom"
+
+#: utils/hardware_detector.py:757
+msgid "Virtual machine guest tools"
+msgstr "Instrumente guest pentru mașina virtuală"
+
+#: utils/hardware_detector.py:758
+msgid "{} package(s) installed, but this machine is not a virtual machine"
+msgstr "{} pachet(e) instalat(e), dar acest calculator nu este o mașină virtuală"
+
+#: utils/hardware_detector.py:765
+msgid "VirtualBox Guest Additions"
+msgstr "VirtualBox Guest Additions"
+
+#: utils/hardware_detector.py:766
+msgid "Active, but this machine is not running inside a virtual machine"
+msgstr "Activ, dar acest calculator nu rulează într-o mașină virtuală"
+
 #: ui/tabs/recommended_tab.py
 msgid "Optional Patches for DaVinci Resolve"
 msgstr "Patch-uri opționale pentru DaVinci Resolve"

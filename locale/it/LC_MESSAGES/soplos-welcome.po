@@ -2810,6 +2810,50 @@ msgstr "Disinstallazione di Soplos Kernel Installer in corso..."
 msgid "Open Soplos Kernel Installer"
 msgstr "Apri Soplos Kernel Installer"
 
+#: ui/tabs/drivers_tab.py:1967
+msgid "Unnecessary Software Detected"
+msgstr "Software non necessario rilevato"
+
+#: utils/hardware_detector.py:715
+msgid "NVIDIA / CUDA packages"
+msgstr "Pacchetti NVIDIA / CUDA"
+
+#: utils/hardware_detector.py:716
+msgid "{} package(s) installed, no NVIDIA GPU detected"
+msgstr "{} pacchetto/i installato/i, nessuna GPU NVIDIA rilevata"
+
+#: utils/hardware_detector.py:729
+msgid "AMD GPU / ROCm packages"
+msgstr "Pacchetti GPU AMD / ROCm"
+
+#: utils/hardware_detector.py:730
+msgid "{} package(s) installed, no AMD GPU detected"
+msgstr "{} pacchetto/i installato/i, nessuna GPU AMD rilevata"
+
+#: utils/hardware_detector.py:742
+msgid "Broadcom WiFi driver"
+msgstr "Driver WiFi Broadcom"
+
+#: utils/hardware_detector.py:743
+msgid "{} package(s) installed, no Broadcom WiFi adapter detected"
+msgstr "{} pacchetto/i installato/i, nessun adattatore WiFi Broadcom rilevato"
+
+#: utils/hardware_detector.py:757
+msgid "Virtual machine guest tools"
+msgstr "Strumenti guest della macchina virtuale"
+
+#: utils/hardware_detector.py:758
+msgid "{} package(s) installed, but this machine is not a virtual machine"
+msgstr "{} pacchetto/i installato/i, ma questa macchina non è una macchina virtuale"
+
+#: utils/hardware_detector.py:765
+msgid "VirtualBox Guest Additions"
+msgstr "VirtualBox Guest Additions"
+
+#: utils/hardware_detector.py:766
+msgid "Active, but this machine is not running inside a virtual machine"
+msgstr "Attivo, ma questa macchina non è in esecuzione all'interno di una macchina virtuale"
+
 #: ui/tabs/recommended_tab.py
 msgid "Optional Patches for DaVinci Resolve"
 msgstr "Patch opzionali per DaVinci Resolve"

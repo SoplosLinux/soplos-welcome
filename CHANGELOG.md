@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1] - 2026-07-21
+
+### Fixed — Drivers Tab
+
+- **Wi-Fi repair (`_on_repair_wifi_clicked`)**: the script ran `modprobe -r <driver>` without bringing the interface down first — if the interface was still up, the kernel could refuse to unload the module with "device busy", failing silently (swallowed by `|| true`) and reporting success without ever having reloaded anything. Now runs `ip link set <iface> down` first when an active interface is known.
+- **VirtualBox Guest uninstall**: pointed to `apt remove virtualbox-guest-utils virtualbox-guest-x11` — packages that are never installed via apt, since Guest Additions come from the bundled `.run` installer. The button was effectively a no-op. Now runs the official `uninstall.sh` (or `rcvboxadd cleanup`) found under `/opt/VBoxGuestAdditions-*/`, with an `apt purge` fallback for the rare mixed-install case.
+- **Generic driver uninstall (`_on_remove_driver_clicked`)**: used `apt remove` instead of `apt purge`, leaving conffiles behind — affects every non-NVIDIA uninstall button (AMD, Wi-Fi, Bluetooth, printers, VMware/QEMU tools).
+- **NVIDIA driver recommendation (`_recommend_nvidia_driver`)**: RTX 50 series GPUs were recommended `nvidia-driver-590` even though the "NVIDIA 610 (Latest)" button explicitly targets "RTX 50/60 series and latest hardware" — 610 was only reachable by clicking the button manually, never through hardware auto-detection. RTX 50 now maps to `nvidia-driver-610`.
+
+### Added — Drivers Tab
+
+- **Unnecessary software detection**: the hardware scan (`scan_hardware()`) now also flags installed software that doesn't match the hardware actually present — NVIDIA/CUDA packages without an NVIDIA GPU, AMD/ROCm packages without an AMD GPU, the Broadcom proprietary Wi-Fi driver without a Broadcom adapter, VM guest tools (`open-vm-tools`, `qemu-guest-agent`, `spice-vdagent`/`spice-webdavd`, `hyperv-daemons`) when this machine is not a VM, and VirtualBox Guest Additions when this machine is not a VM. Shown in the scan results dialog with an "Uninstall" button that reuses the existing removal flows (`nvidia`/`vbox`/generic `apt purge`) instead of adding new removal logic. Printers, Bluetooth and generic Intel packages are deliberately not checked — those are commonly kept installed regardless of whether the peripheral is currently attached.
+
+### Fixed — Translations
+
+- 11 new strings introduced by the unnecessary-software-detection feature above (`"Unnecessary Software Detected"`, per-category names and detail messages) were missing from all 8 language files. Added translations in en, es, de, fr, it, pt, ro, ru and recompiled all `.mo` files.
+
+---
+
 ## [2.1.0-9] - 2026-07-20
 
 ### Fixed — Translations

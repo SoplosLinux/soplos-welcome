@@ -152,7 +152,7 @@ def _recommend_nvidia_driver(model):
     model_lower = model.lower()
 
     if any(s in model_lower for s in ['rtx 50', 'rtx50', 'rtx 5090', 'rtx 5080', 'rtx 5070']):
-        return 'nvidia-driver-590'
+        return 'nvidia-driver-610'
     if any(s in model_lower for s in ['rtx 40', 'rtx40', 'rtx 4090', 'rtx 4080', 'rtx 4070', 'rtx 4060']):
         return 'nvidia-driver-580'
     if any(s in model_lower for s in ['gtx 16', 'gtx16', 'gtx 1650', 'gtx 1660',
@@ -638,6 +638,139 @@ def detect_vm():
         return {'is_vm': False, 'type': None}
 
 
+# ─────────────────────────── Unnecessary software ───────────────────────────
+
+def _get_installed_packages_matching(pattern):
+    """Return installed package names matching a regex, via dpkg pattern
+    match — not a fixed list, so new driver/CUDA/ROCm package names from
+    future releases are still caught without updating this code."""
+    try:
+        result = subprocess.run(['dpkg', '-l'], capture_output=True, text=True)
+        pkgs = []
+        for line in result.stdout.split('\n'):
+            if not line.startswith('ii'):
+                continue
+            parts = line.split()
+            if len(parts) >= 2 and re.match(pattern, parts[1], re.IGNORECASE):
+                pkgs.append(parts[1])
+        return pkgs
+    except Exception:
+        return []
+
+
+def _get_installed_from_list(names):
+    """Return the subset of `names` that are actually installed."""
+    return [p for p in names if _is_package_installed(p)]
+
+
+def _is_vboxadd_enabled():
+    """Same check already used in detect_vm() — VirtualBox Guest Additions
+    are installed via the official .run installer, never as an apt package,
+    so presence is checked via the systemd service it registers."""
+    try:
+        r = subprocess.run(['systemctl', 'is-enabled', 'vboxadd'],
+                            capture_output=True, text=True, timeout=5)
+        return r.returncode == 0
+    except Exception:
+        return False
+
+
+def detect_unnecessary_software(results):
+    """
+    Detects installed software that doesn't match the hardware actually
+    present on this machine, using the same scan `results` dict that
+    scan_hardware() assembles (needs 'gpus', 'wifi' and 'vm_detection'
+    already populated):
+      - NVIDIA driver/CUDA packages installed but no NVIDIA GPU detected.
+      - AMD GPU/ROCm packages installed but no AMD GPU detected.
+      - Broadcom proprietary WiFi driver installed but no Broadcom WiFi
+        adapter detected.
+      - VM guest tools (open-vm-tools, qemu-guest-agent, spice-*,
+        hyperv-daemons) installed but this machine is not a VM at all.
+      - VirtualBox Guest Additions active but this machine is not a VM.
+
+    Deliberately does NOT check printers/Bluetooth/generic Intel packages:
+    those are commonly kept installed even without hardware currently
+    attached (removable peripherals, or bundled by default), so flagging
+    them would be a false positive, not a real "unused driver".
+
+    Returns a list of {'name', 'detail', 'packages', 'action'} — 'action'
+    tells the UI which existing uninstall flow to reuse: 'nvidia', 'vbox',
+    or 'generic' (plain apt purge of 'packages', via the already-fixed
+    _on_remove_driver_clicked).
+    """
+    findings = []
+    gpus = results.get('gpus', [])
+    wifi_adapters = results.get('wifi', [])
+    vm_info = results.get('vm_detection', {})
+
+    gpu_vendors = {g.get('vendor', '').upper() for g in gpus}
+    wifi_vendors = {w.get('vendor', '') for w in wifi_adapters}
+
+    # NVIDIA
+    if 'NVIDIA' not in gpu_vendors:
+        pkgs = _get_installed_packages_matching(r'^(nvidia|libnvidia|cuda)')
+        if pkgs:
+            findings.append({
+                'name': _('NVIDIA / CUDA packages'),
+                'detail': _('{} package(s) installed, no NVIDIA GPU detected').format(len(pkgs)),
+                'packages': pkgs,
+                'action': 'nvidia',
+            })
+
+    # AMD
+    if 'AMD' not in gpu_vendors:
+        pkgs = _get_installed_from_list([
+            'xserver-xorg-video-amdgpu', 'xserver-xorg-video-ati',
+            'xserver-xorg-video-radeon', 'radeontop',
+        ]) + _get_installed_packages_matching(r'^rocm')
+        if pkgs:
+            findings.append({
+                'name': _('AMD GPU / ROCm packages'),
+                'detail': _('{} package(s) installed, no AMD GPU detected').format(len(pkgs)),
+                'packages': pkgs,
+                'action': 'generic',
+            })
+
+    # Broadcom proprietary WiFi driver
+    if 'Broadcom' not in wifi_vendors:
+        pkgs = _get_installed_from_list([
+            'broadcom-sta-dkms', 'bcmwl-kernel-source', 'firmware-b43-installer',
+        ])
+        if pkgs:
+            findings.append({
+                'name': _('Broadcom WiFi driver'),
+                'detail': _('{} package(s) installed, no Broadcom WiFi adapter detected').format(len(pkgs)),
+                'packages': pkgs,
+                'action': 'generic',
+            })
+
+    # VM guest tools (any hypervisor) when this is not a VM at all
+    if not vm_info.get('is_vm'):
+        pkgs = _get_installed_from_list([
+            'open-vm-tools', 'open-vm-tools-desktop',
+            'qemu-guest-agent', 'spice-vdagent', 'spice-webdavd',
+            'hyperv-daemons',
+        ])
+        if pkgs:
+            findings.append({
+                'name': _('Virtual machine guest tools'),
+                'detail': _('{} package(s) installed, but this machine is not a virtual machine').format(len(pkgs)),
+                'packages': pkgs,
+                'action': 'generic',
+            })
+
+        if _is_vboxadd_enabled():
+            findings.append({
+                'name': _('VirtualBox Guest Additions'),
+                'detail': _('Active, but this machine is not running inside a virtual machine'),
+                'packages': [],
+                'action': 'vbox',
+            })
+
+    return findings
+
+
 # ─────────────────────────── CPU / RAM / Storage / Network ───────────────────────────
 
 def detect_cpu():
@@ -771,6 +904,10 @@ def scan_hardware(update_status_cb, update_progress_cb, show_results_cb):
         GLib.idle_add(update_status_cb, _('Detecting virtual machine...'))
         GLib.idle_add(update_progress_cb, 0.78)
         results['vm_detection'] = detect_vm()
+
+        GLib.idle_add(update_status_cb, _('Checking for unnecessary software...'))
+        GLib.idle_add(update_progress_cb, 0.82)
+        results['unnecessary_software'] = detect_unnecessary_software(results)
 
         GLib.idle_add(update_status_cb, _('Detecting storage...'))
         GLib.idle_add(update_progress_cb, 0.86)
