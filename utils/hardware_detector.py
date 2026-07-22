@@ -760,13 +760,22 @@ def detect_unnecessary_software(results):
                 'action': 'generic',
             })
 
-        if _is_vboxadd_enabled():
-            findings.append({
-                'name': _('VirtualBox Guest Additions'),
-                'detail': _('Active, but this machine is not running inside a virtual machine'),
-                'packages': [],
-                'action': 'vbox',
-            })
+    # VirtualBox Guest Additions: checked independently of vm_info — the
+    # previous check only ran when 'is_vm' was False, so it never fired on
+    # ANY VM (Proxmox, VMware, VirtualBox itself), since 'is_vm' is True in
+    # all of those. Detected here regardless, with a message tailored to
+    # each case.
+    if _is_vboxadd_enabled():
+        if vm_info.get('is_vm'):
+            detail = _('Active — uninstall it if you no longer need shared clipboard/folders with the host')
+        else:
+            detail = _('Active, but this machine is not running inside a virtual machine')
+        findings.append({
+            'name': _('VirtualBox Guest Additions'),
+            'detail': detail,
+            'packages': [],
+            'action': 'vbox',
+        })
 
     return findings
 

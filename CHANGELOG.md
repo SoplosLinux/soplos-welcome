@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1-1] - 2026-07-22
+
+### Fixed — Drivers Tab
+
+- **VirtualBox Guest Additions never detected inside a real VM**: the unnecessary-software VBox check was nested inside `if not vm_info.get('is_vm'):`, so it only ever ran when the machine was NOT detected as a virtual machine — meaning it never fired on Proxmox, VMware or even VirtualBox itself, exactly the cases where Guest Additions are actually installed and meaningful to offer for removal. Moved out of that block; now checked unconditionally, with the detail message adjusted depending on whether the machine is a VM or not.
+
+### Added — Drivers Tab
+
+- **"Remove All Detected" button**: the "Unnecessary Software Detected" section rendered one separate "Uninstall" button per finding — up to five rows (NVIDIA, AMD, Broadcom, VM guest tools, VirtualBox), each requiring its own click and, for NVIDIA/VBox, its own confirmation dialog. Added a single "Remove All Detected" button (shown when there is more than one finding) that presents one combined confirmation and runs every item's removal in a single script. The NVIDIA and VirtualBox uninstall scripts were extracted into `_build_nvidia_uninstall_script()`/`_build_vbox_uninstall_script()` so both the individual buttons and the combined action share the exact same script body instead of duplicating it.
+
+### Fixed — Translations
+
+- 4 new strings from the two fixes above added to all 8 language files and `.mo` files recompiled.
+
+---
+
 ## [2.1.1] - 2026-07-21
 
 ### Fixed — Drivers Tab

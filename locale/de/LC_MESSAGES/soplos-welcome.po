@@ -2848,6 +2848,22 @@ msgstr "VirtualBox Guest Additions"
 msgid "Active, but this machine is not running inside a virtual machine"
 msgstr "Aktiv, aber dieser Rechner läuft nicht in einer virtuellen Maschine"
 
+#: utils/hardware_detector.py:764
+msgid "Active — uninstall it if you no longer need shared clipboard/folders with the host"
+msgstr "Aktiv — deinstallieren, wenn die gemeinsame Zwischenablage/Ordner mit dem Host nicht mehr benötigt werden"
+
+#: ui/tabs/drivers_tab.py
+msgid "Remove All Detected"
+msgstr "Alle erkannten entfernen"
+
+#: ui/tabs/drivers_tab.py
+msgid "Remove All Detected Software"
+msgstr "Alle erkannte Software entfernen"
+
+#: ui/tabs/drivers_tab.py
+msgid "This will uninstall everything listed below:\n\n{}\n\nA system restart may be required.\n\nDo you want to continue?"
+msgstr "Dies deinstalliert alles unten Aufgeführte:\n\n{}\n\nEin Systemneustart könnte erforderlich sein.\n\nMöchten Sie fortfahren?"
+
 #: ui/tabs/recommended_tab.py
 msgid "Optional Patches for DaVinci Resolve"
 msgstr "Optionale Patches für DaVinci Resolve"

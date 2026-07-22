@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.1-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.1--1-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.1-1 (2026-07-22)
+- **Fixed — Drivers Tab (VirtualBox never detected in VMs)**: the unnecessary-software VirtualBox check only ran when `vm_detection.is_vm` was `False`, so it never fired on any actual hypervisor (Proxmox, VMware, VirtualBox itself) — only on bare metal, where Guest Additions wouldn't legitimately be installed anyway. Now checked independently of `is_vm`, with a message tailored to each case.
+- **Added — Drivers Tab (Remove All Detected)**: the "Unnecessary Software Detected" section showed one separate "Uninstall" button per finding (up to 5 for NVIDIA/AMD/Broadcom/VM tools/VirtualBox). Added a single "Remove All Detected" button that runs every detected item's removal in one combined script after one confirmation, reusing the exact same script bodies as the individual buttons.
+- **Fixed — Translations**: 4 new strings from the two fixes above added to all 8 language files and `.mo` files recompiled.
 
 ### v2.1.1 (2026-07-21)
 - **Fixed — Drivers Tab (Wi-Fi repair)**: `_on_repair_wifi_clicked` ran `modprobe -r <driver>` without bringing the interface down first — could fail silently with "device busy" and report success without ever reloading anything. Now runs `ip link set <iface> down` first when an active interface is known.

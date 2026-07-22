@@ -2851,6 +2851,22 @@ msgstr "VirtualBox Guest Additions"
 msgid "Active, but this machine is not running inside a virtual machine"
 msgstr "Activ, dar acest calculator nu rulează într-o mașină virtuală"
 
+#: utils/hardware_detector.py:764
+msgid "Active — uninstall it if you no longer need shared clipboard/folders with the host"
+msgstr "Activ — dezinstalează-l dacă nu mai ai nevoie de clipboard/foldere partajate cu gazda"
+
+#: ui/tabs/drivers_tab.py
+msgid "Remove All Detected"
+msgstr "Elimină tot ce a fost detectat"
+
+#: ui/tabs/drivers_tab.py
+msgid "Remove All Detected Software"
+msgstr "Elimină tot software-ul detectat"
+
+#: ui/tabs/drivers_tab.py
+msgid "This will uninstall everything listed below:\n\n{}\n\nA system restart may be required.\n\nDo you want to continue?"
+msgstr "Aceasta va dezinstala tot ce este listat mai jos:\n\n{}\n\nPoate fi necesară repornirea sistemului.\n\nDorești să continui?"
+
 #: ui/tabs/recommended_tab.py
 msgid "Optional Patches for DaVinci Resolve"
 msgstr "Patch-uri opționale pentru DaVinci Resolve"

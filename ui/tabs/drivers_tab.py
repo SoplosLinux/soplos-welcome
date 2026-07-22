@@ -1532,7 +1532,14 @@ echo "Run 'source /opt/intel/oneapi/setvars.sh' to activate the environment."
         an apt purge as a fallback for the (rare) case any of these were
         also installed via apt.
         """
-        script = """#!/bin/bash
+        self._run_script_as_root(self._build_vbox_uninstall_script(),
+                                 "uninstall-vbox-guest.sh", self._refresh_driver_status)
+
+    def _build_vbox_uninstall_script(self):
+        """Script body that removes VirtualBox Guest Additions — shared by
+        the individual VBox uninstall button and the "Remove All Detected"
+        combined action."""
+        return """#!/bin/bash
 UNINSTALLER=$(ls -d /opt/VBoxGuestAdditions-*/uninstall.sh 2>/dev/null | head -1)
 if [ -n "$UNINSTALLER" ] && [ -x "$UNINSTALLER" ]; then
     echo "Running official VirtualBox Guest Additions uninstaller..."
@@ -1550,7 +1557,6 @@ apt autoremove -y 2>/dev/null || true
 
 echo "VirtualBox Guest Additions removal completed."
 """
-        self._run_script_as_root(script, "uninstall-vbox-guest.sh", self._refresh_driver_status)
 
     def _on_vbox_clicked(self, button):
         """Install VirtualBox Guest Additions."""
@@ -1965,6 +1971,17 @@ echo "IMPORTANT: Restart the system to apply the changes."
             unnecessary = results.get('unnecessary_software', [])
             if unnecessary:
                 frame, box = _make_frame(_('Unnecessary Software Detected'))
+
+                if len(unnecessary) > 1:
+                    def _uninstall_all(b, items=unnecessary):
+                        dialog.destroy()
+                        self._on_uninstall_all_unnecessary_clicked(b, items)
+
+                    all_btn = Gtk.Button(label=_("Remove All Detected"))
+                    all_btn.get_style_context().add_class('destructive-action')
+                    all_btn.connect('clicked', _uninstall_all)
+                    box.pack_start(all_btn, False, False, 4)
+
                 for item in unnecessary:
                     lbl = Gtk.Label()
                     lbl.set_markup(
@@ -2062,6 +2079,47 @@ echo "IMPORTANT: Restart the system to apply the changes."
         dialog.run()
         dialog.destroy()
 
+    def _on_uninstall_all_unnecessary_clicked(self, button, items):
+        """
+        Uninstall every item from "Unnecessary Software Detected" in one go,
+        instead of clicking each row's "Uninstall" button one by one. Reuses
+        the exact same script bodies as the individual nvidia/vbox handlers
+        (via _build_nvidia_uninstall_script/_build_vbox_uninstall_script),
+        concatenated with 'generic' apt purges into a single script run once.
+        """
+        names = ', '.join(item.get('name', '?') for item in items)
+        confirm_dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("Remove All Detected Software")
+        )
+        confirm_dialog.format_secondary_text(
+            _("This will uninstall everything listed below:\n\n{}\n\n"
+              "A system restart may be required.\n\n"
+              "Do you want to continue?").format(names)
+        )
+        response = confirm_dialog.run()
+        confirm_dialog.destroy()
+        if response != Gtk.ResponseType.YES:
+            return
+
+        parts = ["#!/bin/bash"]
+        for item in items:
+            action = item.get('action')
+            packages = item.get('packages', [])
+            if action == 'nvidia':
+                parts.append(self._build_nvidia_uninstall_script().replace('#!/bin/bash', '', 1))
+            elif action == 'vbox':
+                parts.append(self._build_vbox_uninstall_script().replace('#!/bin/bash', '', 1))
+            elif action == 'generic' and packages:
+                pkg_str = ' '.join(packages)
+                parts.append(f'echo "Removing: {pkg_str}"\napt purge -y {pkg_str} 2>/dev/null || true\napt autoremove -y 2>/dev/null || true\n')
+
+        script = '\n'.join(parts)
+        self._run_script_as_root(script, "uninstall-all-unnecessary.sh", self._refresh_driver_status)
+
     def _on_uninstall_nvidia_clicked(self, button):
         """Remove all NVIDIA drivers and related packages."""
         confirm_dialog = Gtk.MessageDialog(
@@ -2084,7 +2142,14 @@ echo "IMPORTANT: Restart the system to apply the changes."
         if response != Gtk.ResponseType.YES:
             return
 
-        script = """#!/bin/bash
+        self._run_script_as_root(self._build_nvidia_uninstall_script(),
+                                 "uninstall-nvidia.sh", self._refresh_driver_status)
+
+    def _build_nvidia_uninstall_script(self):
+        """Script body that fully removes NVIDIA/CUDA — shared by the
+        individual NVIDIA uninstall button and the "Remove All Detected"
+        combined action."""
+        return """#!/bin/bash
 
 echo "=== Removing all NVIDIA drivers ==="
 echo ""
@@ -2142,7 +2207,6 @@ echo "[7/7] Done."
 echo "=== NVIDIA drivers removed completely ==="
 echo "Restart the system before installing a new driver version."
 """
-        self._run_script_as_root(script, "uninstall-nvidia.sh", self._refresh_driver_status)
 
     def _on_hybrid_clicked(self, button, mode):
         """Configure hybrid graphics."""
