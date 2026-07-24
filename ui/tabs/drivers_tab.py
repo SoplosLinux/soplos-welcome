@@ -975,12 +975,6 @@ apt install -y dkms build-essential linux-headers-$(uname -r)
 # Install NVIDIA driver + auxiliary packages
 apt install -y {package} nvidia-smi nvidia-settings nvidia-modprobe libglu1-mesa
 
-# === BLACKLIST NOUVEAU IN MODPROBE ===
-echo "Blacklisting nouveau in modprobe..."
-mkdir -p /etc/modprobe.d
-echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nouveau.conf
-echo "options nouveau modeset=0" >> /etc/modprobe.d/blacklist-nouveau.conf
-
 # === CONFIGURE GRUB ===
 echo "Configuring GRUB with nvidia-drm.modeset=1..."
 if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
@@ -1099,7 +1093,6 @@ rm -rf /var/lib/dkms/nvidia*
 echo "[1/6] Removing existing NVIDIA/CUDA packages..."
 rm -f /etc/dracut.conf.d/nvidia.conf
 rm -f /etc/dracut.conf.d/blacklist-nouveau.conf
-rm -f /etc/modprobe.d/blacklist-nouveau.conf
 rm -f /etc/apt/apt.conf.d/99nvidia-sha1-exception
 apt purge -y 'nvidia*' 'cuda*' 'libnvidia*' 2>/dev/null || true
 apt autoremove -y 2>/dev/null || true
@@ -1121,13 +1114,7 @@ apt update
 {install_driver}
 {repo_cleanup}
 
-echo "[5/6] Blacklisting nouveau and regenerating initramfs..."
-mkdir -p /etc/modprobe.d
-cat > /etc/modprobe.d/blacklist-nouveau.conf << 'MODPROBE'
-blacklist nouveau
-options nouveau modeset=0
-MODPROBE
-
+echo "[5/6] Configuring dracut and regenerating initramfs..."
 if command -v dracut >/dev/null 2>&1; then
     mkdir -p /etc/dracut.conf.d
     echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
@@ -2185,8 +2172,7 @@ rm -f /usr/share/keyrings/cuda-*.gpg
 rm -f /usr/share/keyrings/nvidia*.gpg
 apt update -q
 
-echo "[4/7] Removing NVIDIA modprobe/dracut configuration..."
-rm -f /etc/modprobe.d/blacklist-nouveau.conf
+echo "[4/7] Removing NVIDIA dracut configuration..."
 rm -f /etc/dracut.conf.d/nvidia.conf
 rm -f /etc/dracut.conf.d/blacklist-nouveau.conf
 rm -f /etc/apt/apt.conf.d/99nvidia-sha1-exception

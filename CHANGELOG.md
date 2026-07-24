@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1-2] - 2026-07-24
+
+### Fixed — Drivers Tab
+
+- **Duplicate nouveau blacklist on NVIDIA install**: the basic and CUDA install paths both wrote `/etc/modprobe.d/blacklist-nouveau.conf` in addition to the dracut-managed `/etc/dracut.conf.d/blacklist-nouveau.conf`. The NVIDIA package already creates its own modprobe blacklist via `/etc/modprobe.d/nvidia.conf`, making the Welcome-written modprobe file redundant and a potential source of conflicts. Removed the modprobe writes; dracut.conf.d remains the single source of truth for nouveau blacklisting.
+
+---
+
 ## [2.1.1-1] - 2026-07-22
 
 ### Fixed — Drivers Tab
