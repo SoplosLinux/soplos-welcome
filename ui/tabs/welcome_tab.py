@@ -344,7 +344,7 @@ class WelcomeTab(Gtk.Box):
     def _on_donate_clicked(self, button):
         """Handle Donate button click."""
         try:
-            webbrowser.open("https://www.paypal.com/paypalme/isubdes")
+            webbrowser.open("https://soplos.org/community/donate/")
         except Exception as e:
             print(f"Error opening donation page: {e}")
             self._show_error_dialog(_("Could not open donation page"), 

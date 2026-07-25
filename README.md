@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.1--2-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.1--3-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,9 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.1-3 (2026-07-25)
+- **Change**: Donate button now points to https://soplos.org/community/donate/ instead of PayPal.
 
 ### v2.1.1-2 (2026-07-24)
 - **Fixed — Drivers Tab (duplicate nouveau blacklist)**: the basic and CUDA install paths both wrote `/etc/modprobe.d/blacklist-nouveau.conf` in addition to `/etc/dracut.conf.d/blacklist-nouveau.conf`. The NVIDIA package already creates its own modprobe blacklist via `/etc/modprobe.d/nvidia.conf`, making the Welcome-written modprobe file redundant and a potential source of conflicts. Removed the modprobe writes; dracut.conf.d remains the single source of truth for nouveau blacklisting.

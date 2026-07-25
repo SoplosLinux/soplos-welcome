@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1-3] - 2026-07-25
+
+### Changed
+- Donate button now points to https://soplos.org/community/donate/ instead of PayPal.
+
+---
+
 ## [2.1.1-2] - 2026-07-24
 
 ### Fixed — Drivers Tab
