@@ -280,13 +280,13 @@ msgstr "KDE Look and Feel Settings"
 msgid "Login Screen"
 msgstr "Login Screen"
 
-#: ui/tabs/customization_tab.py:445
-msgid "SDDM login manager"
-msgstr "SDDM login manager"
+#: ui/tabs/customization_tab.py:461
+msgid "Plasma Login manager"
+msgstr "Plasma Login manager"
 
-#: ui/tabs/customization_tab.py:446
-msgid "KDE SDDM Settings"
-msgstr "KDE SDDM Settings"
+#: ui/tabs/customization_tab.py:462
+msgid "KDE Plasma Login Settings"
+msgstr "KDE Plasma Login Settings"
 
 #: ui/tabs/customization_tab.py:451
 msgid "Plymouth"

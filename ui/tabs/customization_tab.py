@@ -458,9 +458,9 @@ class CustomizationTab(Gtk.ScrolledWindow):
             {
                 'icon_name': 'preferences-system-login',
                 'label': _('Login Screen'),
-                'description': _('SDDM login manager'),
-                'tooltip': _('KDE SDDM Settings'),
-                'desktop_file': 'kcm_sddm.desktop'
+                'description': _('Plasma Login manager'),
+                'tooltip': _('KDE Plasma Login Settings'),
+                'desktop_file': 'kcm_plasmalogin.desktop'
             },
             {
                 'icon_name': 'preferences-desktop-display',

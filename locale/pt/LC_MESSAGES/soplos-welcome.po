@@ -276,13 +276,13 @@ msgstr "Definições de Aparência e Comportamento KDE"
 msgid "Login Screen"
 msgstr "Ecrã de Login"
 
-#: ui/tabs/customization_tab.py:445
-msgid "SDDM login manager"
-msgstr "Gestor de login SDDM"
+#: ui/tabs/customization_tab.py:461
+msgid "Plasma Login manager"
+msgstr "Gestor de login Plasma Login"
 
-#: ui/tabs/customization_tab.py:446
-msgid "KDE SDDM Settings"
-msgstr "Definições SDDM KDE"
+#: ui/tabs/customization_tab.py:462
+msgid "KDE Plasma Login Settings"
+msgstr "Definições Plasma Login KDE"
 
 #: ui/tabs/customization_tab.py:451
 msgid "Plymouth"

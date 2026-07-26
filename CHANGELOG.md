@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1-4] - 2026-07-26
+
+### Fixed
+- **Customization tab (Tyson)**: the "Login Screen" tile in KDE Settings pointed to `kcm_sddm.desktop`, which no longer exists — SDDM was replaced by Plasma Login Manager (a fork of SDDM, `Conflicts`/`Replaces: sddm`). Now points to `kcm_plasmalogin.desktop`, with the description/tooltip updated to reference Plasma Login instead of SDDM.
+- **Drivers tab (NVIDIA setup)**: removed dead cleanup code for `/etc/sddm.conf.d/10-wayland.conf` — nothing in the script created that file anymore. Updated the KDE branch's status message from "SDDM" to "Plasma Login".
+- Updated the corresponding translatable strings and all 8 `.po` files (es, ro, de, pt, ru, it, en, fr) plus the `.pot` template — the old SDDM-referencing strings were orphaned by the source text change.
+
 ## [2.1.1-3] - 2026-07-25
 
 ### Changed

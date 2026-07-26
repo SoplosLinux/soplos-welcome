@@ -276,13 +276,13 @@ msgstr "Setări Aspect și Simțire KDE"
 msgid "Login Screen"
 msgstr "Ecran Conectare"
 
-#: ui/tabs/customization_tab.py:445
-msgid "SDDM login manager"
-msgstr "Manager conectare SDDM"
+#: ui/tabs/customization_tab.py:461
+msgid "Plasma Login manager"
+msgstr "Manager conectare Plasma Login"
 
-#: ui/tabs/customization_tab.py:446
-msgid "KDE SDDM Settings"
-msgstr "Setări SDDM KDE"
+#: ui/tabs/customization_tab.py:462
+msgid "KDE Plasma Login Settings"
+msgstr "Setări Plasma Login KDE"
 
 #: ui/tabs/customization_tab.py:451
 msgid "Plymouth"

@@ -280,13 +280,13 @@ msgstr "Configuración de Aspecto de KDE"
 msgid "Login Screen"
 msgstr "Pantalla de Inicio de Sesión"
 
-#: ui/tabs/customization_tab.py:445
-msgid "SDDM login manager"
-msgstr "Gestor de inicio de sesión SDDM"
+#: ui/tabs/customization_tab.py:461
+msgid "Plasma Login manager"
+msgstr "Gestor de inicio de sesión Plasma Login"
 
-#: ui/tabs/customization_tab.py:446
-msgid "KDE SDDM Settings"
-msgstr "Configuración SDDM de KDE"
+#: ui/tabs/customization_tab.py:462
+msgid "KDE Plasma Login Settings"
+msgstr "Configuración de Plasma Login de KDE"
 
 #: ui/tabs/customization_tab.py:451
 msgid "Plymouth"
