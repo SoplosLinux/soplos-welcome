@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.1--4-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.1--5-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.1-5 (2026-07-27)
+- **Fixed**: NVIDIA 590/610 install was failing every time due to a bad edit that requested `cuda-drivers-590`/`-610` and `nvidia-kernel-open-dkms` together — packages NVIDIA declares as mutually conflicting. Reverted, and switched 590/610 to install via `nvidia-open-590`/`nvidia-open-610` (open kernel modules) instead of the closed driver.
+- **Fixed**: `CommandRunner` never checked the script's exit code, so failed installs (apt errors, cancelled `pkexec`, etc.) were reported as "completed successfully". Now shows the real failure.
+- **Removed**: the standalone "Open Kernel Modules" button — it always conflicted with an already-installed 590/610 driver for the same reason above, and is redundant now that 590/610 install open modules directly.
 
 ### v2.1.1-3 (2026-07-25)
 - **Change**: Donate button now points to https://soplos.org/community/donate/ instead of PayPal.

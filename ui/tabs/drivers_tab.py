@@ -355,19 +355,6 @@ class DriversTab(Gtk.ScrolledWindow):
             'check_fn': lambda: self._is_cuda12_installed(),
         }
 
-        open_btn = self._create_button(
-            _("Open Kernel Modules"),
-            _("Switch to NVIDIA open source kernel modules (Turing+ / RTX 20 and newer)")
-        )
-        box.pack_start(open_btn, True, True, 0)
-        self._driver_buttons['nvidia_open'] = {
-            'button': open_btn, 'handler_id': None,
-            'base_label': _("Open Kernel Modules"),
-            'install_fn': lambda b: self._on_nvidia_open_clicked(b, 'install'),
-            'uninstall_fn': lambda b: self._on_nvidia_open_clicked(b, 'uninstall'),
-            'check_fn': lambda: self._is_package_installed('nvidia-kernel-open-dkms'),
-        }
-    
     def _create_amd_section(self):
         """Create AMD drivers section."""
         label = Gtk.Label()
@@ -1052,7 +1039,7 @@ fi
 dpkg -i "$TEMP_DIR/cuda-keyring.deb"
 rm -rf "$TEMP_DIR"
 """
-            install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y cuda-drivers-590 nvidia-kernel-open-dkms"
+            install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y nvidia-open-590"
             repo_cleanup = ""
         else:
             repo_setup = r"""TEMP_DIR=$(mktemp -d)
@@ -1066,7 +1053,7 @@ fi
 dpkg -i "$TEMP_DIR/cuda-keyring.deb"
 rm -rf "$TEMP_DIR"
 """
-            install_driver = "apt install -y nvidia-driver-pinning-610\napt install -y cuda-drivers-610 nvidia-kernel-open-dkms"
+            install_driver = "apt install -y nvidia-driver-pinning-610\napt install -y nvidia-open-610"
             repo_cleanup = ""
 
         script = f"""#!/bin/bash
@@ -1254,103 +1241,9 @@ echo "ROCm installed. Please restart your session to apply group membership."
 """
         self._run_script_as_root(script, f"install-rocm-{mode}.sh", self._refresh_driver_status)
 
-    def _is_turing_plus(self):
-        """Return True if the detected NVIDIA GPU supports open kernel modules (Turing+)."""
-        try:
-            from utils.hardware_detector import detect_all_gpus
-            gpus = detect_all_gpus()
-            for gpu in gpus:
-                if gpu.get('vendor', '').upper() != 'NVIDIA':
-                    continue
-                model = gpu.get('model', '').lower()
-                turing_plus = [
-                    'rtx 20', 'rtx20', 'rtx 30', 'rtx30', 'rtx 40', 'rtx40',
-                    'rtx 50', 'rtx50', 'gtx 16', 'gtx16', 'gtx 1650', 'gtx 1660',
-                    'mx550', 'mx 550', 'mx450', 'mx 450',
-                    'a100', 'a40', 'a30', 'a10', 'rtx a',
-                ]
-                if any(s in model for s in turing_plus):
-                    return True
-        except Exception:
-            pass
-        return False
-
     def _is_cuda12_installed(self):
         """Check if CUDA 12 toolkit is installed."""
         return os.path.exists('/usr/local/cuda/bin/nvcc')
-
-    def _on_nvidia_open_clicked(self, button, mode):
-        """Switch between proprietary and open NVIDIA kernel modules."""
-        if mode == 'uninstall':
-            confirm_dialog = Gtk.MessageDialog(
-                transient_for=self.parent_window,
-                flags=0,
-                message_type=Gtk.MessageType.WARNING,
-                buttons=Gtk.ButtonsType.YES_NO,
-                text=_("Switch to Proprietary Kernel Module")
-            )
-            confirm_dialog.format_secondary_text(
-                _("This will replace the open kernel module with the proprietary NVIDIA kernel module.\n\n"
-                  "A system restart will be required.\n\n"
-                  "Do you want to continue?")
-            )
-            response = confirm_dialog.run()
-            confirm_dialog.destroy()
-            if response != Gtk.ResponseType.YES:
-                return
-
-            script = """#!/bin/bash
-set -e
-echo "=== Switching to proprietary NVIDIA kernel module ==="
-apt install -y nvidia-kernel-dkms
-apt purge -y nvidia-kernel-open-dkms 2>/dev/null || true
-echo "[+] Done. Restart required."
-"""
-            self._run_script_as_root(script, "nvidia-proprietary-module.sh", self._refresh_driver_status)
-            return
-
-        if not self._is_turing_plus():
-            error_dialog = Gtk.MessageDialog(
-                transient_for=self.parent_window,
-                flags=0,
-                message_type=Gtk.MessageType.ERROR,
-                buttons=Gtk.ButtonsType.OK,
-                text=_("Incompatible GPU")
-            )
-            error_dialog.format_secondary_text(
-                _("Open kernel modules require a Turing or newer GPU (RTX 20 series, GTX 1650/1660 or newer).\n\n"
-                  "Your GPU is not compatible with this option.")
-            )
-            error_dialog.run()
-            error_dialog.destroy()
-            return
-
-        confirm_dialog = Gtk.MessageDialog(
-            transient_for=self.parent_window,
-            flags=0,
-            message_type=Gtk.MessageType.INFO,
-            buttons=Gtk.ButtonsType.YES_NO,
-            text=_("Switch to Open Kernel Modules")
-        )
-        confirm_dialog.format_secondary_text(
-            _("This will replace the proprietary NVIDIA kernel module with the official open source version.\n\n"
-              "Recommended for RTX 30 series and newer. Requires a NVIDIA driver already installed.\n\n"
-              "A system restart will be required.\n\n"
-              "Do you want to continue?")
-        )
-        response = confirm_dialog.run()
-        confirm_dialog.destroy()
-        if response != Gtk.ResponseType.YES:
-            return
-
-        script = """#!/bin/bash
-set -e
-echo "=== Switching to NVIDIA open kernel modules ==="
-apt install -y nvidia-kernel-open-dkms
-apt purge -y nvidia-kernel-dkms 2>/dev/null || true
-echo "[+] Done. Restart required."
-"""
-        self._run_script_as_root(script, "nvidia-open-module.sh", self._refresh_driver_status)
 
     def _on_cuda12_clicked(self, button, mode):
         """Install or remove CUDA 12 Toolkit from the NVIDIA debian12 repository."""
@@ -2219,6 +2112,11 @@ rm -f /etc/environment.d/10-nvidia-primary.conf
 rm -f /etc/udev/rules.d/61-nvidia-prime.rules
 rm -f /etc/udev/rules.d/61-gdm-nvidia.rules
 
+# Restore default SDDM config if exists
+if [ -f /etc/sddm.conf.d/10-wayland.conf ]; then
+    rm -f /etc/sddm.conf.d/10-wayland.conf
+fi
+
 # Create script for running apps with NVIDIA (works on Xorg AND Wayland)
 cat > /usr/local/bin/prime-run << 'PRIMERUN'
 #!/bin/bash
@@ -2372,8 +2270,8 @@ case "$DESKTOP_ENV" in
         fi
         ;;
     "kde")
-        echo "Configuring for KDE Plasma (Plasma Login)..."
-        # Plasma Login (fork of SDDM) supports both X11 and Wayland sessions natively
+        echo "Configuring for KDE Plasma (SDDM)..."
+        # SDDM supports both X11 and Wayland sessions natively
         # User can choose at login screen — no additional config needed
         ;;
     "xfce")

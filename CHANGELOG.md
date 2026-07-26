@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1-5] - 2026-07-27
+
+### Fixed
+- **Drivers tab (NVIDIA 590/610 install failing)**: a previous edit forced `apt install` to request `cuda-drivers-590`/`cuda-drivers-610` together with `nvidia-kernel-open-dkms` in the same command — but NVIDIA's `cuda-drivers` (590/610 branch) package explicitly declares `Conflicts: nvidia-kernel-open-dkms, nvidia-open`, so the two were mutually unsatisfiable and `apt` aborted every time with a dependency error. Reverted that change.
+- **Drivers tab (silent false "success" on failed installs)**: `CommandRunner.run_command` never checked the subprocess exit code after `process.wait()`, so any failed script (apt errors, `pkexec` cancelled, network failure, etc.) was reported as "Operation completed successfully" instead of showing the real error. Now checks `process.returncode` and shows a failure message when it's non-zero.
+
+### Changed
+- **Drivers tab (NVIDIA 590/610 now install open kernel modules)**: switched the install target from `cuda-drivers-590`/`cuda-drivers-610` (closed `nvidia-kernel-dkms`) to `nvidia-open-590`/`nvidia-open-610` (NVIDIA's official open-kernel-module meta-package), matching the hardware these branches target (Turing and newer, which fully supports open modules).
+- **Drivers tab**: removed the standalone "Open Kernel Modules" button (`_on_nvidia_open_clicked`/`_is_turing_plus`) from NVIDIA Extras — it always hit the same `cuda-drivers` vs `nvidia-kernel-open-dkms` conflict described above when a 590/610 driver was already installed, and is no longer needed now that 590/610 install open modules directly.
+
 ## [2.1.1-4] - 2026-07-26
 
 ### Fixed

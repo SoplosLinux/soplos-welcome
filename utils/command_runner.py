@@ -188,18 +188,21 @@ class CommandRunner:
                             GLib.idle_add(self.parent_window.show_progress, line, None)
                 
                 process.wait()
-                
+                success = process.returncode == 0
+                final_text = _('Operation completed successfully') if success else _('Operation failed (exit code {code})').format(code=process.returncode)
+                final_fraction = 1.0 if success else 0.0
+
                 # Complete the progress bar and status
                 if self.parent_window and hasattr(self.parent_window, 'show_progress'):
-                    GLib.idle_add(self.parent_window.show_progress, _('Operation completed successfully'), 1.0)
+                    GLib.idle_add(self.parent_window.show_progress, final_text, final_fraction)
                 elif self.progress_bar:
-                    GLib.idle_add(self.progress_bar.set_fraction, 1.0)
-                
+                    GLib.idle_add(self.progress_bar.set_fraction, final_fraction)
+
                 if self.status_label and not self.parent_window:
-                     GLib.idle_add(self.status_label.set_text, _('Operation completed successfully'))
-                
-                # Wait a moment and clear
-                time.sleep(1)
+                     GLib.idle_add(self.status_label.set_text, final_text)
+
+                # Wait a moment and clear (longer on failure so the user can read it)
+                time.sleep(1 if success else 3)
                 
                 if self.parent_window and hasattr(self.parent_window, 'hide_progress'):
                     GLib.idle_add(self.parent_window.hide_progress)
