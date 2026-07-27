@@ -151,19 +151,21 @@ def _extract_intel_model(line):
 def _recommend_nvidia_driver(model):
     model_lower = model.lower()
 
-    if any(s in model_lower for s in ['rtx 50', 'rtx50', 'rtx 5090', 'rtx 5080', 'rtx 5070']):
-        return 'nvidia-driver-610'
-    if any(s in model_lower for s in ['rtx 40', 'rtx40', 'rtx 4090', 'rtx 4080', 'rtx 4070', 'rtx 4060']):
-        return 'nvidia-driver-580'
-    if any(s in model_lower for s in ['gtx 16', 'gtx16', 'gtx 1650', 'gtx 1660',
-                                       'mx550', 'mx 550', 'mx450', 'mx 450']):
-        return 'nvidia-driver-590'
-    if any(s in model_lower for s in ['rtx 30', 'rtx30', 'rtx 3090', 'rtx 3080', 'rtx 3070', 'rtx 3060', 'rtx 3050',
+    # Turing and newer. The 610 branch lists all of them as supported products,
+    # and it is the newest branch that covers them, so it is the recommended one.
+    if any(s in model_lower for s in ['rtx 50', 'rtx50', 'rtx 5090', 'rtx 5080', 'rtx 5070',
+                                       'rtx 40', 'rtx40', 'rtx 4090', 'rtx 4080', 'rtx 4070', 'rtx 4060',
+                                       'rtx 30', 'rtx30', 'rtx 3090', 'rtx 3080', 'rtx 3070', 'rtx 3060', 'rtx 3050',
                                        'rtx 20', 'rtx20',
-                                       'gtx 10', 'gtx10', 'gtx 1080', 'gtx 1070', 'gtx 1060', 'gtx 1050', 'gt 1030',
-                                       'mx350', 'mx 350', 'mx330', 'mx 330']):
-        return 'nvidia-driver'
-    if any(s in model_lower for s in ['gtx 9', 'gtx 980', 'gtx 970', 'gtx 960', 'gtx 950',
+                                       'gtx 16', 'gtx16', 'gtx 1650', 'gtx 1660',
+                                       'mx550', 'mx 550', 'mx450', 'mx 450']):
+        return 'nvidia-driver-610'
+    # Pascal (GTX 10xx, MX330/350) and Maxwell (GTX 9xx and laptop equivalents)
+    # go to the 580 branch: they are outside the supported products list of the
+    # newer branches.
+    if any(s in model_lower for s in ['gtx 10', 'gtx10', 'gtx 1080', 'gtx 1070', 'gtx 1060', 'gtx 1050', 'gt 1030',
+                                       'mx350', 'mx 350', 'mx330', 'mx 330',
+                                       'gtx 9', 'gtx 980', 'gtx 970', 'gtx 960', 'gtx 950',
                                        'gtx 8', 'gtx 880', 'gtx 870', 'gtx 860', 'gtx 850',
                                        '920m', '930m', '940m', '920mx', '930mx', '940mx',
                                        '910m', '820m', '840m', '750m', '960m', '970m', '980m']):

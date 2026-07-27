@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.1--5-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.1--6-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,14 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.1-6 (2026-07-27)
+- **Fixed**: installing an NVIDIA driver could leave the system with no graphics driver at all. DKMS silently skips the build when the kernel build tree under `/lib/modules/<kernel>/build` is missing or broken, even with the headers package installed, and the NVIDIA package blacklists nouveau — so the machine booted to a black screen. The install now verifies the build tree, reinstalls the headers if needed, and aborts with a clear message rather than installing a driver that cannot build.
+- **Fixed**: the DKMS compatibility patch for Soplos 7.x kernels was only applied by soplos-kernel-installer, never by Welcome. It is now applied in both install paths and in both source layouts, proprietary and open kernel modules.
+- **Fixed**: the initramfs was regenerated before the DKMS modules existed. The rebuild now runs first.
+- **Fixed**: the boot could hang at switch-root after installing the driver. Welcome forced the NVIDIA modules into the initramfs via `/etc/dracut.conf.d/nvidia.conf`, and the display handover to the real root left some machines on a black screen. That file is no longer written and is removed on install.
+- **Fixed**: the NVIDIA CUDA repository stayed configured after installing the 590 and 610 branches, shadowing Debian packages and allowing an unrequested driver upgrade. It is now removed after installing.
+- **Change**: Turing and newer now recommend the 610 branch; Pascal and Maxwell recommend 580, their maximum supported branch. The 590 and 610 buttons are disabled on older GPUs.
 
 ### v2.1.1-5 (2026-07-27)
 - **Fixed**: NVIDIA 590/610 install was failing every time due to a bad edit that requested `cuda-drivers-590`/`-610` and `nvidia-kernel-open-dkms` together — packages NVIDIA declares as mutually conflicting. Reverted, and switched 590/610 to install via `nvidia-open-590`/`nvidia-open-610` (open kernel modules) instead of the closed driver.

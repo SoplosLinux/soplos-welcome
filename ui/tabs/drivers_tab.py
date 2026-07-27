@@ -15,6 +15,111 @@ from config.paths import ASSETS_DIR
 from utils.command_runner import CommandRunner
 
 
+# Compatibility patch for NVIDIA DKMS sources on Soplos kernel 7.x.
+# The VMA locking API changed: VM_REFCNT_EXCLUDE_READERS_FLAG replaces
+# VMA_LOCK_OFFSET, and __is_vma_write_locked() takes one argument instead of two.
+# Without it the DKMS build fails, no NVIDIA module is produced, and since the
+# driver package blacklists nouveau the machine boots with no graphics driver.
+# Same patch as soplos-kernel-installer/core/nvidia_dkms_patch.py and the
+# nvidia-patches repository.
+NV_MMAP_VMA_LOCK_PATCH = r"""--- a/nvidia/nv-mmap.c
++++ b/nvidia/nv-mmap.c
+@@ -868,17 +868,24 @@
+
+     nvl->safe_to_mmap = safe_to_mmap;
+ }
++#ifndef VM_REFCNT_EXCLUDE_READERS_FLAG
++#define VM_REFCNT_EXCLUDE_READERS_FLAG VMA_LOCK_OFFSET
++#else
++#define NV_VMA_WRITE_LOCKED_ONE_ARG 1
++#endif
++
++
+
+ #if !NV_CAN_CALL_VMA_START_WRITE
+ static NvBool nv_vma_enter_locked(struct vm_area_struct *vma, NvBool detaching)
+ {
+-    NvU32 tgt_refcnt = VMA_LOCK_OFFSET;
++    NvU32 tgt_refcnt = VM_REFCNT_EXCLUDE_READERS_FLAG;
+     NvBool interrupted = NV_FALSE;
+     if (!detaching)
+     {
+         tgt_refcnt++;
+     }
+-    if (!refcount_add_not_zero(VMA_LOCK_OFFSET, &vma->vm_refcnt))
++    if (!refcount_add_not_zero(VM_REFCNT_EXCLUDE_READERS_FLAG, &vma->vm_refcnt))
+     {
+         return NV_FALSE;
+     }
+@@ -908,7 +915,7 @@
+     if (interrupted)
+     {
+         // Clean up on error: release refcount and dep_map
+-        refcount_sub_and_test(VMA_LOCK_OFFSET, &vma->vm_refcnt);
++        refcount_sub_and_test(VM_REFCNT_EXCLUDE_READERS_FLAG, &vma->vm_refcnt);
+         rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+         return NV_FALSE;
+     }
+@@ -924,7 +931,11 @@
+ {
+     NvU32 mm_lock_seq;
+     NvBool locked;
++#ifdef NV_VMA_WRITE_LOCKED_ONE_ARG
++    if (__is_vma_write_locked(vma))
++#else
+     if (__is_vma_write_locked(vma, &mm_lock_seq))
++#endif
+         return;
+
+     locked = nv_vma_enter_locked(vma, NV_FALSE);
+@@ -933,7 +944,7 @@
+     if (locked)
+     {
+         NvBool detached;
+-        detached = refcount_sub_and_test(VMA_LOCK_OFFSET, &vma->vm_refcnt);
++        detached = refcount_sub_and_test(VM_REFCNT_EXCLUDE_READERS_FLAG, &vma->vm_refcnt);
+         rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+         WARN_ON_ONCE(detached);
+     }
+"""
+
+
+def get_nvidia_dkms_patch_commands() -> str:
+    """
+    Return a shell fragment that patches every NVIDIA source tree under
+    /usr/src/nvidia-*/ and rebuilds the modules.
+
+    Idempotent: source trees already patched are skipped. Safe on any kernel,
+    the patch is guarded with #ifndef.
+    """
+    patch_content = NV_MMAP_VMA_LOCK_PATCH.replace("'", "'\\''")
+
+    # The proprietary module keeps its sources at <src>/nvidia/, the open one
+    # at <src>/kernel-open/nvidia/. Both layouts must be handled: checking only
+    # the first silently skipped every nvidia-open install.
+    return (
+        "for NVIDIA_SRC in /usr/src/nvidia-*/; do "
+        "  for NV_SUB in '' 'kernel-open/'; do "
+        "    NV_ROOT=\"${NVIDIA_SRC}${NV_SUB}\"; "
+        "    NV_MMAP=\"${NV_ROOT}nvidia/nv-mmap.c\"; "
+        "    if [ ! -f \"$NV_MMAP\" ]; then continue; fi; "
+        "    if grep -q 'VM_REFCNT_EXCLUDE_READERS_FLAG' \"$NV_MMAP\" 2>/dev/null; then "
+        "      echo \"Patch already applied in ${NV_ROOT} - skipping.\"; "
+        "      continue; "
+        "    fi; "
+        "    if ! grep -q 'VMA_LOCK_OFFSET' \"$NV_MMAP\" 2>/dev/null; then "
+        "      echo \"${NV_ROOT} does not use VMA_LOCK_OFFSET - patch not needed.\"; "
+        "      continue; "
+        "    fi; "
+        "    echo \"Applying NVIDIA VMA lock patch to ${NV_ROOT}...\"; "
+        f"    printf '%s' '{patch_content}' | patch --fuzz=5 -p1 -d \"$NV_ROOT\" && "
+        "    echo \"Patch applied.\" || "
+        "    echo \"Warning: patch failed for ${NV_ROOT} - DKMS may fail.\"; "
+        "  done; "
+        "done"
+    )
+
+
 class DriversTab(Gtk.ScrolledWindow):
     """
     Hardware drivers management tab.
@@ -262,7 +367,45 @@ class DriversTab(Gtk.ScrolledWindow):
         )
         uninstall_nvidia.connect("clicked", self._on_uninstall_nvidia_clicked)
         grid.attach(uninstall_nvidia, 0, 4, 2, 1)
-    
+
+        self._apply_nvidia_compatibility_guards()
+
+    # Branches 590 and 610 only cover Turing and newer, per NVIDIA's supported
+    # products list. Installing them on an older card leaves the machine without
+    # a working module, and since the NVIDIA package blacklists nouveau, without
+    # any graphics driver at all.
+    TURING_PLUS_MARKERS = ('rtx', 'gtx 16', 'gtx16',
+                           'mx450', 'mx 450', 'mx550', 'mx 550')
+
+    def _is_turing_plus(self, model):
+        """True when the GPU model is Turing or newer."""
+        model_lower = (model or '').lower()
+        return any(marker in model_lower for marker in self.TURING_PLUS_MARKERS)
+
+    def _apply_nvidia_compatibility_guards(self):
+        """Disable driver branches the detected NVIDIA GPU cannot use."""
+        try:
+            from utils.hardware_detector import detect_all_gpus
+            nvidia_gpus = [g for g in detect_all_gpus() if g.get('vendor') == 'NVIDIA']
+        except Exception:
+            return
+
+        if not nvidia_gpus:
+            return
+        if any(self._is_turing_plus(g.get('model', '')) for g in nvidia_gpus):
+            return
+
+        model = nvidia_gpus[0].get('model') or 'NVIDIA'
+        for key in ('nvidia_610', 'nvidia_590'):
+            entry = self._driver_buttons.get(key)
+            if not entry:
+                continue
+            entry['button'].set_sensitive(False)
+            entry['button'].set_tooltip_text(
+                _("Not available for {gpu}: this branch only supports Turing and newer "
+                  "(GTX 16xx, RTX 20 and later).").format(gpu=model)
+            )
+
     def _create_nvidia_hybrid_section(self):
         """Create NVIDIA hybrid graphics section for laptops."""
         label = Gtk.Label()
@@ -931,6 +1074,8 @@ echo "Removal completed successfully."
         if response != Gtk.ResponseType.YES:
             return
 
+        nvidia_patch = get_nvidia_dkms_patch_commands()
+
         script = f"""#!/bin/bash
 
 set -e
@@ -959,8 +1104,31 @@ apt autoremove -y 2>/dev/null || true
 apt update
 apt install -y dkms build-essential linux-headers-$(uname -r)
 
+# The headers package being installed is not enough: DKMS needs a usable build
+# tree, otherwise it skips the build and the system boots with no driver.
+if [ ! -e "/lib/modules/$(uname -r)/build/Makefile" ]; then
+    echo "Kernel build tree missing or broken, reinstalling headers..."
+    apt install -y --reinstall linux-headers-$(uname -r) || true
+fi
+if [ ! -e "/lib/modules/$(uname -r)/build/Makefile" ]; then
+    echo "ERROR: no usable kernel build tree for $(uname -r)."
+    echo "DKMS cannot build the NVIDIA module, so the driver is NOT installed."
+    exit 1
+fi
+
 # Install NVIDIA driver + auxiliary packages
 apt install -y {package} nvidia-smi nvidia-settings nvidia-modprobe libglu1-mesa
+
+# === PATCH AND REBUILD DKMS MODULES ===
+echo "Applying NVIDIA DKMS compatibility patch for Soplos 7.x kernels..."
+{nvidia_patch}
+echo "Rebuilding NVIDIA DKMS modules..."
+dkms autoinstall || true
+if ! dkms status | grep -qi "nvidia.*installed"; then
+    echo "ERROR: the NVIDIA DKMS module did not build. The system would boot"
+    echo "without any graphics driver, since nouveau is blacklisted."
+    echo "Run 'sudo dkms autoinstall' and check the output before rebooting."
+fi
 
 # === CONFIGURE GRUB ===
 echo "Configuring GRUB with nvidia-drm.modeset=1..."
@@ -974,7 +1142,11 @@ if command -v dracut >/dev/null 2>&1; then
     echo "Configuring Dracut..."
     mkdir -p /etc/dracut.conf.d
     echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
-    echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
+    # The NVIDIA modules must NOT be forced into the initramfs: nvidia_drm takes
+    # the display there and the handover at switch-root can leave the boot stuck
+    # on a black screen. They load normally once the real system is up, so the
+    # file is removed instead of written, also cleaning up earlier installs.
+    rm -f /etc/dracut.conf.d/nvidia.conf
     echo "Regenerating initramfs..."
     dracut --force
 elif command -v update-initramfs >/dev/null 2>&1; then
@@ -1040,7 +1212,12 @@ dpkg -i "$TEMP_DIR/cuda-keyring.deb"
 rm -rf "$TEMP_DIR"
 """
             install_driver = "apt install -y nvidia-driver-pinning-590\napt install -y nvidia-open-590"
-            repo_cleanup = ""
+            # Remove the NVIDIA repository once the driver is installed, so a
+            # later 'apt upgrade' cannot move the user to another driver branch
+            # on its own, and so it stops shadowing Debian packages such as dkms.
+            repo_cleanup = """apt purge -y cuda-keyring
+rm -f /etc/apt/sources.list.d/cuda-debian13-x86_64.list
+apt update -q"""
         else:
             repo_setup = r"""TEMP_DIR=$(mktemp -d)
 wget -q -O "$TEMP_DIR/cuda-keyring.deb" \
@@ -1054,7 +1231,13 @@ dpkg -i "$TEMP_DIR/cuda-keyring.deb"
 rm -rf "$TEMP_DIR"
 """
             install_driver = "apt install -y nvidia-driver-pinning-610\napt install -y nvidia-open-610"
-            repo_cleanup = ""
+            # Same cleanup as the 590 branch: the repository must not survive
+            # the installation.
+            repo_cleanup = """apt purge -y cuda-keyring
+rm -f /etc/apt/sources.list.d/cuda-debian13-x86_64.list
+apt update -q"""
+
+        nvidia_patch = get_nvidia_dkms_patch_commands()
 
         script = f"""#!/bin/bash
 
@@ -1087,10 +1270,21 @@ apt -f install -y 2>/dev/null || true
 
 echo "[2/6] Installing kernel headers and DKMS build dependencies..."
 apt install -y dkms build-essential
-if apt-cache show linux-headers-$(uname -r) &>/dev/null; then
-    apt install -y linux-headers-$(uname -r)
-else
-    echo "Custom kernel detected, headers already present, skipping."
+apt install -y linux-headers-$(uname -r) || true
+
+# Having the headers package installed is not enough: the build tree under
+# /lib/modules/<kernel>/build must be usable, or DKMS silently skips the build
+# and leaves the module as "added". The machine then boots with no graphics
+# driver at all, because the NVIDIA package blacklists nouveau.
+if [ ! -e "/lib/modules/$(uname -r)/build/Makefile" ]; then
+    echo "Kernel build tree missing or broken, reinstalling headers..."
+    apt install -y --reinstall linux-headers-$(uname -r) || true
+fi
+if [ ! -e "/lib/modules/$(uname -r)/build/Makefile" ]; then
+    echo "ERROR: no usable kernel build tree for $(uname -r)."
+    echo "DKMS cannot build the NVIDIA module, so the driver is NOT installed."
+    echo "Install linux-headers-$(uname -r) and run this again."
+    exit 1
 fi
 
 echo "[3/6] Setting up NVIDIA CUDA repository ($DISTRO)..."
@@ -1101,11 +1295,25 @@ apt update
 {install_driver}
 {repo_cleanup}
 
+echo "[+] Applying NVIDIA DKMS compatibility patch for Soplos 7.x kernels..."
+{nvidia_patch}
+echo "[+] Rebuilding NVIDIA DKMS modules..."
+dkms autoinstall || true
+if ! dkms status | grep -qi "nvidia.*installed"; then
+    echo "ERROR: the NVIDIA DKMS module did not build. The system would boot"
+    echo "without any graphics driver, since nouveau is blacklisted."
+    echo "Run 'sudo dkms autoinstall' and check the output before rebooting."
+fi
+
 echo "[5/6] Configuring dracut and regenerating initramfs..."
 if command -v dracut >/dev/null 2>&1; then
     mkdir -p /etc/dracut.conf.d
     echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
-    echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
+    # The NVIDIA modules must NOT be forced into the initramfs: nvidia_drm takes
+    # the display there and the handover at switch-root can leave the boot stuck
+    # on a black screen. They load normally once the real system is up, so the
+    # file is removed instead of written, also cleaning up earlier installs.
+    rm -f /etc/dracut.conf.d/nvidia.conf
     dracut --force
 elif command -v update-initramfs >/dev/null 2>&1; then
     update-initramfs -u
@@ -2304,7 +2512,11 @@ XORGCONF
 if command -v dracut >/dev/null 2>&1; then
     mkdir -p /etc/dracut.conf.d
     echo 'omit_drivers+=" nouveau "' > /etc/dracut.conf.d/blacklist-nouveau.conf
-    echo 'add_drivers+=" nvidia nvidia_modeset nvidia_uvm nvidia_drm "' > /etc/dracut.conf.d/nvidia.conf
+    # The NVIDIA modules must NOT be forced into the initramfs: nvidia_drm takes
+    # the display there and the handover at switch-root can leave the boot stuck
+    # on a black screen. They load normally once the real system is up, so the
+    # file is removed instead of written, also cleaning up earlier installs.
+    rm -f /etc/dracut.conf.d/nvidia.conf
     echo "Regenerating initramfs with NVIDIA modules..."
     dracut --force
 elif command -v update-initramfs >/dev/null 2>&1; then

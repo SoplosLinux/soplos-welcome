@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1-6] - 2026-07-27
+
+### Fixed
+- **Drivers tab (system left with no graphics driver after installing an NVIDIA driver)**: the install proceeded even when DKMS could not build the module. Having the `linux-headers` package installed is not enough — the build tree under `/lib/modules/<kernel>/build` must be usable, and when it is not, DKMS silently skips the build and leaves the module as `added`. Since the NVIDIA package blacklists nouveau, the machine then booted to a black screen with no driver at all. Both install paths now verify the build tree, reinstall the headers when it is missing or broken, and abort with a clear message instead of installing a driver that cannot be built.
+- **Drivers tab (DKMS compatibility patch never applied)**: the VMA locking patch for Soplos 7.x kernels was only applied by soplos-kernel-installer, never by Welcome, which is the path the distribution recommends to the user after installing. It is now applied in both install paths, covering the proprietary source layout (`/usr/src/nvidia-*/nvidia/`) and the open module one (`/usr/src/nvidia-*/kernel-open/nvidia/`), and only when the source actually uses `VMA_LOCK_OFFSET`.
+- **Drivers tab (initramfs regenerated too early)**: dracut ran before the DKMS modules existed, producing an initramfs that excluded nouveau and requested NVIDIA modules that were not there yet. The patch and module rebuild now run before the initramfs is regenerated.
+- **Drivers tab (boot hanging at switch-root after installing the driver)**: Welcome wrote `/etc/dracut.conf.d/nvidia.conf` forcing the NVIDIA modules into the initramfs. `nvidia_drm` then took the display inside the initramfs, and the handover to the real root could leave the boot stuck on a black screen, intermittently and only on some reboots. The file is no longer written, and it is removed on install so existing systems are cleaned up too. The modules load normally once the real system is up.
+- **Drivers tab (NVIDIA repository left configured)**: the 590 and 610 branches never removed the CUDA repository after installing, so it kept shadowing Debian packages such as `dkms` and could move the user to another driver branch on a routine `apt upgrade`. Both now clean it up after installing, as the 580 branch already did.
+
+### Changed
+- **Driver recommendation**: Turing and newer (GTX 16xx, RTX 20/30/40/50, MX450/550) now recommend the 610 branch, the newest one listing them as supported products. Pascal and Maxwell (GTX 10xx, GTX 9xx, MX330/350) recommend 580, which is their maximum supported branch.
+- **Drivers tab**: the 590 and 610 buttons are disabled on pre-Turing GPUs, with a tooltip explaining why, instead of letting the user install a branch their card does not support.
+
 ## [2.1.1-5] - 2026-07-27
 
 ### Fixed
