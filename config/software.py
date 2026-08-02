@@ -407,6 +407,14 @@ SOFTWARE_CATEGORIES = {
                 'official': True
             },
             {
+                'name': 'ART',
+                'package': None,
+                'flatpak': 'us.pixls.art.ART',
+                'icon': 'art.png',
+                'description': _('Advanced RAW photo editor with local adjustments'),
+                'official': False
+            },
+            {
                 'name': 'Hugin',
                 'package': 'hugin',
                 'icon': 'hugin.png',

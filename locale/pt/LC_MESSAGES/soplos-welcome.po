@@ -2158,6 +2158,10 @@ msgstr "Editor de fotos RAW rápido e moderno"
 msgid "Advanced RAW photo processing program"
 msgstr "Programa avançado de processamento de fotos RAW"
 
+#: config/software.py:414
+msgid "Advanced RAW photo editor with local adjustments"
+msgstr "Editor de fotos RAW avançado com ajustes locais"
+
 #: config/software.py:334
 msgid "Panorama photo stitcher"
 msgstr "Montador de fotos panorâmicas"

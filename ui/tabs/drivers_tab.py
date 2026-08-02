@@ -2320,11 +2320,6 @@ rm -f /etc/environment.d/10-nvidia-primary.conf
 rm -f /etc/udev/rules.d/61-nvidia-prime.rules
 rm -f /etc/udev/rules.d/61-gdm-nvidia.rules
 
-# Restore default SDDM config if exists
-if [ -f /etc/sddm.conf.d/10-wayland.conf ]; then
-    rm -f /etc/sddm.conf.d/10-wayland.conf
-fi
-
 # Create script for running apps with NVIDIA (works on Xorg AND Wayland)
 cat > /usr/local/bin/prime-run << 'PRIMERUN'
 #!/bin/bash

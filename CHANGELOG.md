@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1-7] - 2026-07-27
+
+### Fixed
+- **Drivers tab (dead cleanup code)**: the PRIME Render Offload script still removed `/etc/sddm.conf.d/10-wayland.conf`, a file no longer written anywhere in the project. Removed the no-op cleanup block.
+
+### Added
+- **Recommended tab**: added ART (`us.pixls.art.ART`, Flatpak), a RAW photo editor, to Graphics and Design → Photography/RAW.
+
 ## [2.1.1-6] - 2026-07-27
 
 ### Fixed

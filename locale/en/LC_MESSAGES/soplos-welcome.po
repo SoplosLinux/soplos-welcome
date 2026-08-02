@@ -2160,6 +2160,10 @@ msgstr "Fast and modern RAW photo editor"
 msgid "Advanced RAW photo processing program"
 msgstr "Advanced RAW photo processing program"
 
+#: config/software.py:414
+msgid "Advanced RAW photo editor with local adjustments"
+msgstr "Advanced RAW photo editor with local adjustments"
+
 #: config/software.py:334
 msgid "Panorama photo stitcher"
 msgstr "Panorama photo stitcher"

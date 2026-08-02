@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.1--6-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.1--7-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,10 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.1-7 (2026-07-27)
+- **Fixed**: removed a dead-code cleanup block in the PRIME Render Offload script that tried to remove `/etc/sddm.conf.d/10-wayland.conf`, a file nothing in the project writes anymore.
+- **Added**: ART (`us.pixls.art.ART`, Flatpak), a RAW photo editor, to the Recommended tab under Graphics and Design.
 
 ### v2.1.1-6 (2026-07-27)
 - **Fixed**: installing an NVIDIA driver could leave the system with no graphics driver at all. DKMS silently skips the build when the kernel build tree under `/lib/modules/<kernel>/build` is missing or broken, even with the headers package installed, and the NVIDIA package blacklists nouveau — so the machine booted to a black screen. The install now verifies the build tree, reinstalls the headers if needed, and aborts with a clear message rather than installing a driver that cannot build.
