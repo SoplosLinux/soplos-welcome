@@ -355,8 +355,13 @@ class DriversTab(Gtk.ScrolledWindow):
         self._driver_buttons['nouveau'] = {
             'button': nouveau, 'handler_id': None,
             'base_label': _("Nouveau (Open Source)"),
-            'install_fn': lambda b: self._on_driver_clicked(b, 'xserver-xorg-video-nouveau'),
-            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'xserver-xorg-video-nouveau'),
+            'install_fn': lambda b: self._on_nouveau_clicked(b),
+            # Both states lead to the same handler: there is nothing to install
+            # (nouveau ships with the kernel) and nothing that should ever be
+            # uninstalled. Purging xserver-xorg-video-nouveau here used to be
+            # offered, which on Tyron stripped the Xorg driver and on Boro and
+            # Tyson did nothing at all, since they are Wayland.
+            'uninstall_fn': lambda b: self._on_nouveau_clicked(b),
             'check_fn': lambda: self._is_nouveau_active(),
         }
 
@@ -374,13 +379,16 @@ class DriversTab(Gtk.ScrolledWindow):
     # products list. Installing them on an older card leaves the machine without
     # a working module, and since the NVIDIA package blacklists nouveau, without
     # any graphics driver at all.
-    TURING_PLUS_MARKERS = ('rtx', 'gtx 16', 'gtx16',
-                           'mx450', 'mx 450', 'mx550', 'mx 550')
-
+    #
+    # The marker list itself lives in utils/hardware_detector.py so this guard
+    # and the driver recommendation of the hardware scan cannot disagree: they
+    # used to keep separate lists, and this one was missing the professional
+    # Turing parts (Quadro T400/T600/T1000, Tesla T4), so it disabled the 610
+    # button on cards that do support it.
     def _is_turing_plus(self, model):
         """True when the GPU model is Turing or newer."""
-        model_lower = (model or '').lower()
-        return any(marker in model_lower for marker in self.TURING_PLUS_MARKERS)
+        from utils.hardware_detector import is_nvidia_turing_or_newer
+        return is_nvidia_turing_or_newer(model)
 
     def _apply_nvidia_compatibility_guards(self):
         """Disable driver branches the detected NVIDIA GPU cannot use."""
@@ -849,29 +857,51 @@ echo "Wi-Fi repair completed. Driver: {driver}"
 
         threading.Thread(target=_detect, daemon=True).start()
 
-    def _is_nouveau_active(self):
-        """Return True only if nouveau package is installed AND not blacklisted."""
-        if not self._is_package_installed('xserver-xorg-video-nouveau'):
-            return False
+    def _is_nouveau_blacklisted(self):
+        """Return True if any modprobe config blacklists nouveau.
+
+        The blacklist file belongs to the NVIDIA driver package, not to this
+        application, so installing the nouveau package does not remove it. The
+        proprietary driver has to be uninstalled first.
+        """
         import glob
         try:
             for conf in glob.glob('/etc/modprobe.d/*.conf'):
                 try:
                     with open(conf) as f:
                         if 'blacklist nouveau' in f.read():
-                            return False
+                            return True
                 except Exception:
                     pass
         except Exception:
             pass
-        return True
+        return False
+
+    def _is_nouveau_active(self):
+        """Return True when nouveau is free to drive the GPU.
+
+        Deliberately does not look at xserver-xorg-video-nouveau: that is an
+        Xorg DDX driver, and only Tyron runs X11 — Boro and Tyson are Wayland,
+        where the package is irrelevant and usually absent. Checking it made
+        this return False on those two even when nouveau was the driver in use.
+        Nouveau itself ships with the kernel, so the blacklist is what decides.
+        """
+        return not self._is_nouveau_blacklisted()
 
     def _is_amd_driver_installed(self):
-        """Return True only if the full AMD driver stack installed by this app is present."""
+        """Return True when the AMD driver stack is present.
+
+        Only the parts that matter under both display protocols are checked.
+        xserver-xorg-video-all is still installed by the button — Boro and
+        Tyson can run an X11 session even though they boot Wayland — but it
+        must not be required here: on a machine that only ever runs Wayland it
+        is absent, and demanding it made this return False forever, so the
+        button never showed the stack as installed.
+        """
         return (
             self._is_package_installed('firmware-amd-graphics') and
-            self._is_package_installed('mesa-vulkan-drivers') and
-            self._is_package_installed('xserver-xorg-video-all')
+            self._is_package_installed('libgl1-mesa-dri') and
+            self._is_package_installed('mesa-vulkan-drivers')
         )
 
     def _is_module_loaded(self, *module_names):
@@ -992,6 +1022,59 @@ echo "Removal completed successfully."
         self._run_script_as_root(script, f"uninstall-{packages.split()[0]}.sh",
                                  self._refresh_driver_status)
     
+    def _on_nouveau_clicked(self, button):
+        """Switch back to nouveau by removing the proprietary driver.
+
+        Nothing is installed here. The nouveau kernel module ships with the
+        kernel and the Xorg driver package is already present, so the only
+        thing standing between the user and nouveau is the modprobe blacklist
+        that the NVIDIA driver package installs. Purging NVIDIA removes it.
+        """
+        if not self._is_nouveau_blacklisted():
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.INFO,
+                buttons=Gtk.ButtonsType.OK,
+                text=_("Nouveau Is Already Active")
+            )
+            dialog.format_secondary_text(
+                _("No proprietary NVIDIA driver is blacklisting nouveau, so it "
+                  "is already the driver in use. There is nothing to change.")
+            )
+            dialog.run()
+            dialog.destroy()
+            return
+
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.QUESTION,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("NVIDIA Driver Detected")
+        )
+        dialog.format_secondary_text(
+            _("The installed NVIDIA driver keeps nouveau blacklisted, so "
+              "nouveau cannot load while it is present.\n\n"
+              "To switch to nouveau, the NVIDIA drivers have to be removed. "
+              "This will:\n\n"
+              "1. Remove all NVIDIA and CUDA packages, their DKMS modules and "
+              "the NVIDIA repository.\n"
+              "2. Regenerate the initramfs and update GRUB.\n\n"
+              "Nouveau needs no installation: it ships with the kernel and "
+              "takes over once the blacklist is gone.\n\n"
+              "A system restart will be required.\n\n"
+              "Do you want to remove the NVIDIA drivers?")
+        )
+        response = dialog.run()
+        dialog.destroy()
+        if response != Gtk.ResponseType.YES:
+            return
+
+        self._run_script_as_root(self._build_nvidia_uninstall_script(),
+                                 "switch-to-nouveau.sh",
+                                 self._refresh_driver_status)
+
     def _on_legacy_nvidia_clicked(self, button, package_name):
         """Show warning about Debian Sid requirement before installing legacy drivers."""
         dialog = Gtk.MessageDialog(
@@ -1523,6 +1606,14 @@ apt update
 
 echo "[3/3] Installing CUDA 12 Toolkit..."
 apt install -y cuda-toolkit-12
+
+# Remove the repository once the toolkit is installed. It is added with
+# trusted=yes (the debian12 CUDA repo signs with SHA1, which sqv rejects), so
+# leaving it enabled would keep an unverified source active indefinitely and
+# let it shadow Debian packages on every later upgrade. Same cleanup the
+# driver flows already do.
+rm -f /etc/apt/sources.list.d/cuda-debian12-x86_64.list
+apt update -q
 
 echo ""
 echo "=== Installation completed successfully ==="
@@ -2126,7 +2217,7 @@ echo "IMPORTANT: Restart the system to apply the changes."
         elif driver in legacy_drivers:
             self._on_legacy_nvidia_clicked(button, driver)
         elif driver == "nouveau":
-            self._on_driver_clicked(button, "xserver-xorg-video-nouveau")
+            self._on_nouveau_clicked(button)
         else:
             self._on_driver_clicked(button, driver)
     
@@ -2489,8 +2580,11 @@ case "$DESKTOP_ENV" in
         ;;
 esac
 
-# Xorg configuration (needed for X11 sessions in all DEs)
-echo "Creating Xorg configuration..."
+# Xorg configuration. Only takes effect in an X11 session, but it is written
+# unconditionally: Boro and Tyson boot Wayland yet can still offer a Plasma X11
+# or GNOME on Xorg session, and which one the user lands on can change at the
+# next login. Under Wayland the work is done by nvidia-drm.modeset=1 above.
+echo "Creating Xorg configuration (used when logging into an X11 session)..."
 mkdir -p /etc/X11/xorg.conf.d
 cat > /etc/X11/xorg.conf.d/10-nvidia-prime.conf << 'XORGCONF'
 Section "OutputClass"
@@ -2531,7 +2625,7 @@ else
         echo "Wayland: fully supported (driver $DRIVER_VERSION)."
     elif [[ "$DRIVER_VERSION" =~ ^[0-9]+$ ]] && [ "$DRIVER_VERSION" -ge 550 ]; then
         echo "WARNING: Driver 550 has known freezes with KDE Wayland."
-        echo "Upgrade to 580 or 590 for a stable Wayland experience."
+        echo "Upgrade to 610 for a stable Wayland experience."
     else
         echo "WARNING: Could not detect driver version or version below 550."
         echo "Wayland stability not guaranteed. Use X11 session if issues arise."

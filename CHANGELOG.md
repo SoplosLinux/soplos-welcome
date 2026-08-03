@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1-8] - 2026-08-03
+
+### Fixed
+- **Drivers tab (professional and laptop NVIDIA GPUs got the wrong driver)**: the GPU model was read with a pattern that only understood names starting with `GeForce`. Everything else — Quadro, Tesla, RTX A-series, all common on laptops — fell through to a pattern that stops at the opening bracket and returned the chip codename instead (`[Quadro T1000 Mobile]` came back as `Corporation TU117GLM`). Those cards matched no rule and ended up on the Debian 550 branch. The bracketed marketing name, which is what lspci actually publishes, is now read first.
+- **Drivers tab (610 and 590 buttons disabled on supported cards)**: the guard that disables those branches on pre-Turing GPUs kept its own marker list, separate from the one used to recommend a driver, and the two had drifted apart. Quadro T400/T600/T1000 and Tesla T4 are Turing and support 610, yet the buttons were greyed out. Both now read a single shared classifier, `is_nvidia_turing_or_newer()`, which also covers the T500/T550/T1200 laptop parts, MX570 and the RTX A-series.
+- **Drivers tab (GT 750M offered a branch that cannot build)**: the marker sat among the Maxwell laptop parts in the 580 group, but the GT 750M is Kepler and 580 starts at Maxwell. The module could not build and, with nouveau blacklisted by the NVIDIA package, the laptop was left with no graphics driver. Moved to the 470 group, next to its sibling the GT 650M.
+- **Drivers tab (unrecognised GPUs offered a branch that cannot build)**: any NVIDIA card matching no rule fell back to `nvidia-driver`, the Debian 550 branch, which only covers Maxwell to Ada. A Fermi such as the GT 540M ended up there with the same result as above. The fallback is now nouveau, which always works.
+- **Drivers tab (nouveau never reported as active on Boro and Tyson)**: the check required `xserver-xorg-video-nouveau`, an Xorg driver that is irrelevant and usually absent on Wayland. It returned False even when nouveau was the driver in use. Only the modprobe blacklist is checked now, since nouveau itself ships with the kernel.
+- **Drivers tab (AMD stack never reported as installed on Boro and Tyson)**: the same mistake, this time requiring `xserver-xorg-video-all`. The check now looks only at the parts that matter under both display protocols. The package is still installed, because an X11 session can be selected at login on either distribution.
+- **Drivers tab (Nouveau button did nothing when switching back from NVIDIA)**: pressing it ran an `apt install` while the NVIDIA package kept nouveau blacklisted, so nothing changed and the button never marked itself as active. It now explains the situation and offers to remove the NVIDIA drivers, which is the only thing actually required. Its uninstall action no longer purges the Xorg driver, which stripped it on Tyron and did nothing on the other two.
+- **Drivers tab (CUDA 12 repository left configured)**: the toolkit installer added the repository with `trusted=yes`, needed because the debian12 CUDA repo signs with SHA1, and never removed it, leaving an unverified source enabled indefinitely and shadowing Debian packages. It is now removed after installing, as the driver flows already did.
+
+### Changed
+- **Driver recommendation**: MX150 and MX250 moved to the 580 branch. They are Pascal, like the MX330 and MX350 already there.
+- **NVIDIA Primary**: the message about the Xorg configuration now states that it applies to X11 sessions, and the driver upgrade advice points to the 610 branch.
+
+### Added
+- **Translations**: 4 new strings for the Nouveau switch dialog, in all 8 languages.
+
 ## [2.1.1-7] - 2026-07-27
 
 ### Fixed

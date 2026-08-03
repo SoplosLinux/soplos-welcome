@@ -3502,3 +3502,15 @@ msgstr "Переключение между предустановками ра�
 
 msgid "Launch Soplos Layout Switcher"
 msgstr "Запустить Soplos Layout Switcher"
+
+msgid "Nouveau Is Already Active"
+msgstr "Nouveau уже активен"
+
+msgid "No proprietary NVIDIA driver is blacklisting nouveau, so it is already the driver in use. There is nothing to change."
+msgstr "Проприетарный драйвер NVIDIA не блокирует nouveau, поэтому он уже используется. Менять нечего."
+
+msgid "NVIDIA Driver Detected"
+msgstr "Обнаружен драйвер NVIDIA"
+
+msgid "The installed NVIDIA driver keeps nouveau blacklisted, so nouveau cannot load while it is present.\n\nTo switch to nouveau, the NVIDIA drivers have to be removed. This will:\n\n1. Remove all NVIDIA and CUDA packages, their DKMS modules and the NVIDIA repository.\n2. Regenerate the initramfs and update GRUB.\n\nNouveau needs no installation: it ships with the kernel and takes over once the blacklist is gone.\n\nA system restart will be required.\n\nDo you want to remove the NVIDIA drivers?"
+msgstr "Установленный драйвер NVIDIA держит nouveau в чёрном списке, поэтому nouveau не может загрузиться, пока драйвер присутствует.\n\nЧтобы перейти на nouveau, драйверы NVIDIA нужно удалить. При этом будет выполнено:\n\n1. Удаление всех пакетов NVIDIA и CUDA, их модулей DKMS и репозитория NVIDIA.\n2. Пересоздание initramfs и обновление GRUB.\n\nNouveau не требует установки: он входит в состав ядра и берёт управление на себя, как только чёрный список исчезнет.\n\nПотребуется перезагрузка системы.\n\nУдалить драйверы NVIDIA?"

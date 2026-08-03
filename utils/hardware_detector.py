@@ -121,6 +121,16 @@ def _nvidia_driver_status(recommended_driver):
 # ─────────────────────────── GPU ───────────────────────────
 
 def _extract_nvidia_model(line):
+    # lspci puts the marketing name in brackets and the chip codename outside
+    # them: "NVIDIA Corporation TU117GLM [Quadro T1000 Mobile]". Read the
+    # bracketed name first — it is the only part any driver-branch rule can
+    # match. Without this, every card not named "GeForce ..." (Quadro, Tesla,
+    # RTX A-series, all common on laptops) came back as "Corporation <codename>"
+    # and fell through to the most conservative branch.
+    m = re.search(r'\[([^\]]+)\]', line)
+    if m:
+        return m.group(1).strip()
+
     for pattern in [r'GeForce\s+(RTX\s+\d+)', r'GeForce\s+(GTX\s+\d+)',
                     r'GeForce\s+([^[(\n]+)', r'NVIDIA\s+([^[(\n]+)']:
         m = re.search(pattern, line, re.IGNORECASE)
@@ -148,33 +158,67 @@ def _extract_intel_model(line):
     return 'Intel Unknown'
 
 
+# Model-name markers for GPUs of the Turing generation or newer. These are the
+# cards the 610 branch supports, and the only ones it supports: installing it on
+# an older card leaves the machine with no working module, and since the NVIDIA
+# package blacklists nouveau, with no graphics driver at all.
+#
+# This is the single source of truth for that question. Both the driver
+# recommendation below and the button guard in ui/tabs/drivers_tab.py read it
+# through is_nvidia_turing_or_newer() — they used to keep two separate lists
+# that drifted apart, which disabled the 610 button on cards that support it.
+NVIDIA_TURING_PLUS_MARKERS = (
+    # Every GeForce RTX card is Turing or newer, including the RTX A-series
+    # and Quadro RTX professional parts.
+    'rtx',
+    # GeForce GTX 16xx — Turing without the RT cores.
+    'gtx 16', 'gtx16',
+    # Turing and Ampere laptop MX parts.
+    'mx450', 'mx 450', 'mx550', 'mx 550', 'mx570', 'mx 570',
+    # Professional Turing and Ampere parts whose names carry no RTX or GTX
+    # prefix. The T500/T550/T1200 are laptop-only parts.
+    't400', 't500', 't550', 't600', 't1000', 't1200', 't2000', 'tesla t4',
+)
+
+
+def is_nvidia_turing_or_newer(model):
+    """True when the GPU model name is Turing generation or newer."""
+    model_lower = (model or '').lower()
+    # Anchored on a word boundary rather than a plain substring test: the short
+    # professional codes would otherwise match inside older names — 't550'
+    # matches inside "gtx550", which is a Fermi card.
+    return any(
+        re.search(r'\b' + re.escape(marker), model_lower)
+        for marker in NVIDIA_TURING_PLUS_MARKERS
+    )
+
+
 def _recommend_nvidia_driver(model):
     model_lower = model.lower()
 
     # Turing and newer. The 610 branch lists all of them as supported products,
     # and it is the newest branch that covers them, so it is the recommended one.
-    if any(s in model_lower for s in ['rtx 50', 'rtx50', 'rtx 5090', 'rtx 5080', 'rtx 5070',
-                                       'rtx 40', 'rtx40', 'rtx 4090', 'rtx 4080', 'rtx 4070', 'rtx 4060',
-                                       'rtx 30', 'rtx30', 'rtx 3090', 'rtx 3080', 'rtx 3070', 'rtx 3060', 'rtx 3050',
-                                       'rtx 20', 'rtx20',
-                                       'gtx 16', 'gtx16', 'gtx 1650', 'gtx 1660',
-                                       'mx550', 'mx 550', 'mx450', 'mx 450']):
+    if is_nvidia_turing_or_newer(model):
         return 'nvidia-driver-610'
-    # Pascal (GTX 10xx, MX330/350) and Maxwell (GTX 9xx and laptop equivalents)
-    # go to the 580 branch: they are outside the supported products list of the
-    # newer branches.
+    # Pascal (GTX 10xx, MX150 to MX350) and Maxwell (GTX 9xx and laptop
+    # equivalents) go to the 580 branch: they are outside the supported products
+    # list of the newer branches, and 580 is the newest branch covering them.
+    # The GT 750M is NOT here despite sitting between the Maxwell laptop parts
+    # by name: it is Kepler, and 580 starts at Maxwell. It belongs to the 470
+    # group below, next to its sibling the GT 650M.
     if any(s in model_lower for s in ['gtx 10', 'gtx10', 'gtx 1080', 'gtx 1070', 'gtx 1060', 'gtx 1050', 'gt 1030',
                                        'mx350', 'mx 350', 'mx330', 'mx 330',
+                                       'mx250', 'mx 250', 'mx150', 'mx 150',
                                        'gtx 9', 'gtx 980', 'gtx 970', 'gtx 960', 'gtx 950',
                                        'gtx 8', 'gtx 880', 'gtx 870', 'gtx 860', 'gtx 850',
                                        '920m', '930m', '940m', '920mx', '930mx', '940mx',
-                                       '910m', '820m', '840m', '750m', '960m', '970m', '980m']):
+                                       '910m', '820m', '840m', '960m', '970m', '980m']):
         return 'nvidia-driver-580'
     if any(s in model_lower for s in ['gtx 7', 'gtx 780', 'gtx 770', 'gtx 760', 'gtx 750',
                                        'gtx 6', 'gtx 680', 'gtx 670', 'gtx 660', 'gtx 650',
                                        'gt 710', 'gt 720', 'gt 730', 'gt 740',
-                                       'mx250', 'mx 250', 'mx230', 'mx 230',
-                                       'mx150', 'mx 150', 'mx130', 'mx 130', 'mx110', 'mx 110', '650m']):
+                                       'mx230', 'mx 230',
+                                       'mx130', 'mx 130', 'mx110', 'mx 110', '650m', '750m']):
         return 'nvidia-tesla-470-driver'
     if any(s in model_lower for s in ['gtx 580', 'gtx 570', 'gtx 560', 'gtx 550',
                                        'gtx 480', 'gtx 470', 'gtx 460', 'gtx 450',
@@ -188,7 +232,13 @@ def _recommend_nvidia_driver(model):
         return 'nouveau'
     if any(s in model_lower for s in ['quadro', 'tesla', 'a100', 'a40', 'a30', 'a10', 'rtx a']):
         return 'nvidia-driver'
-    return 'nvidia-driver'
+    # Unrecognised card. Do NOT fall back to a proprietary branch: the Debian
+    # nvidia-driver package is the 550 branch, which only covers Maxwell to Ada,
+    # so anything older than that (a Fermi such as the GT 540M, which matches no
+    # list above) would get a module that cannot build while the package
+    # blacklists nouveau, leaving the machine with no graphics driver at all.
+    # nouveau always works, and the user can still pick a branch by hand.
+    return 'nouveau'
 
 
 def detect_all_gpus(lspci_output=None):

@@ -3508,3 +3508,15 @@ msgstr "Switch between GNOME Shell layout presets"
 
 msgid "Launch Soplos Layout Switcher"
 msgstr "Launch Soplos Layout Switcher"
+
+msgid "Nouveau Is Already Active"
+msgstr "Nouveau Is Already Active"
+
+msgid "No proprietary NVIDIA driver is blacklisting nouveau, so it is already the driver in use. There is nothing to change."
+msgstr "No proprietary NVIDIA driver is blacklisting nouveau, so it is already the driver in use. There is nothing to change."
+
+msgid "NVIDIA Driver Detected"
+msgstr "NVIDIA Driver Detected"
+
+msgid "The installed NVIDIA driver keeps nouveau blacklisted, so nouveau cannot load while it is present.\n\nTo switch to nouveau, the NVIDIA drivers have to be removed. This will:\n\n1. Remove all NVIDIA and CUDA packages, their DKMS modules and the NVIDIA repository.\n2. Regenerate the initramfs and update GRUB.\n\nNouveau needs no installation: it ships with the kernel and takes over once the blacklist is gone.\n\nA system restart will be required.\n\nDo you want to remove the NVIDIA drivers?"
+msgstr "The installed NVIDIA driver keeps nouveau blacklisted, so nouveau cannot load while it is present.\n\nTo switch to nouveau, the NVIDIA drivers have to be removed. This will:\n\n1. Remove all NVIDIA and CUDA packages, their DKMS modules and the NVIDIA repository.\n2. Regenerate the initramfs and update GRUB.\n\nNouveau needs no installation: it ships with the kernel and takes over once the blacklist is gone.\n\nA system restart will be required.\n\nDo you want to remove the NVIDIA drivers?"

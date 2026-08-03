@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.1--7-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.1--8-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,17 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.1-8 (2026-08-03)
+- **Fixed**: professional and laptop NVIDIA GPUs got the wrong driver. The model name was read with a pattern that only understood names starting with `GeForce`, so Quadro, Tesla and RTX A-series cards came back as the chip codename (`[Quadro T1000 Mobile]` became `Corporation TU117GLM`) and ended up on the Debian 550 branch. The bracketed name that lspci actually publishes is now read first.
+- **Fixed**: the 610 and 590 buttons were greyed out on cards that support them. The guard kept its own marker list, separate from the one used for recommendations, and the two had drifted apart. Both now share a single classifier, which also covers the T500/T550/T1200 laptop parts, MX570 and the RTX A-series.
+- **Fixed**: the GT 750M was offered the 580 branch. It is Kepler and 580 starts at Maxwell, so the module could not build and the laptop was left with no graphics driver. Moved to 470.
+- **Fixed**: unrecognised NVIDIA cards fell back to the Debian 550 branch, which only covers Maxwell to Ada. The fallback is now nouveau.
+- **Fixed**: nouveau and the AMD stack were never reported as installed on Boro and Tyson, because both checks required Xorg driver packages that are irrelevant and usually absent on Wayland.
+- **Fixed**: the Nouveau button did nothing when switching back from NVIDIA. It now offers to remove the NVIDIA drivers, which is what is actually needed, and no longer purges the Xorg driver.
+- **Fixed**: the CUDA 12 toolkit installer left an unverified repository enabled indefinitely.
+- **Change**: MX150 and MX250 moved to the 580 branch, matching the other Pascal parts.
+- **Added**: 4 new translated strings for the Nouveau switch dialog, in all 8 languages.
 
 ### v2.1.1-7 (2026-07-27)
 - **Fixed**: removed a dead-code cleanup block in the PRIME Render Offload script that tried to remove `/etc/sddm.conf.d/10-wayland.conf`, a file nothing in the project writes anymore.
