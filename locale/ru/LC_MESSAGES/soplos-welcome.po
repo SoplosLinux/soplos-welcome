@@ -2961,6 +2961,12 @@ msgstr "Устанавливает через Flatpak:\n• MangoHud — ове�
 msgid "Removes all optimizations applied from this tab:\n• Uninstalls GameMode and the performance script\n• Reverts Gaming Sysctl kernel tweaks\n• Removes GPU tweaks\n• Removes Disk I/O scheduler rules"
 msgstr "Удаляет все оптимизации применённые с этой вкладки:\n• Удаляет GameMode и скрипт производительности\n• Отменяет настройки ядра Gaming Sysctl\n• Удаляет настройки GPU\n• Удаляет правила планировщика I/O диска"
 
+msgid "All-in-one maintenance suite: cache cleaner, malware scanner, performance monitor and app uninstaller."
+msgstr "Универсальный набор для обслуживания: очистка кэша, сканер вредоносных программ, монитор производительности и деинсталлятор приложений."
+
+msgid "Open Kudu"
+msgstr "Открыть Kudu"
+
 msgid "Open Portmaster"
 msgstr "Открыть Portmaster"
 

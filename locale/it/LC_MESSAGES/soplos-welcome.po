@@ -2962,6 +2962,12 @@ msgstr "Installa via Flatpak:\n• MangoHud — overlay in gioco per FPS, temper
 msgid "Removes all optimizations applied from this tab:\n• Uninstalls GameMode and the performance script\n• Reverts Gaming Sysctl kernel tweaks\n• Removes GPU tweaks\n• Removes Disk I/O scheduler rules"
 msgstr "Rimuove tutte le ottimizzazioni applicate da questa scheda:\n• Disinstalla GameMode e lo script di performance\n• Annulla le ottimizzazioni del kernel Gaming Sysctl\n• Rimuove le ottimizzazioni GPU\n• Rimuove le regole dello scheduler I/O del disco"
 
+msgid "All-in-one maintenance suite: cache cleaner, malware scanner, performance monitor and app uninstaller."
+msgstr "Suite di manutenzione tutto-in-uno: pulitore cache, scanner malware, monitor prestazioni e disinstallatore app."
+
+msgid "Open Kudu"
+msgstr "Apri Kudu"
+
 msgid "Open Portmaster"
 msgstr "Apri Portmaster"
 
