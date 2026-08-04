@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.1-9] - 2026-08-04
+
+### Added
+- **Security tab (System Cleaning)**: added Kudu, an all-in-one maintenance suite (cache cleaner, malware scanner, performance monitor, app uninstaller), installed as `.deb` resolved dynamically from its GitHub releases, following the same pattern already used for Portmaster.
+- **Recommended tab (Developer)**: added Zed (`dev.zed.Zed`, Flatpak), a high-performance multiplayer code editor.
+
+### Changed
+- **Security tab (System Cleaning)**: removed the "Recommended" badge from BleachBit — Soplos Sys Cleaner is the recommended option in that section.
+
 ## [2.1.1-8] - 2026-08-03
 
 ### Fixed

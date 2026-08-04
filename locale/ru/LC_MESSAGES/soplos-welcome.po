@@ -2102,6 +2102,10 @@ msgstr "Сложный текстовый редактор для кода и р
 msgid "Code editor with integrated AI"
 msgstr "Редактор кода с интегрированным ИИ"
 
+#: config/software.py:291
+msgid "High-performance, multiplayer code editor"
+msgstr "Высокопроизводительный редактор кода с многопользовательским режимом"
+
 #: config/software.py:230
 msgid "A community-led, hyper-hackable text editor"
 msgstr "Текстовый редактор, управляемый сообществом и легко настраиваемый"

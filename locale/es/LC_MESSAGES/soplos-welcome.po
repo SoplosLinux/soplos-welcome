@@ -2134,6 +2134,10 @@ msgstr "Editor de texto sofisticado para código y marcado"
 msgid "Code editor with integrated AI"
 msgstr "Editor de código con IA integrada"
 
+#: config/software.py:291
+msgid "High-performance, multiplayer code editor"
+msgstr "Editor de código de alto rendimiento, multijugador"
+
 #: config/software.py:230
 msgid "A community-led, hyper-hackable text editor"
 msgstr "Un editor de texto altamente hackeable e impulsado por la comunidad"

@@ -284,6 +284,14 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
+                'name': 'Zed',
+                'package': None,
+                'flatpak': 'dev.zed.Zed',
+                'icon': 'zed.png',
+                'description': _('High-performance, multiplayer code editor'),
+                'official': False
+            },
+            {
                 'name': 'Pulsar',
                 'package': None,
                 'flatpak': 'dev.pulsar_edit.Pulsar',

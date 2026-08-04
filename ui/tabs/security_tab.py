@@ -61,6 +61,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.stacer_row = None
         self.sweeper_row = None
         self.soplos_sys_cleaner_row = None
+        self.kudu_row = None
         
         # Timer for periodic UFW status updates
         self.ufw_timer_id = None
@@ -366,7 +367,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         
         bleachbit_info = self._create_tool_info_block(
             'bleachbit.png',
-            f"<b>BleachBit</b> <span color='#50fa7b'>({_('Recommended')})</span>",
+            "<b>BleachBit</b>",
             f"<small>{_('Free disk space and maintain privacy. Cleans cache, cookies, and temporary files.')}</small>"
         )
         self.bleachbit_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
@@ -415,6 +416,20 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.soplos_sys_cleaner_row.set_valign(Gtk.Align.CENTER)
         soplos_cleaner_info.pack_end(self.soplos_sys_cleaner_row, False, False, 0)
         soplos_cleaner_box.pack_start(soplos_cleaner_info, False, False, 0)
+
+        # Kudu
+        kudu_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        clean_container.pack_start(kudu_box, False, False, 5)
+
+        kudu_info = self._create_tool_info_block(
+            'kudu.png',
+            f"<b>Kudu</b> <span color='#8be9fd'>({_('Alternative')})</span>",
+            f"<small>{_('All-in-one maintenance suite: cache cleaner, malware scanner, performance monitor and app uninstaller.')}</small>"
+        )
+        self.kudu_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        self.kudu_row.set_valign(Gtk.Align.CENTER)
+        kudu_info.pack_end(self.kudu_row, False, False, 0)
+        kudu_box.pack_start(kudu_info, False, False, 0)
 
     def _create_antivirus_section(self):
         """Create antivirus and malware section."""
@@ -523,7 +538,8 @@ class SecurityTab(Gtk.ScrolledWindow):
         self._clear_container(self.stacer_row)
         self._clear_container(self.sweeper_row)
         self._clear_container(self.soplos_sys_cleaner_row)
-        
+        self._clear_container(self.kudu_row)
+
         # Timeshift
         self._update_package_button('timeshift', self.timeshift_row, with_configure=True)
         
@@ -566,7 +582,10 @@ class SecurityTab(Gtk.ScrolledWindow):
 
         # Soplos Sys Cleaner
         self._update_package_button('soplos-sys-cleaner', self.soplos_sys_cleaner_row, with_configure=True, configure_label=_("Open Soplos Sys Cleaner"))
-        
+
+        # Kudu (.deb from GitHub)
+        self._update_kudu_button()
+
         # ProtonVPN
         self._update_protonvpn_button()
 
@@ -605,7 +624,8 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.stacer_row.show_all()
         self.sweeper_row.show_all()
         self.soplos_sys_cleaner_row.show_all()
-    
+        self.kudu_row.show_all()
+
     def _update_package_button(self, package, row, with_configure=False, configure_label=None, with_scan=False):
         """Update button for a package."""
         is_installed = self._is_package_installed(package)
@@ -787,6 +807,71 @@ class SecurityTab(Gtk.ScrolledWindow):
             f.write("wget -q --show-progress -O /tmp/portmaster-installer.deb \"https://updates.safing.io/latest/linux_amd64/packages/Portmaster_${VERSION}_amd64.deb\"\n")
             f.write("pkexec apt install -y /tmp/portmaster-installer.deb\n")
             f.write("rm -f /tmp/portmaster-installer.deb\n")
+            f.write(f"echo '{_('Installation complete.')}'\n")
+        os.chmod(script, 0o755)
+        self.command_runner.run_command(f"bash {script}", self._on_operation_complete)
+
+    def _is_kudu_installed(self):
+        """Detect Kudu via dpkg status OR presence of installation directory."""
+        if self._is_package_installed('kudu'):
+            return True
+        return os.path.isdir('/opt/Kudu')
+
+    def _update_kudu_button(self):
+        """Update Kudu button (.deb installer, downloaded from its GitHub releases)."""
+        is_installed = self._is_kudu_installed()
+
+        if is_installed:
+            uninstall_btn = Gtk.Button(label=_("Uninstall"))
+            uninstall_btn.get_style_context().add_class("destructive-action")
+            uninstall_btn.connect('clicked', lambda w: self._on_uninstall_kudu())
+            self.kudu_row.pack_start(uninstall_btn, False, False, 0)
+
+            installed_label = Gtk.Label(label=_("Installed"))
+            installed_label.get_style_context().add_class("success")
+            self.kudu_row.pack_start(installed_label, False, False, 10)
+
+            open_btn = Gtk.Button(label=_("Open Kudu"))
+            open_btn.get_style_context().add_class("suggested-action")
+            open_btn.connect('clicked', lambda w: self._on_open_kudu())
+            self.kudu_row.pack_start(open_btn, False, False, 0)
+        else:
+            install_btn = Gtk.Button(label=_("Install"))
+            install_btn.get_style_context().add_class("suggested-action")
+            install_btn.connect('clicked', lambda w: self._on_install_kudu())
+            self.kudu_row.pack_start(install_btn, False, False, 0)
+
+    def _on_uninstall_kudu(self):
+        """Uninstall Kudu completely (purge + remove leftover files)."""
+        script = "/tmp/uninstall-kudu.sh"
+        with open(script, "w") as f:
+            f.write("#!/bin/bash\n")
+            f.write("pkexec apt purge -y kudu 2>/dev/null || true\n")
+            f.write("rm -rf /opt/Kudu\n")
+            f.write("rm -f /usr/share/applications/kudu.desktop\n")
+            f.write(f"echo '{_('Uninstallation complete.')}'\n")
+        os.chmod(script, 0o755)
+        self.command_runner.run_command(f"bash {script}", self._on_operation_complete)
+
+    def _on_open_kudu(self):
+        """Launch Kudu UI."""
+        try:
+            subprocess.Popen(['/opt/Kudu/kudu'])
+        except Exception as e:
+            print(f"Error launching Kudu: {e}")
+
+    def _on_install_kudu(self):
+        """Install Kudu .deb using the latest release from its GitHub repo."""
+        script = "/tmp/install-kudu.sh"
+        with open(script, "w") as f:
+            f.write("#!/bin/bash\n")
+            f.write("set -e\n")
+            f.write("DEB_URL=$(curl -s https://api.github.com/repos/AdventDevInc/kudu/releases/latest | grep browser_download_url | grep -- '-amd64.deb' | cut -d'\"' -f4)\n")
+            f.write("if [ -z \"$DEB_URL\" ]; then echo 'Error: could not get Kudu download URL'; exit 1; fi\n")
+            f.write("echo \"Downloading Kudu from $DEB_URL...\"\n")
+            f.write("wget -q --show-progress -O /tmp/kudu-installer.deb \"$DEB_URL\"\n")
+            f.write("pkexec apt install -y /tmp/kudu-installer.deb\n")
+            f.write("rm -f /tmp/kudu-installer.deb\n")
             f.write(f"echo '{_('Installation complete.')}'\n")
         os.chmod(script, 0o755)
         self.command_runner.run_command(f"bash {script}", self._on_operation_complete)

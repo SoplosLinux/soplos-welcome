@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.1--8-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.1--9-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.1-9 (2026-08-04)
+- **Added**: Kudu (all-in-one maintenance suite: cleaner, malware scanner, performance monitor, app uninstaller) in Security → System Cleaning, installed as `.deb` from its GitHub releases.
+- **Added**: Zed (`dev.zed.Zed`, Flatpak) in Recommended → Development.
+- **Changed**: removed the "Recommended" badge from BleachBit — Soplos Sys Cleaner is the recommended cleaner.
 
 ### v2.1.1-8 (2026-08-03)
 - **Fixed**: professional and laptop NVIDIA GPUs got the wrong driver. The model name was read with a pattern that only understood names starting with `GeForce`, so Quadro, Tesla and RTX A-series cards came back as the chip codename (`[Quadro T1000 Mobile]` became `Corporation TU117GLM`) and ended up on the Debian 550 branch. The bracketed name that lspci actually publishes is now read first.
