@@ -169,7 +169,10 @@ class DriversTab(Gtk.ScrolledWindow):
         
         # Separator
         self.drivers_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
-        
+
+        # --- Broken repository notice (only visible when leftovers are found) ---
+        self._create_repo_repair_section()
+
         # --- Hardware Scan Button (at the top for easy access) ---
         scan_label = Gtk.Label()
         scan_label.set_markup(f'<span weight="bold" size="14000">{_("Hardware Detection")}</span>')
@@ -239,6 +242,79 @@ class DriversTab(Gtk.ScrolledWindow):
 
         self.show_all()
     
+    def _has_broken_rocm_repo(self):
+        """Check for a ROCm repository pointing at a suite AMD does not publish."""
+        try:
+            with open('/etc/apt/sources.list.d/rocm.list', 'r') as f:
+                content = f.read()
+        except Exception:
+            return False
+
+        if 'repo.radeon.com' not in content:
+            return False
+
+        # AMD only publishes Ubuntu suites; anything else breaks every apt update
+        broken_suites = ('trixie', 'forky', 'bookworm', 'sid', 'testing', 'unstable', 'debian')
+        for line in content.splitlines():
+            if 'repo.radeon.com' not in line:
+                continue
+            if any(suite in line.split() for suite in broken_suites):
+                return True
+        return False
+
+    def _create_repo_repair_section(self):
+        """Create the container for the broken repository notice."""
+        self._repo_repair_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        self.drivers_box.pack_start(self._repo_repair_box, False, False, 5)
+        self._refresh_repo_repair_section()
+
+    def _refresh_repo_repair_section(self):
+        """Show the repair notice only while a broken repository is present."""
+        for child in self._repo_repair_box.get_children():
+            self._repo_repair_box.remove(child)
+
+        if not self._has_broken_rocm_repo():
+            # set_no_show_all survives the show_all() call of the parent container
+            self._repo_repair_box.set_no_show_all(True)
+            self._repo_repair_box.hide()
+            return
+
+        self._repo_repair_box.set_no_show_all(False)
+
+        warning = Gtk.Label()
+        warning.set_markup(
+            f"<span color='#ffb86c' weight='bold'>{_('Broken ROCm repository detected')}</span>\n"
+            f"<small>{_('A previous version added an AMD repository that does not exist, and it makes every system update fail. Repairing removes it, and you can install ROCm again afterwards.')}</small>"
+        )
+        warning.set_line_wrap(True)
+        warning.set_xalign(0)
+        self._repo_repair_box.pack_start(warning, False, False, 0)
+
+        repair_btn = Gtk.Button(label=_("Repair repository"))
+        repair_btn.get_style_context().add_class("suggested-action")
+        repair_btn.set_halign(Gtk.Align.START)
+        repair_btn.connect("clicked", self._on_repair_rocm_repo_clicked)
+        self._repo_repair_box.pack_start(repair_btn, False, False, 0)
+
+        self._repo_repair_box.show_all()
+
+    def _on_repair_rocm_repo_clicked(self, button):
+        """Remove the broken ROCm repository left behind by earlier versions."""
+        script = """#!/bin/bash
+echo "=== Repairing ROCm repository ==="
+rm -f /etc/apt/sources.list.d/rocm.list
+rm -f /etc/apt/keyrings/rocm.gpg
+rm -f /etc/apt/preferences.d/rocm-pin-600
+apt update -q || true
+echo "[+] Broken repository removed."
+"""
+        self._run_script_as_root(script, "repair-rocm-repo.sh", self._on_repo_repair_complete)
+
+    def _on_repo_repair_complete(self, success=True):
+        """Refresh the notice once the repair finished."""
+        GLib.timeout_add(1000, self._refresh_repo_repair_section)
+        self._refresh_driver_status()
+
     def _create_nvidia_section(self):
         """Create NVIDIA drivers section."""
         label = Gtk.Label()
@@ -545,7 +621,7 @@ class DriversTab(Gtk.ScrolledWindow):
 
         rocm_opencl_btn = self._create_button(
             _("ROCm OpenCL"),
-            _("OpenCL runtime for AMD GPUs (RDNA1+) — DaVinci Resolve, Blender HIP, GPU compute")
+            _("OpenCL runtime for AMD GPUs (RDNA2+) — DaVinci Resolve, Blender HIP, GPU compute")
         )
         box.pack_start(rocm_opencl_btn, True, True, 0)
         self._driver_buttons['rocm_opencl'] = {
@@ -1461,6 +1537,7 @@ apt purge -y 'rocm*' 'hip*' 'hsa*' 'comgr*' 'rocblas*' 'rocsolver*' 2>/dev/null 
 apt autoremove -y 2>/dev/null || true
 rm -f /etc/apt/sources.list.d/rocm.list
 rm -f /etc/apt/keyrings/rocm.gpg
+rm -f /etc/apt/preferences.d/rocm-pin-600
 apt update -q
 echo "[+] ROCm removed successfully."
 """
@@ -1483,8 +1560,9 @@ echo "[+] ROCm removed successfully."
               "1. Add the official AMD ROCm repository.\n"
               "2. Install {label}.\n"
               "3. Add your user to the render and video groups.\n\n"
-              "Requires an AMD GPU (RDNA1 or newer: RX 5000+, Radeon 600M/700M series).\n"
-              "Not compatible with older GCN GPUs.\n\n"
+              "Requires a ROCm-supported AMD GPU: RDNA2 (RX 6800 and newer),\n"
+              "RDNA3 (RX 7700-7900), RDNA4 (RX 9060-9070) or Instinct accelerators.\n"
+              "The RX 5000 series and integrated GPUs are not supported.\n\n"
               "{size}\n\n"
               "A session restart will be required after installation.\n\n"
               "Do you want to continue?").format(label=label, size=size_note)
@@ -1502,27 +1580,36 @@ exec > >(tee -a "$LOG") 2>&1
 echo "=== AMD ROCm Installation ({label}) ==="
 echo ""
 
-echo "[1/4] Setting up AMD ROCm repository..."
+echo "[1/5] Removing any leftover ROCm repository..."
+# Earlier versions wrote a Debian suite that AMD does not publish, which leaves
+# apt failing on every update. Reinstalling must repair that state.
+rm -f /etc/apt/sources.list.d/rocm.list
+rm -f /etc/apt/keyrings/rocm.gpg
+rm -f /etc/apt/preferences.d/rocm-pin-600
+
+echo "[2/5] Setting up AMD ROCm repository..."
 mkdir -p /etc/apt/keyrings
 curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc/apt/keyrings/rocm.gpg
 
-CODENAME=$(. /etc/os-release && echo "$VERSION_CODENAME")
-case "$CODENAME" in
-    trixie) ROCM_DISTRO="trixie" ;;
-    forky)  ROCM_DISTRO="forky"  ;;
-    *)      ROCM_DISTRO="trixie" ;;
-esac
-
-echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.4 $ROCM_DISTRO main" \\
+# AMD publishes Ubuntu suites only. The noble packages depend on plain
+# libc6/libstdc++6/python3 and install under /opt/rocm, so they run on Debian.
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/latest noble main" \\
     > /etc/apt/sources.list.d/rocm.list
 
-echo "[2/4] Updating package lists..."
+# Confine this repository so it can never replace a Debian package
+cat > /etc/apt/preferences.d/rocm-pin-600 <<'PINEOF'
+Package: *
+Pin: release o=repo.radeon.com
+Pin-Priority: 600
+PINEOF
+
+echo "[3/5] Updating package lists..."
 apt update
 
-echo "[3/4] Installing {label}..."
+echo "[4/5] Installing {label}..."
 apt install -y {pkg}
 
-echo "[4/4] Adding user to render and video groups..."
+echo "[5/5] Adding user to render and video groups..."
 REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)
 usermod -aG render,video "$REAL_USER"
 
@@ -1647,6 +1734,7 @@ apt purge -y 'intel-basekit*' 'intel-oneapi-*' 2>/dev/null || true
 apt autoremove -y 2>/dev/null || true
 rm -f /etc/apt/sources.list.d/intel-oneapi.list
 rm -f /etc/apt/keyrings/intel-oneapi.gpg
+rm -f /etc/apt/preferences.d/intel-oneapi-pin-600
 apt update -q
 echo "[+] Intel oneAPI removed successfully."
 """
@@ -1685,14 +1773,23 @@ echo "[1/3] Setting up Intel oneAPI repository..."
 mkdir -p /etc/apt/keyrings
 curl -fsSL https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB \\
     | gpg --dearmor -o /etc/apt/keyrings/intel-oneapi.gpg
-echo "deb [signed-by=/etc/apt/keyrings/intel-oneapi.gpg] https://apt.repos.intel.com/oneapi all main" \\
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/intel-oneapi.gpg] https://apt.repos.intel.com/oneapi all main" \\
     > /etc/apt/sources.list.d/intel-oneapi.list
+
+# Confine this repository so it can never replace a Debian package
+cat > /etc/apt/preferences.d/intel-oneapi-pin-600 <<'PINEOF'
+Package: *
+Pin: release o=Intel Corporation
+Pin-Priority: 600
+PINEOF
 
 echo "[2/3] Updating package lists..."
 apt update
 
-echo "[3/3] Installing Intel oneAPI Base Toolkit..."
-apt install -y intel-basekit
+# intel-basekit is a legacy alias that stops at the 2025 release;
+# intel-oneapi-toolkit is the umbrella Intel keeps current.
+echo "[3/3] Installing Intel oneAPI Toolkit..."
+apt install -y intel-oneapi-toolkit
 
 echo ""
 echo "=== Installation completed successfully ==="

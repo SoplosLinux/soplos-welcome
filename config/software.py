@@ -511,6 +511,22 @@ SOFTWARE_CATEGORIES = {
                 'official': False,
                 'custom_install': True
             },
+            {
+                'name': 'Drift',
+                'package': None,
+                'flatpak': 'org.cutwire.Drift',
+                'icon': 'drift.png',
+                'description': _('Edit and export videos easily'),
+                'official': False
+            },
+            {
+                'name': 'Prism',
+                'package': None,
+                'flatpak': 'org.cutwire.Prism',
+                'icon': 'prism.png',
+                'description': _('Trigger and mix live visuals'),
+                'official': False
+            },
             # Audio / DAW
             {
                 'name': 'Audacity',

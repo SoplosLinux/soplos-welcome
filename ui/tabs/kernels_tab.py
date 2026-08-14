@@ -80,7 +80,10 @@ class KernelsTab(Gtk.ScrolledWindow):
         
         # Separator
         self.main_box.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 10)
-        
+
+        # Broken repository notice (only visible when leftovers are found)
+        self._create_repo_repair_section()
+
         # CPU Microcode section
         microcode_frame = Gtk.Frame()
         microcode_frame.set_label(_("CPU Microcode Updates"))
@@ -192,45 +195,60 @@ class KernelsTab(Gtk.ScrolledWindow):
         xanmod_general_desc.set_xalign(0)
         xanmod_container.pack_start(xanmod_general_desc, False, False, 5)
         
+        # Report which build this CPU can actually run
+        psabi_level = self._get_cpu_psabi_level()
+        if psabi_level >= 3:
+            arch_text = _('Your CPU supports x86-64-v3 builds.')
+        elif psabi_level == 2:
+            arch_text = _('Your CPU supports x86-64-v2 only, so the v2 builds will be installed.')
+        else:
+            arch_text = _('Your CPU is below x86-64-v2. Only the LTS variant can run on it.')
+
+        xanmod_arch_desc = Gtk.Label()
+        xanmod_arch_desc.set_markup(f"<small>{arch_text}</small>")
+        xanmod_arch_desc.set_line_wrap(True)
+        xanmod_arch_desc.set_xalign(0)
+        xanmod_container.pack_start(xanmod_arch_desc, False, False, 0)
+
         # Separator
         xanmod_container.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 5)
-        
-        # Variant 1: x64v3 (Standard - Recommended)
-        xanmod_v3_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
-        xanmod_container.pack_start(xanmod_v3_box, False, False, 5)
-        
-        xanmod_v3_header = Gtk.Label()
-        xanmod_v3_header.set_markup(f"<b>{_('x64v3 - Standard')} <span color='#50fa7b'>({_('Recommended')})</span></b>")
-        xanmod_v3_header.set_xalign(0)
-        xanmod_v3_box.pack_start(xanmod_v3_header, False, False, 0)
-        
-        xanmod_v3_desc = Gtk.Label()
-        xanmod_v3_desc.set_markup(f"<small>{_('For CPUs from 2015+ (Intel Haswell, AMD Zen and newer). AVX2 optimizations.')}</small>")
-        xanmod_v3_desc.set_line_wrap(True)
-        xanmod_v3_desc.set_xalign(0)
-        xanmod_v3_box.pack_start(xanmod_v3_desc, False, False, 0)
-        
-        self.xanmod_v3_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        xanmod_v3_box.pack_start(self.xanmod_v3_row, False, False, 2)
-        
-        # Variant 2: x64v4 (Advanced)
-        xanmod_v4_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
-        xanmod_container.pack_start(xanmod_v4_box, False, False, 5)
-        
-        xanmod_v4_header = Gtk.Label()
-        xanmod_v4_header.set_markup(f"<b>{_('x64v4 - Advanced')}</b>")
-        xanmod_v4_header.set_xalign(0)
-        xanmod_v4_box.pack_start(xanmod_v4_header, False, False, 0)
-        
-        xanmod_v4_desc = Gtk.Label()
-        xanmod_v4_desc.set_markup(f"<small>{_('For very recent CPUs (Intel 12th gen+, AMD Zen 4+). AVX-512 support.')}</small>")
-        xanmod_v4_desc.set_line_wrap(True)
-        xanmod_v4_desc.set_xalign(0)
-        xanmod_v4_box.pack_start(xanmod_v4_desc, False, False, 0)
-        
-        self.xanmod_v4_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        xanmod_v4_box.pack_start(self.xanmod_v4_row, False, False, 2)
-        
+
+        # Variant 1: Standard (Recommended)
+        xanmod_main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        xanmod_container.pack_start(xanmod_main_box, False, False, 5)
+
+        xanmod_main_header = Gtk.Label()
+        xanmod_main_header.set_markup(f"<b>{_('Standard')} <span color='#50fa7b'>({_('Recommended')})</span></b>")
+        xanmod_main_header.set_xalign(0)
+        xanmod_main_box.pack_start(xanmod_main_header, False, False, 0)
+
+        xanmod_main_desc = Gtk.Label()
+        xanmod_main_desc.set_markup(f"<small>{_('General purpose build. Balanced performance for everyday use.')}</small>")
+        xanmod_main_desc.set_line_wrap(True)
+        xanmod_main_desc.set_xalign(0)
+        xanmod_main_box.pack_start(xanmod_main_desc, False, False, 0)
+
+        self.xanmod_main_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        xanmod_main_box.pack_start(self.xanmod_main_row, False, False, 2)
+
+        # Variant 2: RT (Real Time)
+        xanmod_rt_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        xanmod_container.pack_start(xanmod_rt_box, False, False, 5)
+
+        xanmod_rt_header = Gtk.Label()
+        xanmod_rt_header.set_markup(f"<b>{_('RT - Real Time')}</b>")
+        xanmod_rt_header.set_xalign(0)
+        xanmod_rt_box.pack_start(xanmod_rt_header, False, False, 0)
+
+        xanmod_rt_desc = Gtk.Label()
+        xanmod_rt_desc.set_markup(f"<small>{_('PREEMPT_RT build. Minimal latency for audio production, streaming and competitive gaming.')}</small>")
+        xanmod_rt_desc.set_line_wrap(True)
+        xanmod_rt_desc.set_xalign(0)
+        xanmod_rt_box.pack_start(xanmod_rt_desc, False, False, 0)
+
+        self.xanmod_rt_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        xanmod_rt_box.pack_start(self.xanmod_rt_row, False, False, 2)
+
         # Variant 3: EDGE (Experimental)
         xanmod_edge_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
         xanmod_container.pack_start(xanmod_edge_box, False, False, 5)
@@ -306,6 +324,76 @@ class KernelsTab(Gtk.ScrolledWindow):
         self._update_kernel_buttons()
         
         self.show_all()
+
+    def _has_broken_xanmod_repo(self):
+        """Check for a XanMod repository still pointing at the retired suite."""
+        try:
+            with open('/etc/apt/sources.list.d/xanmod-release.list', 'r') as f:
+                content = f.read()
+        except Exception:
+            return False
+
+        for line in content.splitlines():
+            if 'deb.xanmod.org' in line and 'releases' in line.split():
+                return True
+        return False
+
+    def _create_repo_repair_section(self):
+        """Create the container for the broken repository notice."""
+        self._repo_repair_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        self.main_box.pack_start(self._repo_repair_box, False, False, 5)
+        self._refresh_repo_repair_section()
+
+    def _refresh_repo_repair_section(self):
+        """Show the repair notice only while a broken repository is present."""
+        for child in self._repo_repair_box.get_children():
+            self._repo_repair_box.remove(child)
+
+        if not self._has_broken_xanmod_repo():
+            # set_no_show_all survives the show_all() call of the parent container
+            self._repo_repair_box.set_no_show_all(True)
+            self._repo_repair_box.hide()
+            return
+
+        self._repo_repair_box.set_no_show_all(False)
+
+        warning = Gtk.Label()
+        warning.set_markup(
+            f"<span color='#ffb86c' weight='bold'>{_('Broken XanMod repository detected')}</span>\n"
+            f"<small>{_('A previous version added a XanMod repository that no longer exists, and it makes every system update fail. Repairing removes it, and you can install XanMod again afterwards.')}</small>"
+        )
+        warning.set_line_wrap(True)
+        warning.set_xalign(0)
+        self._repo_repair_box.pack_start(warning, False, False, 0)
+
+        repair_btn = Gtk.Button(label=_("Repair repository"))
+        repair_btn.get_style_context().add_class("suggested-action")
+        repair_btn.set_halign(Gtk.Align.START)
+        repair_btn.connect("clicked", self._on_repair_xanmod_repo_clicked)
+        self._repo_repair_box.pack_start(repair_btn, False, False, 0)
+
+        self._repo_repair_box.show_all()
+
+    def _on_repair_xanmod_repo_clicked(self, widget):
+        """Remove the broken XanMod repository left behind by earlier versions."""
+        script_content = """#!/bin/bash
+echo "=== Repairing XanMod repository ==="
+pkexec bash -c '
+rm -f /etc/apt/sources.list.d/xanmod-release.list
+rm -f /etc/apt/keyrings/xanmod-archive-keyring.gpg
+apt update -q || true
+'
+echo "[+] Broken repository removed."
+"""
+        script_path = "/tmp/repair-xanmod-repo.sh"
+        with open(script_path, "w") as f:
+            f.write(script_content)
+        os.chmod(script_path, 0o755)
+        self.command_runner.run_command(script_path, self._on_repo_repair_complete)
+
+    def _on_repo_repair_complete(self, success=True):
+        """Refresh the notice once the repair finished."""
+        GLib.timeout_add(1000, self._refresh_repo_repair_section)
 
     def _get_current_kernel_info(self):
         """Obtain detailed information about the current kernel"""
@@ -400,6 +488,60 @@ class KernelsTab(Gtk.ScrolledWindow):
             logging.error(f"Error detecting CPU vendor: {e}")
             return None
 
+    def _get_cpu_psabi_level(self):
+        """Return the highest x86-64 psABI level this CPU supports (1 to 4)."""
+        try:
+            flags = set()
+            with open('/proc/cpuinfo', 'r') as f:
+                for line in f:
+                    if line.startswith('flags'):
+                        flags = set(line.split(':', 1)[1].split())
+                        break
+        except Exception as e:
+            logging.error(f"Error detecting CPU psABI level: {e}")
+            return 1
+
+        if not flags:
+            return 1
+
+        v2 = {'cx16', 'lahf_lm', 'popcnt', 'sse4_1', 'sse4_2', 'ssse3'}
+        v3 = {'avx', 'avx2', 'bmi1', 'bmi2', 'f16c', 'fma', 'abm', 'movbe', 'xsave'}
+        v4 = {'avx512f', 'avx512bw', 'avx512cd', 'avx512dq', 'avx512vl'}
+
+        if not v2.issubset(flags):
+            return 1
+        if not v3.issubset(flags):
+            return 2
+        if not v4.issubset(flags):
+            return 3
+        return 4
+
+    def _get_xanmod_package(self, kernel_type):
+        """Resolve the XanMod package for a variant, honouring the CPU psABI level.
+
+        XanMod publishes x64v2 and x64v3 for every branch, plus x64v1 for LTS.
+        The x64v4 builds were dropped upstream, so v3 is the ceiling.
+        Returns None when the CPU cannot run any build of that variant.
+        """
+        tier = min(self._get_cpu_psabi_level(), 3)
+
+        if kernel_type == "xanmod-lts":
+            return f"linux-xanmod-lts-x64v{tier}"
+
+        if tier < 2:
+            # Only the LTS branch ships a v1 build
+            return None
+
+        prefixes = {
+            "xanmod-main": "linux-xanmod",
+            "xanmod-rt": "linux-xanmod-rt",
+            "xanmod-edge": "linux-xanmod-edge",
+        }
+        prefix = prefixes.get(kernel_type)
+        if not prefix:
+            return None
+        return f"{prefix}-x64v{tier}"
+
     def _is_microcode_installed(self, vendor):
         """Check if microcode is installed"""
         try:
@@ -420,25 +562,15 @@ class KernelsTab(Gtk.ScrolledWindow):
         """Check if a specific kernel is installed"""
         try:
             if kernel_type == "liquorix":
-                result = subprocess.run(['dpkg', '-l', 'linux-image-liquorix-amd64'], 
+                result = subprocess.run(['dpkg', '-l', 'linux-image-liquorix-amd64'],
                                       capture_output=True, text=True)
                 return result.returncode == 0
-            elif kernel_type == "xanmod-v3":
-                result = subprocess.run(['dpkg', '-l', 'linux-xanmod-x64v3'], 
-                                      capture_output=True, text=True)
-                return result.returncode == 0
-            elif kernel_type == "xanmod-v4":
-                result = subprocess.run(['dpkg', '-l', 'linux-xanmod-x64v4'], 
-                                      capture_output=True, text=True)
-                return result.returncode == 0
-            elif kernel_type == "xanmod-edge":
-                result = subprocess.run(['dpkg', '-l', 'linux-xanmod-edge-x64v3'], 
-                                      capture_output=True, text=True)
-                return result.returncode == 0
-            elif kernel_type == "xanmod-lts":
-                result = subprocess.run(['dpkg', '-l', 'linux-xanmod-lts-x64v3'], 
-                                      capture_output=True, text=True)
-                return result.returncode == 0
+
+            # XanMod package names depend on the psABI level of this CPU
+            package = self._get_xanmod_package(kernel_type)
+            if not package:
+                return False
+            return self._is_package_installed(package)
         except Exception as e:
             logging.error(f"Error checking kernel {kernel_type}: {e}")
             return False
@@ -461,8 +593,8 @@ class KernelsTab(Gtk.ScrolledWindow):
         # Clear existing rows
         self._clear_container(self.microcode_row)
         self._clear_container(self.liquorix_row)
-        self._clear_container(self.xanmod_v3_row)
-        self._clear_container(self.xanmod_v4_row)
+        self._clear_container(self.xanmod_main_row)
+        self._clear_container(self.xanmod_rt_row)
         self._clear_container(self.xanmod_edge_row)
         self._clear_container(self.xanmod_lts_row)
         self._clear_container(self.kernel_installer_row)
@@ -503,17 +635,17 @@ class KernelsTab(Gtk.ScrolledWindow):
                 install_button.connect("clicked", self.on_install_liquorix_clicked)
                 self.liquorix_row.pack_start(install_button, False, False, 0)
         
-        # Update XanMod v3 button
-        self._update_xanmod_variant_button("xanmod-v3", self.xanmod_v3_row, "x64v3")
-        
-        # Update XanMod v4 button
-        self._update_xanmod_variant_button("xanmod-v4", self.xanmod_v4_row, "x64v4")
-        
+        # Update XanMod Standard button
+        self._update_xanmod_variant_button("xanmod-main", self.xanmod_main_row)
+
+        # Update XanMod RT button
+        self._update_xanmod_variant_button("xanmod-rt", self.xanmod_rt_row)
+
         # Update XanMod EDGE button
-        self._update_xanmod_variant_button("xanmod-edge", self.xanmod_edge_row, "EDGE")
-        
+        self._update_xanmod_variant_button("xanmod-edge", self.xanmod_edge_row)
+
         # Update XanMod LTS button
-        self._update_xanmod_variant_button("xanmod-lts", self.xanmod_lts_row, "LTS")
+        self._update_xanmod_variant_button("xanmod-lts", self.xanmod_lts_row)
 
         # Update Soplos Kernel Installer button
         self._update_kernel_installer_button()
@@ -521,8 +653,8 @@ class KernelsTab(Gtk.ScrolledWindow):
         # Show new buttons
         self.microcode_row.show_all()
         self.liquorix_row.show_all()
-        self.xanmod_v3_row.show_all()
-        self.xanmod_v4_row.show_all()
+        self.xanmod_main_row.show_all()
+        self.xanmod_rt_row.show_all()
         self.xanmod_edge_row.show_all()
         self.xanmod_lts_row.show_all()
         self.kernel_installer_row.show_all()
@@ -565,8 +697,23 @@ class KernelsTab(Gtk.ScrolledWindow):
             install_button.connect("clicked", lambda w: self.on_install_microcode_clicked(w, cpu_vendor))
             self.microcode_row.pack_start(install_button, False, False, 0)
 
-    def _update_xanmod_variant_button(self, kernel_type, row, label_suffix):
+    def _update_xanmod_variant_button(self, kernel_type, row):
         """Update button for a specific XanMod variant"""
+        package = self._get_xanmod_package(kernel_type)
+
+        if not package:
+            # Installing a build the CPU cannot execute leaves an unbootable system,
+            # so the option is blocked instead of merely warned about
+            blocked_button = Gtk.Button(label=_("Install"))
+            blocked_button.set_sensitive(False)
+            blocked_button.set_tooltip_text(_("This variant requires x86-64-v2 or higher"))
+            row.pack_start(blocked_button, False, False, 0)
+
+            reason_label = Gtk.Label()
+            reason_label.set_markup(f"<span color='#ff5555' size='small'>{_('Not compatible with your CPU')}</span>")
+            row.pack_start(reason_label, False, False, 10)
+            return
+
         if self._is_kernel_installed(kernel_type):
             uninstall_button = Gtk.Button(label=_("Uninstall"))
             uninstall_button.get_style_context().add_class("destructive-action")
@@ -583,6 +730,7 @@ class KernelsTab(Gtk.ScrolledWindow):
         else:
             install_button = Gtk.Button(label=_("Install"))
             install_button.get_style_context().add_class("suggested-action")
+            install_button.set_tooltip_text(package)
             install_button.connect("clicked", lambda w: self.on_install_xanmod_clicked(w, kernel_type))
             row.pack_start(install_button, False, False, 0)
 
@@ -666,9 +814,23 @@ echo "{_('Uninstallation complete.')}"
         GLib.timeout_add(1000, self._update_kernel_buttons)
 
     def on_install_liquorix_clicked(self, widget):
+        # The installer is downloaded first: piping curl straight into a root shell
+        # feeds an HTTP error page to bash and still reports success
         script_content = f"""#!/bin/bash
 echo "{_('Installing Liquorix Kernel...')}"
-curl -s 'https://liquorix.net/install-liquorix.sh' | pkexec bash
+INSTALLER=$(mktemp /tmp/liquorix-upstream.XXXXXX.sh)
+if ! curl -fsSL https://liquorix.net/install-liquorix.sh -o "$INSTALLER"; then
+    rm -f "$INSTALLER"
+    echo "{_('Could not download the Liquorix installer. Check your internet connection.')}"
+    exit 1
+fi
+pkexec bash "$INSTALLER"
+STATUS=$?
+rm -f "$INSTALLER"
+if [ $STATUS -ne 0 ]; then
+    echo "{_('Installation failed.')}"
+    exit $STATUS
+fi
 echo "{_('Installation complete.')}"
 """
         script_path = "/tmp/install-liquorix.sh"
@@ -679,22 +841,38 @@ echo "{_('Installation complete.')}"
 
     def on_install_xanmod_clicked(self, widget, kernel_type):
         """Install specific XanMod variant"""
-        # Map kernel types to package names
-        package_map = {
-            "xanmod-v3": "linux-xanmod-x64v3",
-            "xanmod-v4": "linux-xanmod-x64v4",
-            "xanmod-edge": "linux-xanmod-edge-x64v3",
-            "xanmod-lts": "linux-xanmod-lts-x64v3"
-        }
-        
-        package = package_map.get(kernel_type, "linux-xanmod-x64v3")
+        package = self._get_xanmod_package(kernel_type)
+        if not package:
+            self._show_info_dialog(
+                _("Not compatible"),
+                _("Your CPU does not meet the requirements of this XanMod variant.")
+            )
+            return
+
         variant_name = kernel_type.replace("xanmod-", "").upper()
-        
+
         script_content = f"""#!/bin/bash
 echo "{_('Installing XanMod')} {variant_name}..."
 pkexec bash -c '
-wget -qO - https://dl.xanmod.org/archive.key | gpg --dearmor -o /etc/apt/keyrings/xanmod-archive-keyring.gpg 2>/dev/null || true
-echo "deb [signed-by=/etc/apt/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main" > /etc/apt/sources.list.d/xanmod-release.list
+set -eo pipefail
+mkdir -p /etc/apt/keyrings
+# Earlier versions wrote the retired "releases" suite, which fails on every
+# apt update. Reinstalling must repair that state.
+rm -f /etc/apt/sources.list.d/xanmod-release.list
+wget -qO - https://dl.xanmod.org/archive.key | gpg --batch --yes --dearmor -o /etc/apt/keyrings/xanmod-archive-keyring.gpg
+# XanMod publishes one suite per Debian codename. Soplos declares its own
+# VERSION_CODENAME in /etc/os-release, so the codename is taken from the
+# Debian repositories actually configured on the system.
+CODENAME=$(apt-cache policy | grep o=Debian | grep -o "n=[a-z]*" | cut -d= -f2 | sort | uniq -c | sort -rn | head -1 | tr -dc "a-z") || true
+case "$CODENAME" in
+    bookworm|trixie|forky|sid) ;;
+    *)
+        echo "Could not determine the Debian codename of this system."
+        echo "XanMod publishes one suite per Debian codename, so the repository cannot be configured."
+        exit 1
+        ;;
+esac
+echo "deb [signed-by=/etc/apt/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org $CODENAME main" > /etc/apt/sources.list.d/xanmod-release.list
 apt update
 apt install -y {package}
 '
@@ -713,7 +891,12 @@ echo "{_('Installation complete.')}"
         
         script_content = f"""#!/bin/bash
 echo "{_('Uninstalling Liquorix Kernel...')}"
-pkexec apt remove -y linux-image-liquorix-amd64 linux-headers-liquorix-amd64
+pkexec bash -c '
+apt remove -y linux-image-liquorix-amd64 linux-headers-liquorix-amd64
+rm -f /etc/apt/sources.list.d/liquorix.list
+rm -f /etc/apt/keyrings/liquorix-keyring.gpg
+apt update -q || true
+'
 echo "{_('Uninstallation complete.')}"
 """
         script_path = "/tmp/uninstall-liquorix.sh"
@@ -729,17 +912,12 @@ echo "{_('Uninstallation complete.')}"
             self._show_in_use_warning(f"XanMod {variant_name}")
             return
         
-        # Map kernel types to package names
-        package_map = {
-            "xanmod-v3": "linux-xanmod-x64v3",
-            "xanmod-v4": "linux-xanmod-x64v4",
-            "xanmod-edge": "linux-xanmod-edge-x64v3",
-            "xanmod-lts": "linux-xanmod-lts-x64v3"
-        }
-        
-        package = package_map.get(kernel_type, "linux-xanmod-x64v3")
+        package = self._get_xanmod_package(kernel_type)
+        if not package:
+            return
+
         variant_name = kernel_type.replace("xanmod-", "").upper()
-        
+
         script_content = f"""#!/bin/bash
 echo "{_('Uninstalling XanMod')} {variant_name}..."
 pkexec apt remove -y {package}
@@ -766,7 +944,7 @@ echo "{_('Uninstallation complete.')}"
         dialog.destroy()
 
     def on_clean_kernels_clicked(self, widget):
-        """Clean old kernels, keeping the running kernel and the latest of each type (Main, Liquorix, XanMod)."""
+        """Clean old kernels, keeping the running kernel and the latest of each type (Debian, Soplos, Liquorix, XanMod)."""
         try:
             # Get current running kernel
             current_kernel = subprocess.check_output(['uname', '-r']).decode().strip()
@@ -801,8 +979,14 @@ echo "{_('Uninstallation complete.')}"
                 except:
                     return sorted(pkgs)
             
-            # Classify and sort kernels by type
-            base_kernels = version_sort([p for p in installed if 'liquorix' not in p and 'xanmod' not in p])
+            # Classify and sort kernels by type. Soplos kernels are their own family:
+            # lumping them with Debian's keeps only the highest version of the two
+            # and silently removes the other branch as a fallback.
+            def _family(pkg, *tags):
+                return any(tag in pkg for tag in tags)
+
+            base_kernels = version_sort([p for p in installed if not _family(p, 'liquorix', 'xanmod', 'soplos')])
+            soplos_kernels = version_sort([p for p in installed if 'soplos' in p])
             liquorix_kernels = version_sort([p for p in installed if 'liquorix' in p])
             xanmod_kernels = version_sort([p for p in installed if 'xanmod' in p])
             
@@ -817,6 +1001,8 @@ echo "{_('Uninstallation complete.')}"
             # 2. Keep the latest of each branch
             if base_kernels:
                 keep.add(base_kernels[-1])
+            if soplos_kernels:
+                keep.add(soplos_kernels[-1])
             if liquorix_kernels:
                 keep.add(liquorix_kernels[-1])
             if xanmod_kernels:

@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.1--9-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.2-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,19 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.2 (2026-08-14)
+- **Fixed**: XanMod could not be installed at all. The repository used the `releases` suite, retired upstream, so every install failed with a 404. XanMod now publishes one suite per Debian codename, which is read from the configured Debian repositories — `/etc/os-release` is useless here because Soplos declares its own `VERSION_CODENAME` (`tyron`, `tyson`, `boro`). If it cannot be determined, the script aborts instead of guessing.
+- **Fixed**: the XanMod x64v4 button installed `linux-xanmod-x64v4`, which is not published in any suite. The variant was removed and RT (PREEMPT_RT) took its place.
+- **Fixed**: XanMod variants could leave an unbootable system. The CPU x86-64 psABI level is detected and the package resolved accordingly (v3 or v2). Below x86-64-v2 only LTS remains available and the rest are greyed out with the reason.
+- **Fixed**: the XanMod keyring failed silently — the keyrings directory was missing and the `gpg` error was swallowed.
+- **Fixed**: Liquorix reported success after a failed download, because `curl -s` was piped straight into a root shell. It is now downloaded and verified before running, and uninstalling removes its repository and keyring.
+- **Fixed**: cleaning old kernels removed the Debian fallback, because Soplos kernels shared a family with Debian's. They are now separate: the latest of Debian, Soplos, Liquorix and XanMod is kept.
+- **Fixed**: ROCm could not be installed and broke apt. It pointed at a Debian suite that AMD does not publish, and the invalid entry stayed behind failing every later update. Now `repo.radeon.com/rocm/apt/latest noble main`, confined by an APT pin.
+- **Fixed**: the ROCm dialog claimed RDNA1, RX 5000 and 600M/700M support. None of those are supported; it now states RDNA2 (RX 6800+), RDNA3, RDNA4 and Instinct.
+- **Fixed**: Intel oneAPI installed a 2025 release through the transitional `intel-basekit` alias. It now installs `intel-oneapi-toolkit`, the umbrella Intel keeps current, with an APT pin and restricted to amd64.
+- **Added**: a repair notice in Kernels and Drivers that detects and removes the broken XanMod and ROCm repositories left by earlier versions. Reinstalling also repairs them.
+- **Added**: Drift (`org.cutwire.Drift`) and Prism (`org.cutwire.Prism`) in Recommended → Multimedia.
 
 ### v2.1.1-9 (2026-08-04)
 - **Added**: Kudu (all-in-one maintenance suite: cleaner, malware scanner, performance monitor, app uninstaller) in Security → System Cleaning, installed as `.deb` from its GitHub releases.

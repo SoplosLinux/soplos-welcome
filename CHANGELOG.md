@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.2] - 2026-08-14
+
+### Fixed
+- **Kernels tab (XanMod could not be installed at all)**: the repository was written with the `releases` suite, which upstream retired. XanMod now publishes one suite per Debian codename, so every install failed on `apt update` with a 404. The codename is read from the Debian repositories configured on the system — `/etc/os-release` cannot be used, since Soplos declares its own `VERSION_CODENAME` (`tyron`, `tyson` or `boro`). If no Debian codename can be determined, the script aborts with a message instead of guessing one.
+- **Kernels tab (the x64v4 button installed a package that does not exist)**: `linux-xanmod-x64v4` is not published in any suite of the repository. The variant was removed, and the RT (PREEMPT_RT) build took its place.
+- **Kernels tab (variants could leave an unbootable system)**: the x86-64 psABI level of the CPU is now detected, and the package is resolved accordingly — v3 builds on capable CPUs, v2 builds otherwise. Below x86-64-v2 only LTS remains available (`linux-xanmod-lts-x64v1`) and the other variants are greyed out with the reason shown.
+- **Kernels tab (the XanMod keyring failed silently)**: `/etc/apt/keyrings` was not created and the `gpg` error was swallowed by `|| true`. The directory is created, and a failed key download now aborts the install.
+- **Kernels tab (Liquorix reported success after a failed download)**: the installer was piped straight from `curl -s` into a root shell, so an HTTP error page was executed as root and the tab still printed "Installation complete". It is downloaded with `curl -fsSL` and only executed if the download succeeded.
+- **Kernels tab (uninstalling Liquorix left its repository behind)**: `liquorix.list` and its keyring are now removed as well.
+- **Kernels tab (cleaning old kernels removed the Debian fallback)**: Soplos kernels were classified together with Debian's, so only the higher version of the two survived. They are now their own family, and the latest of each of the four — Debian, Soplos, Liquorix and XanMod — is kept.
+- **Drivers tab (ROCm could not be installed and broke apt)**: the repository was written with a Debian suite, and AMD only publishes Ubuntu suites. Beyond failing, the invalid entry stayed behind and made every later `apt update` fail. It now points at `repo.radeon.com/rocm/apt/latest noble main`, confined by an APT pin so it can never replace a Debian package.
+- **Drivers tab (wrong ROCm hardware requirements)**: the dialog claimed RDNA1 and newer, listing the RX 5000 series and 600M/700M integrated GPUs. ROCm supports none of those. It now states RDNA2 (RX 6800 and newer), RDNA3, RDNA4 and Instinct accelerators.
+- **Drivers tab (Intel oneAPI installed a 2025 release)**: `intel-basekit` has been a transitional alias since 2025.0 and resolves to `intel-oneapi-base-toolkit`, which Intel froze at 2025.3.2. The current umbrella, `intel-oneapi-toolkit`, is installed instead, and the repository is confined by an APT pin and restricted to amd64.
+
+### Added
+- **Kernels and Drivers tabs**: a repair notice that detects the broken XanMod and ROCm repositories left behind by earlier versions and removes them on request. Reinstalling either also repairs the state on its own.
+- **Recommended tab (Multimedia)**: added Drift (`org.cutwire.Drift`) and Prism (`org.cutwire.Prism`), both Flatpak.
+
 ## [2.1.1-9] - 2026-08-04
 
 ### Added

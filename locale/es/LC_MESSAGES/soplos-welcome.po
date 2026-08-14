@@ -3557,3 +3557,69 @@ msgstr "Controlador NVIDIA detectado"
 
 msgid "The installed NVIDIA driver keeps nouveau blacklisted, so nouveau cannot load while it is present.\n\nTo switch to nouveau, the NVIDIA drivers have to be removed. This will:\n\n1. Remove all NVIDIA and CUDA packages, their DKMS modules and the NVIDIA repository.\n2. Regenerate the initramfs and update GRUB.\n\nNouveau needs no installation: it ships with the kernel and takes over once the blacklist is gone.\n\nA system restart will be required.\n\nDo you want to remove the NVIDIA drivers?"
 msgstr "El controlador NVIDIA instalado mantiene nouveau en la lista negra, por lo que nouveau no puede cargarse mientras esté presente.\n\nPara cambiar a nouveau hay que eliminar los controladores NVIDIA. Esto hará lo siguiente:\n\n1. Eliminar todos los paquetes de NVIDIA y CUDA, sus módulos DKMS y el repositorio de NVIDIA.\n2. Regenerar el initramfs y actualizar GRUB.\n\nNouveau no necesita instalación: viene con el kernel y toma el relevo en cuanto desaparece la lista negra.\n\nSe requerirá reiniciar el sistema.\n\n¿Deseas eliminar los controladores NVIDIA?"
+
+msgid "Edit and export videos easily"
+msgstr "Edita y exporta vídeos con facilidad"
+
+msgid "Trigger and mix live visuals"
+msgstr "Lanza y mezcla visuales en directo"
+
+msgid "Your CPU supports x86-64-v3 builds."
+msgstr "Tu CPU admite las compilaciones x86-64-v3."
+
+msgid "Your CPU supports x86-64-v2 only, so the v2 builds will be installed."
+msgstr "Tu CPU solo admite x86-64-v2, así que se instalarán las compilaciones v2."
+
+msgid "Your CPU is below x86-64-v2. Only the LTS variant can run on it."
+msgstr "Tu CPU está por debajo de x86-64-v2. Solo la variante LTS puede funcionar en ella."
+
+msgid "Standard"
+msgstr "Estándar"
+
+msgid "General purpose build. Balanced performance for everyday use."
+msgstr "Compilación de uso general. Rendimiento equilibrado para el día a día."
+
+msgid "RT - Real Time"
+msgstr "RT - Tiempo Real"
+
+msgid "PREEMPT_RT build. Minimal latency for audio production, streaming and competitive gaming."
+msgstr "Compilación PREEMPT_RT. Latencia mínima para producción de audio, streaming y juego competitivo."
+
+msgid "This variant requires x86-64-v2 or higher"
+msgstr "Esta variante requiere x86-64-v2 o superior"
+
+msgid "Not compatible with your CPU"
+msgstr "No compatible con tu CPU"
+
+msgid "Not compatible"
+msgstr "No compatible"
+
+msgid "Your CPU does not meet the requirements of this XanMod variant."
+msgstr "Tu CPU no cumple los requisitos de esta variante de XanMod."
+
+msgid "Could not download the Liquorix installer. Check your internet connection."
+msgstr "No se ha podido descargar el instalador de Liquorix. Comprueba tu conexión a internet."
+
+msgid "Installation failed."
+msgstr "La instalación ha fallado."
+
+msgid "Broken XanMod repository detected"
+msgstr "Detectado un repositorio de XanMod roto"
+
+msgid "A previous version added a XanMod repository that no longer exists, and it makes every system update fail. Repairing removes it, and you can install XanMod again afterwards."
+msgstr "Una versión anterior añadió un repositorio de XanMod que ya no existe, y hace que falle cada actualización del sistema. Al repararlo se elimina, y después podrás instalar XanMod de nuevo."
+
+msgid "Repair repository"
+msgstr "Reparar repositorio"
+
+msgid "Broken ROCm repository detected"
+msgstr "Detectado un repositorio de ROCm roto"
+
+msgid "A previous version added an AMD repository that does not exist, and it makes every system update fail. Repairing removes it, and you can install ROCm again afterwards."
+msgstr "Una versión anterior añadió un repositorio de AMD que no existe, y hace que falle cada actualización del sistema. Al repararlo se elimina, y después podrás instalar ROCm de nuevo."
+
+msgid "OpenCL runtime for AMD GPUs (RDNA2+) — DaVinci Resolve, Blender HIP, GPU compute"
+msgstr "Runtime OpenCL para GPUs AMD (RDNA2+) — DaVinci Resolve, Blender HIP, computación en GPU"
+
+msgid "This will:\n\n1. Add the official AMD ROCm repository.\n2. Install {label}.\n3. Add your user to the render and video groups.\n\nRequires a ROCm-supported AMD GPU: RDNA2 (RX 6800 and newer),\nRDNA3 (RX 7700-7900), RDNA4 (RX 9060-9070) or Instinct accelerators.\nThe RX 5000 series and integrated GPUs are not supported.\n\n{size}\n\nA session restart will be required after installation.\n\nDo you want to continue?"
+msgstr "Esto hará lo siguiente:\n\n1. Añadir el repositorio oficial AMD ROCm.\n2. Instalar {label}.\n3. Añadir tu usuario a los grupos render y video.\n\nRequiere una GPU AMD compatible con ROCm: RDNA2 (RX 6800 y posteriores),\nRDNA3 (RX 7700-7900), RDNA4 (RX 9060-9070) o aceleradoras Instinct.\nLa serie RX 5000 y las GPU integradas no son compatibles.\n\n{size}\n\nSe necesitará reiniciar la sesión tras la instalación.\n\n¿Deseas continuar?"
