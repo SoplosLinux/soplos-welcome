@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.2-1] - 2026-08-17
+
+### Fixed
+- **Drivers tab (NVIDIA DKMS build failure on kernel 7.2+)**: `nvidia/os-interface.c` calls `strncpy()` without including `<linux/string.h>`, relying on some other kernel header to pull it in transitively — which stopped happening on 7.2+, turning it into a hard build error (`implicit declaration of function 'strncpy'`). Welcome's own copy of the NVIDIA DKMS compatibility patcher only carried the earlier `VMA_LOCK_OFFSET` fix; added the same `NV_STRING_H_PATCH` already applied by `soplos-kernel-installer` and published in the `nvidia-patches` repo (Fix 4), keeping both copies in sync as intended.
+
 ## [2.1.2] - 2026-08-14
 
 ### Fixed

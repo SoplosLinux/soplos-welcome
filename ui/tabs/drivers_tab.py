@@ -83,6 +83,25 @@ NV_MMAP_VMA_LOCK_PATCH = r"""--- a/nvidia/nv-mmap.c
      }
 """
 
+# Fixes missing strncpy() declaration in os-interface.c on Linux 7.2+:
+# some kernel header that used to transitively pull in <linux/string.h>
+# stopped doing so, and NVIDIA's os_get_current_process_name() never
+# included it directly. GCC now errors instead of warning on implicit
+# function declarations, so the build fails outright. Same patch as
+# soplos-kernel-installer/core/nvidia_dkms_patch.py (NV_STRING_H_PATCH)
+# and nvidia-patches/patches/nvidia-string-h-kernel7.2.patch.
+NV_STRING_H_PATCH = r"""--- a/nvidia/os-interface.c
++++ b/nvidia/os-interface.c
+@@ -35,6 +35,7 @@
+ #include <linux/mmzone.h>
+ #include <linux/numa.h>
+ #include <linux/cpuset.h>
+ #include <linux/sys_soc.h>
++#include <linux/string.h>
+
+ extern char *NVreg_TemporaryFilePath;
+"""
+
 
 def get_nvidia_dkms_patch_commands() -> str:
     """
@@ -90,31 +109,45 @@ def get_nvidia_dkms_patch_commands() -> str:
     /usr/src/nvidia-*/ and rebuilds the modules.
 
     Idempotent: source trees already patched are skipped. Safe on any kernel,
-    the patch is guarded with #ifndef.
+    both patches are guarded (#ifndef, or a plain "already applied" grep).
     """
-    patch_content = NV_MMAP_VMA_LOCK_PATCH.replace("'", "'\\''")
+    mmap_patch = NV_MMAP_VMA_LOCK_PATCH.replace("'", "'\\''")
+    string_h_patch = NV_STRING_H_PATCH.replace("'", "'\\''")
 
     # The proprietary module keeps its sources at <src>/nvidia/, the open one
     # at <src>/kernel-open/nvidia/. Both layouts must be handled: checking only
     # the first silently skipped every nvidia-open install.
+    #
+    # Each patch is applied independently — one file missing/already-patched
+    # must not skip the check for the other file.
     return (
         "for NVIDIA_SRC in /usr/src/nvidia-*/; do "
         "  for NV_SUB in '' 'kernel-open/'; do "
         "    NV_ROOT=\"${NVIDIA_SRC}${NV_SUB}\"; "
         "    NV_MMAP=\"${NV_ROOT}nvidia/nv-mmap.c\"; "
-        "    if [ ! -f \"$NV_MMAP\" ]; then continue; fi; "
-        "    if grep -q 'VM_REFCNT_EXCLUDE_READERS_FLAG' \"$NV_MMAP\" 2>/dev/null; then "
-        "      echo \"Patch already applied in ${NV_ROOT} - skipping.\"; "
-        "      continue; "
+        "    if [ -f \"$NV_MMAP\" ]; then "
+        "      if grep -q 'VM_REFCNT_EXCLUDE_READERS_FLAG' \"$NV_MMAP\" 2>/dev/null; then "
+        "        echo \"NVIDIA VMA patch already applied in ${NV_ROOT} - skipping.\"; "
+        "      elif ! grep -q 'VMA_LOCK_OFFSET' \"$NV_MMAP\" 2>/dev/null; then "
+        "        echo \"${NV_ROOT} does not use VMA_LOCK_OFFSET - patch not needed.\"; "
+        "      else "
+        "        echo \"Applying NVIDIA VMA lock patch to ${NV_ROOT}...\"; "
+        f"        printf '%s' '{mmap_patch}' | patch --fuzz=5 -p1 -d \"$NV_ROOT\" && "
+        "        echo \"NVIDIA VMA patch applied.\" || "
+        "        echo \"Warning: NVIDIA VMA patch failed for ${NV_ROOT} - DKMS may fail.\"; "
+        "      fi; "
         "    fi; "
-        "    if ! grep -q 'VMA_LOCK_OFFSET' \"$NV_MMAP\" 2>/dev/null; then "
-        "      echo \"${NV_ROOT} does not use VMA_LOCK_OFFSET - patch not needed.\"; "
-        "      continue; "
+        "    NV_OSIF=\"${NV_ROOT}nvidia/os-interface.c\"; "
+        "    if [ -f \"$NV_OSIF\" ]; then "
+        "      if grep -q '#include <linux/string.h>' \"$NV_OSIF\" 2>/dev/null; then "
+        "        echo \"NVIDIA string.h patch already applied in ${NV_ROOT} - skipping.\"; "
+        "      else "
+        "        echo \"Applying NVIDIA string.h patch to ${NV_ROOT}...\"; "
+        f"        printf '%s' '{string_h_patch}' | patch --fuzz=5 -p1 -d \"$NV_ROOT\" && "
+        "        echo \"NVIDIA string.h patch applied.\" || "
+        "        echo \"Warning: NVIDIA string.h patch failed for ${NV_ROOT} - DKMS may fail.\"; "
+        "      fi; "
         "    fi; "
-        "    echo \"Applying NVIDIA VMA lock patch to ${NV_ROOT}...\"; "
-        f"    printf '%s' '{patch_content}' | patch --fuzz=5 -p1 -d \"$NV_ROOT\" && "
-        "    echo \"Patch applied.\" || "
-        "    echo \"Warning: patch failed for ${NV_ROOT} - DKMS may fail.\"; "
         "  done; "
         "done"
     )

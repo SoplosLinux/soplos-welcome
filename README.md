@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.2-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.2--1-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,9 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.2-1 (2026-08-17)
+- **Fixed**: NVIDIA DKMS build failure on kernel 7.2+ (`implicit declaration of function 'strncpy'` in `os-interface.c`). Added the same `NV_STRING_H_PATCH` already used by `soplos-kernel-installer`.
 
 ### v2.1.2 (2026-08-14)
 - **Fixed**: XanMod could not be installed at all. The repository used the `releases` suite, retired upstream, so every install failed with a 404. XanMod now publishes one suite per Debian codename, which is read from the configured Debian repositories — `/etc/os-release` is useless here because Soplos declares its own `VERSION_CODENAME` (`tyron`, `tyson`, `boro`). If it cannot be determined, the script aborts instead of guessing.
