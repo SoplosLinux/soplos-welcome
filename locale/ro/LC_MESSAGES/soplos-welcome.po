@@ -1159,6 +1159,9 @@ msgstr "Lansator modern pentru a juca Roblox pe Linux"
 msgid "Roblox client for Linux"
 msgstr "Client Roblox pentru Linux"
 
+msgid "Independent community client for playing Roblox on Linux"
+msgstr "Client independent al comunitatii pentru a juca Roblox pe Linux"
+
 #: ui/tabs/gaming_tab.py:1570
 msgid "Custom launcher for Minecraft"
 msgstr "Lansator personalizat pentru Minecraft"
@@ -1929,6 +1932,9 @@ msgstr "• Configurează drivere de sistem"
 #: ui/tabs/welcome_tab.py:161
 msgid "• Customize your desktop"
 msgstr "• Personalizează desktop-ul"
+
+msgid "• Optimize your system for gaming"
+msgstr "• Optimizeaza sistemul pentru gaming"
 
 #: ui/tabs/welcome_tab.py:163
 msgid "• Activate Gaming Mode"
@@ -3259,11 +3265,17 @@ msgstr "VPN rapid și accesibil cu dispozitive nelimitate."
 msgid "VPN from Mozilla. Simple, fast and focused on privacy."
 msgstr "VPN de la Mozilla. Simplu, rapid și axat pe confidențialitate."
 
+msgid "VPN service from KeepSolid with unlimited traffic."
+msgstr "Serviciu VPN de la KeepSolid cu trafic nelimitat."
+
 msgid "Open Surfshark"
 msgstr "Deschide Surfshark"
 
 msgid "Open Mozilla VPN"
 msgstr "Deschide Mozilla VPN"
+
+msgid "Open VPN Unlimited"
+msgstr "Deschide VPN Unlimited"
 
 
 msgid "RyzenAdj"

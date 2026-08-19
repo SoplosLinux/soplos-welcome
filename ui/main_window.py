@@ -257,8 +257,7 @@ class MainWindow(Gtk.ApplicationWindow):
                 # Create appropriate tab content
                 if tab_class == "WelcomeTab":
                     from .tabs.welcome_tab import WelcomeTab
-                    tab_content = WelcomeTab(self.i18n_manager, self.theme_manager, self.application.assets_path,
-                                             on_gaming_activate=self._toggle_gaming_tab)
+                    tab_content = WelcomeTab(self.i18n_manager, self.theme_manager, self.application.assets_path)
                 elif tab_class == "SoftwareTab":
                     from .tabs.software_tab import SoftwareTab
                     tab_content = SoftwareTab(
@@ -339,7 +338,7 @@ class MainWindow(Gtk.ApplicationWindow):
             except Exception as e:
                 print(f"Error creating tab {tab_name}: {e}")
         
-        # Initialize hidden Gaming Tab (Easter Egg)
+        # Initialize Gaming Tab
         try:
             from .tabs.gaming_tab import GamingTab
             self.gaming_tab = GamingTab(
@@ -355,12 +354,12 @@ class MainWindow(Gtk.ApplicationWindow):
             self.gaming_tab_label.pack_start(icon, False, False, 0)
             self.gaming_tab_label.pack_start(label, False, False, 0)
             self.gaming_tab_label.show_all()
-            self.gaming_tab_added = False
+            self.notebook.append_page(self.gaming_tab, self.gaming_tab_label)
+            self.notebook.set_tab_reorderable(self.gaming_tab, True)
         except Exception as e:
             print(f"Error creating GamingTab: {e}")
             self.gaming_tab = None
             self.gaming_tab_label = None
-            self.gaming_tab_added = False
         
         print("✅ All tabs created successfully")
     
@@ -684,46 +683,8 @@ class MainWindow(Gtk.ApplicationWindow):
                     self.notebook.set_current_page(next_page)
                 return True
 
-            # Easter Egg: Ctrl+G for Gaming Tab
-            elif keyval == Gdk.KEY_g:
-                self._toggle_gaming_tab()
-                return True
-
         return False
 
-    def _toggle_gaming_tab(self):
-        """Toggle the visibility of the hidden Gaming Tab."""
-        if not hasattr(self, 'gaming_tab') or self.gaming_tab is None:
-            return
-            
-        if self.gaming_tab_added:
-            # Remove tab
-            page_num = self.notebook.page_num(self.gaming_tab)
-            if page_num != -1:
-                self.notebook.remove_page(page_num)
-                self.gaming_tab_added = False
-                print("Gaming Mode Deactivated")
-        else:
-            # Add tab
-            self.gaming_tab.show_all()  # Ensure content is visible
-            self.notebook.append_page(self.gaming_tab, self.gaming_tab_label)
-            self.gaming_tab_added = True
-            
-            # Switch to it
-            page_num = self.notebook.page_num(self.gaming_tab)
-            self.notebook.set_current_page(page_num)
-            
-            # Show notification/effect
-            print("Gaming Mode Activated!")
-            # Use progress bar to show notification
-            if hasattr(self, 'progress_revealer'):
-                self.progress_revealer.set_reveal_child(True)
-                self.progress_label.set_text(_("🎮 Gaming Mode Activated!"))
-                self.progress_bar.set_fraction(1.0)
-                
-                # Hide after 2 seconds
-                GLib.timeout_add(2000, lambda: self.progress_revealer.set_reveal_child(False))
-    
     def _on_language_changed(self, menu_item, lang_code):
         """Handle language change."""
         if menu_item.get_active():

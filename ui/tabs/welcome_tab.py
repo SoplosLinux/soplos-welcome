@@ -18,13 +18,12 @@ from core.i18n_manager import _
 class WelcomeTab(Gtk.Box):
     """Welcome tab with system information and quick actions."""
     
-    def __init__(self, i18n_manager, theme_manager, assets_path=None, on_gaming_activate=None):
+    def __init__(self, i18n_manager, theme_manager, assets_path=None):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=20)
         self.i18n_manager = i18n_manager
         self.theme_manager = theme_manager
         self.assets_path = assets_path
-        self._on_gaming_activate = on_gaming_activate
-        
+
         self.set_margin_left(25)
         self.set_margin_right(25)
         self.set_margin_top(15)
@@ -156,6 +155,7 @@ class WelcomeTab(Gtk.Box):
             (_("• Manage system security"), "security-high"),
             (_("• View recommended applications"), "gnome-software"),
             (_("• Customize your desktop"), "preferences-desktop-theme"),
+            (_("• Optimize your system for gaming"), "input-gaming"),
         ]
 
         for i, feature_data in enumerate(features):
@@ -178,25 +178,6 @@ class WelcomeTab(Gtk.Box):
             label.set_valign(Gtk.Align.CENTER)
             label.set_margin_left(10)
             grid.attach(label, 1, i, 1, 1)
-
-        # Gaming row — link label that activates the hidden Gaming tab (Ctrl+G)
-        if self._on_gaming_activate:
-            row = len(features)
-            try:
-                gaming_icon = Gtk.Image.new_from_icon_name("input-gaming", Gtk.IconSize.LARGE_TOOLBAR)
-            except Exception:
-                gaming_icon = Gtk.Image.new_from_icon_name("preferences-system", Gtk.IconSize.LARGE_TOOLBAR)
-            gaming_icon.set_halign(Gtk.Align.CENTER)
-            gaming_icon.set_valign(Gtk.Align.CENTER)
-            grid.attach(gaming_icon, 0, row, 1, 1)
-
-            gaming_label = Gtk.Label()
-            gaming_label.set_markup(f'<a href="#">{_("• Activate Gaming Mode")}</a>')
-            gaming_label.set_halign(Gtk.Align.START)
-            gaming_label.set_valign(Gtk.Align.CENTER)
-            gaming_label.set_margin_left(10)
-            gaming_label.connect('activate-link', lambda lbl, uri: (self._on_gaming_activate(), True)[1])
-            grid.attach(gaming_label, 1, row, 1, 1)
 
         frame.add(grid)
         return frame

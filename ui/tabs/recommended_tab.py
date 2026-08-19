@@ -268,7 +268,10 @@ class RecommendedTab(Gtk.Box):
         
         # Add Flatpak badge ONLY when using flatpak
         install_method = self._get_install_method(package)
-        if install_method == 'flatpak':
+        is_flatpak_custom = install_method == 'custom' and any(
+            'flatpak install' in cmd for cmd in package.get('install_commands', [])
+        )
+        if install_method == 'flatpak' or is_flatpak_custom:
             flatpak_badge = Gtk.Label()
             flatpak_badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> {_("Flatpak")} </span>')
             flatpak_badge.set_valign(Gtk.Align.CENTER)

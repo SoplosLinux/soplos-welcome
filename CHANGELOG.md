@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.2-2] - 2026-08-17
+
+### Added
+- **Gaming tab**: GeForce NOW now installs NVIDIA's official native Flatpak app (`com.nvidia.geforcenow`, from NVIDIA's own Flatpak remote) instead of the old WebApp shortcut, now that it's out of beta with official Linux support. Added to both the Gaming tab and Recommended → Gaming.
+- **Gaming tab**: added Mocktail (`space.bigrat.mocktail`), an independent community Roblox client.
+- **Security tab (VPN)**: added VPN Unlimited (`com.keepsolid.VpnUnlimited`).
+
+### Changed
+- **Gaming tab is now a permanent tab**, no longer hidden behind the Ctrl+G easter egg or the "Activate Gaming Mode" link on the welcome page — it has grown into a full feature (launchers, GameMode, sysctl tweaks, disk I/O schedulers) that deserved to be discoverable. The welcome page keeps a plain feature-list entry instead of the removed link.
+
+### Fixed
+- **Gaming tab / Recommended tab (wrong badge on GeForce NOW)**: install-method badges were inferred only from the coarse install method ('flatpak' vs 'custom' vs 'webapp'), so GeForce NOW's Flatpak-via-custom-remote-add install showed as "AppImage" (Gaming tab) or no badge at all (Recommended tab). Both now detect a `flatpak install` call inside custom install commands and show the Flatpak badge correctly.
+
 ## [2.1.2-1] - 2026-08-17
 
 ### Fixed

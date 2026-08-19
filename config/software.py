@@ -700,6 +700,22 @@ SOFTWARE_CATEGORIES = {
                 'official': False
             },
             {
+                'name': 'GeForce NOW',
+                'package': None,
+                'flatpak': None,
+                'icon': 'geforcenow.png',
+                'description': _('NVIDIA cloud gaming — stream games from the cloud'),
+                'official': False,
+                'check_path': '/var/lib/flatpak/app/com.nvidia.geforcenow',
+                'install_commands': [
+                    'flatpak remote-add --if-not-exists GeForceNOW https://international.download.nvidia.com/GFNLinux/flatpak/geforcenow.flatpakrepo',
+                    'flatpak install -y GeForceNOW com.nvidia.geforcenow'
+                ],
+                'uninstall_commands': [
+                    'flatpak uninstall -y com.nvidia.geforcenow'
+                ]
+            },
+            {
                 'name': 'ES-DE',
                 'package': None,
                 'icon': 'ES-DE.png',

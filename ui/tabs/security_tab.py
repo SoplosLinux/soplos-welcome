@@ -54,6 +54,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.protonvpn_row = None
         self.surfshark_row = None
         self.mozilla_vpn_row = None
+        self.vpn_unlimited_row = None
         self.clamtk_row = None
         self.clamui_row = None
         self.rkhunter_row = None
@@ -350,6 +351,20 @@ class SecurityTab(Gtk.ScrolledWindow):
         mozilla_vpn_info.pack_end(self.mozilla_vpn_row, False, False, 0)
         mozilla_vpn_box.pack_start(mozilla_vpn_info, False, False, 0)
 
+        # VPN Unlimited
+        vpn_unlimited_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        vpn_container.pack_start(vpn_unlimited_box, False, False, 5)
+
+        vpn_unlimited_info = self._create_tool_info_block(
+            'vpn-unlimited.png',
+            f"<b>VPN Unlimited</b>",
+            f"<small>{_('VPN service from KeepSolid with unlimited traffic.')}</small>"
+        )
+        self.vpn_unlimited_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        self.vpn_unlimited_row.set_valign(Gtk.Align.CENTER)
+        vpn_unlimited_info.pack_end(self.vpn_unlimited_row, False, False, 0)
+        vpn_unlimited_box.pack_start(vpn_unlimited_info, False, False, 0)
+
     def _create_cleaning_section(self):
         """Create system cleaning section."""
         clean_frame = Gtk.Frame()
@@ -531,6 +546,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self._clear_container(self.protonvpn_row)
         self._clear_container(self.surfshark_row)
         self._clear_container(self.mozilla_vpn_row)
+        self._clear_container(self.vpn_unlimited_row)
         self._clear_container(self.clamtk_row)
         self._clear_container(self.clamui_row)
         self._clear_container(self.rkhunter_row)
@@ -595,6 +611,9 @@ class SecurityTab(Gtk.ScrolledWindow):
         # Mozilla VPN
         self._update_mozilla_vpn_button()
 
+        # VPN Unlimited
+        self._update_vpn_unlimited_button()
+
         # ClamTk (install both clamav and clamtk)
         self._update_clamtk_button()
 
@@ -617,6 +636,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.protonvpn_row.show_all()
         self.surfshark_row.show_all()
         self.mozilla_vpn_row.show_all()
+        self.vpn_unlimited_row.show_all()
         self.clamtk_row.show_all()
         self.clamui_row.show_all()
         self.rkhunter_row.show_all()
@@ -950,6 +970,31 @@ class SecurityTab(Gtk.ScrolledWindow):
             install_btn.get_style_context().add_class("suggested-action")
             install_btn.connect('clicked', lambda w: self._on_install_flatpak(flatpak_id))
             self.mozilla_vpn_row.pack_start(install_btn, False, False, 0)
+
+    def _update_vpn_unlimited_button(self):
+        """Update VPN Unlimited button (Flatpak)."""
+        flatpak_id = 'com.keepsolid.VpnUnlimited'
+        is_installed = self._is_flatpak_installed(flatpak_id)
+
+        if is_installed:
+            uninstall_btn = Gtk.Button(label=_("Uninstall"))
+            uninstall_btn.get_style_context().add_class("destructive-action")
+            uninstall_btn.connect('clicked', lambda w: self._on_uninstall_flatpak(flatpak_id))
+            self.vpn_unlimited_row.pack_start(uninstall_btn, False, False, 0)
+
+            installed_label = Gtk.Label(label=_("Installed"))
+            installed_label.get_style_context().add_class("success")
+            self.vpn_unlimited_row.pack_start(installed_label, False, False, 10)
+
+            open_btn = Gtk.Button(label=_("Open VPN Unlimited"))
+            open_btn.get_style_context().add_class("suggested-action")
+            open_btn.connect('clicked', lambda w: subprocess.Popen(['flatpak', 'run', flatpak_id]))
+            self.vpn_unlimited_row.pack_start(open_btn, False, False, 0)
+        else:
+            install_btn = Gtk.Button(label=_("Install"))
+            install_btn.get_style_context().add_class("suggested-action")
+            install_btn.connect('clicked', lambda w: self._on_install_flatpak(flatpak_id))
+            self.vpn_unlimited_row.pack_start(install_btn, False, False, 0)
 
     def _update_clamui_button(self):
         """Update ClamUI button (Flatpak)."""

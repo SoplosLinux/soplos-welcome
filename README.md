@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.2--1-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.2--2-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.2-2 (2026-08-17)
+- **Added**: GeForce NOW now installs NVIDIA's official native Flatpak app (out of beta with official Linux support) instead of the old WebApp shortcut. Added Mocktail (Roblox) to Gaming and VPN Unlimited to Security.
+- **Changed**: the Gaming tab is now permanent — no longer hidden behind Ctrl+G or a link on the welcome page.
+- **Fixed**: GeForce NOW showed the wrong badge ("AppImage" or none) after switching to Flatpak; now shows "Flatpak" correctly.
 
 ### v2.1.2-1 (2026-08-17)
 - **Fixed**: NVIDIA DKMS build failure on kernel 7.2+ (`implicit declaration of function 'strncpy'` in `os-interface.c`). Added the same `NV_STRING_H_PATCH` already used by `soplos-kernel-installer`.

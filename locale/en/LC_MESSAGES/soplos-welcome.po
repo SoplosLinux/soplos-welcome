@@ -1164,6 +1164,9 @@ msgstr "Modern launcher for playing Roblox on Linux"
 msgid "Roblox client for Linux"
 msgstr "Roblox client for Linux"
 
+msgid "Independent community client for playing Roblox on Linux"
+msgstr "Independent community client for playing Roblox on Linux"
+
 #: ui/tabs/gaming_tab.py:1570
 msgid "Custom launcher for Minecraft"
 msgstr "Custom launcher for Minecraft"
@@ -1937,6 +1940,9 @@ msgstr "• Configure system drivers"
 #: ui/tabs/welcome_tab.py:161
 msgid "• Customize your desktop"
 msgstr "• Customize your desktop"
+
+msgid "• Optimize your system for gaming"
+msgstr "• Optimize your system for gaming"
 
 #: ui/tabs/welcome_tab.py:163
 msgid "• Activate Gaming Mode"
@@ -3268,11 +3274,17 @@ msgstr "Fast and affordable VPN with unlimited devices."
 msgid "VPN from Mozilla. Simple, fast and focused on privacy."
 msgstr "VPN from Mozilla. Simple, fast and focused on privacy."
 
+msgid "VPN service from KeepSolid with unlimited traffic."
+msgstr "VPN service from KeepSolid with unlimited traffic."
+
 msgid "Open Surfshark"
 msgstr "Open Surfshark"
 
 msgid "Open Mozilla VPN"
 msgstr "Open Mozilla VPN"
+
+msgid "Open VPN Unlimited"
+msgstr "Open VPN Unlimited"
 
 
 msgid "RyzenAdj"

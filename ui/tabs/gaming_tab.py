@@ -1850,6 +1850,14 @@ done
                 'official': False
             },
             {
+                'name': 'Mocktail',
+                'package': None,
+                'flatpak': 'space.bigrat.mocktail',
+                'icon': 'mocktail.png',
+                'description': _('Independent community client for playing Roblox on Linux'),
+                'official': False
+            },
+            {
                 'name': 'Prism Launcher',
                 'package': None,
                 'flatpak': 'org.prismlauncher.PrismLauncher',
@@ -1951,9 +1959,14 @@ done
                 'icon': 'geforcenow.png',
                 'description': _('NVIDIA cloud gaming — stream games from the cloud'),
                 'official': False,
-                'webapp_url': 'https://play.geforcenow.com/',
-                'webapp_id': 'geforcenow-play',
-                'webapp_icon': os.path.join(ICONS_DIR, 'gaming', 'geforcenow.png'),
+                'check_path': '~/.local/share/flatpak/app/com.nvidia.geforcenow',
+                'install_commands': [
+                    'flatpak remote-add --user --if-not-exists GeForceNOW https://international.download.nvidia.com/GFNLinux/flatpak/geforcenow.flatpakrepo',
+                    'flatpak install --user -y GeForceNOW com.nvidia.geforcenow'
+                ],
+                'uninstall_commands': [
+                    'flatpak uninstall --user -y com.nvidia.geforcenow'
+                ]
             }
         ]
 
@@ -2033,7 +2046,10 @@ done
         
         # Install method badge
         install_method = self._get_install_method(launcher)
-        if install_method == 'flatpak':
+        is_flatpak_custom = install_method == 'custom' and any(
+            'flatpak install' in cmd for cmd in launcher.get('install_commands', [])
+        )
+        if install_method == 'flatpak' or is_flatpak_custom:
             badge = Gtk.Label()
             badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> {_("Flatpak")} </span>')
             badge.set_valign(Gtk.Align.CENTER)
