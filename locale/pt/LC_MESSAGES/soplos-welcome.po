@@ -3274,6 +3274,9 @@ msgstr "VPN da Mozilla. Simples, rápida e focada na privacidade."
 msgid "VPN service from KeepSolid with unlimited traffic."
 msgstr "Serviço VPN da KeepSolid com tráfego ilimitado."
 
+msgid "Free VPN/DNS service from Cloudflare that secures your connection."
+msgstr "Serviço VPN/DNS gratuito da Cloudflare que protege a sua ligação."
+
 msgid "Open Surfshark"
 msgstr "Abrir Surfshark"
 
@@ -3282,6 +3285,12 @@ msgstr "Abrir Mozilla VPN"
 
 msgid "Open VPN Unlimited"
 msgstr "Abrir VPN Unlimited"
+
+msgid "Open Cloudflare WARP"
+msgstr "Abrir Cloudflare WARP"
+
+msgid "Native podcast editor: multitrack audio, AI transcription and Podcasting 2.0 chapters"
+msgstr "Editor de podcasts nativo: áudio multipista, transcrição com IA e capítulos Podcasting 2.0"
 
 
 msgid "RyzenAdj"

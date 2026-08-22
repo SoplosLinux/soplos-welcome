@@ -55,6 +55,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.surfshark_row = None
         self.mozilla_vpn_row = None
         self.vpn_unlimited_row = None
+        self.cloudflare_warp_row = None
         self.clamtk_row = None
         self.clamui_row = None
         self.rkhunter_row = None
@@ -365,6 +366,20 @@ class SecurityTab(Gtk.ScrolledWindow):
         vpn_unlimited_info.pack_end(self.vpn_unlimited_row, False, False, 0)
         vpn_unlimited_box.pack_start(vpn_unlimited_info, False, False, 0)
 
+        # Cloudflare WARP
+        cloudflare_warp_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        vpn_container.pack_start(cloudflare_warp_box, False, False, 5)
+
+        cloudflare_warp_info = self._create_tool_info_block(
+            'one.png',
+            f"<b>Cloudflare WARP</b>",
+            f"<small>{_('Free VPN/DNS service from Cloudflare that secures your connection.')}</small>"
+        )
+        self.cloudflare_warp_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        self.cloudflare_warp_row.set_valign(Gtk.Align.CENTER)
+        cloudflare_warp_info.pack_end(self.cloudflare_warp_row, False, False, 0)
+        cloudflare_warp_box.pack_start(cloudflare_warp_info, False, False, 0)
+
     def _create_cleaning_section(self):
         """Create system cleaning section."""
         clean_frame = Gtk.Frame()
@@ -547,6 +562,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self._clear_container(self.surfshark_row)
         self._clear_container(self.mozilla_vpn_row)
         self._clear_container(self.vpn_unlimited_row)
+        self._clear_container(self.cloudflare_warp_row)
         self._clear_container(self.clamtk_row)
         self._clear_container(self.clamui_row)
         self._clear_container(self.rkhunter_row)
@@ -614,6 +630,9 @@ class SecurityTab(Gtk.ScrolledWindow):
         # VPN Unlimited
         self._update_vpn_unlimited_button()
 
+        # Cloudflare WARP
+        self._update_cloudflare_warp_button()
+
         # ClamTk (install both clamav and clamtk)
         self._update_clamtk_button()
 
@@ -637,6 +656,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.surfshark_row.show_all()
         self.mozilla_vpn_row.show_all()
         self.vpn_unlimited_row.show_all()
+        self.cloudflare_warp_row.show_all()
         self.clamtk_row.show_all()
         self.clamui_row.show_all()
         self.rkhunter_row.show_all()
@@ -895,6 +915,68 @@ class SecurityTab(Gtk.ScrolledWindow):
             f.write(f"echo '{_('Installation complete.')}'\n")
         os.chmod(script, 0o755)
         self.command_runner.run_command(f"bash {script}", self._on_operation_complete)
+
+    def _is_cloudflare_warp_installed(self):
+        """Detect Cloudflare WARP via dpkg status."""
+        return self._is_package_installed('cloudflare-warp')
+
+    def _update_cloudflare_warp_button(self):
+        """Update Cloudflare WARP button (.deb from Cloudflare's own apt repo)."""
+        is_installed = self._is_cloudflare_warp_installed()
+
+        if is_installed:
+            uninstall_btn = Gtk.Button(label=_("Uninstall"))
+            uninstall_btn.get_style_context().add_class("destructive-action")
+            uninstall_btn.connect('clicked', lambda w: self._on_uninstall_cloudflare_warp())
+            self.cloudflare_warp_row.pack_start(uninstall_btn, False, False, 0)
+
+            installed_label = Gtk.Label(label=_("Installed"))
+            installed_label.get_style_context().add_class("success")
+            self.cloudflare_warp_row.pack_start(installed_label, False, False, 10)
+
+            open_btn = Gtk.Button(label=_("Open Cloudflare WARP"))
+            open_btn.get_style_context().add_class("suggested-action")
+            open_btn.connect('clicked', lambda w: subprocess.Popen(['warp-taskbar']))
+            self.cloudflare_warp_row.pack_start(open_btn, False, False, 0)
+        else:
+            install_btn = Gtk.Button(label=_("Install"))
+            install_btn.get_style_context().add_class("suggested-action")
+            install_btn.connect('clicked', lambda w: self._on_install_cloudflare_warp())
+            self.cloudflare_warp_row.pack_start(install_btn, False, False, 0)
+
+    def _on_uninstall_cloudflare_warp(self):
+        """Uninstall Cloudflare WARP completely (purge + remove repo and keyring)."""
+        script = "/tmp/uninstall-cloudflare-warp.sh"
+        with open(script, "w") as f:
+            f.write("#!/bin/bash\n")
+            f.write("pkexec apt purge -y cloudflare-warp 2>/dev/null || true\n")
+            f.write("pkexec rm -f /etc/apt/sources.list.d/cloudflare-client.list /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg\n")
+            f.write(f"echo '{_('Uninstallation complete.')}'\n")
+        os.chmod(script, 0o755)
+        self.command_runner.run_command(f"bash {script}", self._on_operation_complete)
+
+    def _on_install_cloudflare_warp(self):
+        """Install Cloudflare WARP from Cloudflare's own apt repository.
+
+        Cloudflare's repo only publishes Debian codenames trixie/bookworm
+        (and older bullseye/buster/stretch) — Soplos's real base (forky)
+        isn't published there, so the suite is hardcoded to trixie, the
+        closest one that actually exists on their server (verified with
+        curl: .../dists/trixie/Release is 200, .../dists/forky/Release is
+        404). Same reasoning as the ROCm 'noble' fix.
+        """
+        script = "/tmp/install-cloudflare-warp.sh"
+        with open(script, "w") as f:
+            f.write("#!/bin/bash\n")
+            f.write("set -e\n")
+            f.write("mkdir -p /etc/apt/keyrings\n")
+            f.write("curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | gpg --yes --dearmor --output /etc/apt/keyrings/cloudflare-warp-archive-keyring.gpg\n")
+            f.write("echo \"deb [signed-by=/etc/apt/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ trixie main\" > /etc/apt/sources.list.d/cloudflare-client.list\n")
+            f.write("apt update\n")
+            f.write("apt install -y cloudflare-warp\n")
+            f.write(f"echo '{_('Installation complete.')}'\n")
+        os.chmod(script, 0o755)
+        self.command_runner.run_command(f"pkexec bash {script}", self._on_operation_complete)
 
     def _update_protonvpn_button(self):
         """Update Proton VPN button (Flatpak)."""

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.2-3] - 2026-08-23
+
+### Added
+- **Security tab (VPN)**: added Cloudflare WARP, installed from Cloudflare's official apt repository. Their repo only publishes Debian codenames trixie/bookworm (and older bullseye/buster/stretch) — Soplos's real base (forky) isn't published there, so the suite is hardcoded to trixie (verified with curl: `.../dists/trixie/Release` is 200, `.../dists/forky/Release` is 404), same reasoning as the ROCm fix.
+- **Recommended tab (Multimedia → Audio/DAW)**: added KutEditor, a native podcast editor (Qt6/QML, multitrack audio, AI transcription, Podcasting 2.0 chapters) by Ernesto Acosta. No prebuilt package exists upstream (no GitHub releases), so the install script builds it from source on the user's machine: installs build dependencies, clones the repo, builds with CMake, packages the result into a real `.deb` with `cpack -G DEB` (same step the upstream `installer.sh` performs for Debian), then installs that freshly-built package with `apt install`. AI transcription (whisper.cpp) is left disabled by default to keep the unattended build lighter and less likely to fail.
+
 ## [2.1.2-2] - 2026-08-17
 
 ### Added

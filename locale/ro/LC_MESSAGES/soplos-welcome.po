@@ -3268,6 +3268,9 @@ msgstr "VPN de la Mozilla. Simplu, rapid și axat pe confidențialitate."
 msgid "VPN service from KeepSolid with unlimited traffic."
 msgstr "Serviciu VPN de la KeepSolid cu trafic nelimitat."
 
+msgid "Free VPN/DNS service from Cloudflare that secures your connection."
+msgstr "Serviciu VPN/DNS gratuit de la Cloudflare care iti securizeaza conexiunea."
+
 msgid "Open Surfshark"
 msgstr "Deschide Surfshark"
 
@@ -3276,6 +3279,12 @@ msgstr "Deschide Mozilla VPN"
 
 msgid "Open VPN Unlimited"
 msgstr "Deschide VPN Unlimited"
+
+msgid "Open Cloudflare WARP"
+msgstr "Deschide Cloudflare WARP"
+
+msgid "Native podcast editor: multitrack audio, AI transcription and Podcasting 2.0 chapters"
+msgstr "Editor nativ de podcast-uri: audio multipista, transcriere IA si capitole Podcasting 2.0"
 
 
 msgid "RyzenAdj"

@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.2--2-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.2--3-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,10 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.2-3 (2026-08-23)
+- **Added**: Cloudflare WARP in Security → VPN (repo pinned to trixie, the only Debian codename it actually publishes).
+- **Added**: KutEditor in Recommended → Multimedia, a native podcast editor by Ernesto Acosta. Built from source on install (no prebuilt package exists upstream) — clones the repo, compiles with CMake, packages a real `.deb` with `cpack -G DEB`, and installs it.
 
 ### v2.1.2-2 (2026-08-17)
 - **Added**: GeForce NOW now installs NVIDIA's official native Flatpak app (out of beta with official Linux support) instead of the old WebApp shortcut. Added Mocktail (Roblox) to Gaming and VPN Unlimited to Security.
