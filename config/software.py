@@ -542,17 +542,7 @@ SOFTWARE_CATEGORIES = {
                 'flatpak': None,
                 'icon': 'kuteditor.png',
                 'description': _('Native podcast editor: multitrack audio, AI transcription and Podcasting 2.0 chapters'),
-                'official': False,
-                'install_commands': [
-                    'apt install -y git cmake build-essential qt6-base-dev qt6-declarative-dev qt6-tools-dev qt6-tools-dev-tools qt6-shadertools-dev pipewire-jack libsamplerate0-dev libtag1-dev',
-                    'rm -rf /tmp/kuteditor-build',
-                    'git clone --depth 1 https://github.com/ernestoacostame/kuteditor.git /tmp/kuteditor-build',
-                    'cmake -S /tmp/kuteditor-build/kuteditor_linux -B /tmp/kuteditor-build/kuteditor_linux/build -DCMAKE_BUILD_TYPE=Release -DHAVE_WHISPER=OFF -DHAVE_KUTPOD=ON',
-                    'cmake --build /tmp/kuteditor-build/kuteditor_linux/build -j$(nproc)',
-                    'cd /tmp/kuteditor-build/kuteditor_linux/build && cpack -G DEB',
-                    'apt install -y /tmp/kuteditor-build/kuteditor_linux/build/kuteditor*.deb',
-                    'rm -rf /tmp/kuteditor-build'
-                ]
+                'official': True
             },
             {
                 'name': 'LMMS',

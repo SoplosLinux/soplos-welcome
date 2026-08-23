@@ -3273,6 +3273,30 @@ msgstr "VPN-сервис от KeepSolid с безлимитным трафико
 msgid "Free VPN/DNS service from Cloudflare that secures your connection."
 msgstr "Бесплатный VPN/DNS-сервис от Cloudflare, защищающий ваше соединение."
 
+#: ui/tabs/security_tab.py:392
+msgid "Commercial VPN service with servers worldwide (subscription required)."
+msgstr "Коммерческий VPN-сервис с серверами по всему миру (требуется подписка)."
+
+#: ui/tabs/security_tab.py:1020
+msgid "Open NordVPN"
+msgstr "Открыть NordVPN"
+
+#: ui/tabs/security_tab.py:1093
+msgid "NordVPN installed"
+msgstr "NordVPN установлен"
+
+#: ui/tabs/security_tab.py:1096
+msgid ""
+"Your user has been added to the 'nordvpn' group.\n"
+"\n"
+"Log out and log back in before opening NordVPN, or it will not be able to "
+"reach its service."
+msgstr ""
+"Ваш пользователь добавлен в группу 'nordvpn'.\n"
+"\n"
+"Выйдите из системы и войдите снова, прежде чем открывать NordVPN, иначе он "
+"не сможет подключиться к своей службе."
+
 msgid "Open Surfshark"
 msgstr "Открыть Surfshark"
 

@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.2-4] - 2026-08-23
+
+### Added
+- **Security tab (VPN)**: added NordVPN, installed from NordVPN's own apt repository. Upstream only documents a Snap package or piping their `install.sh` into a root shell; that script does nothing on Debian beyond registering this same repository, so those four steps are performed directly instead. Two improvements over the upstream script: the signing key goes to `/etc/apt/keyrings` with `signed-by` rather than to `/etc/apt/trusted.gpg.d`, where it would be trusted for every repository on the system, and `apt` runs non-interactively (their script leaves it interactive, which would hang behind Welcome's non-tty pipe). Their suite is literally `stable`, not a Debian codename, so the forky problem that forced a hardcoded `trixie` on Cloudflare WARP does not apply here. Installing also adds the desktop user to the `nordvpn` group, which NordVPN's postinst creates but leaves empty, and a dialog explains that the session has to be restarted before the client can reach `/run/nordvpn/nordvpnd.sock`. Uninstalling purges both packages, removes the user from the group, deletes the group when no members are left, and removes the repository and the keyring.
+
+### Changed
+- **Recommended tab (Multimedia → Audio/DAW)**: KutEditor is now a normal apt package from the Soplos repositories. The previous entry installed a full Qt6 build toolchain on the user's machine, cloned the upstream repository as root and compiled it there. That build could not even succeed on a clean system: upstream ships `libdeepfilter.so.0.5` with no unversioned symlink, so `find_library()` never found it while `HAVE_DEEPFILTERNET` was defined anyway, and the link step failed on undefined symbols. With no `set -e` in the generated script, the failure was reported to the user as "Operation completed successfully". KutEditor has since been packaged properly as a `.deb` (see the `kuteditor-deb` project), so the entry is now six lines with no `install_commands` at all.
+
+### Fixed
+- **Security tab (Cloudflare WARP uninstaller left the keyring behind)**: the installer writes the key to `/etc/apt/keyrings/cloudflare-warp-archive-keyring.gpg` while the uninstaller deleted `/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg`. Different path, so `rm -f` silently removed nothing and reported success, leaving Cloudflare's key on the system forever. Both paths are now removed, so machines already uninstalled with the broken script get cleaned up too.
+- **Security tab (two password prompts to uninstall Cloudflare WARP)**: the script body carried one `pkexec` per privileged line and was launched without one, so polkit authenticated each separately. The `pkexec` now wraps the whole script, as its own installer and the rest of the application already did.
+- **Security tab (Portmaster and Kudu uninstallers left their files on disk)**: only the `apt purge` line carried `pkexec`; the `rm -rf /opt/safing` and `rm -rf /opt/Kudu` calls below it ran unprivileged against root-owned paths and failed with a permission error every time. With no `set -e`, the script carried on and reported "Uninstallation complete". Those directories are precisely what `apt purge` does not remove, so the only part of the uninstall that mattered was the part that never ran. Both scripts now run entirely under a single `pkexec`.
+
+### Translations
+- Four new NordVPN strings across all 8 languages (description, Open button, installed dialog title and its group/re-login message).
+
 ## [2.1.2-3] - 2026-08-23
 
 ### Added

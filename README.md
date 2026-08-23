@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.2--3-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.2--4-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,13 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.2-4 (2026-08-23)
+- **Added**: NordVPN in Security → VPN, installed from NordVPN's own apt repository instead of their Snap package or their install script. Adds the user to the `nordvpn` group and explains that the session must be restarted; uninstalling undoes all of it.
+- **Changed**: KutEditor is now a normal apt package from the Soplos repositories. It previously installed a Qt6 build toolchain and compiled the program as root, a build that could not succeed on a clean system and reported success anyway.
+- **Fixed**: the Cloudflare WARP uninstaller deleted the keyring from the wrong path, leaving Cloudflare's signing key on the system, and asked for the password twice.
+- **Fixed**: the Portmaster and Kudu uninstallers left `/opt/safing` and `/opt/Kudu` on disk — their `rm` calls ran without privileges and failed silently.
+- **Translations**: 4 new NordVPN strings in all 8 languages.
 
 ### v2.1.2-3 (2026-08-23)
 - **Added**: Cloudflare WARP in Security → VPN (repo pinned to trixie, the only Debian codename it actually publishes).

@@ -3271,6 +3271,30 @@ msgstr "Serviciu VPN de la KeepSolid cu trafic nelimitat."
 msgid "Free VPN/DNS service from Cloudflare that secures your connection."
 msgstr "Serviciu VPN/DNS gratuit de la Cloudflare care iti securizeaza conexiunea."
 
+#: ui/tabs/security_tab.py:392
+msgid "Commercial VPN service with servers worldwide (subscription required)."
+msgstr "Serviciu VPN comercial cu servere in intreaga lume (necesita abonament)."
+
+#: ui/tabs/security_tab.py:1020
+msgid "Open NordVPN"
+msgstr "Deschide NordVPN"
+
+#: ui/tabs/security_tab.py:1093
+msgid "NordVPN installed"
+msgstr "NordVPN instalat"
+
+#: ui/tabs/security_tab.py:1096
+msgid ""
+"Your user has been added to the 'nordvpn' group.\n"
+"\n"
+"Log out and log back in before opening NordVPN, or it will not be able to "
+"reach its service."
+msgstr ""
+"Utilizatorul tau a fost adaugat in grupul 'nordvpn'.\n"
+"\n"
+"Deconecteaza-te si conecteaza-te din nou inainte de a deschide NordVPN, "
+"altfel nu va putea ajunge la serviciul sau."
+
 msgid "Open Surfshark"
 msgstr "Deschide Surfshark"
 

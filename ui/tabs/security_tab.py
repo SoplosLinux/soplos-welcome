@@ -5,6 +5,7 @@ Manages security tools, backups, firewall, and antivirus.
 
 import gi
 import os
+import getpass
 import subprocess
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GLib, GdkPixbuf
@@ -56,6 +57,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.mozilla_vpn_row = None
         self.vpn_unlimited_row = None
         self.cloudflare_warp_row = None
+        self.nordvpn_row = None
         self.clamtk_row = None
         self.clamui_row = None
         self.rkhunter_row = None
@@ -380,6 +382,20 @@ class SecurityTab(Gtk.ScrolledWindow):
         cloudflare_warp_info.pack_end(self.cloudflare_warp_row, False, False, 0)
         cloudflare_warp_box.pack_start(cloudflare_warp_info, False, False, 0)
 
+        # NordVPN
+        nordvpn_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        vpn_container.pack_start(nordvpn_box, False, False, 5)
+
+        nordvpn_info = self._create_tool_info_block(
+            'nordvpn.png',
+            f"<b>NordVPN</b>",
+            f"<small>{_('Commercial VPN service with servers worldwide (subscription required).')}</small>"
+        )
+        self.nordvpn_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        self.nordvpn_row.set_valign(Gtk.Align.CENTER)
+        nordvpn_info.pack_end(self.nordvpn_row, False, False, 0)
+        nordvpn_box.pack_start(nordvpn_info, False, False, 0)
+
     def _create_cleaning_section(self):
         """Create system cleaning section."""
         clean_frame = Gtk.Frame()
@@ -563,6 +579,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self._clear_container(self.mozilla_vpn_row)
         self._clear_container(self.vpn_unlimited_row)
         self._clear_container(self.cloudflare_warp_row)
+        self._clear_container(self.nordvpn_row)
         self._clear_container(self.clamtk_row)
         self._clear_container(self.clamui_row)
         self._clear_container(self.rkhunter_row)
@@ -633,6 +650,9 @@ class SecurityTab(Gtk.ScrolledWindow):
         # Cloudflare WARP
         self._update_cloudflare_warp_button()
 
+        # NordVPN
+        self._update_nordvpn_button()
+
         # ClamTk (install both clamav and clamtk)
         self._update_clamtk_button()
 
@@ -657,6 +677,7 @@ class SecurityTab(Gtk.ScrolledWindow):
         self.mozilla_vpn_row.show_all()
         self.vpn_unlimited_row.show_all()
         self.cloudflare_warp_row.show_all()
+        self.nordvpn_row.show_all()
         self.clamtk_row.show_all()
         self.clamui_row.show_all()
         self.rkhunter_row.show_all()
@@ -817,16 +838,21 @@ class SecurityTab(Gtk.ScrolledWindow):
             self.portmaster_row.pack_start(install_btn, False, False, 0)
 
     def _on_uninstall_portmaster(self):
-        """Uninstall Portmaster completely (purge + remove leftover files)."""
+        """Uninstall Portmaster completely (purge + remove leftover files).
+
+        The whole script runs under a single pkexec: /opt/safing and the
+        desktop entry are left behind by apt purge, so the rm calls that
+        clean them up need root just as much as the purge does.
+        """
         script = "/tmp/uninstall-portmaster.sh"
         with open(script, "w") as f:
             f.write("#!/bin/bash\n")
-            f.write("pkexec apt purge -y portmaster 2>/dev/null || true\n")
+            f.write("apt purge -y portmaster 2>/dev/null || true\n")
             f.write("rm -rf /opt/safing\n")
             f.write("rm -f /usr/share/applications/portmaster.desktop\n")
             f.write(f"echo '{_('Uninstallation complete.')}'\n")
         os.chmod(script, 0o755)
-        self.command_runner.run_command(f"bash {script}", self._on_operation_complete)
+        self.command_runner.run_command(f"pkexec bash {script}", self._on_operation_complete)
 
     def _on_open_portmaster(self):
         """Launch Portmaster UI."""
@@ -882,16 +908,21 @@ class SecurityTab(Gtk.ScrolledWindow):
             self.kudu_row.pack_start(install_btn, False, False, 0)
 
     def _on_uninstall_kudu(self):
-        """Uninstall Kudu completely (purge + remove leftover files)."""
+        """Uninstall Kudu completely (purge + remove leftover files).
+
+        The whole script runs under a single pkexec: /opt/Kudu and the
+        desktop entry are left behind by apt purge, so the rm calls that
+        clean them up need root just as much as the purge does.
+        """
         script = "/tmp/uninstall-kudu.sh"
         with open(script, "w") as f:
             f.write("#!/bin/bash\n")
-            f.write("pkexec apt purge -y kudu 2>/dev/null || true\n")
+            f.write("apt purge -y kudu 2>/dev/null || true\n")
             f.write("rm -rf /opt/Kudu\n")
             f.write("rm -f /usr/share/applications/kudu.desktop\n")
             f.write(f"echo '{_('Uninstallation complete.')}'\n")
         os.chmod(script, 0o755)
-        self.command_runner.run_command(f"bash {script}", self._on_operation_complete)
+        self.command_runner.run_command(f"pkexec bash {script}", self._on_operation_complete)
 
     def _on_open_kudu(self):
         """Launch Kudu UI."""
@@ -949,11 +980,11 @@ class SecurityTab(Gtk.ScrolledWindow):
         script = "/tmp/uninstall-cloudflare-warp.sh"
         with open(script, "w") as f:
             f.write("#!/bin/bash\n")
-            f.write("pkexec apt purge -y cloudflare-warp 2>/dev/null || true\n")
-            f.write("pkexec rm -f /etc/apt/sources.list.d/cloudflare-client.list /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg\n")
+            f.write("apt purge -y cloudflare-warp 2>/dev/null || true\n")
+            f.write("rm -f /etc/apt/sources.list.d/cloudflare-client.list /etc/apt/keyrings/cloudflare-warp-archive-keyring.gpg /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg\n")
             f.write(f"echo '{_('Uninstallation complete.')}'\n")
         os.chmod(script, 0o755)
-        self.command_runner.run_command(f"bash {script}", self._on_operation_complete)
+        self.command_runner.run_command(f"pkexec bash {script}", self._on_operation_complete)
 
     def _on_install_cloudflare_warp(self):
         """Install Cloudflare WARP from Cloudflare's own apt repository.
@@ -977,6 +1008,105 @@ class SecurityTab(Gtk.ScrolledWindow):
             f.write(f"echo '{_('Installation complete.')}'\n")
         os.chmod(script, 0o755)
         self.command_runner.run_command(f"pkexec bash {script}", self._on_operation_complete)
+
+    def _is_nordvpn_installed(self):
+        """Detect NordVPN via dpkg status."""
+        return self._is_package_installed('nordvpn-gui')
+
+    def _update_nordvpn_button(self):
+        """Update NordVPN button (.deb from NordVPN's own apt repo)."""
+        is_installed = self._is_nordvpn_installed()
+
+        if is_installed:
+            uninstall_btn = Gtk.Button(label=_("Uninstall"))
+            uninstall_btn.get_style_context().add_class("destructive-action")
+            uninstall_btn.connect('clicked', lambda w: self._on_uninstall_nordvpn())
+            self.nordvpn_row.pack_start(uninstall_btn, False, False, 0)
+
+            installed_label = Gtk.Label(label=_("Installed"))
+            installed_label.get_style_context().add_class("success")
+            self.nordvpn_row.pack_start(installed_label, False, False, 10)
+
+            open_btn = Gtk.Button(label=_("Open NordVPN"))
+            open_btn.get_style_context().add_class("suggested-action")
+            open_btn.connect('clicked', lambda w: subprocess.Popen(['nordvpn-gui']))
+            self.nordvpn_row.pack_start(open_btn, False, False, 0)
+        else:
+            install_btn = Gtk.Button(label=_("Install"))
+            install_btn.get_style_context().add_class("suggested-action")
+            install_btn.connect('clicked', lambda w: self._on_install_nordvpn())
+            self.nordvpn_row.pack_start(install_btn, False, False, 0)
+
+    def _on_uninstall_nordvpn(self):
+        """Uninstall NordVPN completely (purge + remove repo, keyring and group).
+
+        Purging the package leaves the 'nordvpn' group behind with the
+        desktop user still in it, so it is cleaned up here. The group is
+        only deleted once no members remain, in case another account on
+        the machine still uses NordVPN.
+        """
+        script = "/tmp/uninstall-nordvpn.sh"
+        desktop_user = getpass.getuser()
+        with open(script, "w") as f:
+            f.write("#!/bin/bash\n")
+            f.write("apt purge -y nordvpn-gui nordvpn 2>/dev/null || true\n")
+            f.write(f"gpasswd -d '{desktop_user}' nordvpn 2>/dev/null || true\n")
+            f.write("[ -z \"$(getent group nordvpn | cut -d: -f4)\" ] && groupdel nordvpn 2>/dev/null || true\n")
+            f.write("rm -f /etc/apt/sources.list.d/nordvpn-app.list /etc/apt/keyrings/nordvpn-archive-keyring.gpg /etc/apt/trusted.gpg.d/nordvpn_public.asc\n")
+            f.write(f"echo '{_('Uninstallation complete.')}'\n")
+        os.chmod(script, 0o755)
+        self.command_runner.run_command(f"pkexec bash {script}", self._on_operation_complete)
+
+    def _on_install_nordvpn(self):
+        """Install NordVPN from NordVPN's own apt repository.
+
+        Upstream only documents a Snap package or piping their install.sh
+        into a root shell. That script just registers this same apt repo,
+        but it drops the key into /etc/apt/trusted.gpg.d (trusted for every
+        repo on the system) and leaves apt-get interactive, which would
+        hang behind Welcome's non-tty pipe. The four steps it performs are
+        replicated here with a scoped signed-by keyring instead. Their
+        suite is literally 'stable', not a Debian codename, so Soplos's
+        base (forky) is not an issue as it was with Cloudflare WARP.
+
+        NordVPN's postinst creates the 'nordvpn' group but adds nobody to
+        it, so the GUI cannot reach /run/nordvpn/nordvpnd.sock and shows
+        "Failed to load NordVPN service". The desktop user is added here.
+        The username is resolved while writing the script, since inside
+        the pkexec'd script $USER would be root.
+        """
+        script = "/tmp/install-nordvpn.sh"
+        desktop_user = getpass.getuser()
+        with open(script, "w") as f:
+            f.write("#!/bin/bash\n")
+            f.write("set -e\n")
+            f.write("mkdir -p /etc/apt/keyrings\n")
+            f.write("curl -fsSL https://repo.nordvpn.com/gpg/nordvpn_public.asc | gpg --yes --dearmor --output /etc/apt/keyrings/nordvpn-archive-keyring.gpg\n")
+            f.write("echo \"deb [signed-by=/etc/apt/keyrings/nordvpn-archive-keyring.gpg] https://repo.nordvpn.com/deb/nordvpn/debian stable main\" > /etc/apt/sources.list.d/nordvpn-app.list\n")
+            f.write("apt update\n")
+            f.write("apt install -y nordvpn-gui\n")
+            f.write(f"getent group nordvpn >/dev/null && usermod -aG nordvpn '{desktop_user}'\n")
+            f.write(f"echo '{_('Installation complete.')}'\n")
+        os.chmod(script, 0o755)
+        self.command_runner.run_command(f"pkexec bash {script}", self._on_nordvpn_installed)
+
+    def _on_nordvpn_installed(self, success=True):
+        """Refresh buttons and tell the user to re-login for the group change."""
+        self._on_operation_complete(success)
+        if not self._is_nordvpn_installed():
+            return
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK,
+            text=_("NordVPN installed")
+        )
+        dialog.format_secondary_text(
+            _("Your user has been added to the 'nordvpn' group.\n\nLog out and log back in before opening NordVPN, or it will not be able to reach its service.")
+        )
+        dialog.run()
+        dialog.destroy()
 
     def _update_protonvpn_button(self):
         """Update Proton VPN button (Flatpak)."""
