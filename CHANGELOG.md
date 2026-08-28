@@ -5,7 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
-## [2.1.2-4] - 2026-08-23
+## [2.1.2-5] - 2026-08-29
+
+### Fixed
+- **Kernels tab (Liquorix blocked on any NVIDIA machine)**: the Install button was greyed out, with an "Incompatible with NVIDIA" label, whenever a GPU from that vendor was detected. It was a hard block, not a warning: the handler was never connected, so there was no way to install Liquorix at all. The condition looked only at the vendor reported by `detect_gpu()`, so it also caught machines running nouveau, which have nothing to do with the proprietary driver. Liquorix works with NVIDIA and upstream documents no such incompatibility, so the block is gone: Liquorix now installs like any other kernel. Liquorix was also the only kernel gated this way, while the XanMod variants are gated only by CPU microarchitecture.
+
+## [2.1.2-4] - 2026-08-28
 
 ### Added
 - **Security tab (VPN)**: added NordVPN, installed from NordVPN's own apt repository. Upstream only documents a Snap package or piping their `install.sh` into a root shell; that script does nothing on Debian beyond registering this same repository, so those four steps are performed directly instead. Two improvements over the upstream script: the signing key goes to `/etc/apt/keyrings` with `signed-by` rather than to `/etc/apt/trusted.gpg.d`, where it would be trusted for every repository on the system, and `apt` runs non-interactively (their script leaves it interactive, which would hang behind Welcome's non-tty pipe). Their suite is literally `stable`, not a Debian codename, so the forky problem that forced a hardcoded `trixie` on Cloudflare WARP does not apply here. Installing also adds the desktop user to the `nordvpn` group, which NordVPN's postinst creates but leaves empty, and a dialog explains that the session has to be restarted before the client can reach `/run/nordvpn/nordvpnd.sock`. Uninstalling purges both packages, removes the user from the group, deletes the group when no members are left, and removes the repository and the keyring.

@@ -14,7 +14,6 @@ from gi.repository import Gtk, GLib, GdkPixbuf
 from core.i18n_manager import _
 from config.paths import ICONS_DIR
 from utils.command_runner import CommandRunner
-from utils.hardware_detector import detect_gpu
 
 
 class KernelsTab(Gtk.ScrolledWindow):
@@ -599,10 +598,6 @@ echo "[+] Broken repository removed."
         self._clear_container(self.xanmod_lts_row)
         self._clear_container(self.kernel_installer_row)
         
-        # Check for NVIDIA GPU
-        gpu_info = detect_gpu()
-        is_nvidia = gpu_info.get('vendor') == 'NVIDIA'
-        
         # Update Microcode button
         self._update_microcode_button()
         
@@ -622,18 +617,8 @@ echo "[+] Broken repository removed."
         else:
             install_button = Gtk.Button(label=_("Install Liquorix"))
             install_button.get_style_context().add_class("suggested-action")
-            
-            if is_nvidia:
-                install_button.set_sensitive(False)
-                install_button.set_tooltip_text(_("Liquorix is not compatible with NVIDIA drivers"))
-                
-                warning_label = Gtk.Label()
-                warning_label.set_markup(f"<span color='#ff5555' size='small'>{_('Incompatible with NVIDIA')}</span>")
-                self.liquorix_row.pack_start(install_button, False, False, 0)
-                self.liquorix_row.pack_start(warning_label, False, False, 10)
-            else:
-                install_button.connect("clicked", self.on_install_liquorix_clicked)
-                self.liquorix_row.pack_start(install_button, False, False, 0)
+            install_button.connect("clicked", self.on_install_liquorix_clicked)
+            self.liquorix_row.pack_start(install_button, False, False, 0)
         
         # Update XanMod Standard button
         self._update_xanmod_variant_button("xanmod-main", self.xanmod_main_row)

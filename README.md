@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.2--4-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.2--5-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -19,7 +19,7 @@ Soplos Welcome is a welcome application that guides new users through the initia
 - **Hybrid Graphics Support**: PRIME Render Offload (battery saving) and NVIDIA Primary (max performance) for laptops
 - **Two-Phase NVIDIA Installation**: Systemd-based installation for .run files prevents black screen issues
 - **NVIDIA Extras**: DaVinci Resolve OpenCL/CUDA libraries, Blender CUDA Toolkit
-- **Kernel Management**: Liquorix, XanMod (x64v3, x64v4, EDGE, LTS) with NVIDIA compatibility checks
+- **Kernel Management**: Liquorix, XanMod (x64v3, x64v4, EDGE, LTS) with CPU microarchitecture checks
 - **CPU Microcode Updates**: Intel and AMD firmware security updates
 - **System Maintenance**: Clean old kernels, Update GRUB
 - **Security Center**: Backups (Timeshift/Deja Dup), Firewall (GUFW), Antivirus (ClamTk), and Filesystem tools
@@ -121,7 +121,10 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
-### v2.1.2-4 (2026-08-23)
+### v2.1.2-5 (2026-08-29)
+- **Fixed**: Liquorix was blocked on any machine with an NVIDIA GPU, with the Install button greyed out and an "Incompatible with NVIDIA" label. There is no such incompatibility, and the check did not even look at whether the proprietary driver was installed. Liquorix now installs like any other kernel.
+
+### v2.1.2-4 (2026-08-28)
 - **Added**: NordVPN in Security → VPN, installed from NordVPN's own apt repository instead of their Snap package or their install script. Adds the user to the `nordvpn` group and explains that the session must be restarted; uninstalling undoes all of it.
 - **Changed**: KutEditor is now a normal apt package from the Soplos repositories. It previously installed a Qt6 build toolchain and compiled the program as root, a build that could not succeed on a clean system and reported success anyway.
 - **Fixed**: the Cloudflare WARP uninstaller deleted the keyring from the wrong path, leaving Cloudflare's signing key on the system, and asked for the password twice.
