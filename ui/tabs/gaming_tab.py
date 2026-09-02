@@ -2267,6 +2267,52 @@ echo "WebApp {name} created."
         self.launcher_status_cache[name] = is_installed
         return is_installed
     
+    def _flatpak_state(self):
+        """Welcome installs Flatpak apps for the current user, so it needs the
+        Flathub remote at user level. Returns 'ok', 'missing' or 'system-only';
+        the last one is what Bazaar leaves behind, since it moves Flathub to the
+        system level and the user remote stops existing."""
+        import shutil
+        if not shutil.which("flatpak"):
+            return 'missing'
+        try:
+            user = subprocess.run(["flatpak", "remotes", "--user"],
+                                  capture_output=True, text=True)
+            if "flathub" in user.stdout:
+                return 'ok'
+            system = subprocess.run(["flatpak", "remotes", "--system"],
+                                    capture_output=True, text=True)
+            if "flathub" in system.stdout:
+                return 'system-only'
+            return 'missing'
+        except Exception:
+            return 'missing'
+
+    def _show_flatpak_required_dialog(self, app_name, state):
+        """Tell the user what is missing and where to get it."""
+        if state == 'system-only':
+            text = _("Flathub is only available system-wide")
+            secondary = _("{app} is installed through Flatpak, and Welcome installs "
+                          "Flatpak apps for your user.\n\n"
+                          "On this system Flathub is only set up system-wide, which is "
+                          "what Bazaar does when you install it. Add Flathub for your "
+                          "user from the Software tab to install {app}.").format(app=app_name)
+        else:
+            text = _("Flatpak not available")
+            secondary = _("{app} is installed through Flatpak.\n\n"
+                          "Install Flatpak and Flathub from the Software tab first.").format(app=app_name)
+
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.OK,
+            text=text
+        )
+        dialog.format_secondary_text(secondary)
+        dialog.run()
+        dialog.destroy()
+
     def _on_install_launcher(self, button, launcher):
         """Install launcher."""
         method = self._get_install_method(launcher)
@@ -2290,6 +2336,11 @@ echo "WebApp {name} created."
             )
             script_name = f"install-{launcher['package']}.sh"
         elif method == 'flatpak' and launcher.get('flatpak'):
+            state = self._flatpak_state()
+            if state != 'ok':
+                self._show_flatpak_required_dialog(launcher['name'], state)
+                return
+
             # Standard install (matches recommended tab behavior)
             command = f"flatpak install -y flathub {launcher['flatpak']}"
             script_name = f"install-{launcher['flatpak'].replace('.', '-')}.sh"

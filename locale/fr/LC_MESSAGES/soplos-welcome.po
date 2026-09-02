@@ -3282,6 +3282,40 @@ msgstr "Service VPN de KeepSolid avec trafic illimité."
 msgid "Free VPN/DNS service from Cloudflare that secures your connection."
 msgstr "Service VPN/DNS gratuit de Cloudflare qui sécurise votre connexion."
 
+#: ui/tabs/security_tab.py:1267
+msgid "Flatpak not available"
+msgstr "Flatpak non disponible"
+
+#: ui/tabs/security_tab.py:1268
+msgid ""
+"{app} is installed through Flatpak.\n"
+"\n"
+"Install Flatpak and Flathub from the Software tab first."
+msgstr ""
+"{app} s'installe via Flatpak.\n"
+"\n"
+"Installez d'abord Flatpak et Flathub depuis l'onglet Logiciels."
+
+#: ui/tabs/security_tab.py:1260
+msgid "Flathub is only available system-wide"
+msgstr "Flathub n'est disponible qu'au niveau du système"
+
+#: ui/tabs/security_tab.py:1261
+msgid ""
+"{app} is installed through Flatpak, and Welcome installs Flatpak apps for "
+"your user.\n"
+"\n"
+"On this system Flathub is only set up system-wide, which is what Bazaar does "
+"when you install it. Add Flathub for your user from the Software tab to "
+"install {app}."
+msgstr ""
+"{app} s'installe via Flatpak, et Bienvenue installe les applications Flatpak "
+"pour votre utilisateur.\n"
+"\n"
+"Sur ce système, Flathub n'est configuré qu'au niveau du système, ce que fait "
+"Bazaar lors de son installation. Ajoutez Flathub pour votre utilisateur "
+"depuis l'onglet Logiciels pour installer {app}."
+
 #: ui/tabs/security_tab.py:392
 msgid "Commercial VPN service with servers worldwide (subscription required)."
 msgstr "Service VPN commercial avec des serveurs dans le monde entier (abonnement requis)."

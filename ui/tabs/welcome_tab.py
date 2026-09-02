@@ -307,7 +307,7 @@ class WelcomeTab(Gtk.Box):
     def _on_forum_clicked(self, button):
         """Handle Forum button click."""
         try:
-            webbrowser.open("https://soplos.org/forums")
+            webbrowser.open("https://soplos.org/forums/")
         except Exception as e:
             print(f"Error opening forum: {e}")
             self._show_error_dialog(_("Could not open forum"), 

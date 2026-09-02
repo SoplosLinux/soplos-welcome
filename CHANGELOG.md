@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.2-6] - 2026-09-02
+
+### Fixed
+- **Security, Recommended and Gaming tabs (Flatpak apps reported as installed without Flatpak)**: these three tabs launched `flatpak install` with no checks, so on a system without Flatpak the command failed with "command not found" while the script still printed its success message and the operation was reported as completed. All three now check that Flatpak is present and that Flathub is configured **for the user**, which is the level Welcome installs at, and otherwise explain that Flatpak and Flathub have to be installed from the Software tab. The check also covers the case Bazaar leaves behind: Bazaar moves Flathub to the system level, and with only a system-wide remote these installs fail too, so that situation gets its own message.
+- **Kernels and Drivers tabs (NVIDIA DKMS failed on XanMod)**: XanMod kernels are built with LLVM/Clang (`CONFIG_CC_IS_CLANG`, `CONFIG_LD_IS_LLD`), and DKMS has to build its modules with the same toolchain, so on a gcc-only system the NVIDIA module did not compile and the machine ended up with no driver. `clang`, `lld` and `llvm` are now installed before the build in all four places that trigger one: the XanMod installer, NVIDIA from the repository, NVIDIA from the `.run` file, and VirtualBox Guest Additions. Installing XanMod only pulls the toolchain in when the system already has DKMS modules; the driver installers check the running kernel's own config, so a normal gcc-built kernel installs nothing extra.
+- **Welcome tab (Forums button did nothing)**: the button opened `https://soplos.org/forums`, which returns a 404. With the trailing slash the site redirects correctly to `https://forums.soplos.org/`. Reported by users.
+
 ## [2.1.2-5] - 2026-08-29
 
 ### Fixed

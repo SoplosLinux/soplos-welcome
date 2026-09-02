@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.2--5-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.2--6-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.2-6 (2026-09-02)
+- **Fixed**: Security, Recommended and Gaming reported Flatpak apps as installed on systems without Flatpak, because the failed command still printed its success message. They now check that Flatpak and Flathub are available for the user and explain where to install them, including the case where Bazaar has moved Flathub to the system level.
+- **Fixed**: NVIDIA DKMS did not build on XanMod kernels, which are compiled with LLVM/Clang. `clang`, `lld` and `llvm` are now installed before the build in the four places that trigger one.
+- **Fixed**: the Forums button opened a URL that returns a 404, missing its trailing slash.
 
 ### v2.1.2-5 (2026-08-29)
 - **Fixed**: Liquorix was blocked on any machine with an NVIDIA GPU, with the Install button greyed out and an "Incompatible with NVIDIA" label. There is no such incompatibility, and the check did not even look at whether the proprietary driver was installed. Liquorix now installs like any other kernel.

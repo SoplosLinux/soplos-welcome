@@ -859,6 +859,14 @@ case "$CODENAME" in
 esac
 echo "deb [signed-by=/etc/apt/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org $CODENAME main" > /etc/apt/sources.list.d/xanmod-release.list
 apt update
+# XanMod kernels are built with LLVM/Clang (CONFIG_CC_IS_CLANG, CONFIG_LD_IS_LLD),
+# so DKMS has to build its modules with the same toolchain or they fail. This goes
+# in before the kernel, because DKMS builds during the kernel postinst. Only for
+# systems that actually have DKMS modules, so nobody else gets LLVM for nothing.
+if command -v dkms >/dev/null 2>&1 && [ -n "$(dkms status 2>/dev/null)" ]; then
+    echo "DKMS modules found: installing the LLVM toolchain they need"
+    apt install -y clang lld llvm
+fi
 apt install -y {package}
 '
 echo "{_('Installation complete.')}"

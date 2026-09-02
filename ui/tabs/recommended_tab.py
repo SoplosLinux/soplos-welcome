@@ -507,6 +507,52 @@ class RecommendedTab(Gtk.Box):
         self.package_status_cache[package_name] = is_installed
         return is_installed
     
+    def _flatpak_state(self):
+        """Welcome installs Flatpak apps for the current user, so it needs the
+        Flathub remote at user level. Returns 'ok', 'missing' or 'system-only';
+        the last one is what Bazaar leaves behind, since it moves Flathub to the
+        system level and the user remote stops existing."""
+        import shutil
+        if not shutil.which("flatpak"):
+            return 'missing'
+        try:
+            user = subprocess.run(["flatpak", "remotes", "--user"],
+                                  capture_output=True, text=True)
+            if "flathub" in user.stdout:
+                return 'ok'
+            system = subprocess.run(["flatpak", "remotes", "--system"],
+                                    capture_output=True, text=True)
+            if "flathub" in system.stdout:
+                return 'system-only'
+            return 'missing'
+        except Exception:
+            return 'missing'
+
+    def _show_flatpak_required_dialog(self, app_name, state):
+        """Tell the user what is missing and where to get it."""
+        if state == 'system-only':
+            text = _("Flathub is only available system-wide")
+            secondary = _("{app} is installed through Flatpak, and Welcome installs "
+                          "Flatpak apps for your user.\n\n"
+                          "On this system Flathub is only set up system-wide, which is "
+                          "what Bazaar does when you install it. Add Flathub for your "
+                          "user from the Software tab to install {app}.").format(app=app_name)
+        else:
+            text = _("Flatpak not available")
+            secondary = _("{app} is installed through Flatpak.\n\n"
+                          "Install Flatpak and Flathub from the Software tab first.").format(app=app_name)
+
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.OK,
+            text=text
+        )
+        dialog.format_secondary_text(secondary)
+        dialog.run()
+        dialog.destroy()
+
     def _on_install_package(self, button, category_id: str, package: dict):
         """Handle package installation."""
         package_id = f"{category_id}:{package['name']}"
@@ -529,6 +575,12 @@ class RecommendedTab(Gtk.Box):
             script_name = f"install-{package['package']}.sh"
             
         elif install_method == 'flatpak' and package.get('flatpak'):
+            state = self._flatpak_state()
+            if state != 'ok':
+                self._show_flatpak_required_dialog(package['name'], state)
+                self.installing_packages.discard(package_id)
+                return
+
             command = f"flatpak install -y flathub {package['flatpak']}"
             script_name = f"install-{package['flatpak']}.sh"
             

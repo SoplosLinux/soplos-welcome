@@ -153,6 +153,19 @@ def get_nvidia_dkms_patch_commands() -> str:
     )
 
 
+# XanMod kernels are built with LLVM/Clang (CONFIG_CC_IS_CLANG, CONFIG_LD_IS_LLD).
+# DKMS has to build its modules with the same toolchain, so on those kernels a
+# gcc-only system cannot build the NVIDIA or VirtualBox modules at all: the build
+# fails and the machine ends up with no driver. The check reads the running
+# kernel's own config, so nothing is installed on a normal gcc-built kernel.
+LLVM_DKMS_TOOLCHAIN = """
+if grep -q "CONFIG_CC_IS_CLANG=y" "/boot/config-$(uname -r)" 2>/dev/null; then
+    echo "This kernel was built with LLVM/Clang: installing the toolchain DKMS needs..."
+    apt install -y clang lld llvm
+fi
+"""
+
+
 class DriversTab(Gtk.ScrolledWindow):
     """
     Hardware drivers management tab.
@@ -1295,7 +1308,7 @@ apt autoremove -y 2>/dev/null || true
 # Install kernel headers and DKMS build dependencies
 apt update
 apt install -y dkms build-essential linux-headers-$(uname -r)
-
+{LLVM_DKMS_TOOLCHAIN}
 # The headers package being installed is not enough: DKMS needs a usable build
 # tree, otherwise it skips the build and the system boots with no driver.
 if [ ! -e "/lib/modules/$(uname -r)/build/Makefile" ]; then
@@ -1463,6 +1476,7 @@ apt -f install -y 2>/dev/null || true
 echo "[2/6] Installing kernel headers and DKMS build dependencies..."
 apt install -y dkms build-essential
 apt install -y linux-headers-$(uname -r) || true
+{LLVM_DKMS_TOOLCHAIN}
 
 # Having the headers package installed is not enough: the build tree under
 # /lib/modules/<kernel>/build must be usable, or DKMS silently skips the build
@@ -1877,7 +1891,7 @@ echo "Installing VirtualBox Guest Additions..."
 # Install dependencies
 apt update
 apt install -y build-essential dkms linux-headers-$(uname -r)
-
+{LLVM_DKMS_TOOLCHAIN}
 # Run installer (non-zero exit expected when not running inside VirtualBox)
 "{vbox_run}" || true
 
