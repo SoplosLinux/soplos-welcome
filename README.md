@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.2--6-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.2--7-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.2-7 (2026-09-09)
+- **Added**: Waydroid in Recommended → Development (repo pinned to trixie, the only codename it publishes packages for on Soplos).
+- **Added**: automatic `binder_linux` module loading (modules-load.d + modprobe.d + immediate modprobe) so Waydroid works right after install, no reboot needed.
+- **Added**: Install button disabled with a tooltip when the running kernel doesn't have Android Binder support yet.
 
 ### v2.1.2-6 (2026-09-02)
 - **Fixed**: Security, Recommended and Gaming reported Flatpak apps as installed on systems without Flatpak, because the failed command still printed its success message. They now check that Flatpak and Flathub are available for the user and explain where to install them, including the case where Bazaar has moved Flathub to the system level.

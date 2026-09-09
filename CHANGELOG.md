@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.2-7] - 2026-09-09
+
+### Added
+- **Recommended tab (Development)**: added Waydroid, an Android container for developing and testing Android apps. Its official repo (`repo.waydro.id`) auto-detects the distro codename and fails on Soplos (`VERSION_CODENAME`/`/etc/debian_version` aren't in its supported list), so the suite is pinned to `trixie` (verified: has real packages published there), same reasoning as the XanMod/ROCm/Cloudflare WARP fixes.
+- **Recommended tab (Waydroid — modprobe automation)**: Waydroid's own `waydroid-container.service` expects the `binder_linux` kernel module already loaded — it never loads it itself, the most commonly reported Waydroid installation failure on any distro. The install step now also writes `/etc/modules-load.d/waydroid.conf` (autoload on every boot) and `/etc/modprobe.d/waydroid.conf` (the three device nodes Waydroid needs: binder, hwbinder, vndbinder), and loads the module immediately so it works without a reboot.
+- **Recommended tab (Waydroid — kernel gate)**: `binder_linux` only exists on Soplos kernels built after the corresponding kernel-installer change, and installed kernels aren't kept side by side — updating removes the previous one. The Install button is now disabled with an explanatory tooltip when `modinfo binder_linux` doesn't find the module, instead of letting the user hit a guaranteed failure.
+
 ## [2.1.2-6] - 2026-09-02
 
 ### Fixed

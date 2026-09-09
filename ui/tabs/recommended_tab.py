@@ -36,6 +36,7 @@ class RecommendedTab(Gtk.Box):
         
         self.installing_packages = set()  # Track packages being installed
         self.package_status_cache = {}    # Cache for package installation status
+        self._binder_available_cache = None    # Cache for the binder_linux kernel module check
         
         # Batch mode state
         self.batch_mode = False
@@ -377,7 +378,13 @@ class RecommendedTab(Gtk.Box):
                 install_button = Gtk.Button.new_with_label(_("Install"))
                 install_button.get_style_context().add_class('suggested-action')
                 install_button.set_size_request(110, -1)
-                install_button.connect('clicked', self._on_install_package, category_id, package)
+                if package.get('name') == 'Waydroid' and not self._is_binder_module_available():
+                    install_button.set_sensitive(False)
+                    install_button.set_tooltip_text(
+                        _("Requires a Soplos kernel with Android Binder support — update your kernel first.")
+                    )
+                else:
+                    install_button.connect('clicked', self._on_install_package, category_id, package)
                 button_box.pack_start(install_button, False, False, 0)
         
         box.pack_start(button_box, False, False, 0)
@@ -467,6 +474,22 @@ class RecommendedTab(Gtk.Box):
         
         return 'unknown'
     
+    def _is_binder_module_available(self) -> bool:
+        """Check whether the running kernel has the Android Binder module
+        (needed by Waydroid). Only Soplos kernels built after this feature
+        was added carry it — older installed kernels won't."""
+        if self._binder_available_cache is not None:
+            return self._binder_available_cache
+        try:
+            result = subprocess.run(
+                ['modinfo', 'binder_linux'],
+                capture_output=True, text=True
+            )
+            self._binder_available_cache = result.returncode == 0
+        except Exception:
+            self._binder_available_cache = False
+        return self._binder_available_cache
+
     def _is_package_installed(self, package: dict) -> bool:
         """Check if a package is installed using the preferred method."""
         package_name = package['name']

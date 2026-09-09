@@ -321,6 +321,28 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'postman.png',
                 'description': _('API development and testing platform'),
                 'official': False
+            },
+            {
+                'name': 'Waydroid',
+                'package': 'waydroid',
+                'flatpak': None,
+                'icon': 'waydroid.png',
+                'description': _('Android container for developing and testing Android apps'),
+                'official': False,
+                'install_commands': [
+                    'curl -fsSL https://repo.waydro.id/waydroid.gpg -o /usr/share/keyrings/waydroid.gpg',
+                    "echo 'deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ trixie main' > /etc/apt/sources.list.d/waydroid.list",
+                    'apt update',
+                    'apt install -y waydroid',
+                    'echo binder_linux > /etc/modules-load.d/waydroid.conf',
+                    "echo 'options binder_linux devices=binder,hwbinder,vndbinder' > /etc/modprobe.d/waydroid.conf",
+                    'modprobe binder_linux devices=binder,hwbinder,vndbinder'
+                ],
+                'uninstall_commands': [
+                    "apt purge -y waydroid 2>/dev/null || true",
+                    'rm -f /etc/apt/sources.list.d/waydroid.list /usr/share/keyrings/waydroid.gpg',
+                    'rm -f /etc/modules-load.d/waydroid.conf /etc/modprobe.d/waydroid.conf'
+                ]
             }
         ]
     },

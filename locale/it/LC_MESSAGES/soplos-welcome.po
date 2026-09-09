@@ -2132,6 +2132,12 @@ msgstr "Client FTP/SFTP veloce e affidabile"
 msgid "API development and testing platform"
 msgstr "Piattaforma di sviluppo e test API"
 
+msgid "Android container for developing and testing Android apps"
+msgstr "Container Android per sviluppare e testare app Android"
+
+msgid "Requires a Soplos kernel with Android Binder support — update your kernel first."
+msgstr "Richiede un kernel Soplos con supporto Android Binder — aggiorna prima il kernel."
+
 #: config/software.py:267
 msgid "Graphics and Design"
 msgstr "Grafica e Design"
