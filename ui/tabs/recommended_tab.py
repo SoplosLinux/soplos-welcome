@@ -475,19 +475,15 @@ class RecommendedTab(Gtk.Box):
         return 'unknown'
     
     def _is_binder_module_available(self) -> bool:
-        """Check whether the running kernel has the Android Binder module
-        (needed by Waydroid). Only Soplos kernels built after this feature
-        was added carry it — older installed kernels won't."""
+        """Check whether the running kernel has Android Binder support
+        (needed by Waydroid). Built into the kernel (CONFIG_ANDROID_BINDER_IPC=y),
+        not a loadable module, so `modinfo` won't detect it — the driver
+        initializes automatically at boot and creates /dev/binder. Only
+        Soplos kernels built after this feature was added carry it —
+        older installed kernels won't."""
         if self._binder_available_cache is not None:
             return self._binder_available_cache
-        try:
-            result = subprocess.run(
-                ['modinfo', 'binder_linux'],
-                capture_output=True, text=True
-            )
-            self._binder_available_cache = result.returncode == 0
-        except Exception:
-            self._binder_available_cache = False
+        self._binder_available_cache = os.path.exists('/dev/binder')
         return self._binder_available_cache
 
     def _is_package_installed(self, package: dict) -> bool:

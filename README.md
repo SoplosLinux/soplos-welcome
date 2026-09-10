@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.2--7-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.2--8-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,9 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.2-8 (2026-09-10)
+- **Fixed**: Waydroid support adapted to Android Binder being compiled in (`y`) instead of as a module (`m` never worked — it's a plain bool in Kconfig). Removed the obsolete modprobe automation and switched the availability check to `/dev/binder`.
 
 ### v2.1.2-7 (2026-09-09)
 - **Added**: Waydroid in Recommended → Development (repo pinned to trixie, the only codename it publishes packages for on Soplos).

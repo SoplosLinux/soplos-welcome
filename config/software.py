@@ -333,15 +333,11 @@ SOFTWARE_CATEGORIES = {
                     'curl -fsSL https://repo.waydro.id/waydroid.gpg -o /usr/share/keyrings/waydroid.gpg',
                     "echo 'deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ trixie main' > /etc/apt/sources.list.d/waydroid.list",
                     'apt update',
-                    'apt install -y waydroid',
-                    'echo binder_linux > /etc/modules-load.d/waydroid.conf',
-                    "echo 'options binder_linux devices=binder,hwbinder,vndbinder' > /etc/modprobe.d/waydroid.conf",
-                    'modprobe binder_linux devices=binder,hwbinder,vndbinder'
+                    'apt install -y waydroid'
                 ],
                 'uninstall_commands': [
                     "apt purge -y waydroid 2>/dev/null || true",
-                    'rm -f /etc/apt/sources.list.d/waydroid.list /usr/share/keyrings/waydroid.gpg',
-                    'rm -f /etc/modules-load.d/waydroid.conf /etc/modprobe.d/waydroid.conf'
+                    'rm -f /etc/apt/sources.list.d/waydroid.list /usr/share/keyrings/waydroid.gpg'
                 ]
             }
         ]

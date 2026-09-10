@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.2-8] - 2026-09-10
+
+### Fixed
+- **Recommended tab (Waydroid — adapted to Android Binder going built-in)**: `ANDROID_BINDER_IPC` turned out to be a plain bool in Kconfig with no module form at all, so kernel-installer now enables it as `y` instead of `m`. Removed the now-pointless `modprobe`/`modules-load.d`/`modprobe.d` steps from the install script (nothing to load, the driver initializes at boot), and switched the availability check from `modinfo binder_linux` (which never detects anything built-in) to checking for `/dev/binder`.
+
 ## [2.1.2-7] - 2026-09-09
 
 ### Added
