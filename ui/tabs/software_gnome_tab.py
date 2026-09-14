@@ -305,7 +305,7 @@ class SoftwareGnomeTab(Gtk.Box):
             dialog.destroy()
             if response != Gtk.ResponseType.YES:
                 return
-            script = f"pkexec apt install -y snapd gnome-software-plugin-snap\npkexec snap install {snap_name}"
+            script = f"pkexec bash -c 'apt install -y snapd gnome-software-plugin-snap && snap install {snap_name}'"
         else:
             script = f"pkexec snap install {snap_name}"
         self._create_and_run_script(script, f"install-snap-{snap_name}.sh",
@@ -435,7 +435,7 @@ class SoftwareGnomeTab(Gtk.Box):
         container.pack_start(new_button, False, False, 0)
         new_button.show()
         
-        print(f"✅ Button updated for {package_name}")
+        print(f"Button updated for {package_name}")
     
     def _create_and_run_script(self, script_content, script_name, package_to_update=None, on_complete=None):
         """Create and execute installation/removal scripts."""

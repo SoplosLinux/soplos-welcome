@@ -121,6 +121,13 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
+### v2.1.2-9 (2026-09-15)
+- **Added**: GenOffice in Recommended → Office, an open-source AI office suite.
+- **Fixed**: a missing `set -e` in Recommended's generated scripts meant failed installs were silently reported as successful — this had been hiding the bugs below. Now every real failure is reported.
+- **Fixed**: Collabora Office, GeForce NOW, LMMS, amdgpu_top and CPU Power all failed or misbehaved when installed from Recommended — wrong Flatpak ID, wrong install scope, a package dropped from Debian testing, an ambiguous download match, and a missing dependency respectively. All fixed individually, see CHANGELOG for details.
+- **Fixed**: cancelling the DaVinci Resolve installer at its first two dialogs left the Install button stuck forever.
+- **Fixed**: installing Snap Store without Snapd already present asked for the password twice instead of once.
+
 ### v2.1.2-8 (2026-09-10)
 - **Fixed**: Waydroid support adapted to Android Binder being compiled in (`y`) instead of as a module (`m` never worked — it's a plain bool in Kconfig). Removed the obsolete modprobe automation and switched the availability check to `/dev/binder`.
 

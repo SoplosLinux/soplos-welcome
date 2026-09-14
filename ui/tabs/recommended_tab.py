@@ -660,6 +660,7 @@ rm -f /tmp/{pkg_name}.deb"""
             app_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             with open(script_path, "w") as f:
                 f.write("#!/bin/bash\n")
+                f.write("set -e\n")
                 f.write(script_content)
                 if is_install and package.get('post_install_script'):
                     patch = os.path.join(app_root, 'services', package['post_install_script'])
@@ -1131,8 +1132,10 @@ rm -f /tmp/{pkg_name}.deb"""
         )
         response = dialog.run()
         dialog.destroy()
-        
+
         if response != Gtk.ResponseType.OK:
+            self.installing_packages.discard("multimedia:DaVinci Resolve")
+            self._refresh_content()
             return
 
         # 2. File Chooser
@@ -1157,6 +1160,8 @@ rm -f /tmp/{pkg_name}.deb"""
         chooser.destroy()
         
         if response != Gtk.ResponseType.OK or not filename:
+            self.installing_packages.discard("multimedia:DaVinci Resolve")
+            self._refresh_content()
             return
 
 

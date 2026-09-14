@@ -564,10 +564,11 @@ SOFTWARE_CATEGORIES = {
             },
             {
                 'name': 'LMMS',
-                'package': 'lmms',
+                'package': None,
+                'flatpak': 'io.lmms.LMMS',
                 'icon': 'lmms.png',
                 'description': _('Digital audio workstation'),
-                'official': True
+                'official': False
             },
             {
                 'name': 'Mixxx',
@@ -651,10 +652,23 @@ SOFTWARE_CATEGORIES = {
             {
                 'name': 'Collabora Office',
                 'package': None,
-                'flatpak': 'org.collaboraoffice.CollaboraOffice',
+                'flatpak': 'com.collaboraoffice.Office',
                 'icon': 'collabora.png',
                 'description': _('Enterprise-grade LibreOffice fork by Collabora'),
                 'official': True
+            },
+            {
+                'name': 'GenOffice',
+                'package': 'genoffice',
+                'flatpak': None,
+                'icon': 'genoffice.png',
+                'description': _('Open-source AI office suite: Docs, Sheets, Slides, PDF, HTML and Markdown'),
+                'official': False,
+                'install_commands': [
+                    'wget -q -O /tmp/genoffice.deb https://genoffice.ai/download/linux-deb',
+                    'apt install -y /tmp/genoffice.deb',
+                    'rm -f /tmp/genoffice.deb'
+                ]
             },
             # PDF
             {
@@ -732,13 +746,15 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'geforcenow.png',
                 'description': _('NVIDIA cloud gaming — stream games from the cloud'),
                 'official': False,
-                'check_path': '/var/lib/flatpak/app/com.nvidia.geforcenow',
+                'check_path': '~/.local/share/flatpak/app/com.nvidia.geforcenow',
                 'install_commands': [
-                    'flatpak remote-add --if-not-exists GeForceNOW https://international.download.nvidia.com/GFNLinux/flatpak/geforcenow.flatpakrepo',
-                    'flatpak install -y GeForceNOW com.nvidia.geforcenow'
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER flatpak remote-add --user --if-not-exists GeForceNOW https://international.download.nvidia.com/GFNLinux/flatpak/geforcenow.flatpakrepo',
+                    'sudo -u $REAL_USER flatpak install --user -y GeForceNOW com.nvidia.geforcenow'
                 ],
                 'uninstall_commands': [
-                    'flatpak uninstall -y com.nvidia.geforcenow'
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER flatpak uninstall --user -y com.nvidia.geforcenow'
                 ]
             },
             {
@@ -882,10 +898,15 @@ SOFTWARE_CATEGORIES = {
             {
                 'name': 'CPU Power',
                 'package': 'cpupower-gui',
-                'packages': 'linux-cpupower cpupower-gui',
                 'icon': 'cpupower.png',
                 'description': _('Control the CPU frequency governor from a graphical interface'),
-                'official': False
+                'official': False,
+                'install_commands': [
+                    'apt install -y cpupower-gui linux-cpupower'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y cpupower-gui linux-cpupower'
+                ]
             },
             {
                 'name': 'amdgpu_top',
@@ -894,7 +915,7 @@ SOFTWARE_CATEGORIES = {
                 'description': _('Real-time AMD GPU usage monitor with detailed metrics'),
                 'official': False,
                 'install_commands': [
-                    'AMDGPU_TOP_URL=$(curl -s https://api.github.com/repos/Umio-Yasuno/amdgpu_top/releases/latest | grep browser_download_url | grep amd64.deb | cut -d\\" -f4)',
+                    'AMDGPU_TOP_URL=$(curl -s https://api.github.com/repos/Umio-Yasuno/amdgpu_top/releases/latest | grep browser_download_url | grep amd64.deb | grep -v without_gui | cut -d\\" -f4)',
                     'wget -q --show-progress -O /tmp/amdgpu-top.deb "$AMDGPU_TOP_URL"',
                     'apt install -y /tmp/amdgpu-top.deb',
                     'rm -f /tmp/amdgpu-top.deb'
