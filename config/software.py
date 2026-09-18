@@ -1005,6 +1005,64 @@ SOFTWARE_CATEGORIES = {
                 ]
             }
         ]
+    },
+    'remotes': {
+        'title': _('Remote Desktops'),
+        'icon': 'remotes',
+        'packages': [
+            {
+                'name': 'Remmina',
+                'package': None,
+                'flatpak': 'org.remmina.Remmina',
+                'icon': 'remmina.png',
+                'description': _('Remote desktop client supporting RDP, VNC, SSH and more'),
+                'official': True
+            },
+            {
+                'name': 'RustDesk',
+                'package': None,
+                'flatpak': 'com.rustdesk.RustDesk',
+                'icon': 'rustdesk.png',
+                'description': _('Open-source remote desktop software, self-hostable'),
+                'official': False
+            },
+            {
+                'name': 'AnyDesk',
+                'package': None,
+                'flatpak': 'com.anydesk.Anydesk',
+                'icon': 'anydesk.png',
+                'description': _('Fast and secure remote desktop application'),
+                'official': False
+            },
+            {
+                'name': 'NoMachine',
+                'package': None,
+                'flatpak': 'com.nomachine.nxplayer',
+                'icon': 'nomachine.png',
+                'description': _('Remote desktop client for accessing NoMachine servers'),
+                'official': False
+            }
+        ]
+    },
+    'virtual': {
+        'title': _('Virtualization'),
+        'icon': 'virtual',
+        'packages': [
+            {
+                'name': 'virt-manager',
+                'package': 'virt-manager',
+                'icon': 'virtmanager.png',
+                'description': _('Graphical tool for managing virtual machines via libvirt/QEMU'),
+                'official': True
+            },
+            {
+                'name': 'GNOME Boxes',
+                'package': 'gnome-boxes',
+                'icon': 'gnomeboxes.png',
+                'description': _('Simple virtual machine and remote desktop viewer for GNOME'),
+                'official': True
+            }
+        ]
     }
 }
 

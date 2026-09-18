@@ -121,6 +121,11 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
+### v2.1.3 (2026-09-18)
+- **Added**: two new categories in Recommended, ported from the Welcome 3.0 alpha catalog — Remote Desktops (Remmina, RustDesk, AnyDesk, NoMachine) and Virtualization (virt-manager, GNOME Boxes).
+- **Fixed**: new Recommended categories weren't rendering because the tab reads from a fixed list instead of every category in the data.
+- **Fixed**: missing `wmctrl` dependency in the Debian package, which broke Welcome on systems that don't already have it installed.
+
 ### v2.1.2-9 (2026-09-15)
 - **Added**: GenOffice in Recommended → Office, an open-source AI office suite.
 - **Fixed**: a missing `set -e` in Recommended's generated scripts meant failed installs were silently reported as successful — this had been hiding the bugs below. Now every real failure is reported.

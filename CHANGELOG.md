@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.3] - 2026-09-18
+
+### Added
+- **Recommended tab**: added two new categories, ported from the Welcome 3.0 (Tauri) alpha catalog to keep both versions in sync while 2.x is still the shipping one — **Remote Desktops** (Remmina, RustDesk, AnyDesk, NoMachine, all Flatpak) and **Virtualization** (`virt-manager`, GNOME Boxes, both apt; VirtualBox and its Extension Pack intentionally left out — porting their install logic was decided not to be worth repeating after the trouble it took to get right in 3.0). Icons copied from the 3.0 alpha's asset set.
+
+### Fixed
+- **Recommended tab (new categories weren't showing up)**: `_load_recommended_software()` renders categories from a hardcoded list ([recommended_tab.py:147](ui/tabs/recommended_tab.py#L147)) instead of iterating every key in `SOFTWARE_CATEGORIES`, so the two new categories existed in the data but never got drawn until they were added to that list too.
+- **Packaging (missing `wmctrl` dependency)**: `core/environment.py` shells out to `wmctrl` to detect the running window manager, but the package was never declared in `debian/control`'s `Depends`. On a machine where nothing else happened to pull it in (a bare Debian install, notably), Welcome would fail. Added `wmctrl` to `Depends`.
+
 ## [2.1.2-9] - 2026-09-15
 
 ### Added
