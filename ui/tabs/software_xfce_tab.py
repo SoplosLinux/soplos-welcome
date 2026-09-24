@@ -88,6 +88,7 @@ class SoftwareXfceTab(Gtk.Box):
         # Software options for XFCE (8 total for 4x2 grid)
         # Prefix "snap:" for snap packages, "flatpak:" for flatpak apps
         software_options = [
+            (_("Repo Selector"), "soplos-repo-selector", "reposelector.png"),
             (_("Synaptic"), "synaptic", "synaptic.png"),
             (_("Gdebi"), "gdebi gdebi-core", "gdebi.png"),
             (_("GNOME Software"), "gnome-software gnome-packagekit package-update-indicator", "gnome-software.png"),
@@ -95,7 +96,9 @@ class SoftwareXfceTab(Gtk.Box):
             (_("Flatpak"), "flatpak gnome-software-plugin-flatpak package-update-indicator", "flatpak.png"),
             (_("Snap"), "snapd gnome-software-plugin-snap", "snap.png"),
             (_("Bazaar"), "flatpak:io.github.kolunmi.Bazaar", "bazaar.png"),
-            (_("Repo Selector"), "soplos-repo-selector", "reposelector.png")
+            (_("Warehouse"), "flatpak:io.github.flattool.Warehouse", "warehouse.png"),
+            (_("Easy Flatpak"), "flatpak:org.dupot.easyflatpak", "easyflatpak.png"),
+            (_("Discover"), "plasma-discover plasma-discover-backend-flatpak", "discover.png")
         ]
 
         # Create software buttons
@@ -594,6 +597,24 @@ class SoftwareXfceTab(Gtk.Box):
     
     def _on_install_clicked(self, widget, packages, main_package):
         """Install software packages."""
+        if main_package == "plasma-discover":
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Install Discover?")
+            )
+            dialog.format_secondary_text(
+                _("Discover is KDE's software center. Since this isn't a Plasma desktop, "
+                  "it pulls in a large chunk of the KDE Frameworks stack it depends on: "
+                  "KDE Connect, account providers, System Settings, sshfs and a full QtWebEngine.")
+            )
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+
         script_content = f"pkexec apt install -y {packages}"
         self._create_and_run_script(script_content, f"install-{main_package}.sh", main_package)
     

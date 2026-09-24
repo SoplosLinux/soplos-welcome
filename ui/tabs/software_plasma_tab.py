@@ -87,6 +87,7 @@ class SoftwarePlasmaTab(Gtk.Box):
         
         # Software options optimized for KDE Plasma
         software_options = [
+            (_("Repo Selector"), "soplos-repo-selector", "reposelector.png"),
             (_("Synaptic"), "synaptic", "synaptic.png"),
             (_("Gdebi"), "gdebi gdebi-core", "gdebi.png"),
             (_("GNOME Software"), "gnome-software gnome-software-plugin-flatpak gnome-software-plugin-snap", "gnome-software.png"),
@@ -94,7 +95,9 @@ class SoftwarePlasmaTab(Gtk.Box):
             (_("Flatpak"), "flatpak plasma-discover-backend-flatpak", "flatpak.png"),
             (_("Snap"), "snapd plasma-discover-backend-snap", "snap.png"),
             (_("Bazaar"), "flatpak:io.github.kolunmi.Bazaar", "bazaar.png"),
-            (_("Repo Selector"), "soplos-repo-selector", "reposelector.png")
+            (_("Warehouse"), "flatpak:io.github.flattool.Warehouse", "warehouse.png"),
+            (_("Easy Flatpak"), "flatpak:org.dupot.easyflatpak", "easyflatpak.png"),
+            (_("Discover"), "plasma-discover plasma-discover-backend-flatpak", "discover.png")
         ]
 
         # Create software buttons
@@ -569,6 +572,24 @@ fi
     
     def _on_install_clicked(self, widget, packages, main_package):
         """Install software packages."""
+        if main_package == "plasma-discover":
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=_("Install Discover?")
+            )
+            dialog.format_secondary_text(
+                _("Discover pulls in a lot beyond itself: KDE Connect, account providers, "
+                  "System Settings, sshfs and a full QtWebEngine — around 60 extra packages "
+                  "on a typical Soplos install.")
+            )
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+
         script_content = f"pkexec apt install -y {packages}"
         self._create_and_run_script(script_content, f"install-{main_package}.sh", main_package)
     

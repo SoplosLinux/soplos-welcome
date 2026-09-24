@@ -1,7 +1,13 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: soplos-welcome 2.1.3-1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-04 18:47+0100\n"
+"PO-Revision-Date: 2026-09-24 00:00+0100\n"
+"Last-Translator: Soplos Linux Team <info@soploslinux.com>\n"
+"Language-Team: Soplos Linux <info@soploslinux.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
@@ -3681,3 +3687,55 @@ msgstr "OpenCL runtime for AMD GPUs (RDNA2+) — DaVinci Resolve, Blender HIP, G
 
 msgid "This will:\n\n1. Add the official AMD ROCm repository.\n2. Install {label}.\n3. Add your user to the render and video groups.\n\nRequires a ROCm-supported AMD GPU: RDNA2 (RX 6800 and newer),\nRDNA3 (RX 7700-7900), RDNA4 (RX 9060-9070) or Instinct accelerators.\nThe RX 5000 series and integrated GPUs are not supported.\n\n{size}\n\nA session restart will be required after installation.\n\nDo you want to continue?"
 msgstr "This will:\n\n1. Add the official AMD ROCm repository.\n2. Install {label}.\n3. Add your user to the render and video groups.\n\nRequires a ROCm-supported AMD GPU: RDNA2 (RX 6800 and newer),\nRDNA3 (RX 7700-7900), RDNA4 (RX 9060-9070) or Instinct accelerators.\nThe RX 5000 series and integrated GPUs are not supported.\n\n{size}\n\nA session restart will be required after installation.\n\nDo you want to continue?"
+
+# New in 2.1.3 — Remote Desktops, Virtualization, GenOffice, WhatsApp webapp, new software stores
+msgid "Remote Desktops"
+msgstr "Remote Desktops"
+
+msgid "Virtualization"
+msgstr "Virtualization"
+
+msgid "Remote desktop client supporting RDP, VNC, SSH and more"
+msgstr "Remote desktop client supporting RDP, VNC, SSH and more"
+
+msgid "Open-source remote desktop software, self-hostable"
+msgstr "Open-source remote desktop software, self-hostable"
+
+msgid "Fast and secure remote desktop application"
+msgstr "Fast and secure remote desktop application"
+
+msgid "Remote desktop client for accessing NoMachine servers"
+msgstr "Remote desktop client for accessing NoMachine servers"
+
+msgid "Graphical tool for managing virtual machines via libvirt/QEMU"
+msgstr "Graphical tool for managing virtual machines via libvirt/QEMU"
+
+msgid "Simple virtual machine and remote desktop viewer for GNOME"
+msgstr "Simple virtual machine and remote desktop viewer for GNOME"
+
+msgid "Open-source AI office suite: Docs, Sheets, Slides, PDF, HTML and Markdown"
+msgstr "Open-source AI office suite: Docs, Sheets, Slides, PDF, HTML and Markdown"
+
+msgid "WhatsApp Web as a desktop app (Soplos WebApp Manager)"
+msgstr "WhatsApp Web as a desktop app (Soplos WebApp Manager)"
+
+msgid "WebApp"
+msgstr "WebApp"
+
+msgid "Warehouse"
+msgstr "Warehouse"
+
+msgid "Easy Flatpak"
+msgstr "Easy Flatpak"
+
+msgid "Discover"
+msgstr "Discover"
+
+msgid "Install Discover?"
+msgstr "Install Discover?"
+
+msgid "Discover is KDE's software center. Since this isn't a Plasma desktop, it pulls in a large chunk of the KDE Frameworks stack it depends on: KDE Connect, account providers, System Settings, sshfs and a full QtWebEngine."
+msgstr "Discover is KDE's software center. Since this isn't a Plasma desktop, it pulls in a large chunk of the KDE Frameworks stack it depends on: KDE Connect, account providers, System Settings, sshfs and a full QtWebEngine."
+
+msgid "Discover pulls in a lot beyond itself: KDE Connect, account providers, System Settings, sshfs and a full QtWebEngine — around 60 extra packages on a typical Soplos install."
+msgstr "Discover pulls in a lot beyond itself: KDE Connect, account providers, System Settings, sshfs and a full QtWebEngine — around 60 extra packages on a typical Soplos install."

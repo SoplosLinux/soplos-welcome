@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.2--8-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.3--1-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,12 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.3-1 (2026-09-24)
+- **Changed**: WhatsApp is now a WhatsApp Web desktop shortcut (Soplos WebApp Manager) instead of an unofficial third-party Flatpak; Telegram now installs from Soplos's own apt repository instead of Flatpak.
+- **Added**: Warehouse, Easy Flatpak and Discover in the Software tab (all three desktop variants), with a confirmation dialog before installing Discover on non-Plasma desktops.
+- **Changed**: Repo Selector moved to the first position in the Software grid.
+- **Fixed**: real translations added in all 8 languages for everything introduced since 2.1.3, plus missing header fields in every `.po` file.
 
 ### v2.1.3 (2026-09-18)
 - **Added**: two new categories in Recommended, ported from the Welcome 3.0 alpha catalog — Remote Desktops (Remmina, RustDesk, AnyDesk, NoMachine) and Virtualization (virt-manager, GNOME Boxes).

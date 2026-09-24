@@ -190,10 +190,14 @@ SOFTWARE_CATEGORIES = {
             {
                 'name': 'WhatsApp',
                 'package': None,
-                'flatpak': 'io.github.mimbrero.WhatsAppDesktop',
+                'flatpak': None,
                 'icon': 'whatsapp.png',
-                'description': _('Unofficial WhatsApp desktop client'),
-                'official': False
+                'description': _('WhatsApp Web as a desktop app (Soplos WebApp Manager)'),
+                'official': False,
+                'webapp_id': 'whatsapp',
+                'webapp_url': 'https://web.whatsapp.com/',
+                'webapp_icon': os.path.join(PROJECT_ROOT, "assets", "icons", "comunications", "whatsapp.png"),
+                'webapp_category': 'Network'
             },
             {
                 'name': 'Slack',

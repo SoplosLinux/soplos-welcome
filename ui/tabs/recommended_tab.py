@@ -278,6 +278,13 @@ class RecommendedTab(Gtk.Box):
             flatpak_badge.set_valign(Gtk.Align.CENTER)
             name_box.pack_start(flatpak_badge, False, False, 0)
 
+        # Add WebApp badge for packages installed via Soplos WebApp Manager
+        if install_method == 'webapp':
+            webapp_badge = Gtk.Label()
+            webapp_badge.set_markup(f'<span size="small" foreground="#888888" background="#333333"> {_("WebApp")} </span>')
+            webapp_badge.set_valign(Gtk.Align.CENTER)
+            name_box.pack_start(webapp_badge, False, False, 0)
+
         # Add AppImage badge for packages installed as AppImage
         if package.get('check_path', '').endswith('.AppImage'):
             appimage_badge = Gtk.Label()
@@ -439,10 +446,14 @@ class RecommendedTab(Gtk.Box):
     
     def _get_install_method(self, package: dict) -> str:
         """Determine the preferred installation method for a package."""
+        # WebApp (Soplos WebApp Manager)
+        if package.get('webapp_url'):
+            return 'webapp'
+
         # List of packages that MUST use Flatpak even if APT is available
         # This matches the behavior of previous versions (Tyron/Tyson)
         prefer_flatpak = [
-            'Telegram', 'Discord', 'Signal', 'Element', 'WhatsApp',
+            'Discord', 'Signal', 'Element',
             'LibreWolf', 'LibreOffice', 'OnlyOffice', 'WPS Office',
             'OpenShot', 'Kdenlive', 'Shotcut',
             'OBS Studio', 'HandBrake',
@@ -450,10 +461,10 @@ class RecommendedTab(Gtk.Box):
             'Steam', 'Heroic Games Launcher', 'Bottles',
             'Lutris'
         ]
-        
+
         if package['name'] in prefer_flatpak and package.get('flatpak'):
             return 'flatpak'
-            
+
         # Check for custom installation handlers
         if package.get('name') == 'DaVinci Resolve':
             return 'davinci_resolve'
@@ -473,7 +484,68 @@ class RecommendedTab(Gtk.Box):
             return 'flatpak'
         
         return 'unknown'
-    
+
+    def _build_webapp_install_command(self, package: dict) -> str:
+        """Build bash command to create a Soplos WebApp Manager .desktop entry."""
+        wid = package['webapp_id']
+        url = package['webapp_url']
+        name = package['name']
+        icon = package.get('webapp_icon', '')
+        category = package.get('webapp_category', 'Network')
+        profile = f"$HOME/.local/share/soplos-webapps/{wid}"
+
+        return f"""
+mkdir -p "{profile}"
+mkdir -p "$HOME/.local/share/applications"
+
+# Detect browser
+BROWSER_CMD=""
+EXEC_LINE=""
+STARTUP_CLASS="soplos-webapp-{wid}"
+
+for b in chromium chromium-browser brave-browser google-chrome vivaldi; do
+    if command -v "$b" &>/dev/null; then
+        BROWSER_CMD="$b"
+        break
+    fi
+done
+
+if [ -n "$BROWSER_CMD" ]; then
+    EXEC_LINE="env CHROME_DESKTOP=soplos-webapp-{wid}.desktop $BROWSER_CMD --ozone-platform-hint=auto --wayland-app-id=soplos-webapp-{wid} --class=soplos-webapp-{wid} --name=soplos-webapp-{wid} --wm-class=soplos-webapp-{wid} --user-data-dir={profile} --app={url}"
+    STARTUP_CLASS="chrome-$(echo '{url}' | sed 's|https\\?://||;s|/.*||')__-Default"
+elif flatpak info org.chromium.Chromium &>/dev/null; then
+    EXEC_LINE="env CHROME_DESKTOP=soplos-webapp-{wid}.desktop flatpak run org.chromium.Chromium --ozone-platform-hint=auto --wayland-app-id=soplos-webapp-{wid} --class=soplos-webapp-{wid} --name=soplos-webapp-{wid} --wm-class=soplos-webapp-{wid} --user-data-dir={profile} --app={url}"
+    STARTUP_CLASS="chrome-$(echo '{url}' | sed 's|https\\?://||;s|/.*||')__-Default"
+elif command -v firefox &>/dev/null; then
+    EXEC_LINE="env MOZ_APP_REMOTINGNAME=soplos-webapp-{wid} firefox -no-remote -new-instance -profile {profile} -class soplos-webapp-{wid} -name soplos-webapp-{wid} {url}"
+elif flatpak info org.mozilla.firefox &>/dev/null; then
+    EXEC_LINE="env MOZ_APP_REMOTINGNAME=soplos-webapp-{wid} flatpak run org.mozilla.firefox -no-remote -new-instance -profile {profile} -class soplos-webapp-{wid} -name soplos-webapp-{wid} {url}"
+else
+    EXEC_LINE="xdg-open {url}"
+fi
+
+cat > "$HOME/.local/share/applications/soplos-webapp-{wid}.desktop" << DESKTOP
+[Desktop Entry]
+Version=1.0
+Name={name}
+Comment=Soplos WebApp for {name}
+Exec=$EXEC_LINE
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon={icon}
+Categories={category};
+StartupWMClass=$STARTUP_CLASS
+StartupNotify=true
+X-Soplos-Navbar=false
+X-Soplos-ExtraParams=
+X-Soplos-Incognito=false
+DESKTOP
+
+update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
+echo "WebApp {name} created."
+"""
+
     def _is_binder_module_available(self) -> bool:
         """Check whether the running kernel has Android Binder support
         (needed by Waydroid). Built into the kernel (CONFIG_ANDROID_BINDER_IPC=y),
@@ -500,7 +572,16 @@ class RecommendedTab(Gtk.Box):
             is_installed = os.path.exists(check_path)
             self.package_status_cache[package_name] = is_installed
             return is_installed
-            
+
+        # WebApp: check for the soplos-webapp .desktop file
+        if package.get('webapp_url') and package.get('webapp_id'):
+            desktop = os.path.expanduser(
+                f"~/.local/share/applications/soplos-webapp-{package['webapp_id']}.desktop"
+            )
+            is_installed = os.path.exists(desktop)
+            self.package_status_cache[package_name] = is_installed
+            return is_installed
+
         install_method = self._get_install_method(package)
         is_installed = False
         
@@ -589,7 +670,11 @@ class RecommendedTab(Gtk.Box):
             self._install_davinci_resolve(package)
             return
 
-        if install_method == 'apt' and package.get('package'):
+        if install_method == 'webapp' and package.get('webapp_url') and package.get('webapp_id'):
+            command = self._build_webapp_install_command(package)
+            script_name = f"install-webapp-{package['webapp_id']}.sh"
+
+        elif install_method == 'apt' and package.get('package'):
             command = f"pkexec apt install -y {package['package']}"
             script_name = f"install-{package['package']}.sh"
             
@@ -636,8 +721,17 @@ rm -f /tmp/{pkg_name}.deb"""
         command = ""
         script_name = ""
         
+        # WebApp: remove the .desktop entry and its browser profile
+        if install_method == 'webapp' and package.get('webapp_id'):
+            wid = package['webapp_id']
+            command = (
+                f"rm -f ~/.local/share/applications/soplos-webapp-{wid}.desktop && "
+                f"rm -rf ~/.local/share/soplos-webapps/{wid} && "
+                f"update-desktop-database ~/.local/share/applications 2>/dev/null || true"
+            )
+            script_name = f"uninstall-webapp-{wid}.sh"
         # Handle packages with custom uninstall commands (e.g. AppImages)
-        if package.get('uninstall_commands'):
+        elif package.get('uninstall_commands'):
             pkg_name = package.get('package') or package['name'].lower().replace(' ', '-')
             cmds = "\n".join(package['uninstall_commands'])
             command = cmds

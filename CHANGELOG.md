@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.3-1] - 2026-09-24
+
+### Added
+- **Recommended tab (Communication)**: WhatsApp switched from an unofficial third-party Flatpak to a WhatsApp Web desktop shortcut created through the same mechanism as Soplos WebApp Manager. This required porting the whole webapp install/uninstall/status-check machinery from `gaming_tab.py` into `recommended_tab.py`, which didn't have any webapp support before — reusable now for future webapp entries in Recommended.
+- **Software tab**: added Warehouse and Easy Flatpak (both Flatpak) to all three desktop variants (GNOME, Plasma, Xfce). Added Discover (KDE's software center) too, with a confirmation dialog before installing on non-Plasma desktops explaining the extra KDE Frameworks packages it pulls in — matching the same confirmation pattern already used for Bazaar.
+- **Translations**: added real (not English-passthrough) translations across all 8 languages for every string introduced since 2.1.3 — Remote Desktops, Virtualization and their packages, GenOffice, the WhatsApp webapp description, the WebApp badge, and the three new software stores with Discover's dialog. Fixed missing header fields (`Project-Id-Version`, `PO-Revision-Date`, `Last-Translator`, `Language-Team`, `Language`, `MIME-Version`) that `msgfmt --check` was warning about in all 8 `.po` files. Compiled `.mo` files for all 8 languages.
+
+### Changed
+- **Recommended tab (Communication)**: Telegram now installs from Soplos's own apt repository instead of Flatpak, now that it's packaged there — removed from the `prefer_flatpak` override list.
+- **Software tab**: Repo Selector moved to the first position in the grid in all three desktop variants, matching Welcome 3.0's ordering.
+
 ## [2.1.3] - 2026-09-18
 
 ### Added
