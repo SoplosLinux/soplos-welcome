@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.3--1-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.3--2-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,9 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.3-2 (2026-09-26)
+- **Fixed**: depends on `soplos-fontconfig-woff-fix` to prevent Qt applications from crashing after Chromium 154-based browsers (Brave 1.96, Chrome 154) rewrite the user's font cache (fontconfig #565).
 
 ### v2.1.3-1 (2026-09-24)
 - **Changed**: WhatsApp is now a WhatsApp Web desktop shortcut (Soplos WebApp Manager) instead of an unofficial third-party Flatpak; Telegram now installs from Soplos's own apt repository instead of Flatpak.

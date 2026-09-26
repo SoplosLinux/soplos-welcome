@@ -8,7 +8,7 @@ Build-Depends: debhelper-compat (= 13),
                python3-setuptools
 
 Package: soplos-welcome
-Version: 2.1.3-1
+Version: 2.1.3-2
 Architecture: all
 Depends: ${python3:Depends},
          ${misc:Depends},
@@ -19,7 +19,8 @@ Depends: ${python3:Depends},
          wget,
          python3-psutil,
          python3-xlib,
-         wmctrl
+         wmctrl,
+         soplos-fontconfig-woff-fix
 Description: Welcome screen for Soplos Linux
  A welcome application for new users of Soplos Linux.
  Provides easy access to common system configuration
