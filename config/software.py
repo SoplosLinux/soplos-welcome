@@ -393,6 +393,35 @@ SOFTWARE_CATEGORIES = {
                     'rm -f "$REAL_HOME/.local/share/applications/affinity.desktop"'
                 ]
             },
+            {
+                'name': 'Fog Panther',
+                'package': None,
+                'flatpak': 'com.fogpanther.FogPanther',
+                'icon': 'pantherfog.png',
+                'description': _('Professional image editor'),
+                'official': False
+            },
+            {
+                'name': 'Patchy',
+                'package': None,
+                'flatpak': None,
+                'icon': 'patchy.png',
+                'description': _('Open-source image editor focused on PSD compatibility and Photoshop-like workflows'),
+                'official': False,
+                'check_path': '~/.local/share/flatpak/app/com.rtsoft.patchy',
+                'install_commands': [
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo',
+                    'wget -q -O /tmp/PatchyLinux.flatpak https://github.com/SethRobinson/Patchy/releases/download/v1.00/PatchyLinux.flatpak',
+                    'chmod 644 /tmp/PatchyLinux.flatpak',
+                    'sudo -u $REAL_USER flatpak install --user -y --noninteractive --bundle /tmp/PatchyLinux.flatpak',
+                    'rm -f /tmp/PatchyLinux.flatpak'
+                ],
+                'uninstall_commands': [
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER flatpak uninstall --user -y com.rtsoft.patchy'
+                ]
+            },
             # Vector / Design
             {
                 'name': 'Inkscape',

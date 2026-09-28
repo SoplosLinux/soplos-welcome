@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.3-3] - 2026-09-28
+
+### Added
+- **Recommended tab (Graphics)**: added Fog Panther (Flatpak, `com.fogpanther.FogPanther`) and Patchy, an open-source image editor focused on PSD compatibility. Patchy isn't on Flathub, so it installs from the `.flatpak` bundle published on its GitHub releases, at user level: the install commands run under `pkexec`, so the Flatpak calls go through `sudo -u $REAL_USER` (resolved from `$PKEXEC_UID`) to land in the logged-in user's installation and match the `check_path`. Both ported from the Welcome 3.0 catalog, with their icons and translations in all 8 languages.
+
 ## [2.1.3-2] - 2026-09-26
 
 ### Fixed

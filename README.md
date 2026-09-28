@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.3--2-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.3--3-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,9 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.3-3 (2026-09-28)
+- **Added**: Fog Panther and Patchy in Recommended → Graphics, ported from the Welcome 3.0 catalog.
 
 ### v2.1.3-2 (2026-09-26)
 - **Fixed**: depends on `soplos-fontconfig-woff-fix` to prevent Qt applications from crashing after Chromium 154-based browsers (Brave 1.96, Chrome 154) rewrite the user's font cache (fontconfig #565).
