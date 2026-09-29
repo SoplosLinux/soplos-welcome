@@ -1313,7 +1313,7 @@ rm -f /tmp/{pkg_name}.deb"""
         current_file = os.path.abspath(__file__)
         # Go up to the main application directory (ui/tabs -> ui -> root)
         app_root = os.path.dirname(os.path.dirname(os.path.dirname(current_file)))
-        src_script = os.path.join(app_root, "services", "makeresolvedeb_1.10.0_multi.sh")
+        src_script = os.path.join(app_root, "services", "makeresolvedeb_1.10.1_multi.sh")
         
         if not os.path.exists(src_script):
             self._on_package_operation_complete(package_data, False)

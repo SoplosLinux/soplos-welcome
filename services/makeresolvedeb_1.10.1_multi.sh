@@ -2,10 +2,10 @@
 
 #
 # DaVinci Resolve Multi Debian package creator
-# Release 2026-05-15
+# Release 2026-09-10
 # By Daniel Tufvesson
 #
-MAKERESOLVEDEB_VERSION=1.10.0
+MAKERESOLVEDEB_VERSION=1.10.1
 
 check_command() {
     echo -n "Checking for ${1}..."
@@ -527,7 +527,15 @@ process_21() {
     else
 	create_directory "${RESOLVE_BASE_DIR}"/Apple\ Immersive
     fi
+    if [[ -e "${UNPACK_DIR}"/Immersive ]]; then
+	copy_object "${UNPACK_DIR}"/Immersive "${RESOLVE_BASE_DIR}"
+    else
+	create_directory "${RESOLVE_BASE_DIR}"/Immersive
+    fi
     copy_object "${UNPACK_DIR}"/bin "${RESOLVE_BASE_DIR}"
+    if [[ -e "${UNPACK_DIR}"/ResolvePython ]]; then
+	copy_object "${UNPACK_DIR}"/ResolvePython "${RESOLVE_BASE_DIR}"
+    fi
     copy_object "${UNPACK_DIR}"/Control "${RESOLVE_BASE_DIR}"
     copy_object "${UNPACK_DIR}"/Certificates "${RESOLVE_BASE_DIR}"
     copy_object "${UNPACK_DIR}"/DaVinci\ Control\ Panels\ Setup "${RESOLVE_BASE_DIR}"
@@ -577,6 +585,7 @@ chmod -R a+rw /opt/resolve/Fairlight
 chmod -R a+rw /var/BlackmagicDesign/"DaVinci Resolve"
 chmod -R a+rw /opt/resolve/Extras
 chmod -R a+rw /opt/resolve/Apple\ Immersive
+chmod -R a+rw /opt/resolve/Immersive
 EOF
 }
 

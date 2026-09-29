@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.3-4] - 2026-09-29
+
+### Fixed
+- **Recommended tab (DaVinci Resolve install produced no `.deb`)**: the bundled `makeresolvedeb` was pinned to 1.10.0 (May), which doesn't know about the `Immersive` directory DaVinci Resolve 21.1's installer introduced — it has no existence check before touching it, unlike 1.10.1 (already in use in Welcome 3.0). On Resolve 21.1 the conversion step ran to completion but left loose unpacked directories in the work folder instead of finished `.deb` packages, so the install silently produced nothing installable. Replaced `services/makeresolvedeb_1.10.0_multi.sh` with `makeresolvedeb_1.10.1_multi.sh`, matching 3.0.
+
 ## [2.1.3-3] - 2026-09-28
 
 ### Added
