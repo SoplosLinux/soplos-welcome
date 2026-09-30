@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: soplos-welcome 2.1.3-4\n"
+"Project-Id-Version: soplos-welcome 2.1.3-5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-04 18:47+0100\n"
 "PO-Revision-Date: 2026-09-24 00:00+0100\n"
@@ -3737,3 +3737,16 @@ msgstr "Editor de imagini profesional"
 
 msgid "Open-source image editor focused on PSD compatibility and Photoshop-like workflows"
 msgstr "Editor de imagini open source axat pe compatibilitatea PSD și pe fluxuri de lucru în stil Photoshop"
+
+# Multimedia — Glassy Music, Orchard, Sonora, Concat
+msgid "Customized YouTube Music desktop client with lyrics, ad blocking and shader effects"
+msgstr "Client desktop personalizat pentru YouTube Music cu versuri, blocare a reclamelor și efecte shader"
+
+msgid "Power-user desktop client for YouTube Music with smart crossfade, equalizer and Discord presence"
+msgstr "Client desktop avansat pentru YouTube Music cu crossfade inteligent, egalizator și prezență Discord"
+
+msgid "Native music streaming client for Apple Music, Spotify, YouTube Music, Deezer and local files"
+msgstr "Client nativ de streaming muzical pentru Apple Music, Spotify, YouTube Music, Deezer și fișiere locale"
+
+msgid "Free, open-source video editor with local AI captioning and a native Rust engine"
+msgstr "Editor video liber și open source cu subtitrare prin IA locală și motor nativ în Rust"

@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.3--4-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.3--5-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,9 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.3-5 (2026-09-30)
+- **Added**: Glassy Music, Orchard, Sonora and Concat in Recommended → Multimedia, ported from the Welcome 3.0 catalog.
 
 ### v2.1.3-4 (2026-09-29)
 - **Fixed**: DaVinci Resolve installs produced no `.deb` package on Resolve 21.1 because the bundled `makeresolvedeb` script (1.10.0) didn't know about its new `Immersive` directory. Updated to 1.10.1, matching Welcome 3.0.

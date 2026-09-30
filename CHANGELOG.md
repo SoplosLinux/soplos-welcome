@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.3-5] - 2026-09-30
+
+### Added
+- **Recommended tab (Multimedia)**: added Glassy Music, Orchard and Sonora (YouTube Music/streaming clients) and Concat (AI-captioning video editor), ported from the Welcome 3.0 catalog. Orchard is pinned to a specific beta release rather than resolved from GitHub's "latest" API, since its stable channel has shipped no Linux assets since v4.5.0. Sonora installs from its own single-app Flatpak repo via a `.flatpakref` URL rather than Flathub.
+
 ## [2.1.3-4] - 2026-09-29
 
 ### Fixed

@@ -520,6 +520,73 @@ SOFTWARE_CATEGORIES = {
                 'description': _('Digital music streaming service'),
                 'official': False
             },
+            {
+                'name': 'Glassy Music',
+                'package': 'glassy-music-nankill-mod',
+                'flatpak': None,
+                'icon': 'glassy-music.png',
+                'description': _('Customized YouTube Music desktop client with lyrics, ad blocking and shader effects'),
+                'official': False,
+                'install_commands': [
+                    'GLASSY_URL=$(curl -s https://api.github.com/repos/NanKillBro/glassy-music-nankill/releases/latest | grep browser_download_url | grep amd64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/glassy-music.deb "$GLASSY_URL"',
+                    'apt install -y /tmp/glassy-music.deb',
+                    'rm -f /tmp/glassy-music.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y glassy-music-nankill-mod'
+                ]
+            },
+            {
+                'name': 'Orchard',
+                'package': None,
+                'flatpak': None,
+                'icon': 'orchard.png',
+                # Orchard's own "stable" GitHub releases have shipped with an empty asset
+                # list since v4.5.0 (their desktop build pipeline currently only publishes
+                # working Linux packages under the 5.0.0 beta track), and /releases/latest
+                # on this repo can resolve to an unrelated mobile-app release with no Linux
+                # assets at all — so unlike the other GitHub-sourced entries here, there is
+                # no reliable "always get the newest" URL to query. Pinned to the current
+                # beta, needs a manual bump if Orchard ever publishes a working stable
+                # release again.
+                'description': _('Power-user desktop client for YouTube Music with smart crossfade, equalizer and Discord presence'),
+                'official': False,
+                'check_path': '~/.local/share/flatpak/app/dev.sfg.orchard',
+                'install_commands': [
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo',
+                    'wget -q -O /tmp/orchard.flatpak https://github.com/SFG5453/Orchard/releases/download/v5.0.0-beta.9/orchard-packages-5.0.0-linux-x64.flatpak',
+                    'chmod 644 /tmp/orchard.flatpak',
+                    'sudo -u $REAL_USER flatpak install --user -y --noninteractive --bundle /tmp/orchard.flatpak',
+                    'rm -f /tmp/orchard.flatpak'
+                ],
+                'uninstall_commands': [
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER flatpak uninstall --user -y dev.sfg.orchard'
+                ]
+            },
+            {
+                'name': 'Sonora',
+                'package': None,
+                'flatpak': None,
+                'icon': 'sonora.png',
+                # Sonora publishes its own single-app Flatpak repo instead of using
+                # Flathub — installing straight from its .flatpakref URL adds that repo
+                # (named "sonora") and installs the app in one step.
+                'description': _('Native music streaming client for Apple Music, Spotify, YouTube Music, Deezer and local files'),
+                'official': False,
+                'check_path': '~/.local/share/flatpak/app/io.github.nolight132.sonora',
+                'install_commands': [
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER flatpak install --user -y --noninteractive https://sonorahq.github.io/sonora/sonora.flatpakref'
+                ],
+                'uninstall_commands': [
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER flatpak uninstall --user -y io.github.nolight132.sonora',
+                    'sudo -u $REAL_USER flatpak remote-delete --user sonora 2>/dev/null || true'
+                ]
+            },
             # Video
             {
                 'name': 'OBS Studio',
@@ -552,6 +619,23 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'handbrake.png',
                 'description': _('Open source video transcoder'),
                 'official': True
+            },
+            {
+                'name': 'Concat',
+                'package': 'concat',
+                'flatpak': None,
+                'icon': 'concat.png',
+                'description': _('Free, open-source video editor with local AI captioning and a native Rust engine'),
+                'official': False,
+                'install_commands': [
+                    'CONCAT_URL=$(curl -s https://api.github.com/repos/jub0t/Concat/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/concat.deb "$CONCAT_URL"',
+                    'apt install -y /tmp/concat.deb',
+                    'rm -f /tmp/concat.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y concat'
+                ]
             },
             {
                 'name': 'DaVinci Resolve',
