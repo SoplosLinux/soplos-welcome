@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: soplos-welcome 2.1.3-5\n"
+"Project-Id-Version: soplos-welcome 2.1.3-6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-04 18:47+0100\n"
 "PO-Revision-Date: 2026-09-24 00:00+0100\n"
@@ -3757,3 +3757,55 @@ msgstr "Cliente nativo de streaming de música para Apple Music, Spotify, YouTub
 
 msgid "Free, open-source video editor with local AI captioning and a native Rust engine"
 msgstr "Editor de vídeo livre e de código aberto com legendagem por IA local e motor nativo em Rust"
+
+# Craft family, VirtualBox, VirtualBox Extension Pack, VMware Workstation Pro
+msgid "Clean-room Photoshop alternative written in Rust"
+msgstr "Alternativa ao Photoshop escrita em Rust"
+
+msgid "Clean-room Illustrator alternative written in Rust"
+msgstr "Alternativa ao Illustrator escrita em Rust"
+
+msgid "Clean-room Lightroom alternative written in Rust"
+msgstr "Alternativa ao Lightroom escrita em Rust"
+
+msgid "Clean-room Premiere Pro alternative written in Rust"
+msgstr "Alternativa ao Premiere Pro escrita em Rust"
+
+msgid "Clean-room After Effects alternative written in Rust"
+msgstr "Alternativa ao After Effects escrita em Rust"
+
+msgid "Clean-room Acrobat alternative written in Rust"
+msgstr "Alternativa ao Acrobat escrita em Rust"
+
+msgid "Full-featured virtual machine hypervisor by Oracle"
+msgstr "Hipervisor completo de máquinas virtuais da Oracle"
+
+msgid "This adds two repositories to your system"
+msgstr "Isto adiciona dois repositórios ao seu sistema"
+
+msgid "Installing VirtualBox adds Oracle's own repository, plus Debian's trixie-security repository (needed because a dependency VirtualBox requires is no longer in this system's own suite). Both stay configured permanently after this — Uninstall removes them again. Continuing accepts this."
+msgstr "Instalar o VirtualBox adiciona o repositório próprio da Oracle e o repositório trixie-security do Debian (necessário porque uma dependência do VirtualBox já não está na suite deste sistema). Ambos ficam configurados de forma permanente — Desinstalar remove-os novamente. Continuar implica aceitar."
+
+msgid "USB 2.0/3.0, RDP, PXE boot and disk encryption support for VirtualBox"
+msgstr "Suporte para USB 2.0/3.0, RDP, arranque PXE e encriptação de disco para o VirtualBox"
+
+msgid "Accept Oracle's license"
+msgstr "Aceite a licença da Oracle"
+
+msgid "The Extension Pack is distributed under Oracle's Personal Use and Evaluation License (PUEL), separate from VirtualBox's own open-source license. Continuing installs it and accepts that license."
+msgstr "O Extension Pack é distribuído sob a Personal Use and Evaluation License (PUEL) da Oracle, distinta da licença de código aberto do VirtualBox. Continuar instala-o e aceita essa licença."
+
+msgid "Broadcom's virtual machine hypervisor, with Soplos's kernel modules already integrated"
+msgstr "Hipervisor de máquinas virtuais da Broadcom, com os módulos do kernel da Soplos já integrados"
+
+msgid "VMware Workstation Pro installation"
+msgstr "Instalação do VMware Workstation Pro"
+
+msgid "VMware Workstation Pro requires a manual download for licensing reasons.\n\n1. Go to broadcom.com and download the Linux installer (.bundle).\n2. Press Continue to select the downloaded file.\n3. We'll install it and set up Soplos's VMware kernel modules (vmmon/vmnet) so they keep working across kernel updates."
+msgstr "O VMware Workstation Pro requer uma descarga manual por motivos de licença.\n\n1. Vá a broadcom.com e descarregue o instalador para Linux (.bundle).\n2. Prima Continuar para selecionar o ficheiro descarregado.\n3. Vamos instalá-lo e configurar os módulos do kernel VMware da Soplos (vmmon/vmnet) para que continuem a funcionar a cada atualização do kernel."
+
+msgid "Select the VMware Workstation Pro bundle"
+msgstr "Selecione o bundle do VMware Workstation Pro"
+
+msgid "VMware Workstation Pro Installer"
+msgstr "Instalador do VMware Workstation Pro"

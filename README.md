@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.3--5-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.3--6-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,10 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.3-6 (2026-10-08)
+- **Added**: the 6 Craft apps, VirtualBox + Extension Pack, and VMware Workstation Pro, ported from Welcome 3.0 after a full field-by-field catalog audit.
+- **Changed**: Waydroid moved from Development to Virtualization; Audacity now installs from the official AppImage (apt was stuck on an old 3.7.8); Google Antigravity now installs from Google's official tarball instead of its discontinued apt repo.
 
 ### v2.1.3-5 (2026-09-30)
 - **Added**: Glassy Music, Orchard, Sonora and Concat in Recommended → Multimedia, ported from the Welcome 3.0 catalog.

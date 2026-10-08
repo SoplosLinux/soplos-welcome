@@ -339,7 +339,7 @@ class RecommendedTab(Gtk.Box):
         
         # Check if this package should be excluded from batch mode (only DaVinci Resolve)
         install_method = self._get_install_method(package)
-        exclude_from_batch = install_method == 'davinci_resolve'
+        exclude_from_batch = install_method in ('davinci_resolve', 'vmware')
         
         # BATCH MODE: Show checkbox for compatible packages
         if self.batch_mode and not exclude_from_batch and not is_processing:
@@ -468,6 +468,9 @@ class RecommendedTab(Gtk.Box):
         # Check for custom installation handlers
         if package.get('name') == 'DaVinci Resolve':
             return 'davinci_resolve'
+
+        if package.get('name') == 'VMware Workstation Pro':
+            return 'vmware'
 
         # Check for custom installation commands
         if 'install_commands' in package:
@@ -659,15 +662,34 @@ echo "WebApp {name} created."
         
         if package_id in self.installing_packages:
             return  # Already installing
-        
+
+        license_confirm = package.get('license_confirm')
+        if license_confirm:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.parent_window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text=license_confirm.get('title', '')
+            )
+            dialog.format_secondary_text(license_confirm.get('body', ''))
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.YES:
+                return
+
         self.installing_packages.add(package_id)
-        
+
         install_method = self._get_install_method(package)
         command = ""
         script_name = ""
-        
+
         if install_method == 'davinci_resolve':
             self._install_davinci_resolve(package)
+            return
+
+        if install_method == 'vmware':
+            self._install_vmware(package)
             return
 
         if install_method == 'webapp' and package.get('webapp_url') and package.get('webapp_id'):
@@ -1266,6 +1288,73 @@ rm -f /tmp/{pkg_name}.deb"""
         
         # Step 1: Install dependencies
         self._davinci_step_1_deps(filename, package_data)
+
+    def _install_vmware(self, package_data):
+        """Handle VMware Workstation Pro installation (manual download, like DaVinci)."""
+
+        dialog = Gtk.MessageDialog(
+            transient_for=self.parent_window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK_CANCEL,
+            text=_("VMware Workstation Pro installation")
+        )
+        dialog.format_secondary_text(
+            _("VMware Workstation Pro requires a manual download for licensing reasons.\n\n"
+              "1. Go to broadcom.com and download the Linux installer (.bundle).\n"
+              "2. Press Continue to select the downloaded file.\n"
+              "3. We'll install it and set up Soplos's VMware kernel modules (vmmon/vmnet) "
+              "so they keep working across kernel updates.")
+        )
+        response = dialog.run()
+        dialog.destroy()
+
+        if response != Gtk.ResponseType.OK:
+            self.installing_packages.discard("virtual:VMware Workstation Pro")
+            self._refresh_content()
+            return
+
+        file_filter = Gtk.FileFilter()
+        file_filter.set_name(_("VMware Workstation Pro Installer"))
+        file_filter.add_pattern("*.bundle")
+
+        chooser = Gtk.FileChooserDialog(
+            title=_("Select the VMware Workstation Pro bundle"),
+            parent=self.parent_window,
+            action=Gtk.FileChooserAction.OPEN
+        )
+        chooser.add_buttons(
+            _("Cancel"), Gtk.ResponseType.CANCEL,
+            _("Select"), Gtk.ResponseType.OK
+        )
+        chooser.add_filter(file_filter)
+
+        response = chooser.run()
+        filename = chooser.get_filename()
+        chooser.destroy()
+
+        if response != Gtk.ResponseType.OK or not filename:
+            self.installing_packages.discard("virtual:VMware Workstation Pro")
+            self._refresh_content()
+            return
+
+        package_id = "virtual:VMware Workstation Pro"
+        self.installing_packages.add(package_id)
+        self._refresh_content()
+
+        # --console --required --eulas-agreed: documented by VMware/Broadcom for an
+        # unattended install. soplos-vmware-modules (already in the Soplos repos)
+        # compiles and keeps the vmmon/vmnet kernel modules working across kernel
+        # updates, since VMware's own vmware-modconfig step is known to fail on
+        # systemd-based distros without it.
+        cmd = (
+            f"pkexec bash -c '"
+            f"set -e; "
+            f"chmod +x \"{filename}\"; "
+            f"\"{filename}\" --console --required --eulas-agreed; "
+            f"apt-get install -y soplos-vmware-modules'"
+        )
+        self.command_runner.run_command(cmd, lambda: self._on_package_operation_complete(package_data, True))
 
     def _davinci_step_1_deps(self, filename, package_data):
         """Step 1: Install dependencies (requires root)."""

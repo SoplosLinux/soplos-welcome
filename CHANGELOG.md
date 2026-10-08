@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.3-6] - 2026-10-08
+
+### Added
+- **Recommended tab**: ported everything still missing from the Welcome 3.0 catalog, found via a full field-by-field audit (not just app names) against it — PrintCraft (Office), FilmCraft and EffectCraft (Multimedia), PhotoCraft, VectorCraft and LightCraft (Graphics), all clean-room Adobe-suite alternatives written in Rust, installed from their latest GitHub release `.deb`. Added VirtualBox and VirtualBox Extension Pack to Virtualization, with a new generic `license_confirm` dialog in `recommended_tab.py` (reusable for any future package, not hardcoded to these two). Added VMware Workstation Pro, with a DaVinci-Resolve-style manual flow (`.bundle` file picker, unattended install, then `soplos-vmware-modules` from the Soplos repos for vmmon/vmnet).
+
+### Changed
+- **Recommended tab**: Waydroid moved from Development to Virtualization, matching Welcome 3.0's reorganization.
+- **Recommended tab (Multimedia)**: Audacity now installs from the official AppImage instead of apt. Audacity 4 ships no Debian package at all (confirmed on audacityteam.org and GitHub releases), so the apt entry was silently installing the stale 3.7.8 from Debian instead of the current 4.x. Icon updated to the current Audacity 4 artwork, matching 3.0.
+- **Recommended tab (Development)**: Google Antigravity now downloads the official tarball straight from Google's CDN into `/opt` instead of using Google's own apt repository, which has been discontinued. The install step also cleans up the old repo-based install (package, repo file, keyring) so upgrading from it leaves nothing behind.
+
 ## [2.1.3-5] - 2026-09-30
 
 ### Added

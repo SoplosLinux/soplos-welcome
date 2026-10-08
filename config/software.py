@@ -247,16 +247,33 @@ SOFTWARE_CATEGORIES = {
             },
             {
                 'name': 'Google Antigravity',
-                'package': 'antigravity',
+                'package': None,
                 'icon': 'antigravity.png',
+                # Google's own apt repo for Antigravity was discontinued, so this now
+                # downloads the official tarball straight from Google's CDN and
+                # extracts it to /opt, matching Welcome 3.0. The cleanup step below
+                # removes the previous apt-repo-based install (package, repo file and
+                # keyring) first, so upgrading from that leaves nothing behind.
                 'description': _('Advanced Agentic AI Coding Assistant'),
                 'official': False,
+                'check_path': '/opt/antigravity/antigravity-ide',
                 'install_commands': [
-                    'mkdir -p /etc/apt/keyrings',
-                    'curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | gpg --dearmor --yes -o /etc/apt/keyrings/antigravity-repo-key.gpg',
-                    'echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" | tee /etc/apt/sources.list.d/antigravity.list > /dev/null',
-                    'apt update',
-                    'apt install -y antigravity'
+                    'dpkg -s antigravity >/dev/null 2>&1 && apt purge -y antigravity',
+                    'rm -f /etc/apt/sources.list.d/antigravity.list /etc/apt/keyrings/antigravity-repo-key.gpg',
+                    'wget -q -O /tmp/antigravity.tar.gz "https://edgedl.me.gvt1.com/edgedl/release2/j0qc3/antigravity/stable/2.5.5-4923483625488384/linux-x64/Antigravity%20IDE.tar.gz"',
+                    'rm -rf /opt/antigravity',
+                    'mkdir -p /opt/antigravity',
+                    "tar --transform 's,^Antigravity IDE,antigravity,' -xzf /tmp/antigravity.tar.gz -C /opt",
+                    'rm -f /tmp/antigravity.tar.gz',
+                    'cp /opt/antigravity/resources/app/resources/linux/code.png /usr/share/pixmaps/antigravity.png',
+                    "printf '[Desktop Entry]\\nName=Antigravity\\nExec=/opt/antigravity/antigravity-ide\\nIcon=/usr/share/pixmaps/antigravity.png\\nType=Application\\nCategories=Development;\\nComment=Advanced Agentic AI Coding Assistant\\n' > /usr/share/applications/antigravity.desktop",
+                    'update-desktop-database /usr/share/applications 2>/dev/null || true'
+                ],
+                'uninstall_commands': [
+                    'rm -rf /opt/antigravity',
+                    'rm -f /usr/share/pixmaps/antigravity.png',
+                    'rm -f /usr/share/applications/antigravity.desktop',
+                    'update-desktop-database /usr/share/applications 2>/dev/null || true'
                 ]
             },
             {
@@ -325,24 +342,6 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'postman.png',
                 'description': _('API development and testing platform'),
                 'official': False
-            },
-            {
-                'name': 'Waydroid',
-                'package': 'waydroid',
-                'flatpak': None,
-                'icon': 'waydroid.png',
-                'description': _('Android container for developing and testing Android apps'),
-                'official': False,
-                'install_commands': [
-                    'curl -fsSL https://repo.waydro.id/waydroid.gpg -o /usr/share/keyrings/waydroid.gpg',
-                    "echo 'deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ trixie main' > /etc/apt/sources.list.d/waydroid.list",
-                    'apt update',
-                    'apt install -y waydroid'
-                ],
-                'uninstall_commands': [
-                    "apt purge -y waydroid 2>/dev/null || true",
-                    'rm -f /etc/apt/sources.list.d/waydroid.list /usr/share/keyrings/waydroid.gpg'
-                ]
             }
         ]
     },
@@ -422,6 +421,23 @@ SOFTWARE_CATEGORIES = {
                     'sudo -u $REAL_USER flatpak uninstall --user -y com.rtsoft.patchy'
                 ]
             },
+            {
+                'name': 'PhotoCraft',
+                'package': 'photocraft',
+                'flatpak': None,
+                'icon': 'photocraft.png',
+                'description': _('Clean-room Photoshop alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'PHOTOCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/photocraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/photocraft.deb "$PHOTOCRAFT_URL"',
+                    'apt install -y /tmp/photocraft.deb',
+                    'rm -f /tmp/photocraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y photocraft'
+                ]
+            },
             # Vector / Design
             {
                 'name': 'Inkscape',
@@ -430,6 +446,23 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'inkscape.png',
                 'description': _('Professional vector graphics editor'),
                 'official': True
+            },
+            {
+                'name': 'VectorCraft',
+                'package': 'vectorcraft',
+                'flatpak': None,
+                'icon': 'vectorcraft.png',
+                'description': _('Clean-room Illustrator alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'VECTORCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/vectorcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/vectorcraft.deb "$VECTORCRAFT_URL"',
+                    'apt install -y /tmp/vectorcraft.deb',
+                    'rm -f /tmp/vectorcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y vectorcraft'
+                ]
             },
             # 3D
             {
@@ -472,6 +505,23 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'art.png',
                 'description': _('Advanced RAW photo editor with local adjustments'),
                 'official': False
+            },
+            {
+                'name': 'LightCraft',
+                'package': 'lightcraft',
+                'flatpak': None,
+                'icon': 'lightcraft.png',
+                'description': _('Clean-room Lightroom alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'LIGHTCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/lightcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/lightcraft.deb "$LIGHTCRAFT_URL"',
+                    'apt install -y /tmp/lightcraft.deb',
+                    'rm -f /tmp/lightcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y lightcraft'
+                ]
             },
             {
                 'name': 'Hugin',
@@ -638,6 +688,40 @@ SOFTWARE_CATEGORIES = {
                 ]
             },
             {
+                'name': 'FilmCraft',
+                'package': 'filmcraft',
+                'flatpak': None,
+                'icon': 'filmcraft.png',
+                'description': _('Clean-room Premiere Pro alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'FILMCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/filmcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/filmcraft.deb "$FILMCRAFT_URL"',
+                    'apt install -y /tmp/filmcraft.deb',
+                    'rm -f /tmp/filmcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y filmcraft'
+                ]
+            },
+            {
+                'name': 'EffectCraft',
+                'package': 'effectcraft',
+                'flatpak': None,
+                'icon': 'effectcraft.png',
+                'description': _('Clean-room After Effects alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'EFFECTCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/effectcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/effectcraft.deb "$EFFECTCRAFT_URL"',
+                    'apt install -y /tmp/effectcraft.deb',
+                    'rm -f /tmp/effectcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y effectcraft'
+                ]
+            },
+            {
                 'name': 'DaVinci Resolve',
                 'package': None,
                 'flatpak': None,
@@ -665,11 +749,36 @@ SOFTWARE_CATEGORIES = {
             # Audio / DAW
             {
                 'name': 'Audacity',
-                'package': 'audacity',
-                'flatpak': 'org.audacityteam.Audacity',
+                'package': None,
+                'flatpak': None,
                 'icon': 'audacity.png',
+                # Audacity 4 dropped its Debian package in favor of an official AppImage
+                # only (confirmed on audacityteam.org/download/Linux and the GitHub
+                # releases page — no .deb asset exists), so this follows the same
+                # AppImage pattern as the other AppImage entries in this file instead
+                # of apt. The release tag changes per version, so the asset URL is
+                # resolved from the GitHub API rather than hardcoded.
                 'description': _('Free and open-source audio editor'),
-                'official': True
+                'official': False,
+                'check_path': '~/AppImages/audacity-linux-x86_64.AppImage',
+                'install_commands': [
+                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'REAL_USER=$(getent passwd $PKEXEC_UID | cut -d: -f1)',
+                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/AppImages/.icons"',
+                    'sudo -u $REAL_USER mkdir -p "$REAL_HOME/.local/share/applications"',
+                    'AUDACITY_URL=$(curl -s https://api.github.com/repos/audacity/audacity/releases/latest | grep browser_download_url | grep linux-.*-x86_64.AppImage | cut -d\\" -f4)',
+                    'wget -q -O "$REAL_HOME/AppImages/audacity-linux-x86_64.AppImage" "$AUDACITY_URL"',
+                    'chmod +x "$REAL_HOME/AppImages/audacity-linux-x86_64.AppImage"',
+                    f'cp {os.path.join(PROJECT_ROOT, "assets", "icons", "multimedia", "audacity.png")} "$REAL_HOME/AppImages/.icons/audacity.png"',
+                    'chown -R $PKEXEC_UID:$PKEXEC_UID "$REAL_HOME/AppImages"',
+                    "printf '[Desktop Entry]\\nType=Application\\nName=Audacity\\nExec=%s/AppImages/audacity-linux-x86_64.AppImage\\nIcon=%s/AppImages/.icons/audacity.png\\nCategories=AudioVideo;Audio;\\nComment=Free, open source, cross-platform audio editor\\nX-AppImage-Integrate=true\\n' \"$REAL_HOME\" \"$REAL_HOME\" | sudo -u $REAL_USER tee \"$REAL_HOME/.local/share/applications/audacity.desktop\" > /dev/null",
+                ],
+                'uninstall_commands': [
+                    'REAL_HOME=$(getent passwd $PKEXEC_UID | cut -d: -f6)',
+                    'rm -f "$REAL_HOME/AppImages/audacity-linux-x86_64.AppImage"',
+                    'rm -f "$REAL_HOME/AppImages/.icons/audacity.png"',
+                    'rm -f "$REAL_HOME/.local/share/applications/audacity.desktop"'
+                ]
             },
             {
                 'name': 'KutEditor',
@@ -808,10 +917,27 @@ SOFTWARE_CATEGORIES = {
                     'apt install -y /tmp/jopdf.deb',
                     'rm /tmp/jopdf.deb'
                 ]
+            },
+            {
+                'name': 'PrintCraft',
+                'package': 'printcraft',
+                'flatpak': None,
+                'icon': 'printcraft.png',
+                'description': _('Clean-room Acrobat alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'PRINTCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/pdfcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/printcraft.deb "$PRINTCRAFT_URL"',
+                    'apt install -y /tmp/printcraft.deb',
+                    'rm -f /tmp/printcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y printcraft'
+                ]
             }
         ]
     },
-    
+
     'gaming': {
         'title': _('Gaming'),
         'icon': 'steam.png',
@@ -1166,6 +1292,72 @@ SOFTWARE_CATEGORIES = {
         'icon': 'virtual',
         'packages': [
             {
+                'name': 'VirtualBox',
+                'package': 'virtualbox-7.2',
+                'flatpak': None,
+                'icon': 'virtualbox.png',
+                'description': _('Full-featured virtual machine hypervisor by Oracle'),
+                'official': False,
+                'license_confirm': {
+                    'title': _('This adds two repositories to your system'),
+                    'body': _("Installing VirtualBox adds Oracle's own repository, plus Debian's trixie-security repository (needed because a dependency VirtualBox requires is no longer in this system's own suite). Both stay configured permanently after this — Uninstall removes them again. Continuing accepts this.")
+                },
+                'install_commands': [
+                    'wget -qO- https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor',
+                    'CODENAME=$(apt-cache policy | grep o=Debian | grep -o "n=[a-z]*" | cut -d= -f2 | sort | uniq -c | sort -rn | head -1 | tr -dc "a-z") || true',
+                    'case "$CODENAME" in bookworm|trixie|bullseye) ;; *) CODENAME="trixie" ;; esac',
+                    'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $CODENAME contrib" > /etc/apt/sources.list.d/virtualbox.list',
+                    'if ! grep -rq "trixie-security" /etc/apt/sources.list.d/*.sources /etc/apt/sources.list.d/*.list 2>/dev/null; then printf \'Types: deb\\nURIs: https://security.debian.org/debian-security/\\nSuites: trixie-security\\nComponents: main\\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\\n\' > /etc/apt/sources.list.d/virtualbox-trixie-security.sources; fi',
+                    'apt update',
+                    'apt install -y virtualbox-7.2'
+                ],
+                'uninstall_commands': [
+                    "apt purge -y 'virtualbox-*' 2>/dev/null || true",
+                    'rm -f /etc/apt/sources.list.d/virtualbox.list /etc/apt/sources.list.d/virtualbox-trixie-security.sources /usr/share/keyrings/oracle-virtualbox-2016.gpg'
+                ]
+            },
+            {
+                'name': 'VirtualBox Extension Pack',
+                'package': None,
+                'flatpak': None,
+                'icon': 'virtualbox.png',
+                'description': _('USB 2.0/3.0, RDP, PXE boot and disk encryption support for VirtualBox'),
+                'official': False,
+                'check_path': '/usr/lib/virtualbox/ExtensionPacks/Oracle_VirtualBox_Extension_Pack',
+                'license_confirm': {
+                    'title': _("Accept Oracle's license"),
+                    'body': _("The Extension Pack is distributed under Oracle's Personal Use and Evaluation License (PUEL), separate from VirtualBox's own open-source license. Continuing installs it and accepts that license.")
+                },
+                # The Extension Pack's version must match the installed VirtualBox version
+                # exactly (VBoxManage refuses a mismatch), so it's detected at runtime
+                # instead of pinned here. The license hash below is the real SHA-256 of
+                # ExtPack-license.txt bundled inside the 7.2.18 pack (PUEL v12, 22 Jul
+                # 2024), which is what VBoxManage's --accept-license expects.
+                'install_commands': [
+                    'VBOX_VERSION=$(VBoxManage --version 2>/dev/null | grep -oE "^[0-9]+\\.[0-9]+\\.[0-9]+")',
+                    'if [ -z "$VBOX_VERSION" ]; then echo "Could not detect an installed VirtualBox version. Install VirtualBox first."; exit 1; fi',
+                    'wget -q -O /tmp/vbox-extpack.vbox-extpack "https://download.virtualbox.org/virtualbox/$VBOX_VERSION/Oracle_VirtualBox_Extension_Pack-$VBOX_VERSION.vbox-extpack"',
+                    'VBoxManage extpack install --replace --accept-license=eb31505e56e9b4d0fbca139104da41ac6f6b98f8e78968bdf01b1f3da3c4f9ae /tmp/vbox-extpack.vbox-extpack',
+                    'rm -f /tmp/vbox-extpack.vbox-extpack'
+                ],
+                'uninstall_commands': [
+                    'VBoxManage extpack uninstall "Oracle VirtualBox Extension Pack"'
+                ]
+            },
+            {
+                'name': 'VMware Workstation Pro',
+                'package': None,
+                'flatpak': None,
+                'icon': 'vmware.png',
+                'description': _("Broadcom's virtual machine hypervisor, with Soplos's kernel modules already integrated"),
+                'official': False,
+                'check_path': '/usr/bin/vmware',
+                'uninstall_commands': [
+                    'yes no | vmware-installer --uninstall-product vmware-workstation --console || true',
+                    'apt-get remove -y soplos-vmware-modules || true'
+                ]
+            },
+            {
                 'name': 'virt-manager',
                 'package': 'virt-manager',
                 'icon': 'virtmanager.png',
@@ -1178,6 +1370,24 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'gnomeboxes.png',
                 'description': _('Simple virtual machine and remote desktop viewer for GNOME'),
                 'official': True
+            },
+            {
+                'name': 'Waydroid',
+                'package': 'waydroid',
+                'flatpak': None,
+                'icon': 'waydroid.png',
+                'description': _('Android container for developing and testing Android apps'),
+                'official': False,
+                'install_commands': [
+                    'curl -fsSL https://repo.waydro.id/waydroid.gpg -o /usr/share/keyrings/waydroid.gpg',
+                    "echo 'deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ trixie main' > /etc/apt/sources.list.d/waydroid.list",
+                    'apt update',
+                    'apt install -y waydroid'
+                ],
+                'uninstall_commands': [
+                    "apt purge -y waydroid 2>/dev/null || true",
+                    'rm -f /etc/apt/sources.list.d/waydroid.list /usr/share/keyrings/waydroid.gpg'
+                ]
             }
         ]
     }

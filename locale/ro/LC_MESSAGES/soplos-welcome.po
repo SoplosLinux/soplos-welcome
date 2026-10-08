@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: soplos-welcome 2.1.3-5\n"
+"Project-Id-Version: soplos-welcome 2.1.3-6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-04 18:47+0100\n"
 "PO-Revision-Date: 2026-09-24 00:00+0100\n"
@@ -3750,3 +3750,55 @@ msgstr "Client nativ de streaming muzical pentru Apple Music, Spotify, YouTube M
 
 msgid "Free, open-source video editor with local AI captioning and a native Rust engine"
 msgstr "Editor video liber și open source cu subtitrare prin IA locală și motor nativ în Rust"
+
+# Craft family, VirtualBox, VirtualBox Extension Pack, VMware Workstation Pro
+msgid "Clean-room Photoshop alternative written in Rust"
+msgstr "Alternativă la Photoshop scrisă în Rust"
+
+msgid "Clean-room Illustrator alternative written in Rust"
+msgstr "Alternativă la Illustrator scrisă în Rust"
+
+msgid "Clean-room Lightroom alternative written in Rust"
+msgstr "Alternativă la Lightroom scrisă în Rust"
+
+msgid "Clean-room Premiere Pro alternative written in Rust"
+msgstr "Alternativă la Premiere Pro scrisă în Rust"
+
+msgid "Clean-room After Effects alternative written in Rust"
+msgstr "Alternativă la After Effects scrisă în Rust"
+
+msgid "Clean-room Acrobat alternative written in Rust"
+msgstr "Alternativă la Acrobat scrisă în Rust"
+
+msgid "Full-featured virtual machine hypervisor by Oracle"
+msgstr "Hipervizor complet de mașini virtuale de la Oracle"
+
+msgid "This adds two repositories to your system"
+msgstr "Aceasta adaugă două depozite în sistemul tău"
+
+msgid "Installing VirtualBox adds Oracle's own repository, plus Debian's trixie-security repository (needed because a dependency VirtualBox requires is no longer in this system's own suite). Both stay configured permanently after this — Uninstall removes them again. Continuing accepts this."
+msgstr "Instalarea VirtualBox adaugă depozitul propriu al Oracle și depozitul trixie-security al Debian (necesar deoarece o dependență a VirtualBox nu mai este în suita acestui sistem). Ambele rămân configurate permanent — Dezinstalare le elimină din nou. Continuarea înseamnă acceptare."
+
+msgid "USB 2.0/3.0, RDP, PXE boot and disk encryption support for VirtualBox"
+msgstr "Suport USB 2.0/3.0, RDP, boot PXE și criptare de disc pentru VirtualBox"
+
+msgid "Accept Oracle's license"
+msgstr "Acceptă licența Oracle"
+
+msgid "The Extension Pack is distributed under Oracle's Personal Use and Evaluation License (PUEL), separate from VirtualBox's own open-source license. Continuing installs it and accepts that license."
+msgstr "Extension Pack este distribuit sub Personal Use and Evaluation License (PUEL) a Oracle, diferită de licența open source a VirtualBox. Continuarea îl instalează și acceptă această licență."
+
+msgid "Broadcom's virtual machine hypervisor, with Soplos's kernel modules already integrated"
+msgstr "Hipervizor de mașini virtuale de la Broadcom, cu modulele de kernel Soplos deja integrate"
+
+msgid "VMware Workstation Pro installation"
+msgstr "Instalarea VMware Workstation Pro"
+
+msgid "VMware Workstation Pro requires a manual download for licensing reasons.\n\n1. Go to broadcom.com and download the Linux installer (.bundle).\n2. Press Continue to select the downloaded file.\n3. We'll install it and set up Soplos's VMware kernel modules (vmmon/vmnet) so they keep working across kernel updates."
+msgstr "VMware Workstation Pro necesită o descărcare manuală din motive de licență.\n\n1. Mergi pe broadcom.com și descarcă instalatorul pentru Linux (.bundle).\n2. Apasă Continuă pentru a selecta fișierul descărcat.\n3. Îl vom instala și vom configura modulele de kernel VMware ale Soplos (vmmon/vmnet) ca să continue să funcționeze la fiecare actualizare de kernel."
+
+msgid "Select the VMware Workstation Pro bundle"
+msgstr "Selectați pachetul VMware Workstation Pro"
+
+msgid "VMware Workstation Pro Installer"
+msgstr "Instalatorul VMware Workstation Pro"
