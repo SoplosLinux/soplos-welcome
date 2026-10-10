@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.3--6-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.3--7-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,10 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.3-7 (2026-10-10)
+- **Fixed**: the Ralink/MediaTek Wi-Fi firmware button did nothing, because `firmware-ralink` no longer has a candidate in Debian testing. Now installs `firmware-mediatek`, which carries the same firmware blobs.
+- **Added**: a second Broadcom Wi-Fi button for the proprietary `broadcom-sta-dkms` driver, for chips not covered by the open b43 driver.
 
 ### v2.1.3-6 (2026-10-08)
 - **Added**: the 6 Craft apps, VirtualBox + Extension Pack, and VMware Workstation Pro, ported from Welcome 3.0 after a full field-by-field catalog audit.

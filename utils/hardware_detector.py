@@ -403,7 +403,10 @@ def _identify_wifi_vendor(line_lower):
     elif 'atheros' in line_lower or 'qualcomm' in line_lower:
         return 'Atheros/Qualcomm', 'firmware-atheros'
     elif 'ralink' in line_lower or 'mediatek' in line_lower:
-        return 'Ralink/MediaTek', 'firmware-ralink'
+        # firmware-ralink has no candidate in Debian testing (forky) — the Ralink
+        # firmware blobs (rt2860.bin, rt2870.bin, rt3071.bin, etc.) now live in
+        # firmware-mediatek, confirmed by inspecting its .deb contents directly.
+        return 'Ralink/MediaTek', 'firmware-mediatek'
     elif 'marvell' in line_lower:
         return 'Marvell', 'firmware-libertas'
     else:

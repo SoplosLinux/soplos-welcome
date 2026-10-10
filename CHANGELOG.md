@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.3-7] - 2026-10-10
+
+### Fixed
+- **Drivers tab / hardware scanner (Ralink/MediaTek Wi-Fi firmware button did nothing)**: `firmware-ralink` has no install candidate in Debian testing (forky) — confirmed by downloading `firmware-mediatek`'s `.deb` directly and listing its contents, which include the Ralink blobs (`rt2860.bin`, `rt2870.bin`, `rt3071.bin`, plus the `rt3070.bin`/`rt3090.bin` symlinks). `_identify_wifi_vendor()` in `hardware_detector.py` now returns `firmware-mediatek` for Ralink/MediaTek adapters. Reported on the forum.
+
+### Added
+- **Drivers tab (Broadcom Wi-Fi)**: added a second button, "Broadcom Wi-Fi (proprietary)", installing `broadcom-sta-dkms`. The existing button only ever offered `firmware-b43-installer`, which covers just the fully reverse-engineered BCM43xx chips — several other Broadcom chips (BCM4311, BCM4312, BCM4313, BCM4321, BCM4322, BCM43142, BCM43224/25/27/28...) have no open driver at all and need the proprietary one, for which Welcome previously offered no install path.
+
 ## [2.1.3-6] - 2026-10-08
 
 ### Added

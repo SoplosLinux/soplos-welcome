@@ -756,6 +756,22 @@ echo "[+] Broken repository removed."
             'check_fn': lambda: self._is_package_installed('firmware-b43-installer'),
         }
 
+        # firmware-b43-installer only covers the fully reverse-engineered BCM43xx
+        # chips (open b43 driver). Many other Broadcom chips (BCM4311, BCM4312,
+        # BCM4313, BCM4321, BCM4322, BCM43142, BCM43224/25/27/28...) have no open
+        # driver at all and need the proprietary "wl" driver instead — there was
+        # previously no way to install it from Welcome, so those chips had no
+        # working option here.
+        broadcom_wifi_proprietary = self._create_button(_("Broadcom Wi-Fi (proprietary)"), _("Broadcom wireless cards not supported by the open b43 driver"))
+        box.pack_start(broadcom_wifi_proprietary, True, True, 0)
+        self._driver_buttons['wifi_broadcom_proprietary'] = {
+            'button': broadcom_wifi_proprietary, 'handler_id': None,
+            'base_label': _("Broadcom Wi-Fi (proprietary)"),
+            'install_fn': lambda b: self._on_driver_clicked(b, 'broadcom-sta-dkms'),
+            'uninstall_fn': lambda b: self._on_remove_driver_clicked(b, 'broadcom-sta-dkms'),
+            'check_fn': lambda: self._is_package_installed('broadcom-sta-dkms'),
+        }
+
         repair_btn = self._create_button(
             _("Repair Wi-Fi"),
             _("Reload Wi-Fi driver and restart NetworkManager — fixes connection lost after reboot")
