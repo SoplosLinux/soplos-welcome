@@ -121,6 +121,9 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
+### v2.1.3-8 (2026-10-20)
+- **Fixed**: Added NVIDIA DKMS compatibility patch for Linux 7.3+ kernels (`NV_DMEM_CGROUP_INIT_PATCH`), resolving `dmem_cgroup_register_region` signature changes on 610/Turing+ open modules.
+
 ### v2.1.3-7 (2026-10-10)
 - **Fixed**: the Ralink/MediaTek Wi-Fi firmware button did nothing, because `firmware-ralink` no longer has a candidate in Debian testing. Now installs `firmware-mediatek`, which carries the same firmware blobs.
 - **Added**: a second Broadcom Wi-Fi button for the proprietary `broadcom-sta-dkms` driver, for chips not covered by the open b43 driver.

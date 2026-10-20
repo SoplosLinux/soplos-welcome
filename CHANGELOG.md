@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.3-8] - 2026-10-20
+ 
+### Fixed
+- **Drivers tab (NVIDIA DKMS on Linux 7.3+)**: added `NV_DMEM_CGROUP_INIT_PATCH` compatibility patch fixing `-Wint-conversion` error in `os-interface.c` due to the `dmem_cgroup_register_region()` signature change in Linux 7.3+.
+
 ## [2.1.3-7] - 2026-10-10
 
 ### Fixed
