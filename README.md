@@ -121,6 +121,9 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
+### v2.1.3-9 (2026-10-21)
+- **Fixed**: the NVIDIA DKMS patch for the `dmem_cgroup_register_region` change in Linux 7.3+ added in v2.1.3-8 was never applied, because its hunk header did not match its body and `patch` rejected it. Corrected; it now applies to NVIDIA 610.57.04 and the module builds against Linux 7.3.
+
 ### v2.1.3-8 (2026-10-20)
 - **Fixed**: Added NVIDIA DKMS compatibility patch for Linux 7.3+ kernels (`NV_DMEM_CGROUP_INIT_PATCH`), resolving `dmem_cgroup_register_region` signature changes on 610/Turing+ open modules.
 
