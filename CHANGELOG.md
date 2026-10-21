@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.4] - 2026-10-22
+
+### Added
+- **Drivers tab (NVIDIA 550 on Linux 7.2+)**: `NV_550_KERNEL72_COMPAT_PATCH` (Fix 6, same patch as `nvidia-patches/patches/nvidia-550-kernel7.2-compat.patch`). NVIDIA 550.163.01 from Debian no longer built on kernels 7.2+: `linux/of_gpio.h` was removed, `strncpy()` was removed from `linux/string.h`, and `struct drm_atomic_state` became `struct drm_atomic_commit`. The patch is applied only when the source tree still has the 550 text and `patch --dry-run` succeeds.
+- **Drivers tab (NVIDIA 590 open modules on Linux 7.2+)**: `NV_590_KERNEL72_COMPAT_PATCH` (Fix 7, same patch as `nvidia-patches/patches/nvidia-590-kernel7.2-compat.patch`). It carries the Fix 6 changes and backports the `nvidia-uvm` changes NVIDIA 610 already has (`page_free` renamed `folio_free`, three-argument `zone_device_page_init()`) through two `conftest.sh` probes. Built from the original CUDA repository sources against `7.3.0-soplos-bore-ntsync-v4` and `7.2.11-soplos-bore-ntsync-v4`.
+
+### Fixed
+- **Drivers tab (install order)**: the repository install and the CUDA install ran the DKMS compatibility patches after `apt install`. The driver package builds its DKMS module while dpkg configures it, so that first build ran on unpatched sources, and with `set -e` a failure there aborted the script before the patches were applied. The install now tolerates the failure, applies the patches, runs `dpkg --configure -a` and repeats the install; in the CUDA install this happens before the repository is removed.
+
 ## [2.1.3-9] - 2026-10-21
  
 ### Fixed

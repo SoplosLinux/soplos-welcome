@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.3--7-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.4-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,10 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.4 (2026-10-22)
+- **Added**: NVIDIA DKMS patches for kernels 7.2+: Fix 6 for the Debian 550 driver (`of_gpio.h`, `strncpy()` and DRM atomic commit changes) and Fix 7 for the 590 open modules (the same changes plus the `nvidia-uvm` `folio_free` and `zone_device_page_init()` changes). Both build against the Linux 7.3 and 7.2.11 headers.
+- **Fixed**: the driver install scripts applied the compatibility patches after `apt install`, but the driver package builds its DKMS module while it is being configured. A failure of that first build aborted the script before the patches were applied. The install now tolerates that failure, applies the patches, runs `dpkg --configure -a` and repeats the install (before the CUDA repository is removed).
 
 ### v2.1.3-9 (2026-10-21)
 - **Fixed**: the NVIDIA DKMS patch for the `dmem_cgroup_register_region` change in Linux 7.3+ added in v2.1.3-8 was never applied, because its hunk header did not match its body and `patch` rejected it. Corrected; it now applies to NVIDIA 610.57.04 and the module builds against Linux 7.3.
