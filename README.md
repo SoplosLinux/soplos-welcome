@@ -1,7 +1,7 @@
 # Soplos Welcome
 
 [![License: GPL-3.0+](https://img.shields.io/badge/License-GPL--3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-2.1.4-green.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.4--1-green.svg)]()
 
 A welcome application for Soplos Linux that helps new users get started with their system.
 
@@ -120,6 +120,11 @@ Contact: info@soploslinux.com
 - [Help](https://soplos.org)
 
 ## 📦 Versions
+
+### v2.1.4-1 (2026-10-23)
+- **Added**: Craft suite in the Recommended tab: WordCraft, GridCraft and DeckCraft (Office), DesignCraft and FigCraft (Graphics), SoundCraft (Multimedia) and ArtCraft Launcher (App Management), installed from the latest GitHub release `.deb`. Matches Welcome 3.0.
+- **Added**: Game launchers in the Gaming tab: Epic Games Launcher and Xodus Nexus (AppImages), ProtonPlus (Flatpak), OpenRGB (APT) and MSI Keyboard RGB (APT). Matches Welcome 3.0.
+- **Added**: Translations for all new descriptions in the 8 supported languages.
 
 ### v2.1.4 (2026-10-22)
 - **Added**: NVIDIA DKMS patches for kernels 7.2+: Fix 6 for the Debian 550 driver (`of_gpio.h`, `strncpy()` and DRM atomic commit changes) and Fix 7 for the 590 open modules (the same changes plus the `nvidia-uvm` `folio_free` and `zone_device_page_init()` changes). Both build against the Linux 7.3 and 7.2.11 headers.

@@ -524,6 +524,40 @@ SOFTWARE_CATEGORIES = {
                 ]
             },
             {
+                'name': 'DesignCraft',
+                'package': 'designcraft',
+                'flatpak': None,
+                'icon': 'designcraft.png',
+                'description': _('Clean-room InDesign alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'DESIGNCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/designcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/designcraft.deb "$DESIGNCRAFT_URL"',
+                    'apt install -y /tmp/designcraft.deb',
+                    'rm -f /tmp/designcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y designcraft'
+                ]
+            },
+            {
+                'name': 'FigCraft',
+                'package': 'figcraft',
+                'flatpak': None,
+                'icon': 'figcraft.png',
+                'description': _('Clean-room Figma alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'FIGCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/figcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/figcraft.deb "$FIGCRAFT_URL"',
+                    'apt install -y /tmp/figcraft.deb',
+                    'rm -f /tmp/figcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y figcraft'
+                ]
+            },
+            {
                 'name': 'Hugin',
                 'package': 'hugin',
                 'icon': 'hugin.png',
@@ -719,6 +753,23 @@ SOFTWARE_CATEGORIES = {
                 ],
                 'uninstall_commands': [
                     'apt remove -y effectcraft'
+                ]
+            },
+            {
+                'name': 'SoundCraft',
+                'package': 'soundcraft',
+                'flatpak': None,
+                'icon': 'soundcraft.png',
+                'description': _('Clean-room Audition alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'SOUNDCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/soundcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/soundcraft.deb "$SOUNDCRAFT_URL"',
+                    'apt install -y /tmp/soundcraft.deb',
+                    'rm -f /tmp/soundcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y soundcraft'
                 ]
             },
             {
@@ -934,6 +985,57 @@ SOFTWARE_CATEGORIES = {
                 'uninstall_commands': [
                     'apt remove -y printcraft'
                 ]
+            },
+            {
+                'name': 'WordCraft',
+                'package': 'wordcraft',
+                'flatpak': None,
+                'icon': 'wordcraft.png',
+                'description': _('Clean-room Word alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'WORDCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/wordcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/wordcraft.deb "$WORDCRAFT_URL"',
+                    'apt install -y /tmp/wordcraft.deb',
+                    'rm -f /tmp/wordcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y wordcraft'
+                ]
+            },
+            {
+                'name': 'GridCraft',
+                'package': 'gridcraft',
+                'flatpak': None,
+                'icon': 'gridcraft.png',
+                'description': _('Clean-room Excel alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'GRIDCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/gridcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/gridcraft.deb "$GRIDCRAFT_URL"',
+                    'apt install -y /tmp/gridcraft.deb',
+                    'rm -f /tmp/gridcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y gridcraft'
+                ]
+            },
+            {
+                'name': 'DeckCraft',
+                'package': 'deckcraft',
+                'flatpak': None,
+                'icon': 'deckcraft.png',
+                'description': _('Clean-room PowerPoint alternative written in Rust'),
+                'official': False,
+                'install_commands': [
+                    'DECKCRAFT_URL=$(curl -s https://api.github.com/repos/storytold/deckcraft/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/deckcraft.deb "$DECKCRAFT_URL"',
+                    'apt install -y /tmp/deckcraft.deb',
+                    'rm -f /tmp/deckcraft.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y deckcraft'
+                ]
             }
         ]
     },
@@ -1078,6 +1180,23 @@ SOFTWARE_CATEGORIES = {
                 'icon': 'warehouse.png',
                 'description': _('Manage and control your Flatpak apps and runtimes'),
                 'official': False
+            },
+            {
+                'name': 'ArtCraft Launcher',
+                'package': 'artcraft-launcher',
+                'flatpak': None,
+                'icon': 'artcraft-launcher.png',
+                'description': _('Installs and updates the whole Craft app suite'),
+                'official': False,
+                'install_commands': [
+                    'ARTCRAFT_LAUNCHER_URL=$(curl -s https://api.github.com/repos/storytold/craft-launcher/releases/latest | grep browser_download_url | grep linux-x86_64.deb | cut -d\\" -f4)',
+                    'wget -q -O /tmp/artcraft-launcher.deb "$ARTCRAFT_LAUNCHER_URL"',
+                    'apt install -y /tmp/artcraft-launcher.deb',
+                    'rm -f /tmp/artcraft-launcher.deb'
+                ],
+                'uninstall_commands': [
+                    'apt remove -y artcraft-launcher'
+                ]
             }
         ]
     },

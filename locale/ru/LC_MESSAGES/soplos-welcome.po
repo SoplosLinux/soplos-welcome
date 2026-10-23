@@ -3773,6 +3773,42 @@ msgstr "Альтернатива After Effects, написанная на Rust"
 msgid "Clean-room Acrobat alternative written in Rust"
 msgstr "Альтернатива Acrobat, написанная на Rust"
 
+msgid "Clean-room Word alternative written in Rust"
+msgstr "Альтернатива Word, написанная на Rust"
+
+msgid "Clean-room Excel alternative written in Rust"
+msgstr "Альтернатива Excel, написанная на Rust"
+
+msgid "Clean-room PowerPoint alternative written in Rust"
+msgstr "Альтернатива PowerPoint, написанная на Rust"
+
+msgid "Clean-room Audition alternative written in Rust"
+msgstr "Альтернатива Audition, написанная на Rust"
+
+msgid "Clean-room InDesign alternative written in Rust"
+msgstr "Альтернатива InDesign, написанная на Rust"
+
+msgid "Clean-room Figma alternative written in Rust"
+msgstr "Альтернатива Figma, написанная на Rust"
+
+msgid "Installs and updates the whole Craft app suite"
+msgstr "Устанавливает и обновляет весь набор приложений Craft"
+
+msgid "Manage Proton, Wine and Steam/Lutris compatibility tools"
+msgstr "Управление средствами совместимости Proton, Wine и Steam/Lutris"
+
+msgid "Unofficial launcher for Xbox and Microsoft Store games (Game Pass)"
+msgstr "Неофициальный лаунчер игр Xbox и Microsoft Store (Game Pass)"
+
+msgid "Official launcher for the Epic Games Store"
+msgstr "Официальный лаунчер Epic Games Store"
+
+msgid "Control RGB lighting on supported motherboards, RAM, GPUs and peripherals"
+msgstr "Управление RGB-подсветкой поддерживаемых материнских плат, ОЗУ, видеокарт и периферии"
+
+msgid "Configure MSI keyboard RGB lighting"
+msgstr "Настройка RGB-подсветки клавиатуры MSI"
+
 msgid "Full-featured virtual machine hypervisor by Oracle"
 msgstr "Полноценный гипервизор виртуальных машин от Oracle"
 

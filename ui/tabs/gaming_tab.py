@@ -1944,6 +1944,14 @@ done
                 'official': False
             },
             {
+                'name': 'ProtonPlus',
+                'package': None,
+                'flatpak': 'com.vysp3r.ProtonPlus',
+                'icon': 'proton+.png',
+                'description': _('Manage Proton, Wine and Steam/Lutris compatibility tools'),
+                'official': False
+            },
+            {
                 'name': 'PPSSPP',
                 'package': None,
                 'flatpak': 'org.ppsspp.PPSSPP',
@@ -1967,6 +1975,101 @@ done
                 'uninstall_commands': [
                     'flatpak uninstall --user -y com.nvidia.geforcenow'
                 ]
+            },
+            {
+                'name': 'Xodus Nexus',
+                'package': None,
+                'flatpak': None,
+                'icon': 'xodus-nexus.png',
+                'description': _('Unofficial launcher for Xbox and Microsoft Store games (Game Pass)'),
+                'official': False,
+                'check_path': '~/AppImages/Xodus-Nexus.AppImage',
+                'install_commands': [
+                    'set -e',
+                    'mkdir -p "$HOME/AppImages/.icons" "$HOME/.local/share/applications"',
+                    'XODUS_RELEASE=$(curl -sL https://api.github.com/repos/domsvoboda/xodus-nexus/releases/latest)',
+                    'XODUS_URL=$(echo "$XODUS_RELEASE" | grep browser_download_url | grep \'x86_64.AppImage"\' | head -1 | cut -d\'"\' -f4)',
+                    'XODUS_VERSION=$(echo "$XODUS_RELEASE" | grep \'"tag_name"\' | head -1 | cut -d\'"\' -f4 | sed \'s/^v//\')',
+                    'if [ -z "$XODUS_URL" ]; then echo "Could not find the Xodus Nexus AppImage in the latest release."; exit 1; fi',
+                    'XODUS_DEST="$HOME/AppImages/Xodus-Nexus.AppImage"',
+                    'wget -q -O "$XODUS_DEST.part" "$XODUS_URL"',
+                    'wget -q -O "$XODUS_DEST.sha512sum" "$XODUS_URL.sha512sum" 2>/dev/null || true',
+                    'if [ -s "$XODUS_DEST.sha512sum" ] && [ "$(wc -c < "$XODUS_DEST.sha512sum")" -le 1024 ] && grep -qE "^[0-9a-fA-F]{128}" "$XODUS_DEST.sha512sum"; then '
+                    'if ! (cd "$HOME/AppImages" && echo "$(awk \'{print $1}\' "$XODUS_DEST.sha512sum")  $(basename "$XODUS_DEST.part")" | sha512sum -c - >/dev/null 2>&1); then '
+                    'echo "Checksum verification failed for Xodus Nexus - aborting."; rm -f "$XODUS_DEST.part" "$XODUS_DEST.sha512sum"; exit 1; fi; fi',
+                    'rm -f "$XODUS_DEST.sha512sum"',
+                    'mv "$XODUS_DEST.part" "$XODUS_DEST"',
+                    'chmod +x "$XODUS_DEST"',
+                    f'cp {os.path.join(ICONS_DIR, "gaming", "xodus-nexus.png")} "$HOME/AppImages/.icons/xodus-nexus.png"',
+                    "printf '[Desktop Entry]\\nName=Xodus Nexus\\nExec='\"$HOME\"'/AppImages/Xodus-Nexus.AppImage --no-sandbox %U\\nIcon='\"$HOME\"'/AppImages/.icons/xodus-nexus.png\\nType=Application\\nCategories=Game;\\nComment=Xbox and Microsoft Store game launcher\\nStartupWMClass=Xodus Nexus\\nTerminal=false\\nX-AppImage-Version='\"$XODUS_VERSION\"'\\nX-AppImage-UpdateUrl=https://github.com/domsvoboda/xodus-nexus\\nX-AppImage-Integrate=true\\n' > \"$HOME/.local/share/applications/xodus-nexus.desktop\"",
+                    'update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true'
+                ],
+                'uninstall_commands': [
+                    'rm -f "$HOME/AppImages/Xodus-Nexus.AppImage"',
+                    'rm -f "$HOME/AppImages/.icons/xodus-nexus.png"',
+                    'rm -f "$HOME/.local/share/applications/xodus-nexus.desktop"',
+                    'update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true'
+                ]
+            },
+            {
+                'name': 'Epic Games Launcher',
+                'package': None,
+                'flatpak': None,
+                'icon': 'epic-games-launcher.png',
+                'description': _('Official launcher for the Epic Games Store'),
+                'official': False,
+                'check_path': '~/AppImages/EpicGamesLauncher-x86_64.AppImage',
+                'install_commands': [
+                    'set -e',
+                    'mkdir -p "$HOME/AppImages/.icons" "$HOME/.local/share/applications"',
+                    'EPIC_DEST="$HOME/AppImages/EpicGamesLauncher-x86_64.AppImage"',
+                    'wget -q -O "$EPIC_DEST.part" "https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncher-x86_64.AppImage"',
+                    'mv "$EPIC_DEST.part" "$EPIC_DEST"',
+                    'chmod +x "$EPIC_DEST"',
+                    f'cp {os.path.join(ICONS_DIR, "gaming", "epic-games-launcher.png")} "$HOME/AppImages/.icons/epic-games-launcher.png"',
+                    "printf '[Desktop Entry]\\nName=Epic Games Launcher\\nExec='\"$HOME\"'/AppImages/EpicGamesLauncher-x86_64.AppImage %u\\nIcon='\"$HOME\"'/AppImages/.icons/epic-games-launcher.png\\nType=Application\\nCategories=Game;\\nComment=Epic Games Launcher\\nStartupWMClass=EpicGamesLauncher\\nMimeType=x-scheme-handler/com.epicgames.launcher;\\nTerminal=false\\n' > \"$HOME/.local/share/applications/epic-games-launcher.desktop\"",
+                    'update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true',
+                    'xdg-mime default epic-games-launcher.desktop x-scheme-handler/com.epicgames.launcher 2>/dev/null || true'
+                ],
+                'uninstall_commands': [
+                    'rm -f "$HOME/AppImages/EpicGamesLauncher-x86_64.AppImage"',
+                    'rm -f "$HOME/AppImages/.icons/epic-games-launcher.png"',
+                    'rm -f "$HOME/.local/share/applications/epic-games-launcher.desktop"',
+                    'update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true'
+                ]
+            },
+            {
+                'name': 'OpenRGB',
+                'package': None,
+                'flatpak': None,
+                'icon': 'openrgb.png',
+                'description': _('Control RGB lighting on supported motherboards, RAM, GPUs and peripherals'),
+                'official': True,
+                'check_path': '/usr/bin/openrgb',
+                'install_commands': [
+                    'pkexec bash -c \'export DEBIAN_FRONTEND=noninteractive; set -e; '
+                    'apt-get install -y openrgb; '
+                    'mkdir -p /etc/udev/rules.d; '
+                    'openrgb --print-udev-rules > /etc/udev/rules.d/60-openrgb.rules.new; '
+                    'if [ ! -s /etc/udev/rules.d/60-openrgb.rules.new ]; then rm -f /etc/udev/rules.d/60-openrgb.rules.new; echo "ERROR: OpenRGB did not generate its udev rules."; exit 1; fi; '
+                    'mv /etc/udev/rules.d/60-openrgb.rules.new /etc/udev/rules.d/60-openrgb.rules; '
+                    'echo i2c-dev > /etc/modules-load.d/soplos-openrgb.conf; '
+                    'modprobe i2c-dev || true; '
+                    'udevadm control --reload-rules; udevadm trigger\''
+                ],
+                'uninstall_commands': [
+                    'pkexec bash -c \'export DEBIAN_FRONTEND=noninteractive; apt-get remove -y openrgb; '
+                    'rm -f /etc/udev/rules.d/60-openrgb.rules /etc/modules-load.d/soplos-openrgb.conf; '
+                    'udevadm control --reload-rules\''
+                ]
+            },
+            {
+                'name': 'MSI Keyboard RGB',
+                'package': 'msi-keyboard-gui',
+                'flatpak': None,
+                'icon': 'msi-keyboard.png',
+                'description': _('Configure MSI keyboard RGB lighting'),
+                'official': True
             }
         ]
 
