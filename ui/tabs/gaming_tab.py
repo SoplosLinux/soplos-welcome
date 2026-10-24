@@ -1818,6 +1818,14 @@ done
                 'official': False
             },
             {
+                'name': 'Heronite',
+                'package': 'heronite',
+                'deb_url': 'https://github.com/RafaelGoulartB/Heronite/releases/download/v0.14.0/heronite_0.14.0-1_amd64.deb',
+                'icon': 'heronite.png',
+                'description': _('Light game launcher written in Rust'),
+                'official': False
+            },
+            {
                 'name': 'Bottles',
                 'package': None,
                 'flatpak': 'com.usebottles.bottles',

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
+## [2.1.4-3] - 2026-10-24
+
+### Added
+- **Gaming tab (launchers)**: Heronite, a light game launcher written in Rust that gathers Steam, Epic, GOG and Amazon games, installed from the `.deb` of its GitHub release like R2ModMan. Matches Welcome 3.0.
+- Translation of the new description in the 8 supported languages.
+
 ## [2.1.4-2] - 2026-10-24
 
 ### Added

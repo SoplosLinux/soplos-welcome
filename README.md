@@ -121,6 +121,10 @@ Contact: info@soploslinux.com
 
 ## 📦 Versions
 
+### v2.1.4-3 (2026-10-24)
+- **Added**: Heronite in the Gaming tab, a light game launcher written in Rust that gathers Steam, Epic, GOG and Amazon games, installed from the `.deb` of its GitHub release. Matches Welcome 3.0.
+- **Added**: Translation of the new description in the 8 supported languages.
+
 ### v2.1.4-2 (2026-10-24)
 - **Added**: Mac support in the hardware scan of the Drivers tab. On an Apple computer it offers mbpfan (fans) and TLP (battery) on MacBooks, both from Debian, and the driver of the FaceTime HD camera, a community project that is experimental and is built on the computer with the firmware downloaded from Apple. Nothing is shown on a computer that is not a Mac. Matches Welcome 3.0.
 - **Added**: Translations for the new texts in the 8 supported languages.

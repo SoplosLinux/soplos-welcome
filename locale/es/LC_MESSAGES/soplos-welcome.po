@@ -1168,6 +1168,10 @@ msgstr "Plataforma unificada para gestionar juegos en Linux"
 msgid "Launcher for Epic, GOG and Amazon Games"
 msgstr "Lanzador para Epic, GOG y Amazon Games"
 
+#: ui/tabs/gaming_tab.py:1820
+msgid "Light game launcher written in Rust"
+msgstr "Lanzador de juegos ligero escrito en Rust"
+
 #: ui/tabs/gaming_tab.py:1538 config/software.py:531
 msgid "Run Windows applications on Linux using Wine"
 msgstr "Ejecutar aplicaciones de Windows en Linux usando Wine"
