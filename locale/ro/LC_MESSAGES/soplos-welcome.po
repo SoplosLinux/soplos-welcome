@@ -3806,6 +3806,21 @@ msgstr "Controlează iluminarea RGB a plăcilor de bază, RAM-ului, GPU-urilor �
 msgid "Configure MSI keyboard RGB lighting"
 msgstr "Configurează iluminarea RGB a tastaturii MSI"
 
+msgid "Apple Mac"
+msgstr "Apple Mac"
+
+msgid "Nothing in particular is offered for this Mac."
+msgstr "Nu se oferă nimic în special pentru acest Mac."
+
+msgid "Fan control for MacBooks."
+msgstr "Controlul ventilatoarelor la MacBook."
+
+msgid "Battery and power management for laptops. It conflicts with power-profiles-daemon: the install stops if your desktop uses it."
+msgstr "Gestionarea bateriei și a energiei pentru laptopuri. Intră în conflict cu power-profiles-daemon: instalarea se oprește dacă desktopul tău îl folosește."
+
+msgid "Driver of the FaceTime HD camera, a community project that is experimental. It is built on your computer and the camera firmware is downloaded from Apple."
+msgstr "Driverul camerei FaceTime HD, un proiect experimental al comunității. Se compilează pe computerul tău, iar firmware-ul camerei se descarcă de la Apple."
+
 msgid "Full-featured virtual machine hypervisor by Oracle"
 msgstr "Hipervizor complet de mașini virtuale de la Oracle"
 

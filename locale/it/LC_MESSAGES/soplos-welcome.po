@@ -3809,6 +3809,21 @@ msgstr "Controlla l'illuminazione RGB di schede madri, RAM, GPU e periferiche su
 msgid "Configure MSI keyboard RGB lighting"
 msgstr "Configura l'illuminazione RGB della tastiera MSI"
 
+msgid "Apple Mac"
+msgstr "Apple Mac"
+
+msgid "Nothing in particular is offered for this Mac."
+msgstr "Per questo Mac non viene offerto nulla in particolare."
+
+msgid "Fan control for MacBooks."
+msgstr "Controllo delle ventole dei MacBook."
+
+msgid "Battery and power management for laptops. It conflicts with power-profiles-daemon: the install stops if your desktop uses it."
+msgstr "Gestione di batteria ed energia per portatili. Va in conflitto con power-profiles-daemon: l'installazione si ferma se il tuo desktop lo usa."
+
+msgid "Driver of the FaceTime HD camera, a community project that is experimental. It is built on your computer and the camera firmware is downloaded from Apple."
+msgstr "Driver della fotocamera FaceTime HD, un progetto della comunità sperimentale. Viene compilato sul tuo computer e il firmware della fotocamera viene scaricato da Apple."
+
 msgid "Full-featured virtual machine hypervisor by Oracle"
 msgstr "Hypervisor completo per macchine virtuali di Oracle"
 

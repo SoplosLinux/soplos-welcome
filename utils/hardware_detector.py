@@ -837,6 +837,57 @@ def detect_unnecessary_software(results):
 
 # ─────────────────────────── CPU / RAM / Storage / Network ───────────────────────────
 
+def _read_dmi(name):
+    """Read one DMI field (empty when it is not there)."""
+    try:
+        with open(f'/sys/class/dmi/id/{name}', 'r') as f:
+            return f.read().strip()
+    except Exception:
+        return ''
+
+
+def _facetime_camera_present():
+    """The FaceTime HD camera is the Broadcom 1570 PCIe device (14e4:1570)."""
+    base = '/sys/bus/pci/devices'
+    try:
+        for device in os.listdir(base):
+            try:
+                with open(os.path.join(base, device, 'vendor')) as f:
+                    vendor = f.read().strip().lower()
+                with open(os.path.join(base, device, 'device')) as f:
+                    product = f.read().strip().lower()
+            except Exception:
+                continue
+            if vendor == '0x14e4' and product == '0x1570':
+                return True
+    except Exception:
+        pass
+    return False
+
+
+def detect_mac():
+    """
+    Recognise an Apple computer from its DMI vendor and say what it can use:
+    mbpfan (fan control) and TLP (battery), both from Debian, on MacBooks, and
+    the driver of the FaceTime HD camera on any Mac that has it. Each item has
+    'installed', and 'removable' when a package of the system holds it, which
+    is what apt can remove.
+    """
+    if not _read_dmi('sys_vendor').lower().startswith('apple'):
+        return {'is_mac': False, 'model': '', 'items': []}
+    model = _read_dmi('product_name')
+    items = []
+    if model.startswith('MacBook'):
+        for item_id in ('mbpfan', 'tlp'):
+            installed = _is_package_installed(item_id)
+            items.append({'id': item_id, 'installed': installed, 'removable': installed})
+    if _facetime_camera_present():
+        packaged = _is_package_installed('facetimehd-dkms')
+        loaded = os.path.exists('/sys/module/facetimehd')
+        items.append({'id': 'facetimehd', 'installed': packaged or loaded, 'removable': packaged})
+    return {'is_mac': True, 'model': model, 'items': items}
+
+
 def detect_cpu():
     """Detect CPU information."""
     try:
@@ -968,6 +1019,7 @@ def scan_hardware(update_status_cb, update_progress_cb, show_results_cb):
         GLib.idle_add(update_status_cb, _('Detecting virtual machine...'))
         GLib.idle_add(update_progress_cb, 0.78)
         results['vm_detection'] = detect_vm()
+        results['mac'] = detect_mac()
 
         GLib.idle_add(update_status_cb, _('Checking for unnecessary software...'))
         GLib.idle_add(update_progress_cb, 0.82)

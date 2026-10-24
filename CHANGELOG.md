@@ -5,7 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/en/).
  
-## [Unreleased]
+## [2.1.4-2] - 2026-10-24
+
+### Added
+- **Drivers tab (hardware scan, Mac)**: the scan recognises an Apple computer from its DMI vendor and, in its results, offers what a Mac needs: mbpfan (fan control) and TLP (battery) on MacBooks, both from Debian, and the driver of the FaceTime HD camera on any Mac that has it (Broadcom 1570), which is not in Debian. TLP stops the install instead of removing power-profiles-daemon when the desktop uses it. The camera driver is a community project and experimental: it is built into a local package from sources fetched at a pinned commit, so DKMS rebuilds it for every kernel and it can be removed, and the camera firmware is downloaded from Apple's update servers and checked against pinned checksums. Nothing is shown on a computer that is not a Mac. Matches Welcome 3.0.
 
 ## [2.1.4-1] - 2026-10-23
 
